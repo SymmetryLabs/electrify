@@ -123,7 +123,6 @@ void GLRendererRenderer::paint()
                    1.0,-1.0, 1.0
     };
     m_program->setAttributeArray(0, GL_FLOAT, values, 3);
-    m_program->setUniformValue("t", (float) m_t);
 
     glViewport(0, 0, m_viewportSize.width(), m_viewportSize.height());
     glMatrixMode (GL_PROJECTION);
@@ -144,7 +143,7 @@ void GLRendererRenderer::paint()
 
     QMatrix4x4 matrix;
     matrix.translate(0.0, 0.0, -5.0);
-    matrix.rotate(45,0,1,0);
+    matrix.rotate(m_t,0,1,0);
     m_program->setUniformValue("mvp_matrix", projection * matrix );
 
     glDisable(GL_DEPTH_TEST);
@@ -155,10 +154,8 @@ void GLRendererRenderer::paint()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
+    glRotatef(m_t,0,1,0);
     glDrawArrays(GL_TRIANGLES, 0, 12*3);
-
-
-
 
 
     m_program->disableAttributeArray(0);

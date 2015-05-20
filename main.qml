@@ -7,6 +7,12 @@ Item {
     height: 600
 
     GLRenderer {
+        SequentialAnimation on t {
+            NumberAnimation { to: 360; duration: 2500; easing.type: Easing.InQuad }
+            NumberAnimation { to: 0; duration: 2500; easing.type: Easing.OutQuad }
+            loops: Animation.Infinite
+            running: true
+        }
     }
     Rectangle {
         color: Qt.rgba(1, 1, 1, 0.5)
