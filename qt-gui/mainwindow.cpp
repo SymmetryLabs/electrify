@@ -2,7 +2,8 @@
 #include "ui_mainwindow.h"
 #include <QDateTime>
 #include <QTimer>
-qint64 lol[100];
+#include <QUrl>
+qint64 frametimeBuffer[100];
 int count =0;
 qint64 prev =0;
 MainWindow::MainWindow(QWidget *parent) :
@@ -18,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->verticalLayout1->addWidget(glwidget);
         startTimer(10);
+        ui->webView->setUrl(QUrl("http://www.google.com/"));
 }
 
 MainWindow::~MainWindow()
@@ -43,7 +45,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
     qint64 sum =0;
     for(int i=0;i<100;i++)
     {
-        sum+=lol[i];
+        sum+=frametimeBuffer[i];
     }
     qDebug("sum: %llu", sum);
     prev = QDateTime::currentMSecsSinceEpoch();
