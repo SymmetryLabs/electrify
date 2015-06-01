@@ -1,8 +1,6 @@
 #ifndef WIDGET
 #define WIDGET
 
-#endif // WIDGET
-
 #include <QOpenGLWidget>
 #include <QtGui/QOpenGLShaderProgram>
 #include <QtGui/QOpenGLFunctions>
@@ -22,4 +20,6 @@ private:
     qreal m_t;
     float *values;
 };
+
+#endif // WIDGET
 

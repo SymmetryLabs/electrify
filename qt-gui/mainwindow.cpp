@@ -33,15 +33,13 @@ void MainWindow::updateMe()
 
 void MainWindow::timerEvent(QTimerEvent *event)
 {
-
-
    qDebug("%llu before",QDateTime::currentMSecsSinceEpoch());
     glwidget->update();
     qDebug("%llu after",QDateTime::currentMSecsSinceEpoch());
     qDebug("%llu prev",prev);
     qDebug("%llu current", QDateTime::currentMSecsSinceEpoch());
     qDebug("%llu delta", QDateTime::currentMSecsSinceEpoch()-prev);
-    frametimeBuffer[count]=QDateTime::currentMSecsSinceEpoch()-prev;
+    frametimeBuffer[count] = QDateTime::currentMSecsSinceEpoch()-prev;
     qint64 sum =0;
     for(int i=0;i<100;i++)
     {
