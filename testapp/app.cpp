@@ -1,6 +1,8 @@
- #include <iostream>
+#include <iostream>
+#include "component.h"
  int main()
  {
- 	std::cout << "Hello World!";
+ 	Component *c= new Component();
+ 	std::cout << c->val;
  	return 0;
  }

@@ -1,9 +1,13 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
+#include <iostream>
+
 class Component {
 public:
-	int val = 99;
+	Component();
+	~Component();
+	int val;
 };
 
 
