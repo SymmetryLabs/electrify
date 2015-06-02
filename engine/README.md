@@ -7,11 +7,11 @@ Setup
 -----
 1. clone the library `git clone git@github.com:SymmetryLabs/electrifying-stunt.git`
 2. `cd electrifying-stunt/engine`
-3. run [build.sh](https://github.com/SymmetryLabs/electrifying-stunt/blob/master/engine/build.sh) in the **lib** folder
+3. run [build.sh](https://github.com/SymmetryLabs/electrifying-stunt/blob/master/engine/build.sh) which will place [libengine.so shared library](http://en.wikipedia.org/wiki/Dynamic_loading) in the **lib** folder
 
 Notes
 -----
-* [include[(https://github.com/SymmetryLabs/electrifying-stunt/tree/master/engine/include) has the header files for code to use the library
+* [include](https://github.com/SymmetryLabs/electrifying-stunt/tree/master/engine/include) has the header files for code to use the library
 
 Frameworks
 -----
