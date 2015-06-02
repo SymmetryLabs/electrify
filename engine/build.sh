@@ -1,4 +1,4 @@
 pushd build
-g++ -I../include -c -fpic ../src/*
-g++ -shared -o ../lib/libengine.so *.o
+g++ --std=c++11 -I../include -c -fpic ../src/*
+g++ --std=c++11 -shared -o ../lib/libengine.so *.o
 popd
