@@ -3,6 +3,6 @@
  int main()
  {
  	Component *c= new Component();
- 	std::cout << c->val;
+ 	std::cout << "Hello Testapp\n";
  	return 0;
  }

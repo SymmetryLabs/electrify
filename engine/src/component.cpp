@@ -2,11 +2,19 @@
 
 Component::Component()
 {
-	val = 99;
-	std::cout << "Running Component Constructor\n";
 };
 
 Component::~Component()
 {
 	
-}
+};
+
+Color* Component::calculate(Pixel *pixel, Group *topLevel)
+{
+	return nullptr;
+};
+
+void Component::update(double time)
+{
+
+};
