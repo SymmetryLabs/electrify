@@ -7,7 +7,7 @@ Setup
 -----
 1. clone the library `git clone git@github.com:SymmetryLabs/electrifying-stunt.git`
 2. `cd electrifying-stunt/engine`
-3. run[build.sh](https://github.com/SymmetryLabs/electrifying-stunt/blob/master/engine/build.sh) in the **lib** folder
+3. run [build.sh](https://github.com/SymmetryLabs/electrifying-stunt/blob/master/engine/build.sh) in the **lib** folder
 
 Notes
 -----
