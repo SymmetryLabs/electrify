@@ -15,5 +15,5 @@ Notes
 
 Frameworks
 -----
-* Testing Framework: [catch](https://github.com/philsquared/Catch)
-* Documentation Framework: [doygen](http://www.stack.nl/~dimitri/doxygen/)
+* Testing: [catch](https://github.com/philsquared/Catch)
+* Documentation: [doygen](http://www.stack.nl/~dimitri/doxygen/)
