@@ -5,7 +5,7 @@
  * Groups collect one or more pixels together
  */
 class Group {
-	void* meta; // TODO this needs a type
+  void* meta; // TODO this needs a type
 };
 
 

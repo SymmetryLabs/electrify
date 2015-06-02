@@ -13,21 +13,21 @@
  */
 class Component {
 public:
-	// TODO need a list of inputs
+  // TODO need a list of inputs
     // TODO need a list of outputs
     // TODO need methods for adding and retrieving inputs and outputs
 
-	Component();
-	~Component();
-	
-	/**
+  Component();
+  ~Component();
+  
+  /**
      * Tells the component to update its model according to the current time
     */
-	void update(double time);
-	/**
+  void update(double time);
+  /**
      * Called by another component to finally render a color based on component state
     */
-	Color* calculate(Pixel *pixel, Group *topLevel /*, frameContext */);
+  Color* calculate(Pixel *pixel, Group *topLevel /*, frameContext */);
 };
 
 

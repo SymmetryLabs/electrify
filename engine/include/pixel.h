@@ -6,8 +6,8 @@
  */
 class Pixel {
 public:
-	double x,y,z;
-	void* meta; // TODO this needs a type
+  double x,y,z;
+  void* meta; // TODO this needs a type
 
 };
 

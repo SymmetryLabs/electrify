@@ -10,8 +10,8 @@ class Engine
 {
 
 public:
-	void loadComponents(Component *root);
-	void update();
+  void loadComponents(Component *root);
+  void update();
 
 };
 
