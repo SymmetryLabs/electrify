@@ -2,6 +2,7 @@
 
 Component::Component()
 {
+
 };
 
 Component::~Component()
@@ -15,6 +16,11 @@ Color* Component::calculate(Pixel *pixel, Group *topLevel)
 };
 
 void Component::update(double time)
+{
+
+};
+
+void Component::notify(/*TODO PASSING FORMAT*/)
 {
 
 };

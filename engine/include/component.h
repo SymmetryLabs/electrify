@@ -2,6 +2,7 @@
 #define COMPONENT_H
 
 #include <cstddef>
+#include "observer.h"
 #include "pixel.h"
 #include "group.h"
 #include "color.h"
@@ -11,14 +12,17 @@
  * outputs.
  * A component can contain other components.
  */
-class Component {
-public:
+class Component : public  Observable, public Observer 
+{
+  public:
   // TODO need a list of inputs
     // TODO need a list of outputs
     // TODO need methods for adding and retrieving inputs and outputs
-
+  
   Component();
   ~Component();
+
+  void notify(/*TODO PASSING FORMAT*/);
   
   /**
      * Tells the component to update its model according to the current time
