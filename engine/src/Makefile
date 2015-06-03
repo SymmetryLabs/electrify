@@ -1,6 +1,7 @@
 CC=g++
 CFLAGS=-c -Wall --std=c++11 -fpic
 
+all: *.o
 
-shared:
-	$(CC) $(CFLAGS) -fpic *.cpp
+%.o: %.cpp ../include/%.h
+	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@

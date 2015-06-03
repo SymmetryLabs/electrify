@@ -4,10 +4,12 @@ LIBRARY=lib/libengine.so
 OFILES=src/*.o
 SRC=src
 
-all:
-	make -C $(SRC) shared
+
+lib/libengine.so: $(OFILES)
 	$(CC) $(LFLAGS) $(LIBRARY) $(OFILES)
+
+src/%.o:
+	make -C $(SRC) %.o
 
 clean:
 	rm $(SRC)/*.o
-    
