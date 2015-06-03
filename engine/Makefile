@@ -1,14 +1,17 @@
 CC=g++
 LFLAGS=-shared -o
 LIBRARY=lib/libengine.so
-OFILES=src/*.o
+VPATH = ./src:./include
+INCLUDE=include
 SRC=src
+objects := $(patsubst %.cpp,%.o,$(wildcard src/*.cpp))
+headers := $(patsubst %.cpp,%.o,$(wildcard include/*.h))
 
-$(LIBRARY): $(OFILES)
-	$(CC) $(LFLAGS) $(LIBRARY) $(OFILES)
+$(LIBRARY): $(objects) $(headers)
+	$(CC) $(LFLAGS) $(LIBRARY) $(objects)
 
-src/%.o:
-	make -C $(SRC) %.o
+%.o: %.cpp %.h
+	make -C $(SRC) $@
 
 clean:
-	rm $(SRC)/*.o
+	make -C $(SRC) clean
