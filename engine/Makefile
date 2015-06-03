@@ -4,8 +4,7 @@ LIBRARY=lib/libengine.so
 OFILES=src/*.o
 SRC=src
 
-
-lib/libengine.so: $(OFILES)
+$(LIBRARY): $(OFILES)
 	$(CC) $(LFLAGS) $(LIBRARY) $(OFILES)
 
 src/%.o:
