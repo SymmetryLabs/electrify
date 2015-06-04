@@ -1,5 +1,5 @@
 CC=g++
-LFLAGS=-shared -o -Wall --std=c++11
+LFLAGS=-shared -Wall --std=c++11 -o 
 LIBRARY=lib/libengine.so
 VPATH = ./src:./include
 INCLUDE=include
