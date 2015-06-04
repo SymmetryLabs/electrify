@@ -5,8 +5,8 @@ A library to drive complex light source ('pixel') based effects and interactions
 
 Setup
 -----
-1. clone the library `git clone git@github.com:SymmetryLabs/electrifying-stunt.git`
-2. `cd electrifying-stunt/engine`
+1. clone the library `git clone git@github.com:SymmetryLabs/electrify.git`
+2. `cd electrify/engine`
 3. run `make` (or (deprecated) run [build.sh](https://github.com/SymmetryLabs/electrifying-stunt/blob/master/engine/build.sh) ). Both will place the [libengine.so shared library](http://en.wikipedia.org/wiki/Dynamic_loading) in the **lib** folder
 
 Notes
