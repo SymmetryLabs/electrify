@@ -8,7 +8,7 @@ class Observable;
 class Observer
 {
   public:
-  void notify(/*TODO PASSING FORMAT*/) {};
+  virtual void notify(/*TODO PASSING FORMAT*/) = 0;
   void observe(Observable *o);
 };
 
