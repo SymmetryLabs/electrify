@@ -7,7 +7,7 @@ Setup
 -----
 1. clone the library `git clone git@github.com:SymmetryLabs/electrify.git`
 2. `cd electrify/engine`
-3. run `make` (or (deprecated) run [build.sh](https://github.com/SymmetryLabs/electrifying-stunt/blob/master/engine/build.sh) ). Both will place the [libengine.so shared library](http://en.wikipedia.org/wiki/Dynamic_loading) in the **lib** folder
+3. run `make` which will place the [libengine.so shared library](http://en.wikipedia.org/wiki/Dynamic_loading) in the **lib** folder
 
 Notes
 -----
