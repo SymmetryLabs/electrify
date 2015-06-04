@@ -11,4 +11,4 @@ $(LIBRARY): $(SRC:%.cpp=%.o)
 -include $(SRC:%.cpp=%.d)
 
 clean:
-	rm -f *.o
+	rm -f *.o *.d
