@@ -1,10 +1,14 @@
 CC=g++
 CPPFLAGS= -Wall --std=c++11 -fpic
 objects := $(patsubst %.cpp,%.o,$(wildcard *.cpp))
+LFLAGS=-shared -Wall --std=c++11
+LIBRARY=../lib/libengine.so
 
-all: $(objects)
+$(LIBRARY): $(objects)
+	$(CC) $(LFLAGS) -o $(LIBRARY) $(objects)
 
-%.o: %.cpp ../include/%.h
-	$(CC) $(CPPFLAGS) $< -o $@
+%.o: %.cpp %.h
+	$(CC) $(CPPFLAGS) -c $< -o $@
+
 clean:
 	rm -f *.o

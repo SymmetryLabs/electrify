@@ -1,4 +1,4 @@
-#include "../include/observer.h"
+#include "observer.h"
 #include <iterator>
 
 void Observer::observe(Observable *o)

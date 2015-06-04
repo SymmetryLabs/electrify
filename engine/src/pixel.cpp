@@ -1,1 +1,1 @@
-#include "../include/pixel.h"
+#include "pixel.h"
