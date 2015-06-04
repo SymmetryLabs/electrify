@@ -3,3 +3,4 @@ build-*
 engine/build/*
 *.o
 .tags*
+*.d
