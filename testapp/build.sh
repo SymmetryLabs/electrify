@@ -2,4 +2,4 @@
 # export DYLD_FALLBACK_LIBRARY_PATH=<absolute path to...>/electrify/engine/lib
 # or you can:
 # cp ../engine/lib/libengine.so .
-g++ -L../engine/lib -I../engine/include -Wall -o app app.cpp -lengine --std=c++11
+g++ -L../engine/lib -I../engine/src/*.h -Wall -o app app.cpp -lengine --std=c++11

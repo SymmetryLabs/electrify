@@ -2,4 +2,4 @@
 # export DYLD_FALLBACK_LIBRARY_PATH=<absolute path to...>/electrifying-stunt/engine/lib
 # or you can:
 # cp ../lib/libengine.so .
-g++ -L../lib -I../include -Wall -o main main.cpp -lengine --std=c++11
+g++ -L../lib -I../src/*.h -Wall -o main main.cpp -lengine --std=c++11
