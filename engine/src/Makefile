@@ -1,12 +1,12 @@
 CC=g++
 CPPFLAGS= -Wall --std=c++11 -fpic
-LFLAGS=-shared -Wall --std=c++11
+LINKFLAGS=-shared -Wall --std=c++11 -Wl,-undefined -Wl,dynamic_lookup
 LIBRARY=../lib/libengine.so
 CPPFLAGS += -MD -MP
 SRC=$(wildcard *.cpp)
 
 $(LIBRARY): $(SRC:%.cpp=%.o)
-	$(CC) $(LFLAGS) -o $@ $^
+	$(CC) $(LINKFLAGS) -o $@ $^
 
 -include $(SRC:%.cpp=%.d)
 
