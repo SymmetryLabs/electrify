@@ -1,17 +1,6 @@
-CC=g++
-LFLAGS=-shared -Wall --std=c++11 -o 
-LIBRARY=lib/libengine.so
-VPATH = ./src:./include
-INCLUDE=include
 SRC=src
-objects := $(patsubst %.cpp,%.o,$(wildcard src/*.cpp))
-headers := $(patsubst %.cpp,%.o,$(wildcard include/*.h))
-
-$(LIBRARY): $(objects) $(headers)
-	$(CC) $(LFLAGS) $(LIBRARY) $(objects)
-
-%.o: %.cpp %.h
-	make -C $(SRC) $@
+all:
+	make -C $(SRC)
 
 clean:
 	make -C $(SRC) clean
