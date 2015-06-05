@@ -30,13 +30,7 @@ class Component : public Observable, public Observer
     */
   void update(double time);
   void addOutput(std::string output_name, BaseSignal *signal);
-};
-
-template <class T> 
-class Signal : public BaseSignal
-{
-  public:
-    std::function<T (Pixel *pixel, Group *topLevel /*, frameContext */)> calculate_function;
+  void addInput(std::string input_name, BaseSignal *input_signal);
 };
     
 
