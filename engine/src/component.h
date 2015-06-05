@@ -30,7 +30,12 @@ class Component : public Observable, public Observer
     */
   void update(double time);
   void addOutput(std::string output_name, BaseSignal *signal);
-  void addInput(std::string input_name, BaseSignal *input_signal);
+  void addInputSocket(std::string input_name, BaseSignal *input_socket);
+
+  template <class T> void wireInput(std::string input_name, Signal<T> *input_signal)
+  {
+    ((InputSocket<T>*) inputs[input_name])->input_signal = input_signal;
+  };
 };
     
 
