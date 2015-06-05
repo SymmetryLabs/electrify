@@ -2,15 +2,16 @@
 #include <string>
 #include "color.h"
 #include "signals.h"
+#include "frame_context.h"
 
 ColorDoubler::ColorDoubler()
 {
   std::string colorOutputName("color");
   ColorSignal* colorSignal =  new ColorSignal();
   colorSignal->calculate_function = [this] 
-    (Pixel *pixel, Group *topLevel /*, frameContext */) 
+    (FrameContext *f) 
     {
-      return this->double_color(pixel,topLevel /*, frameContext */);
+      return this->double_color(f);
     };
   std::string colorInputName("color");
   addOutput(colorOutputName,(BaseSignal*) colorSignal);
@@ -18,10 +19,10 @@ ColorDoubler::ColorDoubler()
   addInputSocket(colorInputName, colorSocket);
 };
 
-Color* ColorDoubler::double_color(Pixel *pixel, Group *topLevel /*, frameContext */)
+Color* ColorDoubler::double_color(FrameContext *f)
 {
   std::string colorInputName("color");
-  Color *in=((ColorSignal*) ((InputSocket<Color>*) inputs[colorInputName])->input_signal)->calculate_function(pixel,topLevel);
+  Color *in=((ColorSignal*) ((InputSocket<Color>*) inputs[colorInputName])->input_signal)->calculate_function(f);
   in->fromRGBA(in->asRGBA()*2);
   return in;
 };
