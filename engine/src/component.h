@@ -29,8 +29,26 @@ class Component : public Observable, public Observer
      * Tells the component to update its model according to the current time
     */
   void update(double time);
-  void addOutput(std::string output_name, BaseSignal *signal);
-  void addInputSocket(std::string input_name, BaseSignal *input_socket);
+  // The casting to BaseSignal is so we can store differing concrete type signals in the same vector
+  template <class T> void addOutput(std::string output_name, Signal<T> *output_signal)
+  {
+    outputs[output_name] = (BaseSignal*) output_signal;
+  };
+
+  template <class T> Signal<T>* getOutput(std::string output_name)
+  {
+    return (Signal<T>*) outputs[output_name];
+  };
+
+  template <class T> void addInputSocket(std::string input_name, InputSocket<T> *input_socket)
+  {
+    inputs[input_name] = (BaseSignal*) input_socket;
+  };
+
+  template <class T> InputSocket<T>* getInputSocket(std::string input_name)
+  {
+    return (InputSocket<T>*) inputs[input_name];
+  };
 
   template <class T> void wireInput(std::string input_name, Signal<T> *input_signal)
   {

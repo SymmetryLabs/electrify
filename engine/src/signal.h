@@ -10,7 +10,7 @@ template <class T>
 class Signal : public BaseSignal
 {
   public:
-    std::function<T (FrameContext *f)> calculate_function;
+    std::function<T* (FrameContext *f)> calculate_function;
 };
 
 template <class T> 

@@ -1,16 +1,16 @@
 #include "constant_color_component.h"
 #include <string>
-#include "signals.h"
+#include "signal.h"
 #include "frame_context.h"
 
 ConstantColorComponent::ConstantColorComponent()
 {
     std::string colorOutputName("color");
-    ColorSignal* colorSignal =  new ColorSignal();
-    colorSignal->calculate_function = [this] 
-      (FrameContext *f) 
+    Signal<Color>* colorSignal =  new Signal<Color>();
+    colorSignal->calculate_function = [this]
+      (FrameContext *f)
       {
         return this->calculate_color(f);
       };
-    addOutput(colorOutputName,(BaseSignal*) colorSignal);
+    addOutput(colorOutputName, colorSignal);
 }
