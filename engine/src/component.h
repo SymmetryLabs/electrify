@@ -1,23 +1,24 @@
-#ifndef COMPONENT_H
-#define COMPONENT_H
-
+#pragma once
 #include <cstddef>
+#include <unordered_map>
+#include <string>
 #include "observer.h"
 #include "pixel.h"
 #include "group.h"
 #include "color.h"
+#include "signal.h"
+#include <functional>
 
 /**
  * Components are the building blocks of the Symmetry Engine. They receive inputs, and provide 
  * outputs.
  * A component can contain other components.
  */
-class Component : public  Observable, public Observer 
+class Component : public Observable, public Observer 
 {
   public:
-  // TODO need a list of inputs
-    // TODO need a list of outputs
-    // TODO need methods for adding and retrieving inputs and outputs
+  std::unordered_map<std::string, BaseSignal*> inputs;
+  std::unordered_map<std::string, BaseSignal*> outputs;
   
   Component();
   ~Component();
@@ -28,11 +29,15 @@ class Component : public  Observable, public Observer
      * Tells the component to update its model according to the current time
     */
   void update(double time);
-  /**
-     * Called by another component to finally render a color based on component state
-    */
-  Color* calculate(Pixel *pixel, Group *topLevel /*, frameContext */);
+  void addOutput(std::string output_name, BaseSignal *signal);
 };
 
+template <class T> 
+class Signal : public BaseSignal
+{
+  public:
+    std::function<T (Pixel *pixel, Group *topLevel /*, frameContext */)> calculate_function;
+};
+    
 
-#endif // COMPONENT_H
+

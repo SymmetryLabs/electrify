@@ -1,11 +1,11 @@
-#ifndef COLOR_H
-#define COLOR_H
+#pragma once
 
 class Color
 {
   private:
-    unsigned int _rgba;
+    unsigned int _rgba =0;
   public: 
+  	int test =99;
     void* asHSB(); //TODO pick a data format
     void* asHSL(); //TODO pick a data format
     void* asRGB(); //TODO pick a data format
@@ -15,4 +15,3 @@ class Color
 
 };
 
-#endif // COLOR_H

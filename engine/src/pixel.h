@@ -1,5 +1,4 @@
-#ifndef PIXEL_H
-#define PIXEL_H
+#pragma once
 
 /**
  * Pixels are individual lights that exist in 3D space on a structure;
@@ -12,4 +11,3 @@ public:
 };
 
 
-#endif // PIXEL_H

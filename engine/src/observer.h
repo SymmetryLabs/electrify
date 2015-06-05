@@ -1,5 +1,4 @@
-#ifndef OBSERVER_H
-#define OBSERVER_H
+#pragma once
 
 #include <vector>
 
@@ -21,4 +20,3 @@ class Observable
       void notifyObservers(/*TODO PASSING FORMAT*/);
 };
 
-#endif //OBSERVER_H

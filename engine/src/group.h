@@ -1,5 +1,4 @@
-#ifndef GROUP_H
-#define GROUP_H
+#pragma once
 
 /**
  * Groups collect one or more pixels together
@@ -10,4 +9,3 @@ class Group {
 };
 
 
-#endif // GROUP_H
