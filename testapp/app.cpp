@@ -30,10 +30,8 @@
  	std::string value("value");
  	
  	Signal<double> *ds = sq->getOutput<double>(value);
- 	std::cout << "before\n";
 
  	double *d = ds->calculate_function(f);
- 	std::cout << "after\n";
  	std::cout << *d;
  	std::cout << '\n';
 
