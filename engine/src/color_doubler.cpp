@@ -14,9 +14,9 @@ ColorDoubler::ColorDoubler()
       return this->double_color(f);
     };
   std::string colorInputName("color");
-  addOutput(colorOutputName, colorSignal);
+  addOutput<Color>(colorOutputName, colorSignal);
   InputSocket<Color> *colorSocket = new InputSocket<Color>();
-  addInputSocket(colorInputName, colorSocket);
+  addInputSocket<Color>(colorInputName, colorSocket);
 };
 
 Color* ColorDoubler::double_color(FrameContext *f)

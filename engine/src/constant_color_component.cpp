@@ -12,5 +12,5 @@ ConstantColorComponent::ConstantColorComponent()
       {
         return this->calculate_color(f);
       };
-    addOutput(colorOutputName, colorSignal);
+    addOutput<Color>(colorOutputName, colorSignal);
 }
