@@ -8,6 +8,7 @@
 #include "color.h"
 #include "signal.h"
 #include <functional>
+#include "frame_context.h"
 
 /**
  * Components are the building blocks of the Symmetry Engine. They receive inputs, and provide 
@@ -28,7 +29,7 @@ class Component : public Observable, public Observer
   /**
      * Tells the component to update its model according to the current time
     */
-  void update(double time);
+  void update(FrameContext *f);
   // The casting to BaseSignal is so we can store differing concrete type signals in the same vector
   template <class T> void addOutput(std::string output_name, Signal<T> *output_signal)
   {

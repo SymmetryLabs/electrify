@@ -10,7 +10,7 @@ Component::~Component()
   
 };
 
-void Component::update(double time)
+void Component::update(FrameContext *f)
 {
 
 };
