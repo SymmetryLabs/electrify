@@ -20,9 +20,6 @@ class Component : public Observable, public Observer
   public:
   std::unordered_map<std::string, BaseSignal*> inputs;
   std::unordered_map<std::string, BaseSignal*> outputs;
-  
-  Component();
-  ~Component();
 
   void notify(/*TODO PASSING FORMAT*/);
   

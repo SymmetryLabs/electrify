@@ -7,7 +7,6 @@ class Color
   public:
   	explicit Color(unsigned int color) {_rgba = color;};
   	Color() {Color(0);};
-  	~Color();
     void* asHSB(); //TODO pick a data format
     void* asHSL(); //TODO pick a data format
     void* asRGB(); //TODO pick a data format
