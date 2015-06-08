@@ -9,7 +9,7 @@ ColorDoubler::ColorDoubler()
   std::string colorOutputName("color");
   Signal<Color>* colorSignal =  new Signal<Color>();
   colorSignal->calculate_function = [this]
-    (FrameContext *f)
+    (FrameContext f)
     {
       return this->double_color(f);
     };
@@ -19,10 +19,10 @@ ColorDoubler::ColorDoubler()
   addInputSocket<Color>(colorInputName, colorSocket);
 };
 
-Color* ColorDoubler::double_color(FrameContext *f)
+Color ColorDoubler::double_color(FrameContext f)
 {
   std::string colorInputName("color");
-  Color *in= getInputSocket<Color>(colorInputName)->input_signal->calculate_function(f);
-  in->fromRGBA(in->asRGBA() * 2);
+  Color in = getInputSocket<Color>(colorInputName)->input_signal->calculate_function(f);
+  in.fromRGBA(in.asRGBA() * 2);
   return in;
 };

@@ -10,7 +10,7 @@ Incrementer::Incrementer()
   std::string colorOutputName("color");
   Signal<Color>* colorSignal =  new Signal<Color>();
   colorSignal->calculate_function = [this]
-    (FrameContext *f)
+    (FrameContext f)
     {
       return this->increment_color(f);
     };
@@ -20,15 +20,15 @@ Incrementer::Incrementer()
   addInputSocket<Color>(colorInputName, colorSocket);
 };
 
-Color* Incrementer::increment_color(FrameContext *f)
+Color Incrementer::increment_color(FrameContext f)
 {
   std::string colorInputName("color");
-  Color *in= getInputSocket<Color>(colorInputName)->input_signal->calculate_function(f);
-  in->fromRGBA(in->asRGBA() + _increment);
+  Color in = getInputSocket<Color>(colorInputName)->input_signal->calculate_function(f);
+  in.fromRGBA(in.asRGBA() + _increment);
   return in;
 };
 
-void Incrementer::update(FrameContext *f)
+void Incrementer::update(FrameContext f)
 {
 	_increment++;
 };

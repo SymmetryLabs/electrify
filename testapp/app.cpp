@@ -16,42 +16,42 @@
  int main()
  {
 
-  FrameContext *f = new FrameContext();
+  FrameContext f = FrameContext();
 
-  ConstantColorComponent *c= new ConstantColorComponent();
+  ConstantColorComponent c =  ConstantColorComponent();
   std::string color("color"); //same name for I and O
-  std::cout << c->getOutput<Color>(color)->calculate_function(f)->asRGBA();
+  std::cout << c.getOutput<Color>(color)->calculate_function(f).asRGBA();
   std::cout << '\n';
-  ColorDoubler *colorDoubler = new ColorDoubler();
-  colorDoubler->wireInput<Color>(color, c->getOutput<Color>(color));
-  std::cout << colorDoubler->getOutput<Color>(color)->calculate_function(f)->asRGBA();
+  ColorDoubler colorDoubler = ColorDoubler();
+  colorDoubler.wireInput<Color>(color, c.getOutput<Color>(color));
+  std::cout << colorDoubler.getOutput<Color>(color)->calculate_function(f).asRGBA();
   std::cout << '\n';
   
-  SquareWave *sq = new SquareWave();
+  SquareWave sq = SquareWave();
   std::string value("value");
   
-  Signal<double> *ds = sq->getOutput<double>(value);
+  Signal<double> *ds = sq.getOutput<double>(value);
 
-  double *d = ds->calculate_function(f);
-  std::cout << *d;
+  double d = ds->calculate_function(f);
+  std::cout << d;
   std::cout << '\n';
 
-  f->time = 0.8;
+  f.time = 0.8;
 
-  std::cout << *(sq->getOutput<double>(value)->calculate_function(f));
+  std::cout << sq.getOutput<double>(value)->calculate_function(f);
   std::cout << '\n';
 
-  Incrementer *incr = new Incrementer();
-  incr->wireInput<Color>(color, colorDoubler->getOutput<Color>(color));
-  std::cout << incr->getOutput<Color>(color)->calculate_function(f)->asRGBA();
+  Incrementer incr = Incrementer();
+  incr.wireInput<Color>(color, colorDoubler.getOutput<Color>(color));
+  std::cout << incr.getOutput<Color>(color)->calculate_function(f).asRGBA();
   std::cout << '\n';
 
-  incr->update(f);
-  std::cout << incr->getOutput<Color>(color)->calculate_function(f)->asRGBA();
+  incr.update(f);
+  std::cout << incr.getOutput<Color>(color)->calculate_function(f).asRGBA();
   std::cout << '\n';
 
-  incr->update(f);
-  std::cout << incr->getOutput<Color>(color)->calculate_function(f)->asRGBA();
+  incr.update(f);
+  std::cout << incr.getOutput<Color>(color)->calculate_function(f).asRGBA();
   std::cout << '\n';
 
   return 0;

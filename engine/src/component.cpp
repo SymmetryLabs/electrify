@@ -1,6 +1,6 @@
 #include "component.h"
 
-void Component::update(FrameContext *f)
+void Component::update(FrameContext f)
 {
 
 };

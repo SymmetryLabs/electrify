@@ -8,6 +8,6 @@ class SquareWave : public Component
     double _value = 0;
   public:
     SquareWave();
-    double* calculate_value(FrameContext *f);
+    double calculate_value(FrameContext f);
 
 };

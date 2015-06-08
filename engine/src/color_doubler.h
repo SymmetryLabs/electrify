@@ -6,5 +6,5 @@ class ColorDoubler : public Component
 {
   public:
    ColorDoubler();
-   Color* double_color(FrameContext *f);
+   Color double_color(FrameContext f);
 };

@@ -8,7 +8,7 @@ ConstantColorComponent::ConstantColorComponent()
     std::string colorOutputName("color");
     Signal<Color>* colorSignal =  new Signal<Color>();
     colorSignal->calculate_function = [this]
-      (FrameContext *f)
+      (FrameContext f)
       {
         return this->calculate_color(f);
       };

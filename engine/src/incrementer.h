@@ -9,6 +9,6 @@ class Incrementer : public Component
    int _increment = 0;
   public:
    Incrementer();
-   void update(FrameContext *f);
-   Color* increment_color(FrameContext *f);
+   void update(FrameContext f);
+   Color increment_color(FrameContext f);
 };

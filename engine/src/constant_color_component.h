@@ -5,6 +5,6 @@
 class ConstantColorComponent : public Component
 {
   public:
-    Color* calculate_color(FrameContext *f) {return new Color(255);};
     ConstantColorComponent();
+    Color calculate_color(FrameContext f) {return Color(255);};
 };
