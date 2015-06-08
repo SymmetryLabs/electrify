@@ -4,3 +4,6 @@ engine/build/*
 *.o
 .tags*
 *.d
+testapp/app
+engine/lib/libengine.so
+engine/tests/main
