@@ -7,3 +7,4 @@ engine/build/*
 testapp/app
 engine/lib/libengine.so
 engine/tests/main
+*.sublime-workspace
