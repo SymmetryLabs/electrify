@@ -15,7 +15,7 @@ class Observer
 class Observable
 {
   private:
-    std::vector<Observer*> observers;
+    vector<Observer*> observers;
   public:
       void registerObserver(Observer *o);
       void notifyObservers(/*TODO PASSING FORMAT*/);

@@ -4,6 +4,7 @@
 #include "component.h"
 
 class Blueprint {
+
 public:
   Blueprint();
   virtual ~Blueprint() {}

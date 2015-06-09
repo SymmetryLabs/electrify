@@ -11,5 +11,5 @@ void Blueprint::addComponent(shared_ptr<Component> component)
 
 void Blueprint::removeComponent(shared_ptr<Component> component)
 {
-  components.erase(std::remove(components.begin(), components.end(), component), components.end());
+  components.erase(remove(components.begin(), components.end(), component), components.end());
 }

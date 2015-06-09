@@ -18,4 +18,3 @@ class Color
     void fromRGBA(unsigned int rgba) {_rgba=rgba;};
 
 };
-

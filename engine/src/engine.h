@@ -8,8 +8,8 @@
  * The engine loads networks of Components and also keeps time
  */
 class Engine {
-public:
 
+public:
   Engine(shared_ptr<Blueprint> blueprint_);
   virtual ~Engine() {}
 
