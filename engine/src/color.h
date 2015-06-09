@@ -1,7 +1,9 @@
 #pragma once
 #include "constants.h"
 
-class Color
+#include "value.h"
+
+class Color : public Value
 {
   private:
     unsigned int _rgba =0;

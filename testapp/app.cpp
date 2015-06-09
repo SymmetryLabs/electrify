@@ -52,12 +52,16 @@ int main()
   cout << '\n';
 
   auto blueprint = make_shared<Blueprint>();
+  auto model = make_shared<Model>();
+  model->pixels = {make_shared<Pixel>()};
+  cout << model->pixels.size();
 
   auto comp = make_shared<ConstantColorComponent>();
   blueprint->addComponent(comp);
-  blueprint->rootComponent = comp;
+  blueprint->outputSocket.input_signal = comp->getOutput<Color>(color);
   
-  Engine e(blueprint);
+  Engine e(blueprint, model);
+  e.outputs.push_back(make_shared<Output>());
   e.start();
 
   return 0;

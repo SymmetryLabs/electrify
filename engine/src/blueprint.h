@@ -2,6 +2,7 @@
 #include "constants.h"
 
 #include "component.h"
+#include "Signal.h"
 
 class Blueprint {
 
@@ -12,7 +13,7 @@ public:
   void addComponent(shared_ptr<Component> component);
   void removeComponent(shared_ptr<Component> component);
 
-  shared_ptr<Component> rootComponent;
   vector<shared_ptr<Component>> components;
+  InputSocket<Color> outputSocket;
 
 };
