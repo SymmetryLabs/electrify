@@ -1,6 +1,9 @@
 #pragma once
+#include "constants.h"
+
 #include "component.h"
 #include "frame_context.h"
+
 class BaseSignal
 {
 
