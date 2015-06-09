@@ -10,12 +10,12 @@
 #include "frame_context.h"
 #include "square_wave.h"
 #include "incrementer.h"
+#include "engine.h"
 
 
 
- int main()
- {
-
+int main()
+{
   FrameContext f = FrameContext();
 
   ConstantColorComponent c =  ConstantColorComponent();
@@ -53,6 +53,15 @@
   incr.update(f);
   std::cout << incr.getOutput<Color>(color)->calculate_function(f).asRGBA();
   std::cout << '\n';
+
+  auto blueprint = make_shared<Blueprint>();
+
+  auto comp = make_shared<ConstantColorComponent>();
+  blueprint->addComponent(comp);
+  blueprint->rootComponent = comp;
+  
+  Engine e(blueprint);
+  e.start();
 
   return 0;
  }

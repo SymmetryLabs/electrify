@@ -2,17 +2,21 @@
 #include "constants.h"
 
 #include "component.h"
+#include "blueprint.h"
 
 /**
  * The engine loads networks of Components and also keeps time
  */
-class Engine
-{
-
+class Engine {
 public:
-  void loadComponents(Component *root);
-  void update();
+
+  Engine(shared_ptr<Blueprint> blueprint_);
+  virtual ~Engine() {}
+
+  void start();
+  void stop();
+
+private:
+  shared_ptr<Blueprint> blueprint;
 
 };
-
-
