@@ -4,7 +4,12 @@
 		{
 			"path": ".",
 			"folder_exclude_patterns": ["lib"],
-			"file_exclude_patterns": ["engine/src/*.d"]
+			"file_exclude_patterns": ["engine/src/*.d", "engine/src/*.o"]
 		}
-	]
+	],
+	"settings":
+	{
+		"tab_size": 2,
+		"translate_tabs_to_spaces": true
+	}
 }
