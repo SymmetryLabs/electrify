@@ -6,6 +6,8 @@
 class Output {
 
 public:
-  void render(vector<Color> &colorBuffer);
+
+private:
+  vector<Color> colorBuffer;
 
 };

@@ -1,6 +1,7 @@
 #pragma once
 #include "constants.h"
 
+#include <thread>
 #include "component.h"
 #include "blueprint.h"
 #include "model.h"
@@ -18,11 +19,22 @@ public:
   void start();
   void stop();
 
+  void copyColorBuffer(vector<Color> &colorBuffer);
+
   vector<shared_ptr<Output>> outputs;
 
 private:
   shared_ptr<Blueprint> blueprint;
   shared_ptr<Model> model;
-  vector<Color> colorBuffer;
+
+  thread engineThread;
+  shared_ptr<vector<Color>> frontColorBuffer;
+  shared_ptr<vector<Color>> backColorBuffer;
+  mutex colorBufferMutex;
+
+  void loop();
+  
+  void swapColorBuffers();
+  unique_lock<mutex> acquireColorBufferLock();
 
 };

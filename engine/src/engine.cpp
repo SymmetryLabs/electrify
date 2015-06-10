@@ -6,13 +6,20 @@
 Engine::Engine(shared_ptr<Blueprint> blueprint_, shared_ptr<Model> model_)
 :blueprint(blueprint_)
 ,model(model_)
-,colorBuffer(model_->pixels.size())
-{
+,frontColorBuffer(make_shared<vector<Color>>(model_->pixels.size()))
+,backColorBuffer(make_shared<vector<Color>>(model_->pixels.size())) {
 }
 
-void Engine::start()
-{
+void Engine::start() {
   cout << "Starting Engine";
+  engineThread = thread(&Engine::loop, this);
+  engineThread.join();
+}
+
+void Engine::stop() {
+}
+
+void Engine::loop() {
   while (true) {
     FrameContext frameContext;
 
@@ -21,24 +28,37 @@ void Engine::start()
       component->update(frameContext);
     }
 
-    // rasterize color buffer
+    // rasterize to color buffer
     int i = 0;
     for (auto pixel : model->pixels) {
       FragmentContext fragmentContext(pixel);
       auto color = blueprint->outputSocket.input_signal->calculate_function(frameContext);
-      colorBuffer[i] = color;
+      (*backColorBuffer)[i] = color;
       i++;
     }
 
-    // send to outputs
-    for (auto output : outputs) {
-      output->render(colorBuffer);
-    }
+    swapColorBuffers();
+
+    // send color buffer changed notification
 
     // poll events
   }
 }
 
-void Engine::stop()
-{
+void Engine::copyColorBuffer(vector<Color> &colorBuffer) {
+  unique_lock<mutex> lock = acquireColorBufferLock();
+
+  colorBuffer = {*frontColorBuffer};
+}
+
+void Engine::swapColorBuffers() {
+  unique_lock<mutex> lock = acquireColorBufferLock();
+
+  shared_ptr<vector<Color>> tempColorBuffer = frontColorBuffer;
+  frontColorBuffer = backColorBuffer;
+  backColorBuffer = tempColorBuffer;
+}
+
+unique_lock<mutex> Engine::acquireColorBufferLock() {
+  return unique_lock<mutex> {colorBufferMutex};
 }
