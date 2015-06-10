@@ -8,7 +8,7 @@ Setup
 
 1. clone the library `git clone git@github.com:SymmetryLabs/electrify.git`
 2. `cd electrify/engine`
-3. `mkdir build`
+3. `mkdir build; cd build`
 4. `cmake ..`
 5. `make` (add `-j 5` for multicore speed)
 
