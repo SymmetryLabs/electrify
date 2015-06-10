@@ -46,6 +46,12 @@ DerivedData
 !default.perspectivev3
 xcuserdata
 
+##### QT
+
+#QtCreator project files
+*.pro.user
+*~
+
 ## Other
 *.xccheckout
 *.moved-aside
