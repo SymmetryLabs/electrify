@@ -10,9 +10,19 @@
 #include "square_wave.h"
 #include "incrementer.h"
 #include "engine.h"
+#include "loader.h"
 
 int main()
 {
+
+
+ /* file loading */
+  cout << "trying to load file\n";
+  Loader loader = Loader();
+  string filename("../data/dummydata.json");
+  loader.loadJSON(filename);
+  cout << "file loaded\n";
+
   FrameContext f = FrameContext();
 
   ConstantColorComponent c =  ConstantColorComponent();
@@ -60,9 +70,10 @@ int main()
   blueprint->addComponent(comp);
   blueprint->outputSocket.input_signal = comp->getOutput<Color>(color);
   
-  Engine e(blueprint, model);
-  e.outputs.push_back(make_shared<Output>());
-  e.start();
+  //Engine e(blueprint, model);
+  //e.outputs.push_back(make_shared<Output>());
+  //e.start();
 
+ 
   return 0;
  }

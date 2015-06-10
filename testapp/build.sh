@@ -3,4 +3,4 @@
 # or you can:
 # cp ../engine/lib/libengine.so .
 cd "$( dirname "$0" )"
-g++ -L../engine/lib -I../engine/src/ -Wall -o app app.cpp -lengine --std=c++11
+g++ -L../engine/lib -I../engine/src/ -I../engine/libs/jsoncpp -Wall -o app app.cpp -lengine --std=c++11
