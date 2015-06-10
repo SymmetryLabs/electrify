@@ -1,6 +1,6 @@
 #!/bin/bash
 # NOTE:  to run app on OSX you will need:
-# export DYLD_FALLBACK_LIBRARY_PATH=<absolute path to...>/electrify/engine/lib
+# export DYLD_FALLBACK_LIBRARY_PATH=<absolute path to...>/electrify/engine/build
 # or you can:
 # cp ../engine/lib/libengine.so .
 cd "$( dirname "$0" )"
