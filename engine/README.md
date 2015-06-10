@@ -23,3 +23,4 @@ Frameworks
 -----
 * Testing: [catch](https://github.com/philsquared/Catch)
 * Documentation: [doxygen](http://www.stack.nl/~dimitri/doxygen/)
+* JSON: [jsoncpp](https://github.com/open-source-parsers/jsoncpp)
