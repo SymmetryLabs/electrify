@@ -7,6 +7,9 @@
 #include "model.h"
 #include "output.h"
 
+constexpr int fps = 60;
+constexpr nanoseconds timePerFrame {duration_cast<nanoseconds>(seconds{1}) / fps};
+
 /**
  * The engine loads networks of Components and also keeps time
  */
@@ -17,6 +20,7 @@ public:
   virtual ~Engine() {}
 
   void start();
+  void startAndWait();
   void stop();
 
   void copyColorBuffer(vector<Color> &colorBuffer);
@@ -32,8 +36,16 @@ private:
   shared_ptr<vector<Color>> backColorBuffer;
   mutex colorBufferMutex;
 
+  high_resolution_clock::time_point startTime;
+  high_resolution_clock::time_point currentFrameTime;
+  long currentFrameNumber;
+
+  void init();
   void loop();
-  
+  void performLoopStep();
+  void performFrameUpdate();
+  void performRasterization();
+
   void swapColorBuffers();
   unique_lock<mutex> acquireColorBufferLock();
 
