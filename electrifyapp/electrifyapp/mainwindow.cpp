@@ -89,7 +89,7 @@ MainWindow::MainWindow(QWidget *parent) :
       startTimer(16);
 }
 
-void MainWindow::timerEvent(QTimerEvent *event)
+void MainWindow::timerEvent(__attribute__((unused)) QTimerEvent *event)
 {
     glwidget->update();
 }

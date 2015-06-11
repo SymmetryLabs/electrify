@@ -25,8 +25,8 @@ class Component : public Observable, public Observer
   void notify(/*TODO PASSING FORMAT*/);
   
   /**
-     * Tells the component to update its model according to the current time
-    */
+   * Tells the component to update its model according to the current time
+  */
   void update(FrameContext f);
   // The casting to BaseSignal is so we can store differing concrete type signals in the same vector
   template <class T> void addOutput(string output_name, Signal<T> *output_signal)

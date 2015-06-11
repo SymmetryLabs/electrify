@@ -25,7 +25,6 @@ private:
     QOpenGLShaderProgram *m_program=0;
     QSize m_viewportSize;
     qreal m_t;
-    float *values;
     void populateModel();
     void populateColors();
     void initializeScene();

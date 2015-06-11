@@ -9,5 +9,5 @@ class ConstantColorComponent : public Component
 {
   public:
     ConstantColorComponent();
-    Color calculate_color(FrameContext f) {return Color(255);};
+    Color calculate_color(__attribute__((unused)) FrameContext f) {return Color(255);};
 };
