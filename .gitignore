@@ -29,6 +29,7 @@
 *.out
 *.app
 
+
 ##### Xcode
 
 ## Build generated
@@ -46,26 +47,57 @@ DerivedData
 !default.perspectivev3
 xcuserdata
 
-##### QT
-
-#QtCreator project files
-*.pro.user
-*~
-
 ## Other
 *.xccheckout
 *.moved-aside
 *.xcuserstate
 
+
+##### QT
+
+# Qt-es
+/.qmake.cache
+/.qmake.stash
+*.pro.user
+*.pro.user.*
+*.qbs.user
+*.qbs.user.*
+*.moc
+moc_*.cpp
+qrc_*.cpp
+ui_*.h
+Makefile*
+*-build-*
+
+# QtCreator
+*.autosave
+*~
+
+#QtCtreator Qml
+*.qmlproject.user
+*.qmlproject.user.*
+
+
+##### CMake
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake
+install_manifest.txt
+
+
 ##### Mac
 .DS_Store
+
 
 ##### Sublime Text 2
 *.sublime-workspace
 
+
 ##### Project
 testapp/app
 engine/tests/main
+
 
 ##### Other
 build-*

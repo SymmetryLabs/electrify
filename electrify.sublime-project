@@ -3,7 +3,7 @@
 	[
 		{
 			"path": ".",
-			"folder_exclude_patterns": ["lib", "*.xcodeproj"],
+			"folder_exclude_patterns": ["lib", "*.xcodeproj", "build"],
 			"file_exclude_patterns": ["engine/src/*.d", "engine/src/*.o"]
 		}
 	],
