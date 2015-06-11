@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    glwidget = new Widget(this);
+    glwidget = new SymmetryGLWidget(this);
     ui->setupUi(this);
 
      string color("color"); //same name for I and O

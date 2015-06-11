@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "widget.h"
+#include "symmetryglwidget.h"
 
 namespace Ui {
 class MainWindow;
@@ -15,7 +15,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-     Widget *glwidget;
+     SymmetryGLWidget *glwidget;
 protected:
 
     void timerEvent(QTimerEvent *event);

@@ -18,10 +18,10 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    widget.cpp
+    symmetryglwidget.cpp
 
 HEADERS  += mainwindow.h \
-    widget.h
+    symmetryglwidget.h
 
 FORMS    += mainwindow.ui
 

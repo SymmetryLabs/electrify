@@ -7,12 +7,12 @@
 #include "model.h"
 #include "output.h"
 
-class Widget : public QOpenGLWidget, protected QOpenGLFunctions
+class SymmetryGLWidget : public QOpenGLWidget, protected QOpenGLFunctions
 {
 public:
     shared_ptr<Model> model;
     shared_ptr<Output> output;
-    Widget(QWidget *parent = 0);
+    SymmetryGLWidget(QWidget *parent = 0);
     void initializeGL();
     void resizeGL(int w, int h);
     void paintGL();

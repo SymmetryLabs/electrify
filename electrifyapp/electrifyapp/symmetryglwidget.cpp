@@ -1,18 +1,18 @@
-#include "widget.h"
+#include "symmetryglwidget.h"
 
-Widget::Widget(QWidget *parent) : QOpenGLWidget(parent)
+SymmetryGLWidget::SymmetryGLWidget(QWidget *parent) : QOpenGLWidget(parent)
 {
     QSurfaceFormat format;
     format.setDepthBufferSize(24);
     setFormat(format);
 }
  
-void Widget::initializeGL()
+void SymmetryGLWidget::initializeGL()
 {
     initializeOpenGLFunctions();
 }
 
-void Widget::populateModel()
+void SymmetryGLWidget::populateModel()
 {
     int i =0;
     for(auto p: model->pixels)
@@ -23,7 +23,7 @@ void Widget::populateModel()
     }
 }
 
-void Widget::populateColors()
+void SymmetryGLWidget::populateColors()
 {
     int i = 0;
     for(auto c: output->colorBuffer)
@@ -35,13 +35,13 @@ void Widget::populateColors()
     }
 }
  
-void Widget::resizeGL(int w, int h)
+void SymmetryGLWidget::resizeGL(int w, int h)
 {
     m_projection.setToIdentity();
     m_projection.perspective(60.0f, w / float(h), 0.01f, 1000.0f);
 }
  
-void Widget::paintGL()
+void SymmetryGLWidget::paintGL()
 {
      if (!m_program) {
         initializeOpenGLFunctions();
