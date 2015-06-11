@@ -103,7 +103,7 @@ void SymmetryGLWidget::paintGL()
     QMatrix4x4 matrix;
     matrix.setToIdentity();
     matrix.translate(0.0, 0.0, -5.0);
-    matrix.rotate(m_t,0,1,0);
+    matrix.rotate(m_t, 0, 1, 0);
     m_t++;
     m_program->setUniformValue(0, projection * matrix );
 
@@ -112,6 +112,6 @@ void SymmetryGLWidget::paintGL()
     glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glPointSize(20);
+    glPointSize(5);
     glDrawArrays(GL_POINTS, 0, model->pixels.size());
 }

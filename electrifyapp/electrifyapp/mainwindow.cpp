@@ -25,7 +25,20 @@ MainWindow::MainWindow(QWidget *parent) :
 
     auto blueprint = make_shared<Blueprint>();
     auto model = make_shared<Model>();
-    model->pixels = {make_shared<Pixel>(0.0,0.0,0.0), make_shared<Pixel>(1.0,0.0,0.0), make_shared<Pixel>(1.0,1.0,0.0), make_shared<Pixel>(0.0,1.0,0.0) };
+    float edge = 2.0;
+    float per_edge = 8.0;
+    float step = edge/per_edge;
+
+   for(int i=0; i<per_edge;i++)
+   {
+       for(int j=0; j<per_edge; j++)
+       {
+           for(int k=0; k<per_edge; k++)
+           {
+            model->pixels.push_back(make_shared<Pixel>(step*j, step*i, step*k));
+           }
+       }
+   }
     qDebug() << "model pixels size:" << model->pixels.size();
 
     auto comp = make_shared<ConstantColorComponent>();
@@ -36,9 +49,11 @@ MainWindow::MainWindow(QWidget *parent) :
       for(auto pixel : model->pixels)
       {
 
-          unsigned long int red = (((long int)pixel->x)*255) << 24;
-          unsigned long int blue = (((long int) pixel->y)*255) << 8;
-           output->colorBuffer.push_back(Color(pixel->x + pixel->y ==0.0 ? 0xFFFFFFFF :red+blue+255));
+          unsigned long red = (unsigned long) ((pixel->x/edge)*255) << 24 & 0xFF000000;
+          unsigned long green = (unsigned long) ((pixel->z/edge)*255) << 16 & 0xFF0000;
+          unsigned long blue = (unsigned long) ((pixel->y/edge)*255) << 8 & 0xFF00;
+
+           output->colorBuffer.push_back(Color(pixel->x + pixel->y + pixel->z < 0.1 ? 0xFFFFFFFF : red + green + blue + 255));
       }
 
         glwidget->setModel(model);
