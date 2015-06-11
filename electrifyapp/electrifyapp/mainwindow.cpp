@@ -17,27 +17,50 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    glwidget = new Widget(this);
     ui->setupUi(this);
+
+     string color("color"); //same name for I and O
+
+
+    auto blueprint = make_shared<Blueprint>();
+    auto model = make_shared<Model>();
+    model->pixels = {make_shared<Pixel>(0.0,0.0,0.0), make_shared<Pixel>(1.0,0.0,0.0), make_shared<Pixel>(1.0,1.0,0.0), make_shared<Pixel>(0.0,1.0,0.0) };
+    qDebug() << "model pixels size:" << model->pixels.size();
+
+    auto comp = make_shared<ConstantColorComponent>();
+    blueprint->addComponent(comp);
+    blueprint->outputSocket.input_signal = comp->getOutput<Color>(color);
+
+      auto output = make_shared<Output>();
+      for(auto pixel : model->pixels)
+      {
+
+          unsigned long int red = (((long int)pixel->x)*255) << 24;
+          unsigned long int blue = (((long int) pixel->y)*255) << 8;
+           output->colorBuffer.push_back(Color(pixel->x + pixel->y ==0.0 ? 0xFFFFFFFF :red+blue+255));
+      }
+
+        glwidget->setModel(model);
+        glwidget->setOutput(output);
+
+
     /* file loading */
-      cout << "trying to load file\n";
+      qDebug() << "trying to load file\n";
       Loader loader = Loader();
-      //This is the path to the data dir from:
-      //electrify/electrifyapp/build-electrifyapp-Desktop_Qt_5_4_1_clang_64bit-Debug/electrifyapp.app/Contents/MacOS
-      //could be cleaner by setting PATH or something
+      //This path is relative to the working directory of the app
       string filename("../data/dummydata.json");
       loader.loadJSON(filename);
-      cout << "file loaded\n";
+      qDebug() << "file loaded\n";
 
       FrameContext f = FrameContext();
 
       ConstantColorComponent c =  ConstantColorComponent();
-      string color("color"); //same name for I and O
-      cout << c.getOutput<Color>(color)->calculate_function(f).asRGBA();
-      cout << '\n';
+
+      qDebug() << c.getOutput<Color>(color)->calculate_function(f).asRGBA();
       ColorDoubler colorDoubler = ColorDoubler();
       colorDoubler.wireInput<Color>(color, c.getOutput<Color>(color));
-      cout << colorDoubler.getOutput<Color>(color)->calculate_function(f).asRGBA();
-      cout << '\n';
+      qDebug() << colorDoubler.getOutput<Color>(color)->calculate_function(f).asRGBA();
 
       SquareWave sq = SquareWave();
       string value("value");
@@ -45,39 +68,30 @@ MainWindow::MainWindow(QWidget *parent) :
       Signal<double> *ds = sq.getOutput<double>(value);
 
       double d = ds->calculate_function(f);
-      cout << d;
-      cout << '\n';
+      qDebug() << d;
 
       f.time = 0.8;
 
-      cout << sq.getOutput<double>(value)->calculate_function(f);
-      cout << '\n';
+      qDebug() << sq.getOutput<double>(value)->calculate_function(f);
+      qDebug();
 
       Incrementer incr = Incrementer();
       incr.wireInput<Color>(color, colorDoubler.getOutput<Color>(color));
-      cout << incr.getOutput<Color>(color)->calculate_function(f).asRGBA();
-      cout << '\n';
+      qDebug() << incr.getOutput<Color>(color)->calculate_function(f).asRGBA();
 
       incr.update(f);
-      cout << incr.getOutput<Color>(color)->calculate_function(f).asRGBA();
-      cout << '\n';
+      qDebug() << incr.getOutput<Color>(color)->calculate_function(f).asRGBA();
 
       incr.update(f);
-      cout << incr.getOutput<Color>(color)->calculate_function(f).asRGBA();
-      cout << '\n';
+      qDebug() << incr.getOutput<Color>(color)->calculate_function(f).asRGBA();
 
-      auto blueprint = make_shared<Blueprint>();
-      auto model = make_shared<Model>();
-      model->pixels = {make_shared<Pixel>()};
-      cout << model->pixels.size();
+      ui->verticalLayout->addWidget(glwidget);
+      startTimer(16);
+}
 
-      auto comp = make_shared<ConstantColorComponent>();
-      blueprint->addComponent(comp);
-      blueprint->outputSocket.input_signal = comp->getOutput<Color>(color);
-
-      //Engine e(blueprint, model);
-      //e.outputs.push_back(make_shared<Output>());
-      //e.start();
+void MainWindow::timerEvent(QTimerEvent *event)
+{
+    glwidget->update();
 }
 
 MainWindow::~MainWindow()

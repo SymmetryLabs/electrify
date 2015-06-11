@@ -7,7 +7,7 @@ void Loader::loadJSON(string filename)
 	in >> model_json;
 	in.close();
 	for (Json::Value::iterator it = model_json["members"].begin(); it != model_json["members"].end(); ++it) {
-    cout << (*it)["group"].asString() << "\n";
-    cout << "Tower x: " << (*it)["x"].asDouble() << "\n";
+    cout << (*it)["group"].asString() << endl;
+    cout << "Tower x: " << (*it)["x"].asDouble() << endl;
   }
 }

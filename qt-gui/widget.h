@@ -8,6 +8,8 @@
 class Widget : public QOpenGLWidget, protected QOpenGLFunctions
 {
 public:
+    Model &model;
+    Output &output;
     Widget(QWidget *parent = 0);
     void initializeGL();
     void resizeGL(int w, int h);

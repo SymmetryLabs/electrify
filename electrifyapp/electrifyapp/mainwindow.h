@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "widget.h"
 
 namespace Ui {
 class MainWindow;
@@ -14,6 +15,10 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+     Widget *glwidget;
+protected:
+
+    void timerEvent(QTimerEvent *event);
 
 private:
     Ui::MainWindow *ui;
