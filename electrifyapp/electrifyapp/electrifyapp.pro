@@ -30,5 +30,6 @@ else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../engine/build/debu
 else:unix: LIBS += -L$$PWD/../../engine/build/ -lSymmetryEngine
 
 INCLUDEPATH += $$PWD/../../engine/src
+INCLUDEPATH += $$PWD/../../engine/src/components
 INCLUDEPATH += $$PWD/../../engine/libs/jsoncpp
 DEPENDPATH += $$PWD/../../engine/src
