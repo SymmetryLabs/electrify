@@ -9,7 +9,7 @@ Setup
 1. clone the library `git clone git@github.com:SymmetryLabs/electrify.git`
 2. `cd electrify/engine`
 3. `cd build`
-4. `cmake ..`
+4. `cmake ..` (`brew install cmake` if you don't have it)
 5. `make` (add `-j 5` for multicore speed)
 
 This will place [libSymmetryEngine.dylib shared library](http://en.wikipedia.org/wiki/Dynamic_loading) in the **lib** folder
@@ -21,6 +21,7 @@ Notes
 
 Frameworks
 -----
+* Building [cmake] http://www.cmake.org/
 * Testing: [catch](https://github.com/philsquared/Catch)
 * Documentation: [doxygen](http://www.stack.nl/~dimitri/doxygen/)
 * JSON: [jsoncpp](https://github.com/open-source-parsers/jsoncpp)
