@@ -28,6 +28,7 @@ private:
     float *values;
     void populateModel();
     void populateColors();
+    void initializeScene();
 };
 
 #endif // WIDGET

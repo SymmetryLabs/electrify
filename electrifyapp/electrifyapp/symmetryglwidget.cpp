@@ -40,48 +40,49 @@ void SymmetryGLWidget::resizeGL(int w, int h)
     m_projection.setToIdentity();
     m_projection.perspective(60.0f, w / float(h), 0.01f, 1000.0f);
 }
+
+void SymmetryGLWidget::initializeScene()
+{
+    initializeOpenGLFunctions();
+
+    m_program = new QOpenGLShaderProgram();
+    m_program->addShaderFromSourceCode(QOpenGLShader::Vertex,
+                                       "uniform mat4 mvp_mat;"
+                                       "attribute highp vec4 vertices;"
+                                       "attribute highp vec4 colors;"
+                                       "varying highp vec4 cols;"
+                                       "void main() {"
+                                       "    gl_Position = mvp_mat * vertices;"
+                                       "    cols = colors;"
+                                       "}");
+    m_program->addShaderFromSourceCode(QOpenGLShader::Fragment,
+                                       "varying highp vec4 cols;"
+                                       "void main() {"
+                                       "    gl_FragColor = cols;"
+                                       "}");
+
+    m_program->bindAttributeLocation("vertices", 0);
+    m_program->bindAttributeLocation("colors", 1);
+    m_program->link();
+
+    m_program->bind();
+
+    populateModel();
+
+    m_program->setAttributeArray(0, GL_FLOAT, vtx, 3);
+    m_program->setAttributeArray(1, GL_FLOAT, col, 4);
+    m_program->enableAttributeArray(0);
+    m_program->enableAttributeArray(1);
+
+    glViewport(0, 0, m_viewportSize.width(), m_viewportSize.height());
+    glMatrixMode (GL_PROJECTION);
+    glMatrixMode(GL_MODELVIEW);
+}
  
 void SymmetryGLWidget::paintGL()
 {
      if (!m_program) {
-        initializeOpenGLFunctions();
-
-        m_program = new QOpenGLShaderProgram();
-        m_program->addShaderFromSourceCode(QOpenGLShader::Vertex,
-                                           "uniform mat4 mvp_mat;"
-                                           "attribute highp vec4 vertices;"
-                                           "attribute highp vec4 colors;"
-                                           "varying highp vec4 cols;"
-                                           "void main() {"
-                                           "    gl_Position = mvp_mat * vertices;"
-                                           "    cols = colors;"
-
-
-                                           "}");
-        m_program->addShaderFromSourceCode(QOpenGLShader::Fragment,
-                                           "varying highp vec4 cols;"
-                                           "void main() {"
-                                           "    gl_FragColor = cols;"
-                                           "}");
-
-        m_program->bindAttributeLocation("vertices", 0);
-        m_program->bindAttributeLocation("colors", 1);
-        m_program->link();
-
-        m_program->bind();
-
-        populateModel();
-        populateColors();
-
-        m_program->setAttributeArray(0, GL_FLOAT, vtx, 3);
-        m_program->setAttributeArray(1, GL_FLOAT, col, 4);
-        m_program->enableAttributeArray(0);
-        m_program->enableAttributeArray(1);
-
-        glViewport(0, 0, m_viewportSize.width(), m_viewportSize.height());
-        glMatrixMode (GL_PROJECTION);
-        glMatrixMode(GL_MODELVIEW);
-
+       initializeScene();
     }
 
     populateColors();
