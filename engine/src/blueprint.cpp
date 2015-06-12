@@ -1,15 +1,6 @@
 #include "blueprint.h"
 
-Blueprint::Blueprint()
+Color Blueprint::render(const FragmentContext& frag)
 {
-}
-
-void Blueprint::addComponent(shared_ptr<Component> component)
-{
-  components.push_back(component);
-}
-
-void Blueprint::removeComponent(shared_ptr<Component> component)
-{
-  components.erase(remove(components.begin(), components.end(), component), components.end());
+  return outputSocket.calculate(frag);
 }

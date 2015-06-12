@@ -1,8 +1,9 @@
 #pragma once
 #include "constants.h"
 
-class FrameContext
-{
-  public:
-    double time = 0;
+class FrameContext {
+
+public:
+  double time = 0;
+
 };

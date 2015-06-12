@@ -2,5 +2,4 @@
 #include "constants.h"
 
 class Value {
-
 };

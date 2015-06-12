@@ -2,15 +2,18 @@
 #include "constants.h"
 
 #include "component.h"
-#include "color.h"
-#include "frame_context.h"
 
-class Incrementer : public Component
-{
-  private:
-   int _increment = 0;
-  public:
-   Incrementer();
-   void update(FrameContext f);
-   Color increment_color(FrameContext f);
+class Incrementer : public Component {
+
+public:
+  Incrementer();
+  
+  void update(const FrameContext& frame) override;
+  Color increment_color(const FragmentContext& frag);
+
+private:
+  Socket<Color>* colorSocket;
+  
+  int _increment = 0;
+
 };

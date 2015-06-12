@@ -2,18 +2,18 @@
 #include "constants.h"
 
 #include "component.h"
-#include "Signal.h"
+#include "signal.h"
+#include "compound_component.h"
+#include "renderable.h"
 
-class Blueprint {
+class Blueprint : public CompoundComponent, public Renderable {
 
 public:
-  Blueprint();
+  Blueprint() {}
   virtual ~Blueprint() {}
 
-  void addComponent(shared_ptr<Component> component);
-  void removeComponent(shared_ptr<Component> component);
+  virtual Color render(const FragmentContext& frag) override;
 
-  vector<shared_ptr<Component>> components;
-  InputSocket<Color> outputSocket;
+  Socket<Color> outputSocket;
 
 };

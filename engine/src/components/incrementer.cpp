@@ -1,33 +1,20 @@
 #include "incrementer.h"
-#include "color_doubler.h"
-#include "color.h"
-#include "frame_context.h"
-#include "signal.h"
 
 Incrementer::Incrementer()
+  :colorSocket(new Socket<Color>())
 {
-  string colorOutputName("color");
-  Signal<Color>* colorSignal =  new Signal<Color>();
-  colorSignal->calculate_function = [this]
-    (FrameContext f)
-    {
-      return this->increment_color(f);
-    };
-  string colorInputName("color");
-  addOutput<Color>(colorOutputName, colorSignal);
-  InputSocket<Color> *colorSocket = new InputSocket<Color>();
-  addInputSocket<Color>(colorInputName, colorSocket);
-};
+  registerInput("color", unique_ptr<BaseSocket>(colorSocket));
+  registerOutput("color", &Incrementer::increment_color);
+}
 
-Color Incrementer::increment_color(FrameContext f)
+Color Incrementer::increment_color(const FragmentContext& frag)
 {
-  string colorInputName("color");
-  Color in = getInputSocket<Color>(colorInputName)->input_signal->calculate_function(f);
+  Color in = colorSocket->calculate(frag);
   in.fromRGBA(in.asRGBA() + _increment);
   return in;
-};
+}
 
-void Incrementer::update(FrameContext f)
+void Incrementer::update(const FrameContext& frame)
 {
 	_increment++;
-};
+}

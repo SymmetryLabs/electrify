@@ -16,24 +16,23 @@ constexpr nanoseconds timePerFrame {duration_cast<nanoseconds>(seconds{1}) / fps
 class Engine {
 
 public:
-  Engine(shared_ptr<Blueprint> blueprint_, shared_ptr<Model> model_);
+  Engine(unique_ptr<Blueprint> blueprint_, unique_ptr<Model> model_);
   virtual ~Engine() {}
 
   void start();
   void startAndWait();
   void stop();
 
-  void copyColorBuffer(vector<Color> &colorBuffer);
-
-  vector<shared_ptr<Output>> outputs;
+  void copyColorBuffer(vector<Color>& colorBuffer);
 
 private:
-  shared_ptr<Blueprint> blueprint;
-  shared_ptr<Model> model;
+  const unique_ptr<Blueprint> blueprint;
+  const unique_ptr<Model> model;
 
   thread engineThread;
-  shared_ptr<vector<Color>> frontColorBuffer;
-  shared_ptr<vector<Color>> backColorBuffer;
+
+  unique_ptr<vector<Color>> frontColorBuffer;
+  unique_ptr<vector<Color>> backColorBuffer;
   mutex colorBufferMutex;
 
   high_resolution_clock::time_point startTime;
@@ -46,7 +45,7 @@ private:
   void performFrameUpdate();
   void performRasterization();
 
-  void swapColorBuffers();
-  unique_lock<mutex> acquireColorBufferLock();
+  inline void swapColorBuffers();
+  inline unique_lock<mutex> acquireColorBufferLock();
 
 };

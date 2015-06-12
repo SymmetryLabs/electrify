@@ -43,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     auto comp = make_shared<ConstantColorComponent>();
     blueprint->addComponent(comp);
-    blueprint->outputSocket.input_signal = comp->getOutput<Color>(color);
+    blueprint->outputSocket.signal = comp->getOutput<Color>(color);
 
       auto output = make_shared<Output>();
       for(auto pixel : model->pixels)
@@ -68,37 +68,37 @@ MainWindow::MainWindow(QWidget *parent) :
       loader.loadJSON(filename);
       qDebug() << "file loaded\n";
 
-      FrameContext f = FrameContext();
+      FrameContext f;
 
-      ConstantColorComponent c =  ConstantColorComponent();
+      ConstantColorComponent c;
 
-      qDebug() << c.getOutput<Color>(color)->calculate_function(f).asRGBA();
-      ColorDoubler colorDoubler = ColorDoubler();
-      colorDoubler.wireInput<Color>(color, c.getOutput<Color>(color));
-      qDebug() << colorDoubler.getOutput<Color>(color)->calculate_function(f).asRGBA();
+      qDebug() << c.getOutput<Color>(color)->calculate(f).asRGBA();
+      ColorDoubler colorDoubler;
+      colorDoubler.wireInput(color, c.getOutput<Color>(color));
+      qDebug() << colorDoubler.getOutput<Color>(color)->calculate(f).asRGBA();
 
-      SquareWave sq = SquareWave();
+      SquareWave sq;
       string value("value");
 
       Signal<double> *ds = sq.getOutput<double>(value);
 
-      double d = ds->calculate_function(f);
+      double d = ds->calculate(f);
       qDebug() << d;
 
       f.time = 0.8;
 
-      qDebug() << sq.getOutput<double>(value)->calculate_function(f);
+      qDebug() << sq.getOutput<double>(value)->calculate(f);
       qDebug();
 
-      Incrementer incr = Incrementer();
-      incr.wireInput<Color>(color, colorDoubler.getOutput<Color>(color));
-      qDebug() << incr.getOutput<Color>(color)->calculate_function(f).asRGBA();
+      Incrementer incr;
+      incr.wireInput(color, colorDoubler.getOutput<Color>(color));
+      qDebug() << incr.getOutput<Color>(color)->calculate(f).asRGBA();
 
       incr.update(f);
-      qDebug() << incr.getOutput<Color>(color)->calculate_function(f).asRGBA();
+      qDebug() << incr.getOutput<Color>(color)->calculate(f).asRGBA();
 
       incr.update(f);
-      qDebug() << incr.getOutput<Color>(color)->calculate_function(f).asRGBA();
+      qDebug() << incr.getOutput<Color>(color)->calculate(f).asRGBA();
 
       ui->verticalLayout->addWidget(glwidget);
       startTimer(16);

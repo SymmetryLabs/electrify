@@ -1,28 +1,15 @@
 #include "color_doubler.h"
 
-#include "color.h"
-#include "frame_context.h"
-#include "signal.h"
-
 ColorDoubler::ColorDoubler()
+  :colorSocket(new Socket<Color>())
 {
-  string colorOutputName("color");
-  Signal<Color>* colorSignal =  new Signal<Color>();
-  colorSignal->calculate_function = [this]
-    (FrameContext f)
-    {
-      return this->double_color(f);
-    };
-  string colorInputName("color");
-  addOutput<Color>(colorOutputName, colorSignal);
-  InputSocket<Color> *colorSocket = new InputSocket<Color>();
-  addInputSocket<Color>(colorInputName, colorSocket);
-};
+  registerInput("color", unique_ptr<BaseSocket>(colorSocket));
+  registerOutput("color", &ColorDoubler::double_color);
+}
 
-Color ColorDoubler::double_color(FrameContext f)
+Color ColorDoubler::double_color(const FragmentContext& frag)
 {
-  string colorInputName("color");
-  Color in = getInputSocket<Color>(colorInputName)->input_signal->calculate_function(f);
+  Color in = colorSocket->calculate(frag);
   in.fromRGBA(in.asRGBA() * 2);
   return in;
-};
+}

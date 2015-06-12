@@ -1,5 +1,7 @@
 #include "app.h"
+
 #include <iostream>
+
 #include "color.h"
 #include "constant_color_component.h"
 #include "color_doubler.h"
@@ -11,6 +13,7 @@
 #include "incrementer.h"
 #include "engine.h"
 #include "loader.h"
+#include "compound_component.h"
 
 int main()
 {
@@ -21,56 +24,50 @@ int main()
 //  loader.loadJSON(filename);
 //  cout << "file loaded\n";
 
-  FrameContext f = FrameContext();
+  FrameContext f;
+  FragmentContext frag {Pixel()};
 
-  ConstantColorComponent c =  ConstantColorComponent();
-  string color("color"); //same name for I and O
-  cout << c.getOutput<Color>(color)->calculate_function(f).asRGBA();
-  cout << '\n';
-  ColorDoubler colorDoubler = ColorDoubler();
-  colorDoubler.wireInput<Color>(color, c.getOutput<Color>(color));
-  cout << colorDoubler.getOutput<Color>(color)->calculate_function(f).asRGBA();
-  cout << '\n';
+  ConstantColorComponent c;
+  cout << c.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
+
+  ColorDoubler colorDoubler;
+  colorDoubler.wireInput("color", c.getOutput<Color>("color"));
+  cout << colorDoubler.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
   
-  SquareWave sq = SquareWave();
-  string value("value");
+  SquareWave sq;
   
-  Signal<double> *ds = sq.getOutput<double>(value);
+  Signal<double> *ds = sq.getOutput<double>("value");
 
-  double d = ds->calculate_function(f);
-  cout << d;
-  cout << '\n';
+  double d = ds->calculate(frag);
+  cout << d << endl;
 
-  f.time = 0.8;
+  frag.time = 0.8;
 
-  cout << sq.getOutput<double>(value)->calculate_function(f);
-  cout << '\n';
+  cout << sq.getOutput<double>("value")->calculate(frag) << endl;
 
-  Incrementer incr = Incrementer();
-  incr.wireInput<Color>(color, colorDoubler.getOutput<Color>(color));
-  cout << incr.getOutput<Color>(color)->calculate_function(f).asRGBA();
-  cout << '\n';
+  Incrementer incr;
+  incr.wireInput("color", colorDoubler.getOutput<Color>("color"));
+  cout << incr.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
 
   incr.update(f);
-  cout << incr.getOutput<Color>(color)->calculate_function(f).asRGBA();
-  cout << '\n';
+  cout << incr.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
 
   incr.update(f);
-  cout << incr.getOutput<Color>(color)->calculate_function(f).asRGBA();
-  cout << '\n';
+  cout << incr.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
 
-  auto blueprint = make_shared<Blueprint>();
-  auto model = make_shared<Model>();
-  model->pixels = {make_shared<Pixel>()};
+  auto blueprint = unique_ptr<Blueprint> {new Blueprint()};
+  auto model = unique_ptr<Model> {new Model()};
+  model->pixels = {Pixel()};
   cout << model->pixels.size() << endl;
 
-  auto comp = make_shared<ConstantColorComponent>();
-  blueprint->addComponent(comp);
-  blueprint->outputSocket.input_signal = comp->getOutput<Color>(color);
+  auto compound = unique_ptr<CompoundComponent> {new CompoundComponent()};
+  auto comp = unique_ptr<ConstantColorComponent> {new ConstantColorComponent()};
+  compound->addSubcomponent(move(comp));
+  blueprint->outputSocket.signal = compound->getOutput<Color>("color");
+  blueprint->addSubcomponent(move(compound));
   
-  Engine e(blueprint, model);
-  e.outputs.push_back(make_shared<Output>());
-  e.startAndWait();
+  Engine engine(move(blueprint), move(model));
+  engine.startAndWait();
  
   return 0;
  }

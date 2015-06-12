@@ -3,11 +3,13 @@
 
 #include "pixel.h"
 
-class FragmentContext
-{
-  public:
-    FragmentContext(shared_ptr<Pixel> pixel);
-    virtual ~FragmentContext() {}
+class FragmentContext {
 
-    shared_ptr<Pixel> pixel;
+public:
+  FragmentContext(const Pixel &pixel_) : pixel(pixel_) {}
+  virtual ~FragmentContext() {}
+
+  const Pixel& pixel;
+  double time = 0;
+
 };

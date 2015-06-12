@@ -3,33 +3,41 @@
 #include "frame_context.h"
 #include "fragment_context.h"
 
-Engine::Engine(shared_ptr<Blueprint> blueprint_, shared_ptr<Model> model_)
-:blueprint(blueprint_)
-,model(model_)
-,frontColorBuffer(make_shared<vector<Color>>(model_->pixels.size()))
-,backColorBuffer(make_shared<vector<Color>>(model_->pixels.size())) {
+Engine::Engine(unique_ptr<Blueprint> blueprint_, unique_ptr<Model> model_)
+  :blueprint(move(blueprint_))
+  ,model(move(model_))
+{
+  frontColorBuffer = unique_ptr<vector<Color>> {new vector<Color>(model->pixels.size())};
+  backColorBuffer = unique_ptr<vector<Color>> {new vector<Color>(model->pixels.size())};
 }
 
-void Engine::start() {
+void Engine::start()
+{
   cout << "Starting Engine" << endl;
   engineThread = thread(&Engine::loop, this);
 }
 
-void Engine::startAndWait() {
+void Engine::startAndWait()
+{
   start();
   engineThread.join();
 }
 
-void Engine::stop() {
+void Engine::stop()
+{
 }
 
-void Engine::init() {
+void Engine::init()
+{
   startTime = high_resolution_clock::now();
   currentFrameTime = startTime;
   currentFrameNumber = 0;
+
+  blueprint->init();
 }
 
-void Engine::loop() {
+void Engine::loop()
+{
   init();
   while (true) {
     performLoopStep();
@@ -55,7 +63,8 @@ void Engine::loop() {
   }
 }
 
-void Engine::performLoopStep() {
+void Engine::performLoopStep()
+{
   // calculate how many frames we're going to catch up by
   auto loopTimeDelta = high_resolution_clock::now() - currentFrameTime;
   // limit catchup updates to 250ms total per loop step
@@ -84,27 +93,26 @@ void Engine::performLoopStep() {
   performRasterization();
 }
 
-void Engine::performFrameUpdate() {
+void Engine::performFrameUpdate()
+{
   FrameContext frameContext;
+
   // update components
-  for (auto component : blueprint->components) {
-    component->update(frameContext);
-  }
+  blueprint->update(frameContext);
 
   currentFrameTime += timePerFrame;
   currentFrameNumber++;
 }
 
-void Engine::performRasterization() {
+void Engine::performRasterization()
+{
   FrameContext frameContext;
 
   // rasterize to color buffer
   int i = 0;
-  for (auto pixel : model->pixels) {
+  for (const auto& pixel : model->pixels) {
     FragmentContext fragmentContext(pixel);
-    auto color = blueprint->outputSocket.input_signal->calculate_function(frameContext);
-    (*backColorBuffer)[i] = color;
-    i++;
+    (*backColorBuffer)[i++] = blueprint->render(fragmentContext);
   }
 
   swapColorBuffers();
@@ -112,20 +120,21 @@ void Engine::performRasterization() {
   // send color buffer changed notification
 }
 
-void Engine::copyColorBuffer(vector<Color> &colorBuffer) {
+void Engine::copyColorBuffer(vector<Color>& colorBuffer)
+{
   unique_lock<mutex> lock = acquireColorBufferLock();
 
   colorBuffer = {*frontColorBuffer};
 }
 
-void Engine::swapColorBuffers() {
+void Engine::swapColorBuffers()
+{
   unique_lock<mutex> lock = acquireColorBufferLock();
 
-  shared_ptr<vector<Color>> tempColorBuffer = frontColorBuffer;
-  frontColorBuffer = backColorBuffer;
-  backColorBuffer = tempColorBuffer;
+  swap(backColorBuffer, frontColorBuffer);
 }
 
-unique_lock<mutex> Engine::acquireColorBufferLock() {
+inline unique_lock<mutex> Engine::acquireColorBufferLock()
+{
   return unique_lock<mutex> {colorBufferMutex};
 }
