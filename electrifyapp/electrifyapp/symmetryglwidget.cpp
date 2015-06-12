@@ -17,9 +17,9 @@ void SymmetryGLWidget::populateModel()
     int i =0;
     for(auto p: model->pixels)
     {
-        vtx[i++] = (float) p->x;
-        vtx[i++] = (float) p->y;
-        vtx[i++] = (float) p->z;
+        vtx[i++] = (float) p.x;
+        vtx[i++] = (float) p.y;
+        vtx[i++] = (float) p.z;
     }
 }
 
