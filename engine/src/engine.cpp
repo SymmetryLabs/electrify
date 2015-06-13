@@ -3,9 +3,13 @@
 #include "frame_context.h"
 #include "fragment_context.h"
 
-Engine::Engine(unique_ptr<Blueprint> blueprint_, unique_ptr<Model> model_)
-  :blueprint(move(blueprint_))
+using namespace boost;
+
+Engine::Engine(unique_ptr<Renderable> renderable_, unique_ptr<Model> model_)
+  :renderable(move(renderable_))
   ,model(move(model_))
+  ,internalEventQueue(10)
+  ,keepRunning(ATOMIC_FLAG_INIT)
 {
   frontColorBuffer = unique_ptr<vector<Color>> {new vector<Color>(model->pixels.size())};
   backColorBuffer = unique_ptr<vector<Color>> {new vector<Color>(model->pixels.size())};
@@ -14,6 +18,7 @@ Engine::Engine(unique_ptr<Blueprint> blueprint_, unique_ptr<Model> model_)
 void Engine::start()
 {
   cout << "Starting Engine" << endl;
+  keepRunning.test_and_set();
   engineThread = thread(&Engine::loop, this);
 }
 
@@ -25,6 +30,13 @@ void Engine::startAndWait()
 
 void Engine::stop()
 {
+  keepRunning.clear();
+}
+
+void Engine::stopAndWait()
+{
+  stop();
+  engineThread.join();
 }
 
 void Engine::init()
@@ -33,16 +45,21 @@ void Engine::init()
   currentFrameTime = startTime;
   currentFrameNumber = 0;
 
-  blueprint->init();
+  renderable->initRenderable(*model);
+}
+
+void Engine::deinit()
+{
+  renderable->deinitRenderable();
 }
 
 void Engine::loop()
 {
   init();
-  while (true) {
+  while (keepRunning.test_and_set()) {
     performLoopStep();
 
-    auto nextFrameTime = currentFrameTime + timePerFrame;
+    auto nextFrameTime = currentFrameTime + TIME_PER_FRAME;
     constexpr static bool USE_IDLE_LOOP = false;
     if (USE_IDLE_LOOP) {
       while (nextFrameTime > high_resolution_clock::now()) {
@@ -61,6 +78,7 @@ void Engine::loop()
 
     // poll events
   }
+  deinit();
 }
 
 void Engine::performLoopStep()
@@ -71,21 +89,21 @@ void Engine::performLoopStep()
   constexpr auto maxLoopTimeDelta = duration_cast<nanoseconds>(milliseconds{250});
   if (loopTimeDelta > maxLoopTimeDelta) {
     loopTimeDelta = maxLoopTimeDelta;
-  } else if (loopTimeDelta < timePerFrame) {
+  } else if (loopTimeDelta < TIME_PER_FRAME) {
     // don't do any processing if we've been called too soon
     return;
   }
 
   // perform as many update loops as we need (within reason)
-  while (loopTimeDelta >= timePerFrame) {
+  while (loopTimeDelta >= TIME_PER_FRAME) {
     auto beginUpdateTime = high_resolution_clock::now();
 
     performFrameUpdate();
 
-    loopTimeDelta -= timePerFrame;
+    loopTimeDelta -= TIME_PER_FRAME;
 
     // Prevent runaway updates if updates take longer than a frame
-    if (high_resolution_clock::now() - beginUpdateTime >= timePerFrame) {
+    if (high_resolution_clock::now() - beginUpdateTime >= TIME_PER_FRAME) {
       break;
     }
   }
@@ -98,9 +116,9 @@ void Engine::performFrameUpdate()
   FrameContext frameContext;
 
   // update components
-  blueprint->update(frameContext);
+  renderable->updateRenderable(frameContext);
 
-  currentFrameTime += timePerFrame;
+  currentFrameTime += TIME_PER_FRAME;
   currentFrameNumber++;
 }
 
@@ -108,12 +126,7 @@ void Engine::performRasterization()
 {
   FrameContext frameContext;
 
-  // rasterize to color buffer
-  int i = 0;
-  for (const auto& pixel : model->pixels) {
-    FragmentContext fragmentContext(pixel);
-    (*backColorBuffer)[i++] = blueprint->render(fragmentContext);
-  }
+  renderable->renderRenderable(frameContext, *backColorBuffer.get());
 
   swapColorBuffers();
 
@@ -122,19 +135,14 @@ void Engine::performRasterization()
 
 void Engine::copyColorBuffer(vector<Color>& colorBuffer)
 {
-  unique_lock<mutex> lock = acquireColorBufferLock();
+  lock_guard<mutex> lock {colorBufferMutex};
 
   colorBuffer = {*frontColorBuffer};
 }
 
 void Engine::swapColorBuffers()
 {
-  unique_lock<mutex> lock = acquireColorBufferLock();
+  lock_guard<mutex> lock {colorBufferMutex};
 
   swap(backColorBuffer, frontColorBuffer);
-}
-
-inline unique_lock<mutex> Engine::acquireColorBufferLock()
-{
-  return unique_lock<mutex> {colorBufferMutex};
 }

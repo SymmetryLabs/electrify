@@ -7,5 +7,5 @@
 
 class Loader {
 public:
-	void loadJSON(string filename);
+  void loadJSON(string filename);
 };

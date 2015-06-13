@@ -3,8 +3,9 @@
 	[
 		{
 			"path": ".",
-			"folder_exclude_patterns": ["lib", "*.xcodeproj", "build", "documentation"],
-			"file_exclude_patterns": ["engine/src/*.d", "engine/src/*.o"]
+			"folder_exclude_patterns": ["lib", "*.xcodeproj", "build",
+				"documentation", "build-*"],
+			"file_exclude_patterns": ["engine/src/*.d", "engine/src/*.o", "*.user"]
 		}
 	],
 	"settings":

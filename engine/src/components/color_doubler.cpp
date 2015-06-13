@@ -1,15 +1,14 @@
 #include "color_doubler.h"
 
 ColorDoubler::ColorDoubler()
-  :colorSocket(new Socket<Color>())
 {
-  registerInput("color", unique_ptr<BaseSocket>(colorSocket));
-  registerOutput("color", &ColorDoubler::double_color);
+  registerInput("color", &colorInput);
+  registerOutput("color", &ColorDoubler::doubleColor);
 }
 
-Color ColorDoubler::double_color(const FragmentContext& frag)
+Color ColorDoubler::doubleColor(const FragmentContext& frag)
 {
-  Color in = colorSocket->calculate(frag);
+  Color in = colorInput->calculate(frag);
   in.fromRGBA(in.asRGBA() * 2);
   return in;
 }

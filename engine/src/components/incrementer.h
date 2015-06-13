@@ -8,12 +8,14 @@ class Incrementer : public Component {
 public:
   Incrementer();
   
-  void update(const FrameContext& frame) override;
-  Color increment_color(const FragmentContext& frag);
+  virtual void init();
+  virtual void update(const FrameContext& frame) override;
+
+  Color incrementColor(const FragmentContext& frag);
 
 private:
-  Socket<Color>* colorSocket;
+  Signal<Color>* colorInput;
   
-  int _increment = 0;
+  int increment;
 
 };

@@ -2,6 +2,7 @@
 #include "constants.h"
 
 #include "component.h"
+#include "socket.h"
 
 class CompoundComponent : public Component {
 
@@ -11,12 +12,27 @@ public:
 
   virtual void init() override;
   virtual void update(const FrameContext& f) override;
-  Color calculate_color(const FragmentContext& frag);
+
+  virtual bool isFullyWired() override;
 
   void addSubcomponent(unique_ptr<Component> subcomponent);
   void removeSubcomponent(const unique_ptr<Component>& subcomponent);
 
+  void wireSubcomponents(Component& emittingSubcomponent, string& emittingOutputName,
+    Component& receivingSubcomponent, string& receivingInputName);
+
+  template <typename V>
+  Socket<V>* registerWirableOutput(const string& name);
+  template <typename V>
+  Socket<V>* getWirableOutput(const string& name);
+
+  template <typename V>
+  void wireOutput(const string& name, Signal<V>* signal);
+
 private:
   vector<unique_ptr<Component>> subcomponents;
+  unordered_map<string, BaseSocket*> wirableOutputs;
 
 };
+
+#include "compound_component.tpp"

@@ -7,6 +7,7 @@ class SquareWave : public Component {
 
 public:
   SquareWave();
-  double calculate_value(const FragmentContext& frag);
+
+  double calculateValue(const FragmentContext& frag);
 
 };

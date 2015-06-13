@@ -8,7 +8,7 @@ QT       += core gui
 
 QMAKE_CXX = ccache g++
 
-CONFIG +=c++11
+CONFIG += c++11
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -29,6 +29,7 @@ win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../engine/build/release
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../engine/build/debug/ -lSymmetryEngine
 else:unix: LIBS += -L$$PWD/../../engine/build/ -lSymmetryEngine
 
+QMAKE_INCDIR += /usr/local/include
 INCLUDEPATH += $$PWD/../../engine/src
 INCLUDEPATH += $$PWD/../../engine/src/components
 INCLUDEPATH += $$PWD/../../engine/libs/jsoncpp

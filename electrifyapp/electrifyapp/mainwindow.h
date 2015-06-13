@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include "symmetryglwidget.h"
 
+#include "constants.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -15,7 +17,10 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-     SymmetryGLWidget *glwidget;
+     unique_ptr<SymmetryGLWidget> glwidget;
+     unique_ptr<Engine> engine;
+     unique_ptr<Output> output;
+
 protected:
 
     void timerEvent(QTimerEvent *event);

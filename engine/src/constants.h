@@ -9,3 +9,9 @@
 
 using namespace std;
 using namespace chrono;
+
+template<typename T>
+using unowned_ptr = T*;
+
+template<typename T>
+using unowned_ptr = T*;

@@ -2,7 +2,6 @@
 
 CompoundComponent::CompoundComponent()
 {
-  registerOutput("color", &CompoundComponent::calculate_color);
 }
 
 void CompoundComponent::init()
@@ -19,9 +18,17 @@ void CompoundComponent::update(const FrameContext& frame)
   }
 }
 
-Color CompoundComponent::calculate_color(const FragmentContext& frag)
+bool CompoundComponent::isFullyWired()
 {
-  return Color(255);
+  return Component::isFullyWired()
+    && all_of(subcomponents.begin(), subcomponents.end(),
+      [](const unique_ptr<Component>& comp) -> bool {
+        return comp->isFullyWired();
+      })
+    && all_of(wirableOutputs.begin(), wirableOutputs.end(),
+      [](unordered_map<string, BaseSocket*>::value_type& pair) -> bool {
+        return pair.second->hasSignal();
+      });
 }
 
 void CompoundComponent::addSubcomponent(unique_ptr<Component> subcomponent)
@@ -31,5 +38,12 @@ void CompoundComponent::addSubcomponent(unique_ptr<Component> subcomponent)
 
 void CompoundComponent::removeSubcomponent(const unique_ptr<Component>& subcomponent)
 {
+  // TODO: break connections
   subcomponents.erase(remove(subcomponents.begin(), subcomponents.end(), subcomponent), subcomponents.end());
+}
+
+void wireSubcomponents(Component& emittingSubcomponent, string& emittingOutputName,
+  Component& receivingSubcomponent, string& receivingInputName)
+{
+
 }

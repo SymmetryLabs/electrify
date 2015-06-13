@@ -7,9 +7,10 @@ class ColorDoubler : public Component {
 
 public:
   ColorDoubler();
-  Color double_color(const FragmentContext& frag);
+
+  Color doubleColor(const FragmentContext& frag);
 
 private:
-  Socket<Color>* colorSocket;
+  Signal<Color>* colorInput;
 
 };

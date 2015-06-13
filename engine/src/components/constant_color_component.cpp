@@ -2,10 +2,10 @@
 
 ConstantColorComponent::ConstantColorComponent()
 {
-  registerOutput("color", &ConstantColorComponent::calculate_color);
+  registerOutput("color", &ConstantColorComponent::calculateColor);
 }
 
-Color ConstantColorComponent::calculate_color(__attribute__((unused)) const FragmentContext& frag)
+Color ConstantColorComponent::calculateColor(__attribute__((unused)) const FragmentContext& frag)
 {
-  return Color(255);
-};
+  return Color(0xFFFF0000);
+}

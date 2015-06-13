@@ -15,18 +15,19 @@
 #include "engine.h"
 #include "loader.h"
 #include "compound_component.h"
+#include "blueprint.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    glwidget = new SymmetryGLWidget(this);
+    glwidget = unique_ptr<SymmetryGLWidget> {new SymmetryGLWidget(this)};
     ui->setupUi(this);
 
      string color("color"); //same name for I and O
 
-     auto blueprint = shared_ptr<Blueprint> {new Blueprint()};
-     auto model = shared_ptr<Model> {new Model()};
+     unique_ptr<Blueprint> blueprint {new Blueprint()};
+     unique_ptr<Model> model {new Model()};
 
     float edge = 2.0;
     float per_edge = 8.0;
@@ -44,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :
    }
     qDebug() << "model pixels size:" << model->pixels.size();
 
-      auto output = make_shared<Output>();
+      output = unique_ptr<Output> {new Output()};
       for(auto pixel : model->pixels)
       {
 
@@ -55,8 +56,8 @@ MainWindow::MainWindow(QWidget *parent) :
            output->colorBuffer.push_back(Color(pixel.x + pixel.y + pixel.z < 0.1 ? 0xFFFFFFFF : red + green + blue + 255));
       }
 
-        glwidget->setModel(model);
-        glwidget->setOutput(output);
+        glwidget->setModel(model.get());
+        glwidget->setOutput(output.get());
 
 
         /* file loading */
@@ -66,36 +67,36 @@ MainWindow::MainWindow(QWidget *parent) :
        //  loader.loadJSON(filename);
        //  cout << "file loaded\n";
 
-         FrameContext f;
-         FragmentContext frag {Pixel()};
+//         FrameContext f;
+//         FragmentContext frag {Pixel()};
 
-         ConstantColorComponent c;
-         cout << c.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
+//         ConstantColorComponent c;
+//         cout << c.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
 
-         ColorDoubler colorDoubler;
-         colorDoubler.wireInput("color", c.getOutput<Color>("color"));
-         cout << colorDoubler.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
+//         ColorDoubler colorDoubler;
+//         colorDoubler.wireInput("color", c.getOutput<Color>("color"));
+//         cout << colorDoubler.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
 
-         SquareWave sq;
+//         SquareWave sq;
 
-         Signal<double> *ds = sq.getOutput<double>("value");
+//         Signal<double> *ds = sq.getOutput<double>("value");
 
-         double d = ds->calculate(frag);
-         cout << d << endl;
+//         double d = ds->calculate(frag);
+//         cout << d << endl;
 
-         frag.time = 0.8;
+//         frag.time = 0.8;
 
-         cout << sq.getOutput<double>("value")->calculate(frag) << endl;
+//         cout << sq.getOutput<double>("value")->calculate(frag) << endl;
 
-         Incrementer incr;
-         incr.wireInput("color", colorDoubler.getOutput<Color>("color"));
-         cout << incr.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
+//         Incrementer incr;
+//         incr.wireInput("color", colorDoubler.getOutput<Color>("color"));
+//         cout << incr.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
 
-         incr.update(f);
-         cout << incr.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
+//         incr.update(f);
+//         cout << incr.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
 
-         incr.update(f);
-         cout << incr.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
+//         incr.update(f);
+//         cout << incr.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
 
 
 
@@ -105,11 +106,29 @@ MainWindow::MainWindow(QWidget *parent) :
 //         blueprint->outputSocket.signal = compound->getOutput<Color>("color");
 //         blueprint->addSubcomponent(move(compound));
 
-//         Engine engine(move(blueprint), move(model));
-//         engine.startAndWait();
+    unique_ptr<CompoundComponent> compound {new CompoundComponent()};
+    compound->registerWirableOutput<Color>("color");
 
-      ui->verticalLayout->addWidget(glwidget);
-      startTimer(16);
+    unique_ptr<ConstantColorComponent> constantColor {new ConstantColorComponent()};
+    unique_ptr<Incrementer> incrementer {new Incrementer()};
+
+    incrementer->wireInput("color", constantColor->getOutput<Color>("color"));
+    compound->wireOutput("color", incrementer->getOutput<Color>("color"));
+
+    compound->addSubcomponent(std::move(incrementer));
+    compound->addSubcomponent(std::move(constantColor));
+
+    blueprint->wireOutput("color", compound->getOutput<Color>("color"));
+    blueprint->addSubcomponent(std::move(compound));
+
+    qDebug() << "Is blueprint fully wired:" << blueprint->isFullyWired();
+
+    engine = unique_ptr<Engine> {new Engine(std::move(blueprint), std::move(model))};
+    glwidget->engine = engine.get();
+    engine->start();
+
+    ui->verticalLayout->addWidget(glwidget.get());
+    startTimer(16);
 }
 
 void MainWindow::timerEvent(__attribute__((unused)) QTimerEvent *event)
@@ -120,4 +139,5 @@ void MainWindow::timerEvent(__attribute__((unused)) QTimerEvent *event)
 MainWindow::~MainWindow()
 {
     delete ui;
+    engine->stopAndWait();
 }

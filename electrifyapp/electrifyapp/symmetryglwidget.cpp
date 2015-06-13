@@ -25,6 +25,8 @@ void SymmetryGLWidget::populateModel()
 
 void SymmetryGLWidget::populateColors()
 {
+    engine->copyColorBuffer(output->colorBuffer);
+
     int i = 0;
     for(auto c: output->colorBuffer)
     {

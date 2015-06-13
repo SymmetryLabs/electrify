@@ -1,20 +1,24 @@
 #include "incrementer.h"
 
 Incrementer::Incrementer()
-  :colorSocket(new Socket<Color>())
 {
-  registerInput("color", unique_ptr<BaseSocket>(colorSocket));
-  registerOutput("color", &Incrementer::increment_color);
+  registerInput("color", &colorInput);
+  registerOutput("color", &Incrementer::incrementColor);
 }
 
-Color Incrementer::increment_color(const FragmentContext& frag)
+void Incrementer::init()
 {
-  Color in = colorSocket->calculate(frag);
-  in.fromRGBA(in.asRGBA() + _increment);
-  return in;
+  increment = 0;
 }
 
 void Incrementer::update(const FrameContext& frame)
 {
-	_increment++;
+  increment = (increment + 0x100) % 0x10000;
+}
+
+Color Incrementer::incrementColor(const FragmentContext& frag)
+{
+  Color in = colorInput->calculate(frag);
+  in.fromRGBA(in.asRGBA() + increment);
+  return in;
 }

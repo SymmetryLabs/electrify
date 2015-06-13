@@ -14,6 +14,7 @@
 #include "engine.h"
 #include "loader.h"
 #include "compound_component.h"
+#include "blueprint.h"
 
 int main()
 {
@@ -28,11 +29,11 @@ int main()
   FragmentContext frag {Pixel()};
 
   ConstantColorComponent c;
-  cout << c.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
+  cout << hex << c.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
 
   ColorDoubler colorDoubler;
   colorDoubler.wireInput("color", c.getOutput<Color>("color"));
-  cout << colorDoubler.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
+  cout << hex << colorDoubler.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
   
   SquareWave sq;
   
@@ -47,24 +48,29 @@ int main()
 
   Incrementer incr;
   incr.wireInput("color", colorDoubler.getOutput<Color>("color"));
-  cout << incr.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
+  cout << hex << incr.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
 
   incr.update(f);
-  cout << incr.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
+  cout << hex << incr.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
 
   incr.update(f);
-  cout << incr.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
+  cout << hex << incr.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
 
-  auto blueprint = unique_ptr<Blueprint> {new Blueprint()};
-  auto model = unique_ptr<Model> {new Model()};
+  unique_ptr<Blueprint> blueprint {new Blueprint()};
+  unique_ptr<Model> model {new Model()};
   model->pixels = {Pixel()};
-  cout << model->pixels.size() << endl;
 
-  auto compound = unique_ptr<CompoundComponent> {new CompoundComponent()};
-  auto comp = unique_ptr<ConstantColorComponent> {new ConstantColorComponent()};
+  unique_ptr<CompoundComponent> compound {new CompoundComponent()};
+  compound->registerWirableOutput<Color>("color");
+
+  unique_ptr<ConstantColorComponent> comp {new ConstantColorComponent()};
+  compound->wireOutput("color", comp->getOutput<Color>("color"));
   compound->addSubcomponent(move(comp));
-  blueprint->outputSocket.signal = compound->getOutput<Color>("color");
+
+  blueprint->wireOutput("color", compound->getOutput<Color>("color"));
   blueprint->addSubcomponent(move(compound));
+
+  cout << "Is blueprint fully wired: " << blueprint->isFullyWired() << endl;
   
   Engine engine(move(blueprint), move(model));
   engine.startAndWait();

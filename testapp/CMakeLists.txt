@@ -10,3 +10,6 @@ target_link_libraries (testapp SymmetryEngine)
 include_directories ("${PROJECT_SOURCE_DIR}/../engine/src")
 include_directories ("${PROJECT_SOURCE_DIR}/../engine/src/components")
 include_directories ("${PROJECT_SOURCE_DIR}/../engine/libs/jsoncpp")
+
+find_package(Boost REQUIRED)
+include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
