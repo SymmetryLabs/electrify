@@ -21,7 +21,8 @@ Notes
 
 Frameworks
 -----
-* Building [cmake] (http://www.cmake.org/)
+* Code [Boost](http://www.boost.org/)
+* Building [cmake](http://www.cmake.org/)
 * Testing: [catch](https://github.com/philsquared/Catch)
 * Documentation: [doxygen](http://www.stack.nl/~dimitri/doxygen/)
 * JSON: [jsoncpp](https://github.com/open-source-parsers/jsoncpp)
