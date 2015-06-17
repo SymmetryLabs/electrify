@@ -8,7 +8,7 @@ struct FrameContext {
 
   const nanoseconds time;
 
-  const double timeSeconds() const {
+  double timeSeconds() const {
     return duration_cast<duration<double>>(time).count();
   }
 
