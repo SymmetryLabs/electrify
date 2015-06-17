@@ -16,6 +16,9 @@
 #include "loader.h"
 #include "compound_component.h"
 #include "blueprint.h"
+#include "hsv_component.h"
+#include "saw_wave.h"
+#include "constant_component.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -118,8 +121,25 @@ MainWindow::MainWindow(QWidget *parent) :
     compound->addSubcomponent(std::move(incrementer));
     compound->addSubcomponent(std::move(constantColor));
 
-    blueprint->wireOutput("color", compound->getOutput<Color>("color"));
+
+    unique_ptr<CompoundComponent> compound2 {new CompoundComponent()};
+    compound2->registerWirableOutput<Color>("color");
+
+    unique_ptr<HsvComponent> hsvComponent {new HsvComponent()};
+    unique_ptr<SawWave> sawWaveComponent {new SawWave()};
+    unique_ptr<ConstantComponent<double>> frequency {new ConstantComponent<double>(1.0 / 10)};
+
+    sawWaveComponent->wireInput("frequency", frequency->getOutput<double>("value"));
+    hsvComponent->wireInput("hue", sawWaveComponent->getOutput<Color>("value"));
+    compound2->wireOutput("color", hsvComponent->getOutput<Color>("value"));
+
+    compound2->addSubcomponent(std::move(frequency));
+    compound2->addSubcomponent(std::move(sawWaveComponent));
+    compound2->addSubcomponent(std::move(hsvComponent));
+
+    blueprint->wireOutput("color", compound2->getOutput<Color>("color"));
     blueprint->addSubcomponent(std::move(compound));
+    blueprint->addSubcomponent(std::move(compound2));
 
     qDebug() << "Is blueprint fully wired:" << blueprint->isFullyWired();
 

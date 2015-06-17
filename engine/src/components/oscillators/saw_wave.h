@@ -3,7 +3,7 @@
 
 #include "waveform.h"
 
-class SawtoothWave : public Waveform {
+class SawWave : public Waveform {
 
 public:
   double calculate(const FragmentContext& frag) const override;
