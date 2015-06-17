@@ -112,8 +112,8 @@ MainWindow::MainWindow(QWidget *parent) :
     unique_ptr<ConstantColorComponent> constantColor {new ConstantColorComponent()};
     unique_ptr<Incrementer> incrementer {new Incrementer()};
 
-    incrementer->wireInput("color", constantColor->getOutput<Color>("color"));
-    compound->wireOutput("color", incrementer->getOutput<Color>("color"));
+    incrementer->wireInput("color", constantColor->getOutput<Color>("value"));
+    compound->wireOutput("color", incrementer->getOutput<Color>("value"));
 
     compound->addSubcomponent(std::move(incrementer));
     compound->addSubcomponent(std::move(constantColor));

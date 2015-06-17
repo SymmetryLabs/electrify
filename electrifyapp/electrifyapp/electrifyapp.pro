@@ -32,5 +32,6 @@ else:unix: LIBS += -L$$PWD/../../engine/build/ -lSymmetryEngine
 QMAKE_INCDIR += /usr/local/include
 INCLUDEPATH += $$PWD/../../engine/src
 INCLUDEPATH += $$PWD/../../engine/src/components
+INCLUDEPATH += $$PWD/../../engine/src/components/oscillators
 INCLUDEPATH += $$PWD/../../engine/libs/jsoncpp
 DEPENDPATH += $$PWD/../../engine/src

@@ -1,13 +1,11 @@
 #pragma once
 #include "constants.h"
 
-#include "component.h"
+#include "basic_component.h"
 
-class ConstantColorComponent : public Component {
+class ConstantColorComponent : public BasicComponent<Color> {
 
 public:
-  ConstantColorComponent();
-
-  Color calculateColor(__attribute__((unused)) const FragmentContext& frag);
+  Color calculate(const FragmentContext& frag) const override;
 
 };

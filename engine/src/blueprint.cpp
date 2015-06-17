@@ -27,7 +27,7 @@ void Blueprint::renderRenderable(const FrameContext& frame, vector<Color>& color
   // rasterize to color buffer
   int i = 0;
   for (const auto& pixel : model->pixels) {
-    FragmentContext frag(pixel);
+    FragmentContext frag(pixel, frame);
     colorBuffer[i++] = output->calculate(frag);
   }
 }

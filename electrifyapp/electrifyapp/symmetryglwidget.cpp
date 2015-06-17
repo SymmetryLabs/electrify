@@ -104,8 +104,9 @@ void SymmetryGLWidget::paintGL()
 
     QMatrix4x4 matrix;
     matrix.setToIdentity();
-    matrix.translate(0.0, 0.0, -5.0);
-    matrix.rotate(m_t, 0, 1, 0);
+    matrix.translate(.9, -1.2, -5.0);
+    matrix.rotate(180, 0, 1, 0);
+    matrix.rotate(-10, 1, 0, 0);
     m_t++;
     m_program->setUniformValue(0, projection * matrix );
 

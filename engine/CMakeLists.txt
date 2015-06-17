@@ -4,6 +4,7 @@ project (SymmetryEngine)
 file(GLOB HEADERS
   src
   src/components
+  src/components/oscillators
 )
 include_directories(${HEADERS})
 

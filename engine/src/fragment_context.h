@@ -2,14 +2,13 @@
 #include "constants.h"
 
 #include "pixel.h"
+#include "frame_context.h"
 
-class FragmentContext {
+struct FragmentContext : public FrameContext {
 
-public:
-  FragmentContext(const Pixel &pixel_) : pixel(pixel_) {}
+  FragmentContext(const Pixel& pixel_, const FrameContext& frame) : FrameContext(frame), pixel(pixel_) {}
   virtual ~FragmentContext() {}
 
   const Pixel& pixel;
-  double time = 0;
 
 };

@@ -17,7 +17,7 @@ public:
   virtual void renderRenderable(const FrameContext& frame, vector<Color>& colorBuffer) override;
 
 private:
-  Socket<Color>* output;
-  const Model* model;
+  Socket<Color>* output = nullptr;
+  const Model* model = nullptr;
 
 };

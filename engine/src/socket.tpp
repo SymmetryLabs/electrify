@@ -11,14 +11,19 @@ bool Socket<V>::hasSignal()
 }
 
 template <typename V>
-V Socket<V>::calculate(const FragmentContext& frag)
+V Socket<V>::calculate(const FragmentContext& frag) const
 {
-  return signal->calculate(frag);
+  return signal ? signal->calculate(frag) : defaultValue.calculate(frag);
 }
 
 template <typename V>
-void ProxySocket<V>::setSignal(Signal<V>* signal_)
+void ProxySocket<V>::setSignal(Signal<V>* signal)
 {
-  Socket<V>::setSignal(signal_);
-  *signalAddr = signal_;
+  Socket<V>::setSignal(signal);
+  if (signalAddr) {
+    *signalAddr = signal;
+  }
+  if (signalFunctionAddr) {
+    *signalFunctionAddr = SignalFunction<V>(signal ? signal : &this->defaultValue);
+  }
 }

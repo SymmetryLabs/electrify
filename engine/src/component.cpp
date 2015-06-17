@@ -16,3 +16,8 @@ void Component::registerOutput(const string& name, unique_ptr<BaseSignal> signal
 {
   outputs[name] = move(signal);
 }
+
+void Component::registerParameter(const string& name, unique_ptr<BaseParameter> parameter)
+{
+  parameters[name] = move(parameter);
+}

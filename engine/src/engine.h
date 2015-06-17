@@ -38,6 +38,7 @@ private:
 
   thread engineThread;
   boost::lockfree::queue<function<void()>*> internalEventQueue;
+  bool shouldStopAfter2Seconds = false;
 
   unique_ptr<vector<Color>> frontColorBuffer;
   unique_ptr<vector<Color>> backColorBuffer;
@@ -45,7 +46,7 @@ private:
 
   high_resolution_clock::time_point startTime;
   high_resolution_clock::time_point currentFrameTime;
-  long currentFrameNumber;
+  long currentFrameNumber = 0;
 
   void init();
   void deinit();
