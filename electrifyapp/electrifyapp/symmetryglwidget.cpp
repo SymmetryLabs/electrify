@@ -93,7 +93,7 @@ void SymmetryGLWidget::paintGL()
     qreal aspect = qreal(m_viewportSize.width()) / qreal( m_viewportSize.height() ?  m_viewportSize.height() : 1);
 
     // Set near plane to 3.0, far plane to 7.0, field of view 45 degrees
-    const qreal zNear = 3.0, zFar = 7.0, fov = 45.0;
+    const qreal zNear = 3.0, zFar = 1000.0, fov = 45.0;
 
     // Reset projection
     QMatrix4x4 projection;
@@ -104,7 +104,7 @@ void SymmetryGLWidget::paintGL()
 
     QMatrix4x4 matrix;
     matrix.setToIdentity();
-    matrix.translate(0.0, 0.0, -5.0);
+    matrix.translate(0.0, -150.0, -400.0);
     matrix.rotate(m_t, 0, 1, 0);
     m_t++;
     m_program->setUniformValue(0, projection * matrix );

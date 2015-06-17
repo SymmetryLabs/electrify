@@ -27,45 +27,28 @@ MainWindow::MainWindow(QWidget *parent) :
      string color("color"); //same name for I and O
 
      unique_ptr<Blueprint> blueprint {new Blueprint()};
-     unique_ptr<Model> model {new Model()};
 
-    float edge = 2.0;
-    float per_edge = 8.0;
-    float step = edge/per_edge;
+     /* file loading */
+      qDebug() << "trying to load json file\n";
+      Loader loader = Loader();
+      string filename("data/cubesExport2.json");
+      qDebug() << "file loaded\n";
 
-   for(int i=0; i<per_edge;i++)
-   {
-       for(int j=0; j<per_edge; j++)
-       {
-           for(int k=0; k<per_edge; k++)
-           {
-            model->pixels.push_back(Pixel(step*j, step*i, step*k));
-           }
-       }
-   }
+
+     unique_ptr<Model> model = loader.loadJSON(filename);
+
     qDebug() << "model pixels size:" << model->pixels.size();
 
       output = unique_ptr<Output> {new Output()};
       for(auto pixel : model->pixels)
       {
-
-          unsigned long red = (unsigned long) ((pixel.x/edge)*255) << 24 & 0xFF000000;
-          unsigned long green = (unsigned long) ((pixel.z/edge)*255) << 16 & 0xFF0000;
-          unsigned long blue = (unsigned long) ((pixel.y/edge)*255) << 8 & 0xFF00;
-
-           output->colorBuffer.push_back(Color(pixel.x + pixel.y + pixel.z < 0.1 ? 0xFFFFFFFF : red + green + blue + 255));
+            output->colorBuffer.push_back(Color(0xFFFFFFFF));
       }
 
         glwidget->setModel(model.get());
         glwidget->setOutput(output.get());
 
 
-        /* file loading */
-       //  cout << "trying to load file\n";
-       //  Loader loader = Loader();
-       //  string filename("data/dummydata.json");
-       //  loader.loadJSON(filename);
-       //  cout << "file loaded\n";
 
 //         FrameContext f;
 //         FragmentContext frag {Pixel()};
