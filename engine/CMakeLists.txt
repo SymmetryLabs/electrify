@@ -11,8 +11,10 @@ include_directories(${HEADERS})
 file(GLOB_RECURSE SRCS
   "src/*.cpp"
   "libs/jsoncpp/*.cpp"
+  "libs/FastLED/*.cpp"
 )
 include_directories("libs/jsoncpp")
+include_directories("libs/FastLED")
 
 find_package(Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
