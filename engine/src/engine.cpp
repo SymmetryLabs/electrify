@@ -24,6 +24,7 @@ void Engine::start()
 
 void Engine::startAndWait()
 {
+  shouldStopAfter2Seconds = true;
   start();
   engineThread.join();
 }
@@ -51,6 +52,7 @@ void Engine::init()
 void Engine::deinit()
 {
   renderable->deinitRenderable();
+  cout << "Engine stopped" << endl;
 }
 
 void Engine::loop()
@@ -72,9 +74,9 @@ void Engine::loop()
     // auto wakeupOffBy = high_resolution_clock::now() - nextFrameTime;
     // cout << "cycle " << duration_cast<nanoseconds>(wakeupOffBy).count() << endl;
 
-    // if (currentFrameNumber > 100) {
-    //   break;
-    // }
+    if (shouldStopAfter2Seconds && currentFrameNumber > 100) {
+      break;
+    }
 
     // poll events
   }
@@ -113,19 +115,16 @@ void Engine::performLoopStep()
 
 void Engine::performFrameUpdate()
 {
-  FrameContext frameContext;
-
-  // update components
-  renderable->updateRenderable(frameContext);
-
   currentFrameTime += TIME_PER_FRAME;
   currentFrameNumber++;
+
+  FrameContext frameContext(currentFrameTime - startTime);
+  renderable->updateRenderable(frameContext);
 }
 
 void Engine::performRasterization()
 {
-  FrameContext frameContext;
-
+  FrameContext frameContext(currentFrameTime - startTime);
   renderable->renderRenderable(frameContext, *backColorBuffer.get());
 
   swapColorBuffers();

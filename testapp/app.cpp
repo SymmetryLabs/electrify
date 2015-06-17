@@ -1,5 +1,4 @@
 #include "app.h"
-
 #include <iostream>
 
 #include "color.h"
@@ -25,15 +24,15 @@ int main()
 //  loader.loadJSON(filename);
 //  cout << "file loaded\n";
 
-  FrameContext f;
-  FragmentContext frag {Pixel()};
+  FrameContext f {nanoseconds(100)};
+  FragmentContext frag {Pixel(), f};
 
   ConstantColorComponent c;
-  cout << hex << c.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
+  cout << c.getOutput<Color>("value")->calculate(frag) << endl;
 
   ColorDoubler colorDoubler;
-  colorDoubler.wireInput("color", c.getOutput<Color>("color"));
-  cout << hex << colorDoubler.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
+  colorDoubler.wireInput("color", c.getOutput<Color>("value"));
+  cout << colorDoubler.getOutput<Color>("value")->calculate(frag) << endl;
   
   SquareWave sq;
   
@@ -42,19 +41,17 @@ int main()
   double d = ds->calculate(frag);
   cout << d << endl;
 
-  frag.time = 0.8;
-
   cout << sq.getOutput<double>("value")->calculate(frag) << endl;
 
   Incrementer incr;
-  incr.wireInput("color", colorDoubler.getOutput<Color>("color"));
-  cout << hex << incr.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
+  incr.wireInput("color", colorDoubler.getOutput<Color>("value"));
+  cout << incr.getOutput<Color>("value")->calculate(frag) << endl;
 
   incr.update(f);
-  cout << hex << incr.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
+  cout << incr.getOutput<Color>("value")->calculate(frag) << endl;
 
   incr.update(f);
-  cout << hex << incr.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
+  cout << incr.getOutput<Color>("value")->calculate(frag) << endl;
 
   unique_ptr<Blueprint> blueprint {new Blueprint()};
   unique_ptr<Model> model {new Model()};
@@ -64,7 +61,7 @@ int main()
   compound->registerWirableOutput<Color>("color");
 
   unique_ptr<ConstantColorComponent> comp {new ConstantColorComponent()};
-  compound->wireOutput("color", comp->getOutput<Color>("color"));
+  compound->wireOutput("color", comp->getOutput<Color>("value"));
   compound->addSubcomponent(move(comp));
 
   blueprint->wireOutput("color", compound->getOutput<Color>("color"));

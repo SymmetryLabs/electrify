@@ -17,15 +17,19 @@ template <typename V>
 class Socket : public BaseSocket, public Signal<V> {
 
 public:
+  Socket(V defaultValue_) : BaseSocket(typeid(V)), defaultValue(ConstantSignal<V>(defaultValue_)) {}
   Socket() : BaseSocket(typeid(V)) {}
   virtual ~Socket() {}
 
   virtual void setSignal(Signal<V>* signal_);
   virtual bool hasSignal() override;
-  virtual V calculate(const FragmentContext& frag) override;
+  virtual V calculate(const FragmentContext& frag) const override;
+
+protected:
+  ConstantSignal<V> defaultValue;
 
 private:
-  Signal<V>* signal;
+  Signal<V>* signal = nullptr;
 
 };
 
@@ -34,12 +38,16 @@ class ProxySocket : public Socket<V> {
 
 public:
   ProxySocket(Signal<V>** signalAddr_) : signalAddr(signalAddr_) {}
+  ProxySocket(SignalFunction<V>* signalFunctionAddr_, V defaultValue)
+    :Socket<V>(defaultValue)
+    ,signalFunctionAddr(signalFunctionAddr_) { setSignal(nullptr); }
   virtual ~ProxySocket() {}
 
   virtual void setSignal(Signal<V>* signal) override;
 
 private:
-  Signal<V>** signalAddr;
+  Signal<V>** signalAddr = nullptr;
+  SignalFunction<V>* signalFunctionAddr = nullptr;
 
 };
 

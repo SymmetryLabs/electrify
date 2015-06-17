@@ -1,7 +1,7 @@
 #include <chrono>
 #include <functional>
 #include <iostream>
-#include <math.h>
+#include <cmath>
 #include <memory>
 #include <string>
 #include <typeindex>
@@ -9,9 +9,3 @@
 
 using namespace std;
 using namespace chrono;
-
-template<typename T>
-using unowned_ptr = T*;
-
-template<typename T>
-using unowned_ptr = T*;

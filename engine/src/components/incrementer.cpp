@@ -3,7 +3,6 @@
 Incrementer::Incrementer()
 {
   registerInput("color", &colorInput);
-  registerOutput("color", &Incrementer::incrementColor);
 }
 
 void Incrementer::init()
@@ -16,9 +15,9 @@ void Incrementer::update(const FrameContext& frame)
   increment = (increment + 0x100) % 0x10000;
 }
 
-Color Incrementer::incrementColor(const FragmentContext& frag)
+Color Incrementer::calculate(const FragmentContext& frag) const
 {
-  Color in = colorInput->calculate(frag);
+  Color in = colorInput(frag);
   in.fromRGBA(in.asRGBA() + increment);
   return in;
 }

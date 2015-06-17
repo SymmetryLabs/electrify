@@ -5,7 +5,6 @@
 #include <functional>
 #include <unordered_map>
 
-#include "observer.h"
 #include "pixel.h"
 #include "group.h"
 #include "color.h"
@@ -20,7 +19,7 @@
  * outputs.
  * A component can contain other components.
  */
-class Component : public Observable, public Observer  {
+class Component  {
 
 public:
   Component() {}
@@ -28,8 +27,6 @@ public:
 
   virtual void init() {}
   virtual void deinit() {}
-
-  virtual void notify(/*TODO PASSING FORMAT*/) {}
 
   /**
    * Tells the component to update its model according to the current time
@@ -46,6 +43,9 @@ public:
   void registerInput(const string& name, Signal<V>** inputAddr);
 
   template <typename V>
+  void registerInput(const string& name, SignalFunction<V>* inputAddr, const V defaultValue = V());
+
+  template <typename V>
   Socket<V>* getInput(const string& name) const;
 
   template <typename V>
@@ -57,14 +57,14 @@ public:
 
   template <typename V, typename C>
   void registerOutput(const string& name, 
-    V (C::* calculate_function_)(const FragmentContext& frag));
+    V (C::* calculate_function_)(const FragmentContext& frag) const);
 
   template <typename V>
   Signal<V>* getOutput(const string& name) const;
 
   // Parameter
 
-  // void registerParameter()
+  void registerParameter(const string& name, unique_ptr<BaseParameter> parameter);
 
 private:
   unordered_map<string, unique_ptr<BaseSocket>> inputs;

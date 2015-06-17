@@ -1,9 +1,9 @@
 #pragma once
 #include "constants.h"
 
-#include "component.h"
+#include "basic_component.h"
 
-class Incrementer : public Component {
+class Incrementer : public BasicComponent<Color> {
 
 public:
   Incrementer();
@@ -11,11 +11,11 @@ public:
   virtual void init();
   virtual void update(const FrameContext& frame) override;
 
-  Color incrementColor(const FragmentContext& frag);
+  Color calculate(const FragmentContext& frag) const override;
 
 private:
-  Signal<Color>* colorInput;
+  SignalFunction<Color> colorInput;
   
-  int increment;
+  int increment = 0;
 
 };

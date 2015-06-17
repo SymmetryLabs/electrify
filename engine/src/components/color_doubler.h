@@ -1,16 +1,16 @@
 #pragma once
 #include "constants.h"
 
-#include "component.h"
+#include "basic_component.h"
 
-class ColorDoubler : public Component {
+class ColorDoubler : public BasicComponent<Color> {
 
 public:
   ColorDoubler();
 
-  Color doubleColor(const FragmentContext& frag);
+  Color calculate(const FragmentContext& frag) const override;
 
 private:
-  Signal<Color>* colorInput;
+  SignalFunction<Color> colorInput;
 
 };

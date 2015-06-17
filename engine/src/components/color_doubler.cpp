@@ -3,12 +3,11 @@
 ColorDoubler::ColorDoubler()
 {
   registerInput("color", &colorInput);
-  registerOutput("color", &ColorDoubler::doubleColor);
 }
 
-Color ColorDoubler::doubleColor(const FragmentContext& frag)
+Color ColorDoubler::calculate(const FragmentContext& frag) const
 {
-  Color in = colorInput->calculate(frag);
+  Color in = colorInput(frag);
   in.fromRGBA(in.asRGBA() * 2);
   return in;
 }
