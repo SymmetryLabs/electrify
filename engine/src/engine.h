@@ -3,6 +3,7 @@
 
 #include <atomic>
 #include <thread>
+#include <mutex>
 #include <boost/lockfree/queue.hpp>
 
 #include "component.h"
