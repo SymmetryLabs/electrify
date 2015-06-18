@@ -6,7 +6,7 @@
 class Model {
 
 public:
-  vector<Pixel> pixels;
-  Group root;
+  vector<Pixel*> pixels;
+  Group *root;
 
 };
