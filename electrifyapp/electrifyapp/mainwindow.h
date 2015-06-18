@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include "symmetryglwidget.h"
 
-#include "constants.h"
+#include "globals.h"
 
 namespace Ui {
 class MainWindow;

@@ -1,5 +1,5 @@
 #pragma once
-#include "constants.h"
+#include "globals.h"
 #include "group.h"
 #include "pixel.h"
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "constants.h"
+#include "globals.h"
 
 #include "component.h"
 #include "fragment_context.h"

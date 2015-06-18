@@ -1,5 +1,5 @@
 #pragma once
-#include "constants.h"
+#include "globals.h"
 
 #include "compound_component.h"
 #include "renderable.h"
