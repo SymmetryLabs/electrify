@@ -55,7 +55,7 @@ int main()
 
   unique_ptr<Blueprint> blueprint {new Blueprint()};
   unique_ptr<Model> model {new Model()};
-  model->pixels = {Pixel()};
+  model->pixels = {new Pixel()};
 
   unique_ptr<CompoundComponent> compound {new CompoundComponent()};
   compound->registerWirableOutput<Color>("color");
