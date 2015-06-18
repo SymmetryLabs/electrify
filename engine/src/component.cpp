@@ -1,5 +1,7 @@
 #include "component.h"
 
+#include <algorithm>
+
 bool Component::isFullyWired()
 {
   return all_of(inputs.begin(), inputs.end(), [](unordered_map<string, unique_ptr<BaseSocket>>::value_type& pair) -> bool {

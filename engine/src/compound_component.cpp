@@ -1,5 +1,7 @@
 #include "compound_component.h"
 
+#include <algorithm>
+
 CompoundComponent::CompoundComponent()
 {
 }
