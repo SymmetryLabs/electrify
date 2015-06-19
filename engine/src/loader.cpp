@@ -2,7 +2,7 @@
 
 unique_ptr<Model> Loader::loadJSON(string filename)
 {
-  unique_ptr<Model> m(new Model);
+  auto m = make_unique<Model>();
   ifstream in(filename.c_str());
   Json::Value model_json;
   in >> model_json;

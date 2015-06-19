@@ -53,14 +53,14 @@ int main()
   incr.update(f);
   cout << incr.getOutput<Color>("value")->calculate(frag) << endl;
 
-  unique_ptr<Blueprint> blueprint {new Blueprint()};
-  unique_ptr<Model> model {new Model()};
+  auto blueprint = make_unique<Blueprint>();
+  auto model = make_unique<Model>();
   model->pixels = {new Pixel()};
 
-  unique_ptr<CompoundComponent> compound {new CompoundComponent()};
+  auto compound = make_unique<CompoundComponent>();
   compound->registerWirableOutput<Color>("color");
 
-  unique_ptr<ConstantColorComponent> comp {new ConstantColorComponent()};
+  auto comp = make_unique<ConstantColorComponent>();
   compound->wireOutput("color", comp->getOutput<Color>("value"));
   compound->addSubcomponent(move(comp));
 

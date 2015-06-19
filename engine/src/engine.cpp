@@ -11,8 +11,8 @@ Engine::Engine(unique_ptr<Renderable> renderable_, unique_ptr<Model> model_)
   ,internalEventQueue(10)
   ,keepRunning(ATOMIC_FLAG_INIT)
 {
-  frontColorBuffer = unique_ptr<vector<Color>> {new vector<Color>(model->pixels.size())};
-  backColorBuffer = unique_ptr<vector<Color>> {new vector<Color>(model->pixels.size())};
+  frontColorBuffer = make_unique<vector<Color>>(model->pixels.size());
+  backColorBuffer = make_unique<vector<Color>>(model->pixels.size());
 }
 
 void Engine::start()

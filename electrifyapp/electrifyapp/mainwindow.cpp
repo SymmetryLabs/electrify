@@ -24,12 +24,12 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    glwidget = unique_ptr<SymmetryGLWidget> {new SymmetryGLWidget(this)};
+    glwidget = make_unique<SymmetryGLWidget>(this);
     ui->setupUi(this);
 
      string color("color"); //same name for I and O
 
-     unique_ptr<Blueprint> blueprint {new Blueprint()};
+     auto blueprint = make_unique<Blueprint>();
 
      /* file loading */
       qDebug() << "trying to load json file\n";
@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     qDebug() << "model pixels size:" << model->pixels.size();
 
-      output = unique_ptr<Output> {new Output()};
+      output = make_unique<Output>();
       for(auto pixel : model->pixels)
       {
             output->colorBuffer.push_back(Color(0xFFFFFFFF));
@@ -52,51 +52,11 @@ MainWindow::MainWindow(QWidget *parent) :
         glwidget->setOutput(output.get());
 
 
-
-//         FrameContext f;
-//         FragmentContext frag {Pixel()};
-
-//         ConstantColorComponent c;
-//         cout << c.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
-
-//         ColorDoubler colorDoubler;
-//         colorDoubler.wireInput("color", c.getOutput<Color>("color"));
-//         cout << colorDoubler.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
-
-//         SquareWave sq;
-
-//         Signal<double> *ds = sq.getOutput<double>("value");
-
-//         double d = ds->calculate(frag);
-//         cout << d << endl;
-
-//         frag.time = 0.8;
-
-//         cout << sq.getOutput<double>("value")->calculate(frag) << endl;
-
-//         Incrementer incr;
-//         incr.wireInput("color", colorDoubler.getOutput<Color>("color"));
-//         cout << incr.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
-
-//         incr.update(f);
-//         cout << incr.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
-
-//         incr.update(f);
-//         cout << incr.getOutput<Color>("color")->calculate(frag).asRGBA() << endl;
-
-
-
-//         auto compound = unique_ptr<CompoundComponent> {new CompoundComponent()};
-//         auto comp = unique_ptr<ConstantColorComponent> {new ConstantColorComponent()};
-//         compound->addSubcomponent(move(comp));
-//         blueprint->outputSocket.signal = compound->getOutput<Color>("color");
-//         blueprint->addSubcomponent(move(compound));
-
-    unique_ptr<CompoundComponent> compound {new CompoundComponent()};
+    auto compound = make_unique<CompoundComponent>();
     compound->registerWirableOutput<Color>("color");
 
-    unique_ptr<ConstantColorComponent> constantColor {new ConstantColorComponent()};
-    unique_ptr<Incrementer> incrementer {new Incrementer()};
+    auto constantColor = make_unique<ConstantColorComponent>();
+    auto incrementer = make_unique<Incrementer>();
 
     incrementer->wireInput("color", constantColor->getOutput<Color>("value"));
     compound->wireOutput("color", incrementer->getOutput<Color>("value"));
@@ -105,12 +65,12 @@ MainWindow::MainWindow(QWidget *parent) :
     compound->addSubcomponent(std::move(constantColor));
 
 
-    unique_ptr<CompoundComponent> compound2 {new CompoundComponent()};
+    auto compound2 = make_unique<CompoundComponent>();
     compound2->registerWirableOutput<Color>("color");
 
-    unique_ptr<HsvComponent> hsvComponent {new HsvComponent()};
-    unique_ptr<SawWave> sawWaveComponent {new SawWave()};
-    unique_ptr<ConstantComponent<double>> frequency {new ConstantComponent<double>(1.0 / 10)};
+    auto hsvComponent = make_unique<HsvComponent>();
+    auto sawWaveComponent = make_unique<SawWave>();
+    auto frequency = make_unique<ConstantComponent<double>>(1.0 / 10);
 
     sawWaveComponent->wireInput("frequency", frequency->getOutput<double>("value"));
     hsvComponent->wireInput("hue", sawWaveComponent->getOutput<Color>("value"));
@@ -126,7 +86,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     qDebug() << "Is blueprint fully wired:" << blueprint->isFullyWired();
 
-    engine = unique_ptr<Engine> {new Engine(std::move(blueprint), std::move(model))};
+    engine = make_unique<Engine>(std::move(blueprint), std::move(model));
     glwidget->engine = engine.get();
     engine->start();
 
