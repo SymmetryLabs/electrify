@@ -1,7 +1,7 @@
 #pragma once
 #include "globals.h"
 
-#include "signal.h"
+#include "signals.h"
 
 class BaseSocket {
 public:

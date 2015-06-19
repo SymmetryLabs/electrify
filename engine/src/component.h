@@ -8,7 +8,7 @@
 #include "pixel.h"
 #include "group.h"
 #include "color.h"
-#include "signal.h"
+#include "signals.h"
 #include "socket.h"
 #include "fragment_context.h"
 #include "frame_context.h"

@@ -61,4 +61,4 @@ private:
   Signal<V>* signal = nullptr;
 };
 
-#include "signal.tpp"
+#include "signals.tpp"

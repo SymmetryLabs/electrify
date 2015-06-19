@@ -1,9 +1,10 @@
 #pragma once
+#include <thread>
+#include <mutex>
 #include "globals.h"
 
 #include <atomic>
-#include <thread>
-#include <mutex>
+
 #include <boost/lockfree/queue.hpp>
 
 #include "component.h"
