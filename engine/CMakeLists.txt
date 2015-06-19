@@ -58,6 +58,8 @@ file(GLOB_RECURSE SRCS
 )
 source_group("src" FILES ${SRCS})
 
+include_directories(${Boost_INCLUDE_DIRS} ${HEADERS} ${CPM_INCLUDE_DIRS})
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 add_library(SymmetryEngine SHARED ${SRCS})
 target_include_directories(SymmetryEngine PUBLIC ${Boost_INCLUDE_DIRS} ${HEADERS} ${CPM_INCLUDE_DIRS})
