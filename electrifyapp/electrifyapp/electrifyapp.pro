@@ -6,7 +6,8 @@
 
 QT       += core gui
 
-QMAKE_CXX = ccache g++
+unix:QMAKE_CXX = ccache g++
+win32:QMAKE_CXX = g++
 
 CONFIG += c++11
 
@@ -32,3 +33,8 @@ else:unix: LIBS += -L$$OUT_PWD/engine -lSymmetryEngine
 QMAKE_INCDIR += /usr/local/include
 INCLUDEPATH += $$OUT_PWD/engine/include
 DEPENDPATH += $$DESTDIR/../../engine/src
+
+win32:INCLUDEPATH += $$(BOOST_ROOT)
+win32:LIBS += -L$$(BOOST_ROOT)/stage/lib/
+
+win32:LIBS += $$(SYSTEMROOT)/System32/opengl32.dll
