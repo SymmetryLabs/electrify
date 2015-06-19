@@ -25,13 +25,10 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../engine/build/release/ -lSymmetryEngine
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../engine/build/debug/ -lSymmetryEngine
-else:unix: LIBS += -L$$PWD/../../engine/build/ -lSymmetryEngine
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/engine -lSymmetryEngine
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/engine -lSymmetryEngine
+else:unix: LIBS += -L$$OUT_PWD/engine -lSymmetryEngine
 
 QMAKE_INCDIR += /usr/local/include
-INCLUDEPATH += $$PWD/../../engine/src
-INCLUDEPATH += $$PWD/../../engine/src/components
-INCLUDEPATH += $$PWD/../../engine/src/components/oscillators
-INCLUDEPATH += $$PWD/../../engine/libs/jsoncpp
-DEPENDPATH += $$PWD/../../engine/src
+INCLUDEPATH += $$OUT_PWD/engine/include
+DEPENDPATH += $$DESTDIR/../../engine/src

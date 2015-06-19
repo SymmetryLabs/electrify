@@ -103,4 +103,4 @@ engine/tests/main
 build-*
 .tags*
 *.d
-git_cache/
+3rdParty/

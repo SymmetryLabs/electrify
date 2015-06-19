@@ -1,16 +1,12 @@
-cmake_minimum_required (VERSION 2.6)
-project (testapp)
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-add_executable (testapp app.cpp app.h)
+if (NOT TARGET SymmetryEngine)
+  add_subdirectory("../engine" "${CMAKE_CURRENT_BINARY_DIR}/engine")
+endif()
+
+add_executable (testapp app.cpp)
 source_group("src" FILES app.cpp app.h)
 
-target_link_libraries (testapp SymmetryEngine)
-include_directories ("${PROJECT_SOURCE_DIR}/../engine/src")
-include_directories ("${PROJECT_SOURCE_DIR}/../engine/src/components")
-include_directories ("${PROJECT_SOURCE_DIR}/../engine/src/components/oscillators")
-include_directories ("${PROJECT_SOURCE_DIR}/../engine/libs/jsoncpp")
-
-find_package(Boost REQUIRED)
-include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
+target_link_libraries(testapp SymmetryEngine)

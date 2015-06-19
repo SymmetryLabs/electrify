@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 #-----------------------------------------------------------------------
 # CPM configuration
 #-----------------------------------------------------------------------
-set(CPM_MODULE_NAME libnoise)
+set(CPM_MODULE_NAME jsoncpp)
 set(CPM_LIB_TARGET_NAME ${CPM_MODULE_NAME})
 
 if ((DEFINED CPM_DIR) AND (DEFINED CPM_UNIQUE_ID) AND (DEFINED CPM_TARGET_NAME))
@@ -43,12 +43,38 @@ CPM_InitModule(${CPM_MODULE_NAME})
 set(REPO_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/3rdParty")
 CPM_EnsureRepoIsCurrent(
   TARGET_DIR ${REPO_SOURCE_DIR}
-  GIT_REPOSITORY "https://github.com/qknight/libnoise.git"
+  GIT_REPOSITORY "https://github.com/open-source-parsers/jsoncpp.git"
   USE_CACHING TRUE
   )
 
-# Invoke CMake
-add_subdirectory("${REPO_SOURCE_DIR}")
+if(NOT EXISTS "${REPO_SOURCE_DIR}/dist")
+  execute_process(COMMAND python amalgamate.py
+    WORKING_DIRECTORY "${REPO_SOURCE_DIR}")
+endif()
 
-CPM_ExportAdditionalIncludeDir("${REPO_SOURCE_DIR}/src")
-CPM_ExportAdditionalLibraryTarget("noise-static")
+#-----------------------------------------------------------------------
+# Source
+#-----------------------------------------------------------------------
+
+# Globbing has some downsides, but the advantages outweigh the
+# disadvantages.
+file (GLOB Sources
+  "${REPO_SOURCE_DIR}/dist/*.cpp"
+  )
+
+#-----------------------------------------------------------------------
+# Headers
+#-----------------------------------------------------------------------
+
+CPM_ExportAdditionalIncludeDir("${REPO_SOURCE_DIR}/dist")
+
+#-----------------------------------------------------------------------
+# Library setup
+#-----------------------------------------------------------------------
+
+# Build the library.
+add_library(${CPM_LIB_TARGET_NAME} STATIC ${Sources} ${SystemSpecificSources})
+if (NOT EMSCRIPTEN AND CPM_LIBRARIES)
+  target_link_libraries(${CPM_LIB_TARGET_NAME} ${CPM_LIBRARIES})
+endif()
+

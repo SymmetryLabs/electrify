@@ -136,7 +136,7 @@ void Engine::copyColorBuffer(vector<Color>& colorBuffer)
 {
   lock_guard<mutex> lock {colorBufferMutex};
 
-  colorBuffer = {*frontColorBuffer};
+  colorBuffer = *frontColorBuffer;
 }
 
 void Engine::swapColorBuffers()

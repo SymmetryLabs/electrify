@@ -1,6 +1,6 @@
 #include "color.h"
 
-#include <hsv2rgb.h>
+#include <FastLED/hsv2rgb.h>
 
 void Color::fromHSV(double h, double s, double v)
 {
