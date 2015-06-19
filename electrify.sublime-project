@@ -5,7 +5,7 @@
 			"path": ".",
 			"folder_exclude_patterns": ["lib", "*.xcodeproj", "build",
 				"documentation", "build-*"],
-			"file_exclude_patterns": ["engine/src/*.d", "engine/src/*.o", "*.user"]
+			"file_exclude_patterns": ["*.d", "*.o", "*.user"]
 		}
 	],
 	"settings":
