@@ -43,8 +43,6 @@ find_package(Boost REQUIRED)
 # SymmetryEngine
 #------------------------------------------------------------------------------
 
-project(SymmetryEngine)
-
 file(GLOB HEADERS
   "src"
   "src/components"

@@ -37,8 +37,6 @@ CPM_InitModule(${CPM_MODULE_NAME})
 # libnoise
 #------------------------------------------------------------------------------
 
-# include(ExternalProject)
-
 # Download source code
 set(REPO_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/3rdParty")
 CPM_EnsureRepoIsCurrent(
@@ -71,6 +69,8 @@ CPM_ExportAdditionalIncludeDir("${REPO_SOURCE_DIR}/dist")
 #-----------------------------------------------------------------------
 # Library setup
 #-----------------------------------------------------------------------
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 # Build the library.
 add_library(${CPM_LIB_TARGET_NAME} STATIC ${Sources} ${SystemSpecificSources})

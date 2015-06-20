@@ -37,8 +37,6 @@ CPM_InitModule(${CPM_MODULE_NAME})
 # libnoise
 #------------------------------------------------------------------------------
 
-# include(ExternalProject)
-
 # Download source code
 set(REPO_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/3rdParty")
 CPM_EnsureRepoIsCurrent(
