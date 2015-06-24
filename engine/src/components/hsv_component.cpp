@@ -7,9 +7,9 @@ HsvComponent::HsvComponent()
   registerInput("value", &value, 1.0);
 }
 
-Color HsvComponent::calculate(const FragmentContext& frag) const
+Color HsvComponent::calculate(const FrameContext& frame) const
 {
   Color in;
-  in.fromHSV(hue(frag), saturation(frag), value(frag));
+  in.fromHSV(hue(frame), saturation(frame), value(frame));
   return in;
 }

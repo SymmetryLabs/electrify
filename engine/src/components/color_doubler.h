@@ -8,7 +8,7 @@ class ColorDoubler : public BasicComponent<Color> {
 public:
   ColorDoubler();
 
-  Color calculate(const FragmentContext& frag) const override;
+  Color calculate(const FrameContext& frame) const override;
 
 private:
   SignalFunction<Color> colorInput;

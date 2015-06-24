@@ -24,34 +24,33 @@ int main()
 //  loader.loadJSON(filename);
 //  cout << "file loaded\n";
 
-  FrameContext f {nanoseconds(100)};
-  FragmentContext frag {Pixel(), f};
+  FrameContext frame {nanoseconds(100)};
 
   ConstantColorComponent c;
-  cout << c.getOutput<Color>("value")->calculate(frag) << endl;
+  cout << c.getOutput<Color>("value")->calculate(frame) << endl;
 
   ColorDoubler colorDoubler;
   colorDoubler.wireInput("color", c.getOutput<Color>("value"));
-  cout << colorDoubler.getOutput<Color>("value")->calculate(frag) << endl;
+  cout << colorDoubler.getOutput<Color>("value")->calculate(frame) << endl;
   
   SquareWave sq;
   
   Signal<double> *ds = sq.getOutput<double>("value");
 
-  double d = ds->calculate(frag);
+  double d = ds->calculate(frame);
   cout << d << endl;
 
-  cout << sq.getOutput<double>("value")->calculate(frag) << endl;
+  cout << sq.getOutput<double>("value")->calculate(frame) << endl;
 
   Incrementer incr;
   incr.wireInput("color", colorDoubler.getOutput<Color>("value"));
-  cout << incr.getOutput<Color>("value")->calculate(frag) << endl;
+  cout << incr.getOutput<Color>("value")->calculate(frame) << endl;
 
-  incr.update(f);
-  cout << incr.getOutput<Color>("value")->calculate(frag) << endl;
+  incr.update(frame);
+  cout << incr.getOutput<Color>("value")->calculate(frame) << endl;
 
-  incr.update(f);
-  cout << incr.getOutput<Color>("value")->calculate(frag) << endl;
+  incr.update(frame);
+  cout << incr.getOutput<Color>("value")->calculate(frame) << endl;
 
   auto blueprint = make_unique<Blueprint>();
   auto model = make_unique<Model>();

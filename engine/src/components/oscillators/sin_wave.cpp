@@ -1,6 +1,6 @@
 #include "sin_wave.h"
 
-double SinWave::calculate(const FragmentContext& frag) const
+double SinWave::calculate(const FrameContext& frame) const
 {
-  return amplitude(frag) * (sin(M_2_PI * frag.timeSeconds() * frequency(frag) + phase(frag)) + 1) / 2;
+  return amplitude(frame) * (sin(M_2_PI * frame.timeSeconds() * frequency(frame) + phase(frame)) + 1) / 2;
 }

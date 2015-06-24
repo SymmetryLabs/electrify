@@ -8,7 +8,7 @@ class HsvComponent : public BasicComponent<Color> {
 public:
   HsvComponent();
 
-  Color calculate(const FragmentContext& frag) const override;
+  Color calculate(const FrameContext& frame) const override;
   
   SignalFunction<double> hue;
   SignalFunction<double> saturation;

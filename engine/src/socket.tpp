@@ -11,9 +11,9 @@ bool Socket<V>::hasSignal()
 }
 
 template <typename V>
-V Socket<V>::calculate(const FragmentContext& frag) const
+V Socket<V>::calculate(const FrameContext& frame) const
 {
-  return signal ? signal->calculate(frag) : defaultValue.calculate(frag);
+  return signal ? signal->calculate(frame) : defaultValue.calculate(frame);
 }
 
 template <typename V>

@@ -2,12 +2,10 @@
 #include "globals.h"
 
 #include "pixel.h"
-#include "frame_context.h"
 
-struct FragmentContext : public FrameContext {
+struct FragmentContext {
 
-  FragmentContext(const Pixel& pixel_, const FrameContext& frame) : FrameContext(frame), pixel(pixel_) {}
-  virtual ~FragmentContext() {}
+  FragmentContext(const Pixel& pixel_) : pixel(pixel_) {}
 
   const Pixel& pixel;
 

@@ -26,7 +26,7 @@ class ValueParameter : public Parameter<V> {
 public:
   virtual ~ValueParameter() {}
 
-  virtual V calculate(const FragmentContext& frag) override;
+  virtual V calculate(const FrameContext& frame) override;
 
 private:
   V value;
