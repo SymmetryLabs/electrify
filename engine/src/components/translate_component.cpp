@@ -2,12 +2,13 @@
 
 TranslateComponent::TranslateComponent()
 {
+  registerInput("signalInput", &signalInput);
   registerInput("translateX", &translateX);
   registerInput("translateY", &translateY);
   registerInput("translateZ", &translateZ);
 }
 
-void* TranslateComponent::calculate(const FrameContext& frame) const
+Color TranslateComponent::calculate(const FrameContext& frame) const
 {
   Pixel pixel {frame.frag->pixel};
   pixel.x += translateX(frame);

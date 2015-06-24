@@ -3,15 +3,15 @@
 
 #include "basic_component.h"
 
-class TranslateComponent : BasicComponent<void*> {
+class TranslateComponent : BasicComponent<Color> {
 
 public:
   TranslateComponent();
 
-  void* calculate(const FrameContext& frame) const override;
+  Color calculate(const FrameContext& frame) const override;
 
 private:
-  SignalFunction<void*> signalInput;
+  SignalFunction<Color> signalInput;
 
   SignalFunction<double> translateX;
   SignalFunction<double> translateY;

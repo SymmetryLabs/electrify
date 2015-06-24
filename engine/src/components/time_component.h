@@ -3,7 +3,7 @@
 
 #include "basic_component.h"
 
-class PixelXComponent : public BasicComponent<double> {
+class TimeComponent : public BasicComponent<double> {
 
 public:
 
