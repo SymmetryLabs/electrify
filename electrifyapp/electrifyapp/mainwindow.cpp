@@ -55,29 +55,26 @@ MainWindow::MainWindow(QWidget *parent) :
         glwidget->setOutput(output.get());
 
 
-    auto compound = make_unique<CompoundComponent>();
+    auto compound = blueprint->makeSubcomponent<CompoundComponent>();
     compound->registerWirableOutput<Color>("color");
 
-    auto constantColor = make_unique<ConstantColorComponent>();
-    auto incrementer = make_unique<Incrementer>();
+    auto constantColor = compound->makeSubcomponent<ConstantColorComponent>();
+    auto incrementer = compound->makeSubcomponent<Incrementer>();
 
     incrementer->wireInput("color", constantColor->getOutput<Color>("primary"));
     compound->wireOutput("color", incrementer->getOutput<Color>("primary"));
 
-    compound->addSubcomponent(std::move(incrementer));
-    compound->addSubcomponent(std::move(constantColor));
 
-
-    auto compound2 = make_unique<CompoundComponent>();
+    auto compound2 = blueprint->makeSubcomponent<CompoundComponent>();
     compound2->registerWirableOutput<Color>("color");
 
-    auto hsvComponent = make_unique<HsvComponent>();
-    auto sawWaveComponent = make_unique<SawWave>();
-    auto timeComponent = make_unique<TimeComponent>();
-    auto multiplyComponent = make_unique<MultiplyComponent>();
-    auto multiplyAmountComponent = make_unique<ConstantComponent<double>>(1.0 / 10);
-    auto perlinNoiseComponent = make_unique<PerlinNoiseComponent>();
-    auto frequency = make_unique<ConstantComponent<double>>(1.0 / 10);
+    auto hsvComponent = compound2->makeSubcomponent<HsvComponent>();
+    auto sawWaveComponent = compound2->makeSubcomponent<SawWave>();
+    auto timeComponent = compound2->makeSubcomponent<TimeComponent>();
+    auto multiplyComponent = compound2->makeSubcomponent<MultiplyComponent>();
+    auto multiplyAmountComponent = compound2->makeSubcomponent<ConstantComponent<double>>(1.0 / 10);
+    auto perlinNoiseComponent = compound2->makeSubcomponent<PerlinNoiseComponent>();
+    auto frequency = compound2->makeSubcomponent<ConstantComponent<double>>(1.0 / 10);
 
     sawWaveComponent->wireInput("frequency", frequency->getOutput<double>("primary"));
     multiplyComponent->wireInput("multiplyAmount", multiplyAmountComponent->getOutput<double>("primary"));
@@ -86,17 +83,7 @@ MainWindow::MainWindow(QWidget *parent) :
     hsvComponent->wireInput("hue", perlinNoiseComponent->getOutput<Color>("primary"));
     compound2->wireOutput("color", hsvComponent->getOutput<Color>("primary"));
 
-    compound2->addSubcomponent(std::move(frequency));
-    compound2->addSubcomponent(std::move(sawWaveComponent));
-    compound2->addSubcomponent(std::move(timeComponent));
-    compound2->addSubcomponent(std::move(multiplyComponent));
-    compound2->addSubcomponent(std::move(multiplyAmountComponent));
-    compound2->addSubcomponent(std::move(perlinNoiseComponent));
-    compound2->addSubcomponent(std::move(hsvComponent));
-
     blueprint->wireOutput("color", compound2->getOutput<Color>("color"));
-    blueprint->addSubcomponent(std::move(compound));
-    blueprint->addSubcomponent(std::move(compound2));
 
     qDebug() << "Is blueprint fully wired:" << blueprint->isFullyWired();
 

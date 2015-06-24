@@ -15,6 +15,8 @@ public:
 
   virtual bool isFullyWired() override;
 
+  template <typename Type, typename... Targs>
+  Type* makeSubcomponent(Targs&&... Fargs);
   void addSubcomponent(unique_ptr<Component> subcomponent);
   void removeSubcomponent(const unique_ptr<Component>& subcomponent);
 

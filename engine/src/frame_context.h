@@ -8,7 +8,7 @@ struct FrameContext {
   FrameContext(const nanoseconds time_, const FragmentContext* frag_ = nullptr)
     : time(time_)
     , frag(frag_) {}
-  FrameContext(const FrameContext& frame, const FragmentContext* frag_ = nullptr) 
+  FrameContext(const FrameContext& frame, const FragmentContext* frag_ = nullptr)
     : time(frame.time)
     , frag(frag_) {}
 

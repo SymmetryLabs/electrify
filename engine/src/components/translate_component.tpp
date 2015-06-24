@@ -1,6 +1,5 @@
-#include "translate_component.h"
-
-TranslateComponent::TranslateComponent()
+template <typename V>
+TranslateComponent<V>::TranslateComponent()
 {
   registerInput("signalInput", &signalInput);
   registerInput("translateX", &translateX);
@@ -8,7 +7,8 @@ TranslateComponent::TranslateComponent()
   registerInput("translateZ", &translateZ);
 }
 
-Color TranslateComponent::calculate(const FrameContext& frame) const
+template <typename V>
+V TranslateComponent<V>::calculate(const FrameContext& frame) const
 {
   Pixel pixel {frame.frag->pixel};
   pixel.x += translateX(frame);

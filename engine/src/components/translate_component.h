@@ -3,18 +3,23 @@
 
 #include "basic_component.h"
 
-class TranslateComponent : BasicComponent<Color> {
+template <typename V>
+class TranslateComponent : BasicComponent<V> {
 
 public:
   TranslateComponent();
 
-  Color calculate(const FrameContext& frame) const override;
+  V calculate(const FrameContext& frame) const override;
 
 private:
-  SignalFunction<Color> signalInput;
+  SignalFunction<V> signalInput;
 
   SignalFunction<double> translateX;
   SignalFunction<double> translateY;
   SignalFunction<double> translateZ;
 
 };
+
+typedef TranslateComponent<Color> TranslateColorComponent;
+
+#include "translate_component.tpp"
