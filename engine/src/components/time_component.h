@@ -1,11 +1,12 @@
 #pragma once
 #include "globals.h"
 
-#include "waveform.h"
+#include "basic_component.h"
 
-class SinWave : public Waveform {
+class TimeComponent : public BasicComponent<double> {
 
 public:
+
   double calculate(const FrameContext& frame) const override;
 
 };

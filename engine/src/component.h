@@ -10,7 +10,6 @@
 #include "color.h"
 #include "signals.h"
 #include "socket.h"
-#include "fragment_context.h"
 #include "frame_context.h"
 #include "parameter.h"
 
@@ -57,7 +56,7 @@ public:
 
   template <typename V, typename C>
   void registerOutput(const string& name, 
-    V (C::* calculate_function_)(const FragmentContext& frag) const);
+    V (C::* calculate_function_)(const FrameContext& frame) const);
 
   template <typename V>
   Signal<V>* getOutput(const string& name) const;

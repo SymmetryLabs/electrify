@@ -15,9 +15,9 @@ void Incrementer::update(const FrameContext& frame)
   increment = (increment + 0x100) % 0x10000;
 }
 
-Color Incrementer::calculate(const FragmentContext& frag) const
+Color Incrementer::calculate(const FrameContext& frame) const
 {
-  Color in = colorInput(frag);
+  Color in = colorInput(frame);
   in.fromRGBA(in.asRGBA() + increment);
   return in;
 }

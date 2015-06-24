@@ -19,6 +19,9 @@
 #include "hsv_component.h"
 #include "saw_wave.h"
 #include "constant_component.h"
+#include "perlin_noise_component.h"
+#include "time_component.h"
+#include "multiply_component.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -58,8 +61,8 @@ MainWindow::MainWindow(QWidget *parent) :
     auto constantColor = make_unique<ConstantColorComponent>();
     auto incrementer = make_unique<Incrementer>();
 
-    incrementer->wireInput("color", constantColor->getOutput<Color>("value"));
-    compound->wireOutput("color", incrementer->getOutput<Color>("value"));
+    incrementer->wireInput("color", constantColor->getOutput<Color>("primary"));
+    compound->wireOutput("color", incrementer->getOutput<Color>("primary"));
 
     compound->addSubcomponent(std::move(incrementer));
     compound->addSubcomponent(std::move(constantColor));
@@ -70,14 +73,25 @@ MainWindow::MainWindow(QWidget *parent) :
 
     auto hsvComponent = make_unique<HsvComponent>();
     auto sawWaveComponent = make_unique<SawWave>();
+    auto timeComponent = make_unique<TimeComponent>();
+    auto multiplyComponent = make_unique<MultiplyComponent>();
+    auto multiplyAmountComponent = make_unique<ConstantComponent<double>>(1.0 / 10);
+    auto perlinNoiseComponent = make_unique<PerlinNoiseComponent>();
     auto frequency = make_unique<ConstantComponent<double>>(1.0 / 10);
 
-    sawWaveComponent->wireInput("frequency", frequency->getOutput<double>("value"));
-    hsvComponent->wireInput("hue", sawWaveComponent->getOutput<Color>("value"));
-    compound2->wireOutput("color", hsvComponent->getOutput<Color>("value"));
+    sawWaveComponent->wireInput("frequency", frequency->getOutput<double>("primary"));
+    multiplyComponent->wireInput("multiplyAmount", multiplyAmountComponent->getOutput<double>("primary"));
+    multiplyComponent->wireInput("signalInput", timeComponent->getOutput<double>("primary"));
+    perlinNoiseComponent->wireInput("zInput", multiplyComponent->getOutput<double>("primary"));
+    hsvComponent->wireInput("hue", perlinNoiseComponent->getOutput<Color>("primary"));
+    compound2->wireOutput("color", hsvComponent->getOutput<Color>("primary"));
 
     compound2->addSubcomponent(std::move(frequency));
     compound2->addSubcomponent(std::move(sawWaveComponent));
+    compound2->addSubcomponent(std::move(timeComponent));
+    compound2->addSubcomponent(std::move(multiplyComponent));
+    compound2->addSubcomponent(std::move(multiplyAmountComponent));
+    compound2->addSubcomponent(std::move(perlinNoiseComponent));
     compound2->addSubcomponent(std::move(hsvComponent));
 
     blueprint->wireOutput("color", compound2->getOutput<Color>("color"));

@@ -11,7 +11,7 @@ public:
   virtual void init();
   virtual void update(const FrameContext& frame) override;
 
-  Color calculate(const FragmentContext& frag) const override;
+  Color calculate(const FrameContext& frame) const override;
 
 private:
   SignalFunction<Color> colorInput;

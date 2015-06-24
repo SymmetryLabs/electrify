@@ -6,6 +6,6 @@
 class SquareWave : public Waveform {
 
 public:
-  double calculate(const FragmentContext& frag) const override;
+  double calculate(const FrameContext& frame) const override;
 
 };

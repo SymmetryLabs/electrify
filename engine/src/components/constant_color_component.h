@@ -6,6 +6,6 @@
 class ConstantColorComponent : public BasicComponent<Color> {
 
 public:
-  Color calculate(const FragmentContext& frag) const override;
+  Color calculate(const FrameContext& frame) const override;
 
 };

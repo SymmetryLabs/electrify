@@ -9,7 +9,7 @@ class ConstantComponent : public BasicComponent<V> {
 public:
   ConstantComponent(V value_) : value(value_) {}
 
-  V calculate(__attribute__((unused)) const FragmentContext& frag) const override { return value; }
+  V calculate(__attribute__((unused)) const FrameContext& frame) const override { return value; }
 
 private:
   V value;

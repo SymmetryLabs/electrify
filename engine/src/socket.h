@@ -23,7 +23,7 @@ public:
 
   virtual void setSignal(Signal<V>* signal_);
   virtual bool hasSignal() override;
-  virtual V calculate(const FragmentContext& frag) const override;
+  virtual V calculate(const FrameContext& frame) const override;
 
 protected:
   ConstantSignal<V> defaultValue;

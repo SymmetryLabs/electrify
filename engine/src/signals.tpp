@@ -1,11 +1,11 @@
 template <typename V>
-V FunctionSignal<V>::calculate(const FragmentContext& frag) const
+V FunctionSignal<V>::calculate(const FrameContext& frame) const
 {
-  return calculate_function(frag);
+  return calculate_function(frame);
 }
 
 template <typename V>
-V ConstantSignal<V>::calculate(__attribute__((unused)) const FragmentContext& frag) const
+V ConstantSignal<V>::calculate(__attribute__((unused)) const FrameContext& frame) const
 {
   return value;
 }

@@ -1,7 +1,7 @@
 #include "saw_wave.h"
 
-double SawWave::calculate(const FragmentContext& frag) const
+double SawWave::calculate(const FrameContext& frame) const
 {
   double unused;
-  return amplitude(frag) * modf(frag.timeSeconds() * frequency(frag) + phase(frag), &unused);
+  return amplitude(frame) * modf(frame.timeSeconds() * frequency(frame) + phase(frame), &unused);
 }
