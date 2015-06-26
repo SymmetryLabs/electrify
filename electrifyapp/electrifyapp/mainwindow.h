@@ -5,6 +5,8 @@
 #include "symmetryglwidget.h"
 
 #include "globals.h"
+#include "opc_client.h"
+
 
 namespace Ui {
 class MainWindow;
@@ -20,6 +22,10 @@ public:
      unique_ptr<SymmetryGLWidget> glwidget;
      unique_ptr<Engine> engine;
      unique_ptr<Output> output;
+     unique_ptr<Output> output2;
+     unique_ptr<OPCClient> opc;
+     std::vector<uint8_t> frameBuffer= {0};
+     int modelsize;
 
 protected:
 

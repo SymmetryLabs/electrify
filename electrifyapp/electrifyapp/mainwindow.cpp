@@ -22,6 +22,9 @@
 #include "perlin_noise_component.h"
 #include "time_component.h"
 #include "multiply_component.h"
+#include <iostream>
+#include <vector>
+#include <unistd.h>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -38,10 +41,9 @@ MainWindow::MainWindow(QWidget *parent) :
       qDebug() << "trying to load json file\n";
       Loader loader = Loader();
       string filename("data/cubesExport2.json");
-      qDebug() << "file loaded\n";
-
 
      unique_ptr<Model> model = loader.loadJSON(filename);
+     qDebug() << "file loaded\n";
 
     qDebug() << "model pixels size:" << model->pixels.size();
 
@@ -99,17 +101,37 @@ MainWindow::MainWindow(QWidget *parent) :
     blueprint->addSubcomponent(std::move(compound2));
 
     qDebug() << "Is blueprint fully wired:" << blueprint->isFullyWired();
-
+    modelsize = model->pixels.size();
     engine = make_unique<Engine>(std::move(blueprint), std::move(model));
     glwidget->engine = engine.get();
     engine->start();
 
     ui->verticalLayout->addWidget(glwidget.get());
-    startTimer(16);
+
+     opc = make_unique<OPCClient>();
+     frameBuffer.resize(sizeof(OPCClient::Header) + modelsize*3);
+     opc->resolve("10.200.1.44", 7890);
+    startTimer(32);
 }
 
 void MainWindow::timerEvent(__attribute__((unused)) QTimerEvent *event)
 {
+
+    if(opc->tryConnect())
+    {
+        engine->copyColorBuffer(output->colorBuffer);
+        std::vector<uint8_t>::iterator it = frameBuffer.begin();
+        it += sizeof(OPCClient::Header);
+            for(auto c: output->colorBuffer)
+            {
+                *(it++) = (c.asRGBA() >> 16) & 255;
+                *(it++) = (c.asRGBA() >> 24) & 255;
+                *(it++) =(c.asRGBA() >> 8) & 255;
+                if(it == frameBuffer.end() ) {break;};
+            }
+        OPCClient::Header::view(frameBuffer).init(0, opc->SET_PIXEL_COLORS, modelsize*3);
+        bool res = opc->write(frameBuffer);
+    }
     glwidget->update();
 }
 

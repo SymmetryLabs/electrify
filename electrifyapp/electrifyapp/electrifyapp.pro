@@ -19,10 +19,14 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    symmetryglwidget.cpp
+    symmetryglwidget.cpp \
+    cubesmapper.cpp \
+    cubesmodel.cpp
 
 HEADERS  += mainwindow.h \
-    symmetryglwidget.h
+    symmetryglwidget.h \
+    cubesmapper.h \
+    cubesmodel.h
 
 FORMS    += mainwindow.ui
 

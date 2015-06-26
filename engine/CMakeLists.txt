@@ -45,6 +45,7 @@ find_package(Boost REQUIRED)
 
 file(GLOB HEADERS
   "src"
+  "src/outputs"
   "src/components"
   "src/components/oscillators"
   "libs"

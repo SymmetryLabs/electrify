@@ -26,9 +26,10 @@ unique_ptr<Model> Loader::loadJSON(string filename)
 
 Group* Loader::parseGroup(Json::Value val, vector<Pixel*> *pixels , Group *parent)
 {
-        Group *g = new Group();
+    Group *g = new Group();
 	g->parent = parent;
 	g->name = val["group"].asString();
+	g->id = val["id"].asString();
 	for (Json::Value::iterator it = val["members"].begin(); it != val["members"].end(); ++it) {
 		Json::Value member = (*it);
 		if(member["type"] == string("Group"))
@@ -43,7 +44,9 @@ Group* Loader::parseGroup(Json::Value val, vector<Pixel*> *pixels , Group *paren
 
 Pixel* Loader::parsePixelReference(Json::Value val, vector<Pixel*> *pixels, Group *parent)
 {
-    Pixel *pix = (*pixels)[val["index"].asInt()];
+	int index = val["index"].asInt();
+    Pixel *pix = (*pixels)[index];
 	pix->parent = parent;
+	pix->index = index;
 	return pix;
 }

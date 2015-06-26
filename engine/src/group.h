@@ -16,4 +16,5 @@ class Group {
     vector<Pixel*> *pixels = new vector<Pixel*>();
     string name;
     Group *parent = 0;
+    string id;
 };
