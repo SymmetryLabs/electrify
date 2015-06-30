@@ -43,6 +43,10 @@ find_package(Boost REQUIRED)
 # SymmetryEngine
 #------------------------------------------------------------------------------
 
+if (APPLE)
+  set(CMAKE_MACOSX_RPATH ON)
+endif()
+
 file(GLOB HEADERS
   "src"
   "src/components"

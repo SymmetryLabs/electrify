@@ -37,6 +37,10 @@ CPM_InitModule(${CPM_MODULE_NAME})
 # libnoise
 #------------------------------------------------------------------------------
 
+if (APPLE)
+  set(CMAKE_MACOSX_RPATH TRUE)
+endif()
+
 # Download source code
 set(REPO_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/3rdParty")
 CPM_EnsureRepoIsCurrent(
