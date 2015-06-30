@@ -3,14 +3,23 @@
 
 #include "signals.h"
 
+struct ContextModifierChain;
+
 class BaseSocket {
 public:
   BaseSocket(type_index type_) : type(type_) {}
   virtual ~BaseSocket() {}
 
-  virtual bool hasSignal() = 0;
+  virtual bool hasSignal() const = 0;
+  virtual bool acceptsSignal(const BaseSignal& signal) const;
+  virtual void setSignal(BaseSignal* signal) = 0;
+  void addContextModifier(ContextModifierChain& contextModifierChain);
 
   const type_index type;
+
+protected:
+  ContextModifierChain* contextModifierChain = nullptr;
+
 };
 
 template <typename V>
@@ -21,8 +30,9 @@ public:
   Socket() : BaseSocket(typeid(V)) {}
   virtual ~Socket() {}
 
-  virtual void setSignal(Signal<V>* signal_);
-  virtual bool hasSignal() override;
+  virtual void setSignal(BaseSignal* signal) override;
+  virtual void setSignal(Signal<V>* signal);
+  virtual bool hasSignal() const override;
   virtual V calculate(const FrameContext& frame) const override;
 
 protected:
@@ -49,6 +59,17 @@ private:
   Signal<V>** signalAddr = nullptr;
   SignalFunction<V>* signalFunctionAddr = nullptr;
 
+};
+
+struct ContextModifierChain {
+
+  ContextModifierChain(function<FrameContext (const FrameContext& frame)> contextModifierFunction_)
+    : contextModifierFunction(contextModifierFunction_) {}
+
+  function<FrameContext (const FrameContext& frame)> contextModifierFunction;
+  ContextModifierChain* nextModifierNode = nullptr;
+
+  FrameContext modifyContext(const FrameContext& frame);
 };
 
 #include "socket.tpp"

@@ -37,29 +37,40 @@ public:
   // Input
 
   void registerInput(const string& name, unique_ptr<BaseSocket> inputSocket);
-
   template <typename V>
   void registerInput(const string& name, Signal<V>** inputAddr);
-
   template <typename V>
   void registerInput(const string& name, SignalFunction<V>* inputAddr, const V defaultValue = V());
 
-  template <typename V>
-  Socket<V>* getInput(const string& name) const;
+  BaseSocket* getInput(const string& name) const;
 
-  template <typename V>
-  void wireInput(const string& name, Signal<V>* signal);
+  virtual bool canWireInput(const string& name, const BaseSignal& signal) const;
+  virtual void wireInput(const string& name, BaseSignal& signal);
+
+  virtual void registerContextModifier(const string& name,
+    ContextModifierChain& contextModifier);
 
   // Output
 
   void registerOutput(const string& name, unique_ptr<BaseSignal> signal);
-
   template <typename V, typename C>
   void registerOutput(const string& name, 
     V (C::* calculate_function_)(const FrameContext& frame) const);
 
+  BaseSignal* getOutput(const string& name) const;
+
   template <typename V>
   Signal<V>* getOutput(const string& name) const;
+
+  virtual bool canWireOutputTo(const string& emittingOutputName,
+    const Component& receivingComponent, const string& receivingInputName) const;
+  virtual bool canWireOutputTo(const string& emittingOutputName,
+    const BaseSocket& receivingSocket) const;
+
+  virtual void wireOutputTo(const string& emittingOutputName,
+    Component& receivingComponent, const string& receivingInputName);
+  virtual void wireOutputTo(const string& emittingOutputName,
+    BaseSocket& receivingSocket);
 
   // Parameter
 

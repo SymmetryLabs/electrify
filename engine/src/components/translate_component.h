@@ -1,25 +1,18 @@
 #pragma once
 #include "globals.h"
 
-#include "basic_component.h"
+#include "context_modifier_component.h"
 
-template <typename V>
-class TranslateComponent : BasicComponent<V> {
+class TranslateComponent : public ContextModifierComponent {
 
 public:
   TranslateComponent();
 
-  V calculate(const FrameContext& frame) const override;
+  FrameContext modifyContext(const FrameContext& original) override;
 
 private:
-  SignalFunction<V> signalInput;
-
   SignalFunction<double> translateX;
   SignalFunction<double> translateY;
   SignalFunction<double> translateZ;
 
 };
-
-typedef TranslateComponent<Color> TranslateColorComponent;
-
-#include "translate_component.tpp"

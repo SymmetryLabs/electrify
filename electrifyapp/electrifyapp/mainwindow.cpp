@@ -61,8 +61,8 @@ MainWindow::MainWindow(QWidget *parent) :
     auto constantColor = compound->makeSubcomponent<ConstantColorComponent>();
     auto incrementer = compound->makeSubcomponent<Incrementer>();
 
-    incrementer->wireInput("color", constantColor->getOutput<Color>("primary"));
-    compound->wireOutput("color", incrementer->getOutput<Color>("primary"));
+    compound->wireSubcomponents(*constantColor, "primary", *incrementer, "color");
+    compound->wireOutput("color", *incrementer, "primary");
 
 
     auto compound2 = blueprint->makeSubcomponent<CompoundComponent>();
@@ -76,14 +76,15 @@ MainWindow::MainWindow(QWidget *parent) :
     auto perlinNoiseComponent = compound2->makeSubcomponent<PerlinNoiseComponent>();
     auto frequency = compound2->makeSubcomponent<ConstantComponent<double>>(1.0 / 10);
 
-    sawWaveComponent->wireInput("frequency", frequency->getOutput<double>("primary"));
-    multiplyComponent->wireInput("multiplyAmount", multiplyAmountComponent->getOutput<double>("primary"));
-    multiplyComponent->wireInput("signalInput", timeComponent->getOutput<double>("primary"));
-    perlinNoiseComponent->wireInput("zInput", multiplyComponent->getOutput<double>("primary"));
-    hsvComponent->wireInput("hue", perlinNoiseComponent->getOutput<Color>("primary"));
-    compound2->wireOutput("color", hsvComponent->getOutput<Color>("primary"));
+    compound->wireSubcomponents(*frequency, "primary", *sawWaveComponent, "frequency");
+    compound->wireSubcomponents(*multiplyAmountComponent, "primary", *multiplyComponent, "multiplyAmount");
+    compound->wireSubcomponents(*timeComponent, "primary", *multiplyComponent, "signalInput");
+    compound->wireSubcomponents(*multiplyComponent, "primary", *perlinNoiseComponent, "zInput");
+    compound->wireSubcomponents(*perlinNoiseComponent, "primary", *hsvComponent, "hue");
 
-    blueprint->wireOutput("color", compound2->getOutput<Color>("color"));
+    compound2->wireOutput("color", *hsvComponent, "primary");
+
+    blueprint->wireOutput("color", *compound2, "color");
 
     qDebug() << "Is blueprint fully wired:" << blueprint->isFullyWired();
 

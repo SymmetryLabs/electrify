@@ -1,11 +1,17 @@
 template <typename V>
+void Socket<V>::setSignal(BaseSignal* signal)
+{
+  setSignal((Signal<V>*)signal);
+}
+
+template <typename V>
 void Socket<V>::setSignal(Signal<V>* signal_)
 {
   signal = signal_;
 }
 
 template <typename V>
-bool Socket<V>::hasSignal()
+bool Socket<V>::hasSignal() const
 {
   return signal;
 }
@@ -13,7 +19,12 @@ bool Socket<V>::hasSignal()
 template <typename V>
 V Socket<V>::calculate(const FrameContext& frame) const
 {
-  return signal ? signal->calculate(frame) : defaultValue.calculate(frame);
+  if (contextModifierChain) {
+    auto newFrame = contextModifierChain->modifyContext(frame);
+    return signal ? signal->calculate(newFrame) : defaultValue.calculate(newFrame);
+  } else {
+    return signal ? signal->calculate(frame) : defaultValue.calculate(frame);
+  }
 }
 
 template <typename V>

@@ -7,10 +7,10 @@
 class CompoundComponent : public Component {
 
 public:
-  CompoundComponent();
   virtual ~CompoundComponent() {}
 
   virtual void init() override;
+  virtual void deinit() override;
   virtual void update(const FrameContext& f) override;
 
   virtual bool isFullyWired() override;
@@ -20,16 +20,19 @@ public:
   void addSubcomponent(unique_ptr<Component> subcomponent);
   void removeSubcomponent(const unique_ptr<Component>& subcomponent);
 
-  void wireSubcomponents(Component& emittingSubcomponent, string& emittingOutputName,
-    Component& receivingSubcomponent, string& receivingInputName);
+  bool canWireSubcomponents(Component& emittingSubcomponent, const string& emittingOutputName,
+    Component& receivingSubcomponent, const string& receivingInputName);
+  void wireSubcomponents(Component& emittingSubcomponent, const string& emittingOutputName,
+    Component& receivingSubcomponent, const string& receivingInputName);
+  void unwireSubcomponents(Component& emittingSubcomponent, const string& emittingOutputName,
+    Component& receivingSubcomponent, const string& receivingInputName);
 
   template <typename V>
   Socket<V>* registerWirableOutput(const string& name);
-  template <typename V>
-  Socket<V>* getWirableOutput(const string& name);
 
-  template <typename V>
-  void wireOutput(const string& name, Signal<V>* signal);
+  BaseSocket* getWirableOutput(const string& name);
+  void wireOutput(const string& name,
+    Component& emittingSubcomponent, const string& emittingOutputName);
 
 private:
   vector<unique_ptr<Component>> subcomponents;

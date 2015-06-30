@@ -8,8 +8,8 @@ template <typename V>
 class BasicComponent : public Component {
 
 public:
-  virtual ~BasicComponent() {}
   BasicComponent();
+  virtual ~BasicComponent() {}
 
   virtual V calculate(const FrameContext& frame) const = 0;
 

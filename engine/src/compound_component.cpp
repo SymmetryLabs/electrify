@@ -2,14 +2,17 @@
 
 #include <algorithm>
 
-CompoundComponent::CompoundComponent()
-{
-}
-
 void CompoundComponent::init()
 {
   for (auto& subcomponent : subcomponents) {
     subcomponent->init();
+  }
+}
+
+void CompoundComponent::deinit()
+{
+  for (auto& subcomponent : subcomponents) {
+    subcomponent->deinit();
   }
 }
 
@@ -44,8 +47,35 @@ void CompoundComponent::removeSubcomponent(const unique_ptr<Component>& subcompo
   subcomponents.erase(remove(subcomponents.begin(), subcomponents.end(), subcomponent), subcomponents.end());
 }
 
-void wireSubcomponents(Component& emittingSubcomponent, string& emittingOutputName,
-  Component& receivingSubcomponent, string& receivingInputName)
+bool CompoundComponent::canWireSubcomponents(Component& emittingSubcomponent, const string& emittingOutputName,
+  Component& receivingSubcomponent, const string& receivingInputName)
 {
+  return emittingSubcomponent.canWireOutputTo(emittingOutputName, receivingSubcomponent, receivingInputName);
+}
 
+void CompoundComponent::wireSubcomponents(Component& emittingSubcomponent, const string& emittingOutputName,
+  Component& receivingSubcomponent, const string& receivingInputName)
+{
+  return emittingSubcomponent.wireOutputTo(emittingOutputName, receivingSubcomponent, receivingInputName);
+}
+
+void CompoundComponent::unwireSubcomponents(Component& emittingSubcomponent, const string& emittingOutputName,
+  Component& receivingSubcomponent, const string& receivingInputName)
+{
+  // TODO
+}
+
+BaseSocket* CompoundComponent::getWirableOutput(const string& name)
+{
+  try {
+    return wirableOutputs.at(name);
+  } catch (out_of_range& e) {
+    return nullptr;
+  }
+}
+
+void CompoundComponent::wireOutput(const string& name,
+  Component& emittingSubcomponent, const string& emittingOutputName)
+{
+  emittingSubcomponent.wireOutputTo(emittingOutputName, *getWirableOutput(name));
 }

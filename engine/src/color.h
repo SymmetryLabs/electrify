@@ -1,9 +1,7 @@
 #pragma once
 #include "globals.h"
 
-#include "value.h"
-
-class Color : public Value {
+class Color {
 
 public:
   explicit Color(unsigned long int color) {_rgba = color;};
