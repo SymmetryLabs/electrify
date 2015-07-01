@@ -5,16 +5,16 @@
 
 #include "basic_component.h"
 
-class PerlinNoiseComponent : public BasicComponent<double> {
+class PerlinNoiseComponent : public BasicComponent<float> {
 
 public:
   PerlinNoiseComponent();
 
-  double calculate(const FrameContext& frame) const override;
+  float calculate(const FrameContext& frame) const override;
 
-  SignalFunction<double> xInput;
-  SignalFunction<double> yInput;
-  SignalFunction<double> zInput;
+  SignalFunction<float> xInput;
+  SignalFunction<float> yInput;
+  SignalFunction<float> zInput;
 
   noise::module::Perlin noiseGenerator;
 

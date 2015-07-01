@@ -3,10 +3,10 @@
 
 #include "basic_component.h"
 
-class TimeComponent : public BasicComponent<double> {
+class TimeComponent : public BasicComponent<float> {
 
 public:
 
-  double calculate(const FrameContext& frame) const override;
+  float calculate(const FrameContext& frame) const override;
 
 };

@@ -6,6 +6,6 @@
 class SinWave : public Waveform {
 
 public:
-  double calculate(const FrameContext& frame) const override;
+  float calculate(const FrameContext& frame) const override;
 
 };

@@ -1,5 +1,5 @@
 template <typename V>
 BasicComponent<V>::BasicComponent()
 {
-  registerOutput("primary", &BasicComponent::calculate);
+  registerOutput("output", &BasicComponent::calculate);
 }

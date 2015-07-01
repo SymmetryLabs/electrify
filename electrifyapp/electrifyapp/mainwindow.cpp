@@ -21,7 +21,7 @@
 #include "constant_component.h"
 #include "perlin_noise_component.h"
 #include "time_component.h"
-#include "multiply_component.h"
+#include "scale_transform.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -61,8 +61,8 @@ MainWindow::MainWindow(QWidget *parent) :
     auto constantColor = compound->makeSubcomponent<ConstantColorComponent>();
     auto incrementer = compound->makeSubcomponent<Incrementer>();
 
-    compound->wireSubcomponents(*constantColor, "primary", *incrementer, "color");
-    compound->wireOutput("color", *incrementer, "primary");
+    compound->wireSubcomponents(*constantColor, "output", *incrementer, "color");
+    compound->wireOutput("color", *incrementer, "output");
 
 
     auto compound2 = blueprint->makeSubcomponent<CompoundComponent>();
@@ -71,18 +71,18 @@ MainWindow::MainWindow(QWidget *parent) :
     auto hsvComponent = compound2->makeSubcomponent<HsvComponent>();
     auto sawWaveComponent = compound2->makeSubcomponent<SawWave>();
     auto timeComponent = compound2->makeSubcomponent<TimeComponent>();
-    auto multiplyComponent = compound2->makeSubcomponent<MultiplyComponent>();
-    auto multiplyAmountComponent = compound2->makeSubcomponent<ConstantComponent<double>>(1.0 / 10);
+    auto scaleTransform = compound2->makeSubcomponent<ScaleTransform>();
+    auto multiplyAmountComponent = compound2->makeSubcomponent<ConstantComponent<float>>(1.0 / 10);
     auto perlinNoiseComponent = compound2->makeSubcomponent<PerlinNoiseComponent>();
-    auto frequency = compound2->makeSubcomponent<ConstantComponent<double>>(1.0 / 10);
+    auto frequency = compound2->makeSubcomponent<ConstantComponent<float>>(1.0 / 10);
 
-    compound->wireSubcomponents(*frequency, "primary", *sawWaveComponent, "frequency");
-    compound->wireSubcomponents(*multiplyAmountComponent, "primary", *multiplyComponent, "multiplyAmount");
-    compound->wireSubcomponents(*timeComponent, "primary", *multiplyComponent, "signalInput");
-    compound->wireSubcomponents(*multiplyComponent, "primary", *perlinNoiseComponent, "zInput");
-    compound->wireSubcomponents(*perlinNoiseComponent, "primary", *hsvComponent, "hue");
+    compound->wireSubcomponents(*frequency, "output", *sawWaveComponent, "frequency");
+    compound->wireSubcomponents(*multiplyAmountComponent, "output", *scaleTransform, "multiplier");
+    compound->wireSubcomponents(*timeComponent, "output", *scaleTransform, "input");
+    compound->wireSubcomponents(*scaleTransform, "output", *perlinNoiseComponent, "zInput");
+    compound->wireSubcomponents(*perlinNoiseComponent, "output", *hsvComponent, "hue");
 
-    compound2->wireOutput("color", *hsvComponent, "primary");
+    compound2->wireOutput("color", *hsvComponent, "output");
 
     blueprint->wireOutput("color", *compound2, "color");
 

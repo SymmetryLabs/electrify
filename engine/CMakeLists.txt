@@ -51,6 +51,7 @@ file(GLOB HEADERS
   "src"
   "src/components"
   "src/components/oscillators"
+  "src/components/transforms"
   "libs"
 )
 

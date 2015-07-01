@@ -11,8 +11,8 @@ public:
   FrameContext modifyContext(const FrameContext& original) override;
 
 private:
-  SignalFunction<double> translateX;
-  SignalFunction<double> translateY;
-  SignalFunction<double> translateZ;
+  SignalFunction<float> translateX;
+  SignalFunction<float> translateY;
+  SignalFunction<float> translateZ;
 
 };

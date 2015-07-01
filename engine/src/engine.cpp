@@ -8,8 +8,8 @@ using namespace boost;
 Engine::Engine(unique_ptr<Renderable> renderable_, unique_ptr<Model> model_)
   :renderable(move(renderable_))
   ,model(move(model_))
-  ,internalEventQueue(10)
   ,keepRunning(ATOMIC_FLAG_INIT)
+  ,internalEventQueue(10)
 {
   frontColorBuffer = make_unique<vector<Color>>(model->pixels.size());
   backColorBuffer = make_unique<vector<Color>>(model->pixels.size());

@@ -1,5 +1,4 @@
 #include "app.h"
-#include <iostream>
 
 #include "color.h"
 #include "constant_color_component.h"
@@ -28,30 +27,30 @@ int main()
   FrameContext frame {nanoseconds(100)};
 
   ConstantColorComponent c;
-  cout << c.getOutput<Color>("primary")->calculate(frame) << endl;
+  cout << c.getOutput<Color>("output")->calculate(frame) << endl;
 
   ColorDoubler colorDoubler;
-  colorDoubler.wireInput("color", *c.getOutput<Color>("primary"));
-  cout << colorDoubler.getOutput<Color>("primary")->calculate(frame) << endl;
+  colorDoubler.wireInput("color", *c.getOutput<Color>("output"));
+  cout << colorDoubler.getOutput<Color>("output")->calculate(frame) << endl;
   
   SquareWave sq;
   
-  Signal<double> *ds = sq.getOutput<double>("primary");
+  Signal<double> *ds = sq.getOutput<double>("output");
 
   double d = ds->calculate(frame);
   cout << d << endl;
 
-  cout << sq.getOutput<double>("primary")->calculate(frame) << endl;
+  cout << sq.getOutput<double>("output")->calculate(frame) << endl;
 
   Incrementer incr;
-  incr.wireInput("color", *colorDoubler.getOutput<Color>("primary"));
-  cout << incr.getOutput<Color>("primary")->calculate(frame) << endl;
+  incr.wireInput("color", *colorDoubler.getOutput<Color>("output"));
+  cout << incr.getOutput<Color>("output")->calculate(frame) << endl;
 
   incr.update(frame);
-  cout << incr.getOutput<Color>("primary")->calculate(frame) << endl;
+  cout << incr.getOutput<Color>("output")->calculate(frame) << endl;
 
   incr.update(frame);
-  cout << incr.getOutput<Color>("primary")->calculate(frame) << endl;
+  cout << incr.getOutput<Color>("output")->calculate(frame) << endl;
 
 
 
@@ -65,8 +64,8 @@ int main()
   auto constantColor = compound->makeSubcomponent<ConstantColorComponent>();
   auto translateComponent = compound->makeSubcomponent<TranslateComponent>();
 
-  compound->wireSubcomponents(*constantColor, "primary", *translateComponent, "signalInput");
-  compound->wireOutput("color", *translateComponent, "primary");
+  compound->wireSubcomponents(*constantColor, "output", *translateComponent, "signalInput");
+  compound->wireOutput("color", *translateComponent, "output");
 
   blueprint->wireOutput("color", *compound, "color");
 

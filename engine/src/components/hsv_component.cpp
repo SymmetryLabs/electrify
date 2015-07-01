@@ -3,8 +3,8 @@
 HsvComponent::HsvComponent()
 {
   registerInput("hue", &hue);
-  registerInput("saturation", &saturation, 1.0);
-  registerInput("value", &value, 1.0);
+  registerInput("saturation", &saturation, 1.0f);
+  registerInput("value", &value, 1.0f);
 }
 
 Color HsvComponent::calculate(const FrameContext& frame) const
