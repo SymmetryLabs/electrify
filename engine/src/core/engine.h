@@ -1,16 +1,15 @@
 #pragma once
-#include <thread>
-#include <mutex>
-#include "globals.h"
 
 #include <atomic>
+#include <thread>
+#include <mutex>
 
 #include <boost/lockfree/queue.hpp>
 
-#include "component.h"
+#include "globals.h"
+
 #include "renderable.h"
 #include "model.h"
-#include "output.h"
 
 constexpr static int FPS = 60;
 constexpr static nanoseconds TIME_PER_FRAME {duration_cast<nanoseconds>(seconds{1}) / FPS};

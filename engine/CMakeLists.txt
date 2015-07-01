@@ -49,6 +49,8 @@ endif()
 
 file(GLOB HEADERS
   "src"
+  "src/core"
+  "src/blueprint"
   "src/components"
   "src/components/oscillators"
   "src/components/transforms"
