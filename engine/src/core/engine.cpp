@@ -61,6 +61,13 @@ void Engine::loop()
     performLoopStep();
 
     auto nextFrameTime = currentFrameTime + TIME_PER_FRAME;
+
+    if (profilingEnabled) {
+      cout << "Spare cycle time: "
+        << duration_cast<milliseconds>(nextFrameTime - high_resolution_clock::now()).count()
+        << "ms" << endl;
+    }
+
     constexpr static bool USE_IDLE_LOOP = false;
     if (USE_IDLE_LOOP) {
       while (nextFrameTime > high_resolution_clock::now()) {
@@ -84,6 +91,11 @@ void Engine::loop()
 
 void Engine::performLoopStep()
 {
+  high_resolution_clock::time_point loopStepStartTime;
+  if (profilingEnabled) {
+    loopStepStartTime = high_resolution_clock::now();
+  }
+
   // calculate how many frames we're going to catch up by
   auto loopTimeDelta = high_resolution_clock::now() - currentFrameTime;
   // limit catchup updates to 250ms total per loop step
@@ -110,6 +122,12 @@ void Engine::performLoopStep()
   }
 
   performRasterization();
+
+  if (profilingEnabled) {
+    cout << "Loop time: "
+      << duration_cast<milliseconds>(high_resolution_clock::now() - loopStepStartTime).count()
+      << "ms" << endl;
+  }
 }
 
 void Engine::performFrameUpdate()
@@ -129,6 +147,12 @@ void Engine::performRasterization()
   swapColorBuffers();
 
   // send color buffer changed notification
+}
+
+void Engine::setProfilingEnabled(bool enabled)
+{
+  // TODO: throw this on the event queue instead
+  profilingEnabled = enabled;
 }
 
 void Engine::copyColorBuffer(vector<Color>& colorBuffer)

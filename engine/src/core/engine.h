@@ -31,6 +31,8 @@ public:
 
   void copyColorBuffer(vector<Color>& colorBuffer);
 
+  void setProfilingEnabled(bool enabled);
+
 private:
   const unique_ptr<Renderable> renderable;
   const unique_ptr<Model> model;
@@ -39,6 +41,7 @@ private:
 
   thread engineThread;
   boost::lockfree::queue<function<void()>*> internalEventQueue;
+  bool profilingEnabled = false;
   bool shouldStopAfter2Seconds = false;
 
   unique_ptr<vector<Color>> frontColorBuffer;
