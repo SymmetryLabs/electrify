@@ -42,7 +42,7 @@ if (APPLE)
 endif()
 
 # Download source code
-set(REPO_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/3rdParty")
+set(REPO_SOURCE_DIR "${CMAKE_BINARY_DIR}/${__CPM_FULL_UNID}")
 CPM_EnsureRepoIsCurrent(
   TARGET_DIR ${REPO_SOURCE_DIR}
   GIT_REPOSITORY "https://github.com/qknight/libnoise.git"
@@ -50,7 +50,7 @@ CPM_EnsureRepoIsCurrent(
   )
 
 # Invoke CMake
-add_subdirectory("${REPO_SOURCE_DIR}")
+add_subdirectory("${REPO_SOURCE_DIR}" "${CPM_ROOT_BIN_DIR}")
 
 CPM_ExportAdditionalIncludeDir("${REPO_SOURCE_DIR}/src")
 CPM_ExportAdditionalLibraryTarget("noise-static")

@@ -59,7 +59,9 @@ file(GLOB HEADERS
 
 file(GLOB_RECURSE SRCS
   "src/*.cpp"
+  "src/*.h"
   "libs/FastLED/*.cpp"
+  "libs/FastLED/*.h"
 )
 source_group("src" FILES ${SRCS})
 
