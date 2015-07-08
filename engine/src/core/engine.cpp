@@ -146,7 +146,7 @@ void Engine::performRasterization()
 
   swapColorBuffers();
 
-  // send color buffer changed notification
+  // TODO: send color buffer changed notification
 }
 
 void Engine::setProfilingEnabled(bool enabled)

@@ -37,12 +37,13 @@ private:
   const unique_ptr<Renderable> renderable;
   const unique_ptr<Model> model;
 
+  thread engineThread;
   atomic_flag keepRunning;
 
-  thread engineThread;
-  boost::lockfree::queue<function<void()>*> internalEventQueue;
   bool profilingEnabled = false;
   bool shouldStopAfter2Seconds = false;
+
+  boost::lockfree::queue<function<void()>*> internalEventQueue;
 
   unique_ptr<vector<Color>> frontColorBuffer;
   unique_ptr<vector<Color>> backColorBuffer;
