@@ -30,20 +30,33 @@
     <property name="spacing">
      <number>0</number>
     </property>
-    <item row="0" column="2">
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+    <item row="0" column="2" rowspan="3">
+     <widget class="QWidget" name="widget" native="true">
+      <property name="acceptDrops">
+       <bool>true</bool>
       </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
+     </widget>
     </item>
-    <item row="0" column="3">
+    <item row="1" column="0" rowspan="2">
+     <widget class="ComponentList" name="listWidget">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="dragEnabled">
+       <bool>true</bool>
+      </property>
+      <property name="dragDropMode">
+       <enum>QAbstractItemView::DragOnly</enum>
+      </property>
+      <property name="defaultDropAction">
+       <enum>Qt::CopyAction</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
      <widget class="OutputSimulationWidget" name="outputSimulationWidget">
       <property name="minimumSize">
        <size>
@@ -53,26 +66,10 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="3">
-     <spacer name="verticalSpacer">
+    <item row="1" column="1">
+     <widget class="Line" name="line">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>40</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="0" column="1" rowspan="2">
-     <widget class="QListWidget" name="listWidget">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
       </property>
      </widget>
     </item>
@@ -95,6 +92,11 @@
    <class>OutputSimulationWidget</class>
    <extends>QOpenGLWidget</extends>
    <header>outputsimulationwidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ComponentList</class>
+   <extends>QListWidget</extends>
+   <header>componentlist.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -19,10 +19,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         designerwindow.cpp \
-    outputsimulationwidget.cpp
+    outputsimulationwidget.cpp \
+    componentlist.cpp
 
 HEADERS  += designerwindow.h \
-    outputsimulationwidget.h
+    outputsimulationwidget.h \
+    componentlist.h
 
 FORMS    += designerwindow.ui
 

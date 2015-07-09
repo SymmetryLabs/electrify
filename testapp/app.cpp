@@ -14,6 +14,7 @@
 #include "compound_component.h"
 #include "translate_component.h"
 #include "blueprint.h"
+#include "component_registrar.h"
 
 int main()
 {
@@ -52,6 +53,9 @@ int main()
   incr.update(frame);
   cout << incr.getOutput<Color>("output")->calculate(frame) << endl;
 
+
+  ComponentRegistrar componentRegistrar;
+  cout << componentRegistrar.getAvailableComponents()[0] << endl;
 
 
   auto blueprint = make_unique<Blueprint>();
