@@ -20,13 +20,19 @@ TEMPLATE = app
 SOURCES += main.cpp\
         designerwindow.cpp \
     outputsimulationwidget.cpp \
-    componentlist.cpp
+    componentlist.cpp \
+    componentgrid.cpp \
+    componentgriditem.cpp
 
 HEADERS  += designerwindow.h \
     outputsimulationwidget.h \
-    componentlist.h
+    componentlist.h \
+    componentgrid.h \
+    componentgriditem.h
 
-FORMS    += designerwindow.ui
+FORMS    += designerwindow.ui \
+    componentgrid.ui \
+    componentgriditem.ui
 
 # Link against symmetry engine lib
 LIBS += -L$$OUT_PWD/engine -lSymmetryEngine
