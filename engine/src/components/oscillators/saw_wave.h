@@ -6,6 +6,8 @@
 class SawWave : public Waveform {
 
 public:
+  static const string componentName() { return "Sawtooth wave"; }
+  
   float calculate(const FrameContext& frame) const override;
 
 };

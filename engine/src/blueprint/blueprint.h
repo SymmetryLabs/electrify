@@ -11,6 +11,8 @@ public:
   Blueprint();
   virtual ~Blueprint() {}
 
+  static const string componentName() { return "Blueprint"; }
+
   virtual void initRenderable(const Model& model_) override;
   virtual void deinitRenderable() override;
   virtual void updateRenderable(const FrameContext& frame) override;

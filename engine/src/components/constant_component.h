@@ -10,6 +10,8 @@ public:
   ConstantComponent() {}
   explicit ConstantComponent(V value_) : value(value_) {}
 
+  static const string componentName() { return "Constant float"; }
+
   V calculate(__attribute__((unused)) const FrameContext& frame) const override { return value; }
 
 private:

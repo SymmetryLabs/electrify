@@ -9,6 +9,8 @@ class CompoundComponent : public Component {
 public:
   virtual ~CompoundComponent() {}
 
+  static const string componentName() { return "Compound Component"; }
+
   virtual void init() override;
   virtual void deinit() override;
   virtual void update(const FrameContext& f) override;

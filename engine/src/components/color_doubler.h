@@ -8,6 +8,8 @@ class ColorDoubler : public BasicComponent<Color> {
 public:
   ColorDoubler();
 
+  static const string componentName() { return "Color doubler"; }
+
   Color calculate(const FrameContext& frame) const override;
 
 private:

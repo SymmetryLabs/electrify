@@ -16,22 +16,22 @@
 
 ComponentRegistrar::ComponentRegistrar()
 {
-  registerComponent<SawWave>("Sawtooth wave");
-  registerComponent<SinWave>("Sin wave");
-  registerComponent<SquareWave>("Square wave");
-  registerComponent<ScaleTransform>("Scale");
-  registerComponent<ColorDoubler>("Color doubler");
-  registerComponent<ConstantColorComponent>("Constant color");
-  registerComponent<ConstantFloatComponent>("Constant float");
-  registerComponent<HsvComponent>("HSV");
-  registerComponent<Incrementer>("Incrementer");
-  registerComponent<PerlinNoiseComponent>("Perlin noise");
-  registerComponent<PixelXComponent>("Pixel.x");
-  registerComponent<TimeComponent>("Time");
-  registerComponent<TranslateComponent>("Translate");
+  registerComponent<SawWave>();
+  registerComponent<SinWave>();
+  registerComponent<SquareWave>();
+  registerComponent<ScaleTransform>();
+  registerComponent<ColorDoubler>();
+  registerComponent<ConstantColorComponent>();
+  registerComponent<ConstantFloatComponent>();
+  registerComponent<HsvComponent>();
+  registerComponent<Incrementer>();
+  registerComponent<PerlinNoiseComponent>();
+  registerComponent<PixelXComponent>();
+  registerComponent<TimeComponent>();
+  registerComponent<TranslateComponent>();
 }
 
-vector<string> ComponentRegistrar::getAvailableComponents()
+vector<string> ComponentRegistrar::getAvailableComponents() const
 {
   vector<string> keys;
   keys.reserve(componentFactories.size());

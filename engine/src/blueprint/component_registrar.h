@@ -9,12 +9,12 @@ public:
   ComponentRegistrar();
 
   template<typename ClassType>
-  void registerComponent(const string& name);
+  void registerComponent();
 
-  vector<string> getAvailableComponents();
+  vector<string> getAvailableComponents() const;
 
   template<typename ClassType = Component>
-  unique_ptr<ClassType> getComponent(const string& name);
+  unique_ptr<ClassType> getComponent(const string& name) const;
 
 private:
   unordered_map<string, function<Component* ()>> componentFactories;

@@ -21,8 +21,16 @@
 class Component  {
 
 public:
-  Component() {}
   virtual ~Component() {}
+
+  template<typename ConcreteType>
+  static ConcreteType* createComponent() {
+    ConcreteType* component = new ConcreteType();
+    component->name = ConcreteType::componentName();
+    return component;
+  }
+
+  string name;
 
   virtual void init() {}
   virtual void deinit() {}

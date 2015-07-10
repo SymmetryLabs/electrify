@@ -10,6 +10,8 @@ class PerlinNoiseComponent : public BasicComponent<float> {
 public:
   PerlinNoiseComponent();
 
+  static const string componentName() { return "Perlin noise"; }
+
   float calculate(const FrameContext& frame) const override;
 
   SignalFunction<float> xInput;
