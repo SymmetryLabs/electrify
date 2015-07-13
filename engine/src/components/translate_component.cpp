@@ -2,20 +2,19 @@
 
 TranslateComponent::TranslateComponent()
 {
-  registerInput("signalInput", &signalInput);
   registerInput("translateX", &translateX);
   registerInput("translateY", &translateY);
   registerInput("translateZ", &translateZ);
 }
 
-Color TranslateComponent::calculate(const FrameContext& frame) const
+FrameContext TranslateComponent::modifyContext(const FrameContext& original)
 {
-  Pixel pixel {frame.frag->pixel};
-  pixel.x += translateX(frame);
-  pixel.y += translateY(frame);
-  pixel.z += translateZ(frame);
+  Pixel pixel {original.frag->pixel};
+  pixel.x += translateX(original);
+  pixel.y += translateY(original);
+  pixel.z += translateZ(original);
   
   FragmentContext frag(pixel);
-  FrameContext childFrame(frame, &frag);
-  return signalInput(childFrame);
+  FrameContext childFrame(original, &frag);
+  return childFrame;
 }

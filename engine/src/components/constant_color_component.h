@@ -6,6 +6,8 @@
 class ConstantColorComponent : public BasicComponent<Color> {
 
 public:
+  static const string componentName() { return "Constant color"; }
+  
   Color calculate(const FrameContext& frame) const override;
 
 };

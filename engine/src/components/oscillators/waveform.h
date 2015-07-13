@@ -3,14 +3,14 @@
 
 #include "basic_component.h"
 
-class Waveform : public BasicComponent<double> {
+class Waveform : public BasicComponent<float> {
 
 public:
   Waveform();
   virtual ~Waveform() {}
 
-  SignalFunction<double> amplitude;
-  SignalFunction<double> frequency;
-  SignalFunction<double> phase;
+  SignalFunction<float> amplitude;
+  SignalFunction<float> frequency;
+  SignalFunction<float> phase;
 
 };

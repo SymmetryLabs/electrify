@@ -1,20 +1,20 @@
 #pragma once
 #include "globals.h"
 
-#include "basic_component.h"
+#include "context_modifier_component.h"
 
-class TranslateComponent : BasicComponent<Color> {
+class TranslateComponent : public ContextModifierComponent {
 
 public:
   TranslateComponent();
 
-  Color calculate(const FrameContext& frame) const override;
+  static const string componentName() { return "Translate"; }
+
+  FrameContext modifyContext(const FrameContext& original) override;
 
 private:
-  SignalFunction<Color> signalInput;
-
-  SignalFunction<double> translateX;
-  SignalFunction<double> translateY;
-  SignalFunction<double> translateZ;
+  SignalFunction<float> translateX;
+  SignalFunction<float> translateY;
+  SignalFunction<float> translateZ;
 
 };

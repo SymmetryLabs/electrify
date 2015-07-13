@@ -21,7 +21,7 @@
 #include "constant_component.h"
 #include "perlin_noise_component.h"
 #include "time_component.h"
-#include "multiply_component.h"
+#include "scale_transform.h"
 #include <iostream>
 #include <vector>
 #include <unistd.h>
@@ -42,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
       Loader loader = Loader();
       string filename("data/cubesExport2.json");
 
+
      unique_ptr<Model> model = loader.loadJSON(filename);
      qDebug() << "file loaded\n";
 
@@ -57,48 +58,36 @@ MainWindow::MainWindow(QWidget *parent) :
         glwidget->setOutput(output.get());
 
 
-    auto compound = make_unique<CompoundComponent>();
+    auto compound = blueprint->makeSubcomponent<CompoundComponent>();
     compound->registerWirableOutput<Color>("color");
 
-    auto constantColor = make_unique<ConstantColorComponent>();
-    auto incrementer = make_unique<Incrementer>();
+    auto constantColor = compound->makeSubcomponent<ConstantColorComponent>();
+    auto incrementer = compound->makeSubcomponent<Incrementer>();
 
-    incrementer->wireInput("color", constantColor->getOutput<Color>("primary"));
-    compound->wireOutput("color", incrementer->getOutput<Color>("primary"));
-
-    compound->addSubcomponent(std::move(incrementer));
-    compound->addSubcomponent(std::move(constantColor));
+    compound->wireSubcomponents(*constantColor, "output", *incrementer, "color");
+    compound->wireOutput("color", *incrementer, "output");
 
 
-    auto compound2 = make_unique<CompoundComponent>();
+    auto compound2 = blueprint->makeSubcomponent<CompoundComponent>();
     compound2->registerWirableOutput<Color>("color");
 
-    auto hsvComponent = make_unique<HsvComponent>();
-    auto sawWaveComponent = make_unique<SawWave>();
-    auto timeComponent = make_unique<TimeComponent>();
-    auto multiplyComponent = make_unique<MultiplyComponent>();
-    auto multiplyAmountComponent = make_unique<ConstantComponent<double>>(1.0 / 10);
-    auto perlinNoiseComponent = make_unique<PerlinNoiseComponent>();
-    auto frequency = make_unique<ConstantComponent<double>>(1.0 / 10);
+    auto hsvComponent = compound2->makeSubcomponent<HsvComponent>();
+    auto sawWaveComponent = compound2->makeSubcomponent<SawWave>();
+    auto timeComponent = compound2->makeSubcomponent<TimeComponent>();
+    auto scaleTransform = compound2->makeSubcomponent<ScaleTransform>();
+    auto multiplyAmountComponent = compound2->makeSubcomponent<ConstantComponent<float>>(1.0 / 10);
+    auto perlinNoiseComponent = compound2->makeSubcomponent<PerlinNoiseComponent>();
+    auto frequency = compound2->makeSubcomponent<ConstantComponent<float>>(1.0 / 10);
 
-    sawWaveComponent->wireInput("frequency", frequency->getOutput<double>("primary"));
-    multiplyComponent->wireInput("multiplyAmount", multiplyAmountComponent->getOutput<double>("primary"));
-    multiplyComponent->wireInput("signalInput", timeComponent->getOutput<double>("primary"));
-    perlinNoiseComponent->wireInput("zInput", multiplyComponent->getOutput<double>("primary"));
-    hsvComponent->wireInput("hue", perlinNoiseComponent->getOutput<Color>("primary"));
-    compound2->wireOutput("color", hsvComponent->getOutput<Color>("primary"));
+    compound->wireSubcomponents(*frequency, "output", *sawWaveComponent, "frequency");
+    compound->wireSubcomponents(*multiplyAmountComponent, "output", *scaleTransform, "multiplier");
+    compound->wireSubcomponents(*timeComponent, "output", *scaleTransform, "input");
+    compound->wireSubcomponents(*scaleTransform, "output", *perlinNoiseComponent, "zInput");
+    compound->wireSubcomponents(*perlinNoiseComponent, "output", *hsvComponent, "hue");
 
-    compound2->addSubcomponent(std::move(frequency));
-    compound2->addSubcomponent(std::move(sawWaveComponent));
-    compound2->addSubcomponent(std::move(timeComponent));
-    compound2->addSubcomponent(std::move(multiplyComponent));
-    compound2->addSubcomponent(std::move(multiplyAmountComponent));
-    compound2->addSubcomponent(std::move(perlinNoiseComponent));
-    compound2->addSubcomponent(std::move(hsvComponent));
+    compound2->wireOutput("color", *hsvComponent, "output");
 
-    blueprint->wireOutput("color", compound2->getOutput<Color>("color"));
-    blueprint->addSubcomponent(std::move(compound));
-    blueprint->addSubcomponent(std::move(compound2));
+    blueprint->wireOutput("color", *compound2, "color");
 
     qDebug() << "Is blueprint fully wired:" << blueprint->isFullyWired();
     modelsize = model->pixels.size();

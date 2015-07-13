@@ -7,7 +7,7 @@ PerlinNoiseComponent::PerlinNoiseComponent()
   registerInput("zInput", &zInput);
 }
 
-double PerlinNoiseComponent::calculate(const FrameContext& frame) const
+float PerlinNoiseComponent::calculate(const FrameContext& frame) const
 {
   return noiseGenerator.GetValue(xInput(frame), yInput(frame), zInput(frame));
 }

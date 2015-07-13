@@ -6,6 +6,8 @@
 class SquareWave : public Waveform {
 
 public:
-  double calculate(const FrameContext& frame) const override;
+  static const string componentName() { return "Square wave"; }
+  
+  float calculate(const FrameContext& frame) const override;
 
 };

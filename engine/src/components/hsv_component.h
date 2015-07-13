@@ -8,10 +8,12 @@ class HsvComponent : public BasicComponent<Color> {
 public:
   HsvComponent();
 
+  static const string componentName() { return "HSV"; }
+
   Color calculate(const FrameContext& frame) const override;
   
-  SignalFunction<double> hue;
-  SignalFunction<double> saturation;
-  SignalFunction<double> value;
+  SignalFunction<float> hue;
+  SignalFunction<float> saturation;
+  SignalFunction<float> value;
 
 };

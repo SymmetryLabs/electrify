@@ -43,17 +43,26 @@ find_package(Boost REQUIRED)
 # SymmetryEngine
 #------------------------------------------------------------------------------
 
+if (APPLE)
+  set(CMAKE_MACOSX_RPATH ON)
+endif()
+
 file(GLOB HEADERS
   "src"
+  "src/core"
   "src/outputs"
+  "src/blueprint"
   "src/components"
   "src/components/oscillators"
+  "src/components/transforms"
   "libs"
 )
 
 file(GLOB_RECURSE SRCS
   "src/*.cpp"
+  "src/*.h"
   "libs/FastLED/*.cpp"
+  "libs/FastLED/*.h"
 )
 source_group("src" FILES ${SRCS})
 

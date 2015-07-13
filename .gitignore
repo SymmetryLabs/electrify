@@ -104,3 +104,4 @@ build-*
 .tags*
 *.d
 3rdParty/
+CMakeLists.txt.user

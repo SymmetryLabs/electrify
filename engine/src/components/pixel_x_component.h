@@ -3,10 +3,11 @@
 
 #include "basic_component.h"
 
-class PixelXComponent : public BasicComponent<double> {
+class PixelXComponent : public BasicComponent<float> {
 
 public:
+  static const string componentName() { return "Pixel.x"; }
 
-  double calculate(const FrameContext& frame) const override;
+  float calculate(const FrameContext& frame) const override;
 
 };
