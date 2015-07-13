@@ -106,21 +106,21 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::timerEvent(__attribute__((unused)) QTimerEvent *event)
 {
 
-    if(opc->tryConnect())
-    {
-        engine->copyColorBuffer(output->colorBuffer);
-        std::vector<uint8_t>::iterator it = frameBuffer.begin();
-        it += sizeof(OPCClient::Header);
-            for(auto c: output->colorBuffer)
-            {
-                *(it++) = (c.asRGBA() >> 16) & 255;
-                *(it++) = (c.asRGBA() >> 24) & 255;
-                *(it++) =(c.asRGBA() >> 8) & 255;
-                if(it == frameBuffer.end() ) {break;};
-            }
-        OPCClient::Header::view(frameBuffer).init(0, opc->SET_PIXEL_COLORS, modelsize*3);
-        bool res = opc->write(frameBuffer);
-    }
+//    if(opc->tryConnect())
+//    {
+//        engine->copyColorBuffer(output->colorBuffer);
+//        std::vector<uint8_t>::iterator it = frameBuffer.begin();
+//        it += sizeof(OPCClient::Header);
+//            for(auto c: output->colorBuffer)
+//            {
+//                *(it++) = (c.asRGBA() >> 16) & 255;
+//                *(it++) = (c.asRGBA() >> 24) & 255;
+//                *(it++) =(c.asRGBA() >> 8) & 255;
+//                if(it == frameBuffer.end() ) {break;};
+//            }
+//        OPCClient::Header::view(frameBuffer).init(0, opc->SET_PIXEL_COLORS, modelsize*3);
+//        bool res = opc->write(frameBuffer);
+//    }
     glwidget->update();
 }
 
