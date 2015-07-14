@@ -15,8 +15,6 @@ public:
   virtual void deinit() override;
   virtual void update(const FrameContext& f) override;
 
-  virtual bool isFullyWired() override;
-
   template <typename Type, typename... Targs>
   Type* makeSubcomponent(Targs&&... Fargs);
   void addSubcomponent(unique_ptr<Component> subcomponent);

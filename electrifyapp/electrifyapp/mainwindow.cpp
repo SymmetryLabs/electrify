@@ -86,8 +86,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     blueprint->wireOutput("color", *compound2, "color");
 
-    qDebug() << "Is blueprint fully wired:" << blueprint->isFullyWired();
-
     engine = make_unique<Engine>(std::move(blueprint), std::move(model));
     glwidget->engine = engine.get();
     engine->start();

@@ -1,7 +1,5 @@
 #include "compound_component.h"
 
-#include <algorithm>
-
 void CompoundComponent::init()
 {
   for (auto& subcomponent : subcomponents) {
@@ -21,19 +19,6 @@ void CompoundComponent::update(const FrameContext& frame)
   for (auto& subcomponent : subcomponents) {
     subcomponent->update(frame);
   }
-}
-
-bool CompoundComponent::isFullyWired()
-{
-  return Component::isFullyWired()
-    && all_of(subcomponents.begin(), subcomponents.end(),
-      [](const unique_ptr<Component>& comp) -> bool {
-        return comp->isFullyWired();
-      })
-    && all_of(wirableOutputs.begin(), wirableOutputs.end(),
-      [](unordered_map<string, BaseSocket*>::value_type& pair) -> bool {
-        return pair.second->hasSignal();
-      });
 }
 
 void CompoundComponent::addSubcomponent(unique_ptr<Component> subcomponent)

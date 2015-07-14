@@ -40,8 +40,6 @@ public:
    */
   virtual void update(__attribute__((unused)) const FrameContext& f) {}
 
-  virtual bool isFullyWired();
-
   // Input
 
   void registerInput(const string& name, unique_ptr<BaseSocket> inputSocket);

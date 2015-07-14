@@ -72,8 +72,6 @@ int main()
   compound->wireOutput("color", *translateComponent, "output");
 
   blueprint->wireOutput("color", *compound, "color");
-
-  cout << "Is blueprint fully wired: " << blueprint->isFullyWired() << endl;
   
   Engine engine(move(blueprint), move(model));
   engine.startAndWait();
