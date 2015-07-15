@@ -11,16 +11,16 @@ class ComponentGridItemQt;
 
 class ComponentGridItemQt : public QWidget
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    ComponentGridItemQt(std::unique_ptr<Component> component, QWidget *parent = 0);
-    ~ComponentGridItemQt();
+  ComponentGridItemQt(std::unique_ptr<Component> component, QWidget *parent = 0);
+  ~ComponentGridItemQt();
 
 private:
-    Ui::ComponentGridItemQt* ui;
+  Ui::ComponentGridItemQt* ui;
 
-    std::unique_ptr<Component> component;
+  std::unique_ptr<Component> component;
 };
 
 #endif // COMPONENTGRIDITEMQT_H

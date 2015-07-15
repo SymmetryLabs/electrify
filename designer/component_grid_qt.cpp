@@ -7,41 +7,41 @@
 #include "component_grid_item_qt.h"
 
 ComponentGridQt::ComponentGridQt(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::ComponentGridQt)
+  QWidget(parent),
+  ui(new Ui::ComponentGridQt)
 {
-    ui->setupUi(this);
+  ui->setupUi(this);
 }
 
 ComponentGridQt::~ComponentGridQt()
 {
-    delete ui;
+  delete ui;
 }
 
 void ComponentGridQt::dragEnterEvent(QDragEnterEvent *event)
 {
-    if (event->mimeData()->hasFormat("application/x-qabstractitemmodeldatalist")) {
-        event->acceptProposedAction();
-    }
+  if (event->mimeData()->hasFormat("application/x-qabstractitemmodeldatalist")) {
+    event->acceptProposedAction();
+  }
 }
 
 void ComponentGridQt::dropEvent(QDropEvent *event)
 {
-    QByteArray encoded = event->mimeData()->data("application/x-qabstractitemmodeldatalist");
-    QDataStream stream(&encoded, QIODevice::ReadOnly);
+  QByteArray encoded = event->mimeData()->data("application/x-qabstractitemmodeldatalist");
+  QDataStream stream(&encoded, QIODevice::ReadOnly);
 
-    while (!stream.atEnd())
-    {
-        int row, col;
-        QMap<int,  QVariant> roleDataMap;
-        stream >> row >> col >> roleDataMap;
+  while (!stream.atEnd())
+  {
+    int row, col;
+    QMap<int,  QVariant> roleDataMap;
+    stream >> row >> col >> roleDataMap;
 
-        std::string name = roleDataMap[0].toString().toStdString();
+    std::string name = roleDataMap[0].toString().toStdString();
 
-        auto gridItem = new ComponentGridItemQt(componentRegistrar.getComponent(name), this);
-        gridItem->move(event->pos());
-        gridItem->show();
-    }
+    auto gridItem = new ComponentGridItemQt(componentRegistrar.getComponent(name), this);
+    gridItem->move(event->pos());
+    gridItem->show();
+  }
 
-    event->acceptProposedAction();
+  event->acceptProposedAction();
 }

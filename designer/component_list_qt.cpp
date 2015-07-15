@@ -2,8 +2,8 @@
 
 ComponentListQt::ComponentListQt(QWidget *parent) : QListWidget(parent)
 {
-    for (auto componentName : componentRegistrar.getAvailableComponents()) {
-        addItem(QString::fromStdString(componentName));
-    }
+  for (auto componentName : componentRegistrar.getAvailableComponents()) {
+    addItem(QString::fromStdString(componentName));
+  }
 }
 

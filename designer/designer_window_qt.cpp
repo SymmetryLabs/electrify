@@ -24,67 +24,67 @@
 #include "scale_transform.h"
 
 DesignerWindow::DesignerWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::DesignerWindowQt)
+  QMainWindow(parent),
+  ui(new Ui::DesignerWindowQt)
 {
-    ui->setupUi(this);
+  ui->setupUi(this);
 
-    auto blueprint = make_unique<Blueprint>();
+  auto blueprint = make_unique<Blueprint>();
 
-    /* file loading */
-    Loader loader = Loader();
-    unique_ptr<Model> model = loader.loadJSON("data/cubesExport2.json");
-    qDebug() << "file loaded";
+  /* file loading */
+  Loader loader = Loader();
+  unique_ptr<Model> model = loader.loadJSON("data/cubesExport2.json");
+  qDebug() << "file loaded";
 
-    output = make_unique<Output>();
-    for (auto pixel : model->pixels) {
-        output->colorBuffer.push_back(Color(0xFFFFFFFF));
-    }
+  output = make_unique<Output>();
+  for (auto pixel : model->pixels) {
+    output->colorBuffer.push_back(Color(0xFFFFFFFF));
+  }
 
-    OutputSimulationWidget* osWidget = findChild<OutputSimulationWidget*>("outputSimulationWidget");
-    osWidget->setModel(model.get());
-    osWidget->setOutput(output.get());
-
-
-    auto compound = blueprint->makeSubcomponent<CompoundComponent>();
-    compound->registerWirableOutput<Color>("color");
-
-    auto constantColor = compound->makeSubcomponent<ConstantColorComponent>();
-    auto incrementer = compound->makeSubcomponent<Incrementer>();
-
-    compound->wireSubcomponents(*constantColor, "output", *incrementer, "color");
-    compound->wireOutput("color", *incrementer, "output");
+  OutputSimulationWidget* osWidget = findChild<OutputSimulationWidget*>("outputSimulationWidget");
+  osWidget->setModel(model.get());
+  osWidget->setOutput(output.get());
 
 
-    auto compound2 = blueprint->makeSubcomponent<CompoundComponent>();
-    compound2->registerWirableOutput<Color>("color");
+  auto compound = blueprint->makeSubcomponent<CompoundComponent>();
+  compound->registerWirableOutput<Color>("color");
 
-    auto hsvComponent = compound2->makeSubcomponent<HsvComponent>();
-    auto sawWaveComponent = compound2->makeSubcomponent<SawWave>();
-    auto timeComponent = compound2->makeSubcomponent<TimeComponent>();
-    auto scaleTransform = compound2->makeSubcomponent<ScaleTransform>();
-    auto multiplyAmountComponent = compound2->makeSubcomponent<ConstantComponent<float>>(1.0 / 10);
-    auto perlinNoiseComponent = compound2->makeSubcomponent<PerlinNoiseComponent>();
-    auto frequency = compound2->makeSubcomponent<ConstantComponent<float>>(1.0 / 10);
+  auto constantColor = compound->makeSubcomponent<ConstantColorComponent>();
+  auto incrementer = compound->makeSubcomponent<Incrementer>();
 
-    compound->wireSubcomponents(*frequency, "output", *sawWaveComponent, "frequency");
-    compound->wireSubcomponents(*multiplyAmountComponent, "output", *scaleTransform, "multiplier");
-    compound->wireSubcomponents(*timeComponent, "output", *scaleTransform, "input");
-    compound->wireSubcomponents(*scaleTransform, "output", *perlinNoiseComponent, "zInput");
-    compound->wireSubcomponents(*perlinNoiseComponent, "output", *hsvComponent, "hue");
+  compound->wireSubcomponents(*constantColor, "output", *incrementer, "color");
+  compound->wireOutput("color", *incrementer, "output");
 
-    compound2->wireOutput("color", *hsvComponent, "output");
 
-    blueprint->wireOutput("color", *compound2, "color");
+  auto compound2 = blueprint->makeSubcomponent<CompoundComponent>();
+  compound2->registerWirableOutput<Color>("color");
 
-    engine = make_unique<Engine>(std::move(blueprint), std::move(model));
-    // engine->setProfilerEnabled(true);
-    osWidget->engine = engine.get();
-    engine->start();
+  auto hsvComponent = compound2->makeSubcomponent<HsvComponent>();
+  auto sawWaveComponent = compound2->makeSubcomponent<SawWave>();
+  auto timeComponent = compound2->makeSubcomponent<TimeComponent>();
+  auto scaleTransform = compound2->makeSubcomponent<ScaleTransform>();
+  auto multiplyAmountComponent = compound2->makeSubcomponent<ConstantComponent<float>>(1.0 / 10);
+  auto perlinNoiseComponent = compound2->makeSubcomponent<PerlinNoiseComponent>();
+  auto frequency = compound2->makeSubcomponent<ConstantComponent<float>>(1.0 / 10);
+
+  compound->wireSubcomponents(*frequency, "output", *sawWaveComponent, "frequency");
+  compound->wireSubcomponents(*multiplyAmountComponent, "output", *scaleTransform, "multiplier");
+  compound->wireSubcomponents(*timeComponent, "output", *scaleTransform, "input");
+  compound->wireSubcomponents(*scaleTransform, "output", *perlinNoiseComponent, "zInput");
+  compound->wireSubcomponents(*perlinNoiseComponent, "output", *hsvComponent, "hue");
+
+  compound2->wireOutput("color", *hsvComponent, "output");
+
+  blueprint->wireOutput("color", *compound2, "color");
+
+  engine = make_unique<Engine>(std::move(blueprint), std::move(model));
+  // engine->setProfilerEnabled(true);
+  osWidget->engine = engine.get();
+  engine->start();
 }
 
 DesignerWindow::~DesignerWindow()
 {
-    delete ui;
-    engine->stopAndWait();
+  delete ui;
+  engine->stopAndWait();
 }

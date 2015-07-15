@@ -12,19 +12,19 @@ class ComponentGridQt;
 
 class ComponentGridQt : public QWidget
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    explicit ComponentGridQt(QWidget *parent = 0);
-    ~ComponentGridQt();
+  explicit ComponentGridQt(QWidget *parent = 0);
+  ~ComponentGridQt();
 
 private:
-    Ui::ComponentGridQt* ui;
+  Ui::ComponentGridQt* ui;
 
-    void dragEnterEvent(QDragEnterEvent *event);
-    void dropEvent(QDropEvent *event);
+  void dragEnterEvent(QDragEnterEvent *event);
+  void dropEvent(QDropEvent *event);
 
-    ComponentRegistrar componentRegistrar;
+  ComponentRegistrar componentRegistrar;
 };
 
 #endif // COMPONENTGRIDQT_H

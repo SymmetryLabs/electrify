@@ -8,9 +8,9 @@
 class ComponentListQt : public QListWidget
 {
 public:
-    ComponentListQt(QWidget *parent = 0);
+  ComponentListQt(QWidget *parent = 0);
 
-    ComponentRegistrar componentRegistrar;
+  ComponentRegistrar componentRegistrar;
 };
 
 #endif // COMPONENTLISTQT_H

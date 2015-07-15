@@ -13,17 +13,17 @@ class DesignerWindowQt;
 
 class DesignerWindowQt : public QMainWindow
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    explicit DesignerWindowQt(QWidget *parent = 0);
-    ~DesignerWindowQt();
+  explicit DesignerWindowQt(QWidget *parent = 0);
+  ~DesignerWindowQt();
 
-    unique_ptr<Engine> engine;
-    unique_ptr<Output> output;
+  unique_ptr<Engine> engine;
+  unique_ptr<Output> output;
 
 private:
-    Ui::DesignerWindowQt *ui;
+  Ui::DesignerWindowQt *ui;
 };
 
 #endif // DESIGNERWINDOWQT_H
