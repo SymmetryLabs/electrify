@@ -1,31 +1,31 @@
-#include "component_grid.h"
+#include "component_grid_qt.h"
 #include "ui_componentgrid.h"
 
 #include <QtDebug>
 #include <QMimeData>
 
-#include "component_grid_item.h"
+#include "component_grid_item_qt.h"
 
-ComponentGrid::ComponentGrid(QWidget *parent) :
+ComponentGridQt::ComponentGridQt(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::ComponentGrid)
+    ui(new Ui::ComponentGridQt)
 {
     ui->setupUi(this);
 }
 
-ComponentGrid::~ComponentGrid()
+ComponentGridQt::~ComponentGridQt()
 {
     delete ui;
 }
 
-void ComponentGrid::dragEnterEvent(QDragEnterEvent *event)
+void ComponentGridQt::dragEnterEvent(QDragEnterEvent *event)
 {
     if (event->mimeData()->hasFormat("application/x-qabstractitemmodeldatalist")) {
         event->acceptProposedAction();
     }
 }
 
-void ComponentGrid::dropEvent(QDropEvent *event)
+void ComponentGridQt::dropEvent(QDropEvent *event)
 {
     QByteArray encoded = event->mimeData()->data("application/x-qabstractitemmodeldatalist");
     QDataStream stream(&encoded, QIODevice::ReadOnly);
@@ -38,7 +38,7 @@ void ComponentGrid::dropEvent(QDropEvent *event)
 
         std::string name = roleDataMap[0].toString().toStdString();
 
-        auto gridItem = new ComponentGridItem(componentRegistrar.getComponent(name), this);
+        auto gridItem = new ComponentGridItemQt(componentRegistrar.getComponent(name), this);
         gridItem->move(event->pos());
         gridItem->show();
     }

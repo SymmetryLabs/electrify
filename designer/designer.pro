@@ -18,23 +18,23 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-    component_grid.cpp \
-    component_grid_item.cpp \
-    component_list.cpp \
-    designer_window.cpp \
-    output_simulation_widget.cpp
+    component_grid_qt.cpp \
+    component_grid_item_qt.cpp \
+    component_list_qt.cpp \
+    designer_window_qt.cpp \
+    output_simulation_qt.cpp
 
 HEADERS  += \
-    component_grid.h \
-    component_grid_item.h \
-    component_list.h \
-    designer_window.h \
-    output_simulation_widget.h
+    component_grid_qt.h \
+    component_grid_item_qt.h \
+    component_list_qt.h \
+    designer_window_qt.h \
+    output_simulation_qt.h
 
 FORMS    += \
-    component_grid.ui \
-    component_grid_item.ui \
-    designer_window.ui
+    component_grid_qt.ui \
+    component_grid_item_qt.ui \
+    designer_window_qt.ui
 
 # Link against symmetry engine lib
 LIBS += -L$$OUT_PWD/engine -lSymmetryEngine

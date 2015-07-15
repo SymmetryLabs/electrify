@@ -1,6 +1,6 @@
-#include "output_simulation_widget.h"
+#include "output_simulation_qt.h"
 
-OutputSimulationWidget::OutputSimulationWidget(QWidget *parent) : QOpenGLWidget(parent)
+OutputSimulationQt::OutputSimulationQt(QWidget *parent) : QOpenGLWidget(parent)
 {
     QSurfaceFormat format;
     format.setDepthBufferSize(24);
@@ -9,12 +9,12 @@ OutputSimulationWidget::OutputSimulationWidget(QWidget *parent) : QOpenGLWidget(
     startTimer(16);
 }
 
-void OutputSimulationWidget::initializeGL()
+void OutputSimulationQt::initializeGL()
 {
     initializeOpenGLFunctions();
 }
 
-void OutputSimulationWidget::populateModel()
+void OutputSimulationQt::populateModel()
 {
     int i =0;
     for(auto p: model->pixels)
@@ -25,7 +25,7 @@ void OutputSimulationWidget::populateModel()
     }
 }
 
-void OutputSimulationWidget::populateColors()
+void OutputSimulationQt::populateColors()
 {
     engine->copyColorBuffer(output->colorBuffer);
 
@@ -39,13 +39,13 @@ void OutputSimulationWidget::populateColors()
     }
 }
 
-void OutputSimulationWidget::resizeGL(int w, int h)
+void OutputSimulationQt::resizeGL(int w, int h)
 {
     m_projection.setToIdentity();
     m_projection.perspective(60.0f, w / float(h), 0.01f, 1000.0f);
 }
 
-void OutputSimulationWidget::initializeScene()
+void OutputSimulationQt::initializeScene()
 {
     initializeOpenGLFunctions();
 
@@ -83,7 +83,7 @@ void OutputSimulationWidget::initializeScene()
     glMatrixMode(GL_MODELVIEW);
 }
 
-void OutputSimulationWidget::paintGL()
+void OutputSimulationQt::paintGL()
 {
      if (!m_program) {
        initializeScene();

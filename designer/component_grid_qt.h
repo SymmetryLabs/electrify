@@ -1,5 +1,5 @@
-#ifndef COMPONENTGRID_H
-#define COMPONENTGRID_H
+#ifndef COMPONENTGRIDQT_H
+#define COMPONENTGRIDQT_H
 
 #include <QWidget>
 #include <QDragEnterEvent>
@@ -7,19 +7,19 @@
 #include "component_registrar.h"
 
 namespace Ui {
-class ComponentGrid;
+class ComponentGridQt;
 }
 
-class ComponentGrid : public QWidget
+class ComponentGridQt : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit ComponentGrid(QWidget *parent = 0);
-    ~ComponentGrid();
+    explicit ComponentGridQt(QWidget *parent = 0);
+    ~ComponentGridQt();
 
 private:
-    Ui::ComponentGrid *ui;
+    Ui::ComponentGridQt* ui;
 
     void dragEnterEvent(QDragEnterEvent *event);
     void dropEvent(QDropEvent *event);
@@ -27,4 +27,4 @@ private:
     ComponentRegistrar componentRegistrar;
 };
 
-#endif // COMPONENTGRID_H
+#endif // COMPONENTGRIDQT_H

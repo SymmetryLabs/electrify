@@ -1,10 +1,10 @@
-#include "designer_window.h"
+#include "designer_window_qt.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    DesignerWindow w;
+    DesignerWindowQt w;
     w.show();
 
     return a.exec();

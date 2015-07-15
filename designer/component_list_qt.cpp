@@ -1,6 +1,6 @@
-#include "component_list.h"
+#include "component_list_qt.h"
 
-ComponentList::ComponentList(QWidget *parent) : QListWidget(parent)
+ComponentListQt::ComponentListQt(QWidget *parent) : QListWidget(parent)
 {
     for (auto componentName : componentRegistrar.getAvailableComponents()) {
         addItem(QString::fromStdString(componentName));

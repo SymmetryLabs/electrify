@@ -1,5 +1,5 @@
-#ifndef OUTPUTSIMULATIONWIDGET_H
-#define OUTPUTSIMULATIONWIDGET_H
+#ifndef OUTPUTSIMULATIONQT_H
+#define OUTPUTSIMULATIONQT_H
 
 #include <QOpenGLWidget>
 #include <QtGui/QOpenGLShaderProgram>
@@ -9,10 +9,10 @@
 #include "output.h"
 #include "engine.h"
 
-class OutputSimulationWidget : public QOpenGLWidget, protected QOpenGLFunctions
+class OutputSimulationQt : public QOpenGLWidget, protected QOpenGLFunctions
 {
 public:
-    OutputSimulationWidget(QWidget *parent = 0);
+    OutputSimulationQt(QWidget *parent = 0);
 
     Engine* engine;
     Model* model;
@@ -38,4 +38,4 @@ private:
     void timerEvent(QTimerEvent *event);
 };
 
-#endif // OUTPUTSIMULATIONWIDGET_H
+#endif // OUTPUTSIMULATIONQT_H

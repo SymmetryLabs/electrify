@@ -1,4 +1,4 @@
-#include "designer_window.h"
+#include "designer_window_qt.h"
 #include "ui_designerwindow.h"
 
 #include <iostream>
@@ -25,7 +25,7 @@
 
 DesignerWindow::DesignerWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::DesignerWindow)
+    ui(new Ui::DesignerWindowQt)
 {
     ui->setupUi(this);
 
