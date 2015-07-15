@@ -1,4 +1,4 @@
-#include "componentlist.h"
+#include "component_list.h"
 
 ComponentList::ComponentList(QWidget *parent) : QListWidget(parent)
 {

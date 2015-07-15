@@ -1,4 +1,4 @@
-#include "componentgriditem.h"
+#include "component_grid_item.h"
 #include "ui_componentgriditem.h"
 
 ComponentGridItem::ComponentGridItem(std::unique_ptr<Component> component_, QWidget *parent) :

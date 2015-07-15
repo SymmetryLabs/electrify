@@ -1,4 +1,4 @@
-#include "outputsimulationwidget.h"
+#include "output_simulation_widget.h"
 
 OutputSimulationWidget::OutputSimulationWidget(QWidget *parent) : QOpenGLWidget(parent)
 {

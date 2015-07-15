@@ -1,10 +1,10 @@
-#include "componentgrid.h"
+#include "component_grid.h"
 #include "ui_componentgrid.h"
 
 #include <QtDebug>
 #include <QMimeData>
 
-#include "componentgriditem.h"
+#include "component_grid_item.h"
 
 ComponentGrid::ComponentGrid(QWidget *parent) :
     QWidget(parent),
