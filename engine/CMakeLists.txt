@@ -35,6 +35,11 @@ CPM_AddModule("jsoncpp"
  EXPORT_MODULE TRUE
  )
 
+CPM_AddModule("CppReact"
+ SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs/CppReact"
+ EXPORT_MODULE TRUE
+ )
+
 CPM_Finish()
 
 find_package(Boost REQUIRED)
