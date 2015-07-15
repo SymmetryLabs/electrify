@@ -47,7 +47,7 @@ if (APPLE)
   set(CMAKE_MACOSX_RPATH ON)
 endif()
 
-file(GLOB HEADERS
+file(GLOB HEADER_DIRS
   "src"
   "src/core"
   "src/blueprint"
@@ -60,20 +60,23 @@ file(GLOB HEADERS
 file(GLOB_RECURSE SRCS
   "src/*.cpp"
   "src/*.h"
+  "src/*.tpp"
   "libs/FastLED/*.cpp"
   "libs/FastLED/*.h"
 )
 source_group("src" FILES ${SRCS})
 
-include_directories(${Boost_INCLUDE_DIRS} ${HEADERS} ${CPM_INCLUDE_DIRS})
+include_directories(${CPM_INCLUDE_DIRS})
+include_directories(${Boost_INCLUDE_DIRS})
+include_directories(${HEADER_DIRS})
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 add_library(SymmetryEngine SHARED ${SRCS})
-target_include_directories(SymmetryEngine PUBLIC ${Boost_INCLUDE_DIRS} ${HEADERS} ${CPM_INCLUDE_DIRS})
+target_include_directories(SymmetryEngine PUBLIC ${Boost_INCLUDE_DIRS} ${HEADER_DIRS} ${CPM_INCLUDE_DIRS})
 
 target_link_libraries(SymmetryEngine ${CPM_LIBRARIES})
 
-foreach(subdir ${HEADERS} ${CPM_INCLUDE_DIRS})
+foreach(subdir ${HEADER_DIRS} ${CPM_INCLUDE_DIRS})
   file(GLOB temp ${subdir}/*)
   set(EXPORT_HEADERS ${EXPORT_HEADERS} ${temp})
 endforeach()
