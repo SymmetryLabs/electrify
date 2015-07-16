@@ -1,5 +1,5 @@
 #include "designer_window_qt.h"
-#include "ui_designerwindow.h"
+#include "ui_designer_window_qt.h"
 
 #include <iostream>
 
@@ -23,7 +23,7 @@
 #include "time_component.h"
 #include "scale_transform.h"
 
-DesignerWindow::DesignerWindow(QWidget *parent) :
+DesignerWindowQt::DesignerWindowQt(QWidget *parent) :
   QMainWindow(parent),
   ui(new Ui::DesignerWindowQt)
 {
@@ -41,7 +41,7 @@ DesignerWindow::DesignerWindow(QWidget *parent) :
     output->colorBuffer.push_back(Color(0xFFFFFFFF));
   }
 
-  OutputSimulationWidget* osWidget = findChild<OutputSimulationWidget*>("outputSimulationWidget");
+  OutputSimulationQt* osWidget = findChild<OutputSimulationQt*>("outputSimulation");
   osWidget->setModel(model.get());
   osWidget->setOutput(output.get());
 
@@ -83,7 +83,7 @@ DesignerWindow::DesignerWindow(QWidget *parent) :
   engine->start();
 }
 
-DesignerWindow::~DesignerWindow()
+DesignerWindowQt::~DesignerWindowQt()
 {
   delete ui;
   engine->stopAndWait();

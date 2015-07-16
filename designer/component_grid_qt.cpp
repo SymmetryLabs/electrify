@@ -1,5 +1,5 @@
 #include "component_grid_qt.h"
-#include "ui_componentgrid.h"
+#include "ui_component_grid_qt.h"
 
 #include <QtDebug>
 #include <QMimeData>

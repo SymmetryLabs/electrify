@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DesignerWindow</class>
- <widget class="QMainWindow" name="DesignerWindow">
+ <class>DesignerWindowQt</class>
+ <widget class="QMainWindow" name="DesignerWindowQt">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -31,14 +31,14 @@
      <number>0</number>
     </property>
     <item row="0" column="2" rowspan="3">
-     <widget class="ComponentGrid" name="widget" native="true">
+     <widget class="ComponentGridQt" name="widget" native="true">
       <property name="acceptDrops">
        <bool>true</bool>
       </property>
      </widget>
     </item>
     <item row="1" column="0" rowspan="2">
-     <widget class="ComponentList" name="listWidget">
+     <widget class="ComponentListQt" name="listWidget">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
         <horstretch>0</horstretch>
@@ -57,7 +57,7 @@
      </widget>
     </item>
     <item row="0" column="0">
-     <widget class="OutputSimulationWidget" name="outputSimulationWidget">
+     <widget class="OutputSimulationQt" name="outputSimulation">
       <property name="minimumSize">
        <size>
         <width>200</width>
@@ -89,19 +89,19 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>OutputSimulationWidget</class>
-   <extends>QOpenGLWidget</extends>
-   <header>outputsimulationwidget.h</header>
-  </customwidget>
-  <customwidget>
-   <class>ComponentList</class>
+   <class>ComponentListQt</class>
    <extends>QListWidget</extends>
-   <header>componentlist.h</header>
+   <header>component_list_qt.h</header>
   </customwidget>
   <customwidget>
-   <class>ComponentGrid</class>
+   <class>OutputSimulationQt</class>
+   <extends>QOpenGLWidget</extends>
+   <header>output_simulation_qt.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ComponentGridQt</class>
    <extends>QWidget</extends>
-   <header>componentgrid.h</header>
+   <header>component_grid_qt.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
