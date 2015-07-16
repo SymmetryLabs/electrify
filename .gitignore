@@ -98,6 +98,8 @@ install_manifest.txt
 testapp/app
 engine/tests/main
 
+#### Vim
+*.swp
 
 ##### Other
 build-*
