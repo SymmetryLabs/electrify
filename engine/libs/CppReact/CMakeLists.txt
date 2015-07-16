@@ -36,7 +36,7 @@ CPM_InitModule(${CPM_MODULE_NAME})
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
 find_package(TBB REQUIRED)
-include_directories(${TBB_INCLUDE_DIRS})
+include_directories(SYSTEM ${TBB_INCLUDE_DIRS})
 find_library(TBB_LIB_PATH tbb)
 add_library(tbb SHARED IMPORTED)
 set_property(TARGET tbb PROPERTY IMPORTED_LOCATION ${TBB_LIB_PATH})
