@@ -2,5 +2,5 @@
 
 Color ConstantColorComponent::calculate(__attribute__((unused)) const FrameContext& frame) const
 {
-  return Color(0xFFFF0000);
+  return color;
 }
