@@ -6,8 +6,8 @@
 #include "constant_color_component.h"
 #include "incrementer.h"
 
-SCENARIO( "wiring a blueprint", "[blueprint]" ) {
-  GIVEN("A Blueprint a frame, a model and an output") {
+SCENARIO( "wiring a blueprint", "[component],[blueprint]" ) {
+  GIVEN("A Blueprint, a frame and an output") {
     auto blueprint = make_unique<Blueprint>();
     FrameContext frame {nanoseconds(100)};
     Output output;
@@ -26,34 +26,30 @@ SCENARIO( "wiring a blueprint", "[blueprint]" ) {
       blueprint->initRenderable(model);
       
 
-      GIVEN("A CompoundComponent with A registered color output ")
-      {
+      GIVEN("A CompoundComponent with A registered color output ") {
         auto compound = blueprint->makeSubcomponent<CompoundComponent>();
         compound->registerWirableOutput<Color>("color");
 
-        GIVEN("Two subcomponents (constant color, incrementer)")
-        {
+        GIVEN("Two subcomponents (constant color, incrementer)") {
           auto constantColor = compound->makeSubcomponent<ConstantColorComponent>();
           auto incrementer = compound->makeSubcomponent<Incrementer>();
-          GIVEN("The components are wired up to the blueprint")
-          {
+          
+          GIVEN("The components are wired up to the blueprint") {
             compound->wireSubcomponents(*constantColor, "output", *incrementer, "color");
             compound->wireOutput("color", *incrementer, "output");
             blueprint->wireOutput("color", *compound, "color");
-            WHEN("The blueprint is updated")
-            {
+            
+            WHEN("The blueprint is updated") {
               blueprint->update(frame);
-              THEN("no crash")
-              {
-                REQUIRE(1);
+              THEN("no crash") {
+                REQUIRE(1); //TODO fill in more details
               }
             }
-            WHEN("The blueprint is rendered to the output's color buffer")
-            {
+
+            WHEN("The blueprint is rendered to the output's color buffer") {
               blueprint->renderRenderable(frame, output.colorBuffer);
-              THEN("no crash")
-              {
-                REQUIRE(1);
+              THEN("no crash") {
+                REQUIRE(1); //TODO fill in more details
               }
             }
           }

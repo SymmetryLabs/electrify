@@ -11,8 +11,8 @@ SCENARIO( "Create a Constant Color component", "[component]" ) {
     ConstantColorComponent c;
 
     WHEN("We inspect its name") {
-      THEN("We get a value")
-      {
+      
+      THEN("We get a value") {
         REQUIRE(c.componentName() != "");
       }
     }
@@ -26,7 +26,7 @@ SCENARIO( "Create a Constant Color component", "[component]" ) {
           REQUIRE(color.asRGBA() == 0xFF0000FF);
         }
       }
-      WHEN("We we change the component color") {
+      WHEN("We can change the component color and get the correct") {
         c.color.fromRGBA(0x00FF00FF);
         Color color = c.getOutput<Color>("output")->calculate(frame);
 
