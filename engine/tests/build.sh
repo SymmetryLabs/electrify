@@ -4,4 +4,4 @@
 # or you can:
 # cp ../lib/libengine.so .
 cd "$( dirname "$0" )"
-g++ -L../../build -I../../build/engine/include -o main main.cpp -lSymmetryEngine --std=c++11
+g++ -L../../build/engine --std=c++11 -I../../build/engine/include -o main *.cpp -lSymmetryEngine 
