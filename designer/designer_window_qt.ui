@@ -31,7 +31,7 @@
      <number>0</number>
     </property>
     <item row="0" column="2" rowspan="3">
-     <widget class="ComponentGridQt" name="widget" native="true">
+     <widget class="ComponentGridQt" name="componentGrid" native="true">
       <property name="acceptDrops">
        <bool>true</bool>
       </property>

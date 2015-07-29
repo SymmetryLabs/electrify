@@ -1,13 +1,16 @@
 #ifndef OUTPUTSIMULATIONQT_H
 #define OUTPUTSIMULATIONQT_H
 
-#include <QOpenGLWidget>
-#include <QtGui/QOpenGLShaderProgram>
-#include <QtGui/QOpenGLFunctions>
+#include "blueprint_ui_globals.h"
 
 #include "model.h"
 #include "output.h"
 #include "engine.h"
+#include "engine_ui.h"
+
+#include <QOpenGLWidget>
+#include <QtGui/QOpenGLShaderProgram>
+#include <QtGui/QOpenGLFunctions>
 
 class OutputSimulationQt : public QOpenGLWidget, protected QOpenGLFunctions
 {
@@ -15,6 +18,7 @@ public:
   OutputSimulationQt(QWidget *parent = 0);
 
   Engine* engine;
+  EngineUi* engineUi;
   Model* model;
   Output* output;
 

@@ -1,11 +1,11 @@
 template <typename V>
 void Socket<V>::setSignal(BaseSignal* signal)
 {
-  setSignal((Signal<V>*)signal);
+  setSignal((SignalX<V>*)signal);
 }
 
 template <typename V>
-void Socket<V>::setSignal(Signal<V>* signal_)
+void Socket<V>::setSignal(SignalX<V>* signal_)
 {
   signal = signal_;
 }
@@ -28,7 +28,7 @@ V Socket<V>::calculate(const FrameContext& frame) const
 }
 
 template <typename V>
-void ProxySocket<V>::setSignal(Signal<V>* signal)
+void ProxySocket<V>::setSignal(SignalX<V>* signal)
 {
   Socket<V>::setSignal(signal);
   if (signalAddr) {

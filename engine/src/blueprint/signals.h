@@ -5,25 +5,25 @@
 
 class BaseSignal {
 public:
-  BaseSignal(type_index type_) : type(type_) {}
+  explicit BaseSignal(type_index type_) : type(type_) {}
   virtual ~BaseSignal() {}
 
   const type_index type;
 };
 
 template <typename V>
-class Signal : public BaseSignal {
+class SignalX : public BaseSignal {
 public:
-  Signal() : BaseSignal(typeid(V)) {}
-  virtual ~Signal() {}
+  SignalX() : BaseSignal(typeid(V)) {}
+  virtual ~SignalX() {}
 
   virtual V calculate(const FrameContext& frame) const = 0;
 };
 
 template <typename V>
-class FunctionSignal : public Signal<V> {
+class FunctionSignal : public SignalX<V> {
 public:
-  FunctionSignal(function<V (const FrameContext& frame) const> calculate_function_)
+  explicit FunctionSignal(function<V (const FrameContext& frame) const> calculate_function_)
     :calculate_function(calculate_function_)
   {}
 
@@ -38,10 +38,10 @@ public:
 };
 
 template <typename V>
-class ConstantSignal : public Signal<V> {
+class ConstantSignal : public SignalX<V> {
 public:
   ConstantSignal() {}
-  ConstantSignal(const V value_) : value(value_) {}
+  explicit ConstantSignal(const V value_) : value(value_) {}
   virtual ~ConstantSignal() {}
 
   virtual V calculate(const FrameContext& frame) const override;
@@ -55,10 +55,10 @@ private:
 template <typename V>
 struct SignalFunction {
   SignalFunction() {}
-  SignalFunction(Signal<V>* signal_) : signal(signal_) {}
+  explicit SignalFunction(SignalX<V>* signal_) : signal(signal_) {}
   const V operator()(const FrameContext& frame) const { return signal->calculate(frame); }
 private:
-  Signal<V>* signal = nullptr;
+  SignalX<V>* signal = nullptr;
 };
 
 #include "signals.tpp"

@@ -10,6 +10,7 @@ unix:QMAKE_CXX = ccache g++
 win32:QMAKE_CXX = g++
 
 CONFIG += c++11
+QMAKE_CXXFLAGS +=  $$join(QMAKE_INCDIR_QT, " -isystem", "-isystem")
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -38,15 +39,25 @@ FORMS    += \
 
 # Link against symmetry engine lib
 LIBS += -L$$OUT_PWD/engine -lSymmetryEngine
+LIBS += -L/usr/local/lib -ltbb
 
-# Include system headers (for boost only at the moment)
-QMAKE_INCDIR += /usr/local/include
+# Include system headers
+QMAKE_CXXFLAGS += -isystem /usr/local/include
+
+# Include engine external headers
+QMAKE_CXXFLAGS += -isystem $$OUT_PWD/engine/ext_include
 
 # Include engine headers
-INCLUDEPATH += $$OUT_PWD/engine/include
-
-# Note: not needed on mac anymore, possibly needed on others, so not deleting it yet
-# DEPENDPATH += $$DESTDIR/../../engine/src
+ENGINE_DIRS = $$OUT_PWD/../engine/src
+ENGINE_DIRS += $$OUT_PWD/../engine/src/core
+ENGINE_DIRS += $$OUT_PWD/../engine/src/blueprint
+ENGINE_DIRS += $$OUT_PWD/../engine/src/blueprint_ui
+ENGINE_DIRS += $$OUT_PWD/../engine/src/components
+ENGINE_DIRS += $$OUT_PWD/../engine/src/components/oscillators
+ENGINE_DIRS += $$OUT_PWD/../engine/src/components/transforms
+ENGINE_DIRS += $$OUT_PWD/../engine/src/utils
+INCLUDEPATH += $$ENGINE_DIRS
+DEPENDPATH += $$ENGINE_DIRS
 
 mac {
     # Bundles the engine library with the app

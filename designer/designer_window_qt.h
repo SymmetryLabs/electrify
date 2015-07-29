@@ -1,11 +1,13 @@
 #ifndef DESIGNERWINDOWQT_H
 #define DESIGNERWINDOWQT_H
 
-#include <QMainWindow>
-
 #include "globals.h"
+
 #include "output.h"
 #include "engine.h"
+#include "engine_ui.h"
+
+#include <QMainWindow>
 
 namespace Ui {
 class DesignerWindowQt;
@@ -20,6 +22,7 @@ public:
   ~DesignerWindowQt();
 
   unique_ptr<Engine> engine;
+  unique_ptr<EngineUi> engineUi;
   unique_ptr<Output> output;
 
 private:

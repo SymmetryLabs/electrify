@@ -78,8 +78,11 @@ DesignerWindowQt::DesignerWindowQt(QWidget *parent) :
   blueprint->wireOutput("color", *compound2, "color");
 
   engine = make_unique<Engine>(std::move(blueprint), std::move(model));
+  engineUi = make_unique<EngineUi>(*engine);
+  ui->componentGrid->init(engineUi->componentGrid.get());
   // engine->setProfilerEnabled(true);
   osWidget->engine = engine.get();
+  osWidget->engineUi = engineUi.get();
   engine->start();
 }
 

@@ -1,9 +1,11 @@
 #ifndef COMPONENTLISTQT_H
 #define COMPONENTLISTQT_H
 
-#include <QListWidget>
+#include "globals.h"
 
 #include "component_registrar.h"
+
+#include <QListWidget>
 
 class ComponentListQt : public QListWidget
 {

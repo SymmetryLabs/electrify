@@ -1,5 +1,5 @@
 template <typename V>
-void Component::registerInput(const string& name, Signal<V>** inputAddr) {
+void Component::registerInput(const string& name, SignalX<V>** inputAddr) {
   registerInput(name, make_unique<ProxySocket<V>>(inputAddr));
 }
 
@@ -14,6 +14,6 @@ void Component::registerOutput(const string& name, V (C::* calculate_function_)(
 }
 
 template <typename V>
-Signal<V>* Component::getOutput(const string& name) const {
-  return (Signal<V>*)getOutput(name);
+SignalX<V>* Component::getOutput(const string& name) const {
+  return (SignalX<V>*)getOutput(name);
 }

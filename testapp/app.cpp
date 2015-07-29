@@ -18,13 +18,6 @@
 
 int main()
 {
- /* file loading */
-//  cout << "trying to load file\n";
-//  Loader loader = Loader();
-//  string filename("data/dummydata.json");
-//  loader.loadJSON(filename);
-//  cout << "file loaded\n";
-
   FrameContext frame {nanoseconds(100)};
 
   ConstantColorComponent c;
@@ -36,7 +29,7 @@ int main()
   
   SquareWave sq;
   
-  Signal<double> *ds = sq.getOutput<double>("output");
+  SignalX<double> *ds = sq.getOutput<double>("output");
 
   double d = ds->calculate(frame);
   cout << d << endl;
@@ -58,7 +51,7 @@ int main()
   cout << componentRegistrar.getAvailableComponents()[0] << endl;
 
 
-  auto blueprint = make_unique<Blueprint>();
+  auto blueprint = make_shared<Blueprint>();
   auto model = make_unique<Model>();
   model->pixels = {new Pixel()};
 
@@ -73,7 +66,7 @@ int main()
 
   blueprint->wireOutput("color", *compound, "color");
   
-  Engine engine(move(blueprint), move(model));
+  Engine engine(blueprint, move(model));
   engine.startAndWait();
  
   return 0;

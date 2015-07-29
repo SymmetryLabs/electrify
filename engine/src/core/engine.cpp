@@ -4,11 +4,11 @@
 
 using namespace boost;
 
-Engine::Engine(unique_ptr<Renderable> renderable_, unique_ptr<Model> model_)
-  :renderable(move(renderable_))
-  ,model(move(model_))
-  ,keepRunning(ATOMIC_FLAG_INIT)
-  ,internalEventQueue(10)
+Engine::Engine(std::shared_ptr<Renderable> renderable_, unique_ptr<Model> model_)
+  : renderable(renderable_)
+  , model(move(model_))
+  , keepRunning(ATOMIC_FLAG_INIT)
+  , internalEventQueue(10)
 {
   frontColorBuffer = make_unique<vector<Color>>(model->pixels.size());
   backColorBuffer = make_unique<vector<Color>>(model->pixels.size());
@@ -18,6 +18,7 @@ void Engine::start()
 {
   cout << "Starting Engine" << endl;
   keepRunning.test_and_set();
+  isRunning = true;
   engineThread = thread(&Engine::loop, this);
 }
 
@@ -51,6 +52,8 @@ void Engine::init()
 void Engine::deinit()
 {
   renderable->deinitRenderable();
+  isRunning = false;
+  processQueuedEvents();
   cout << "Engine stopped" << endl;
 }
 
@@ -58,6 +61,7 @@ void Engine::loop()
 {
   init();
   while (keepRunning.test_and_set()) {
+
     performLoopStep();
 
     auto nextFrameTime = currentFrameTime + TIME_PER_FRAME;
@@ -81,7 +85,7 @@ void Engine::loop()
     // cout << "cycle " << duration_cast<nanoseconds>(wakeupOffBy).count() << endl;
 
     if (shouldStopAfter2Seconds && currentFrameNumber > 100) {
-      break;
+      stop();
     }
 
     // poll events
@@ -91,10 +95,7 @@ void Engine::loop()
 
 void Engine::performLoopStep()
 {
-  high_resolution_clock::time_point loopStepStartTime;
-  if (profilingEnabled) {
-    loopStepStartTime = high_resolution_clock::now();
-  }
+  high_resolution_clock::time_point loopStepStartTime = high_resolution_clock::now();
 
   // calculate how many frames we're going to catch up by
   auto loopTimeDelta = high_resolution_clock::now() - currentFrameTime;
@@ -111,7 +112,12 @@ void Engine::performLoopStep()
   while (loopTimeDelta >= TIME_PER_FRAME) {
     auto beginUpdateTime = high_resolution_clock::now();
 
+    preFrameUpdateEvent();
+
+    processQueuedEvents();
     performFrameUpdate();
+
+    postFrameUpdateEvent();
 
     loopTimeDelta -= TIME_PER_FRAME;
 
@@ -149,9 +155,26 @@ void Engine::performRasterization()
   // TODO: send color buffer changed notification
 }
 
+void Engine::queueEvent(function<void()>* eventFunc)
+{
+  internalEventQueue.push(eventFunc);
+
+  if (!isRunning) {
+    processQueuedEvents();
+  }
+}
+
+void Engine::processQueuedEvents()
+{
+  function<void()>* eventFunc;
+  while (internalEventQueue.pop(eventFunc)) {
+    (*eventFunc)();
+    delete eventFunc;
+  }
+}
+
 void Engine::setProfilingEnabled(bool enabled)
 {
-  // TODO: throw this on the event queue instead
   profilingEnabled = enabled;
 }
 

@@ -21,15 +21,24 @@ void CompoundComponent::update(const FrameContext& frame)
   }
 }
 
+Component* CompoundComponent::createSubcomponent(const string& name)
+{
+  ComponentRegistrar registrar;
+  auto subcomponent = registrar.getComponent(name);
+  auto subcomponentPtr = subcomponent.get();
+  addSubcomponent(move(subcomponent));
+  return subcomponentPtr;
+}
+
 void CompoundComponent::addSubcomponent(unique_ptr<Component> subcomponent)
 {
   subcomponents.push_back(move(subcomponent));
 }
 
-void CompoundComponent::removeSubcomponent(const unique_ptr<Component>& subcomponent)
+void CompoundComponent::removeSubcomponent(Component* subcomponent)
 {
   // TODO: break connections
-  subcomponents.erase(remove(subcomponents.begin(), subcomponents.end(), subcomponent), subcomponents.end());
+  removeSharedPtr(subcomponents, subcomponent);
 }
 
 bool CompoundComponent::canWireSubcomponents(Component& emittingSubcomponent, const string& emittingOutputName,

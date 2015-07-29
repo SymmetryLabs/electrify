@@ -10,6 +10,7 @@
 
 #include "renderable.h"
 #include "model.h"
+#include "event_queue.h"
 
 constexpr static int FPS = 60;
 constexpr static nanoseconds TIME_PER_FRAME {duration_cast<nanoseconds>(seconds{1}) / FPS};
@@ -19,8 +20,10 @@ constexpr static nanoseconds TIME_PER_FRAME {duration_cast<nanoseconds>(seconds{
  */
 class Engine {
 
+  USING_REACTIVE_DOMAIN(EngineDomain)
+
 public:
-  Engine(unique_ptr<Renderable> renderable_, unique_ptr<Model> model_);
+  Engine(shared_ptr<Renderable> renderable, unique_ptr<Model> model);
   virtual ~Engine() {}
 
   void start();
@@ -31,14 +34,22 @@ public:
 
   void copyColorBuffer(vector<Color>& colorBuffer);
 
+  void queueEvent(function<void()>* eventFunc);
+
   void setProfilingEnabled(bool enabled);
 
+  shared_ptr<Renderable> getRenderable() { return renderable; }
+
+  EventSourceT<> preFrameUpdateEvent = MakeEventSource<EngineDomain>();
+  EventSourceT<> postFrameUpdateEvent = MakeEventSource<EngineDomain>();
+
 private:
-  const unique_ptr<Renderable> renderable;
-  const unique_ptr<Model> model;
+  std::shared_ptr<Renderable> renderable;
+  unique_ptr<Model> model;
 
   thread engineThread;
   atomic_flag keepRunning;
+  atomic_bool isRunning;
 
   bool profilingEnabled = false;
   bool shouldStopAfter2Seconds = false;
@@ -61,6 +72,7 @@ private:
 
   void performFrameUpdate();
   void performRasterization();
+  void processQueuedEvents();
 
   inline void swapColorBuffers();
 

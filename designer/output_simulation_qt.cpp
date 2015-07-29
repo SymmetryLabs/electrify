@@ -125,5 +125,7 @@ void OutputSimulationQt::paintGL()
 
 void OutputSimulationQt::timerEvent(__attribute__((unused)) QTimerEvent *event)
 {
+  engineUi->processDownstreamFlowingTransactions();
   update();
+  engineUi->commitUpstreamFlowingTransaction();
 }

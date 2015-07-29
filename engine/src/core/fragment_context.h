@@ -9,4 +9,7 @@ struct FragmentContext {
 
   const Pixel& pixel;
 
+  // const vec3 pt3;
+  // const vec2 pt2;
+
 };

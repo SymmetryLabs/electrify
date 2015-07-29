@@ -12,7 +12,7 @@ public:
 };
 
 template <typename V>
-class Parameter : public BaseParameter, public Signal<V> {
+class Parameter : public BaseParameter, public SignalX<V> {
 
 public:
   Parameter() : BaseParameter(typeid(V)) {}

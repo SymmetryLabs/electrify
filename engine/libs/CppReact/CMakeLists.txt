@@ -49,9 +49,11 @@ set_property(TARGET tbb PROPERTY IMPORTED_LOCATION ${TBB_LIB_PATH})
 set(REPO_SOURCE_DIR "${CMAKE_BINARY_DIR}/${__CPM_FULL_UNID}/repo")
 CPM_EnsureRepoIsCurrent(
   TARGET_DIR ${REPO_SOURCE_DIR}
-  GIT_REPOSITORY "https://github.com/bobsomers/cpp.react.git"
+  GIT_REPOSITORY "https://github.com/SymmetryLabs/cpp.react.git"
   USE_CACHING TRUE
   )
+
+# set(REPO_SOURCE_DIR "/Users/Kyle/code/opensource/cpp.react")
 
 # Invoke CMake
 SET(build_examples OFF CACHE BOOL "Build examples?")

@@ -59,6 +59,10 @@ file(GLOB HEADER_DIRS
   "src/components"
   "src/components/oscillators"
   "src/components/transforms"
+  "src/utils"
+)
+
+file(GLOB LIB_HEADER_DIRS
   "libs"
 )
 
@@ -73,19 +77,21 @@ source_group("src" FILES ${SRCS})
 
 include_directories(SYSTEM ${CPM_INCLUDE_DIRS})
 include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
+include_directories(SYSTEM ${LIB_HEADER_DIRS})
 include_directories(${HEADER_DIRS})
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 add_library(SymmetryEngine SHARED ${SRCS})
 target_include_directories(SymmetryEngine SYSTEM PUBLIC ${CPM_INCLUDE_DIRS})
 target_include_directories(SymmetryEngine SYSTEM PUBLIC ${Boost_INCLUDE_DIRS})
+target_include_directories(SymmetryEngine SYSTEM PUBLIC ${LIB_HEADER_DIRS})
 target_include_directories(SymmetryEngine PUBLIC ${HEADER_DIRS})
 
 target_link_libraries(SymmetryEngine ${CPM_LIBRARIES})
 
-foreach(subdir ${HEADER_DIRS} ${CPM_INCLUDE_DIRS})
+foreach(subdir ${LIB_HEADER_DIRS} ${CPM_INCLUDE_DIRS})
   file(GLOB temp ${subdir}/*)
   set(EXPORT_HEADERS ${EXPORT_HEADERS} ${temp})
 endforeach()
 
-file(COPY ${EXPORT_HEADERS} DESTINATION include FILES_MATCHING PATTERN *.h PATTERN *.tpp)
+file(COPY ${EXPORT_HEADERS} DESTINATION ext_include FILES_MATCHING PATTERN *.h PATTERN *.tpp)
