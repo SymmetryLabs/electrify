@@ -26,3 +26,6 @@ Frameworks
 * Testing: [catch](https://github.com/philsquared/Catch)
 * Documentation: [doxygen](http://www.stack.nl/~dimitri/doxygen/)
 * JSON: [jsoncpp](https://github.com/open-source-parsers/jsoncpp)
+* Noise: [libnoise](http://libnoise.sourceforge.net/)
+* Reactive: [cpp.react](http://schlangster.github.io/cpp.react/)
+* Threading: [Intel TBB](https://www.threadingbuildingblocks.org/)
