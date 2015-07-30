@@ -1,5 +1,5 @@
 template <typename V>
-V ValueParameter<V>::calculate(__attribute__((unused)) const FrameContext& frame)
+V ValueParameter<V>::calculate(const FrameContext&)
 {
   return value;
 }

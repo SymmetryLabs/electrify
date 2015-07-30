@@ -50,7 +50,7 @@ public:
   /**
    * Tells the component to update its model according to the current time
    */
-  virtual void update(__attribute__((unused)) const FrameContext& f) {}
+  virtual void update(const FrameContext&) {}
 
   // Input
 

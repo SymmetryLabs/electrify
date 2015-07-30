@@ -12,7 +12,7 @@ public:
 
   static const string componentName() { return "Constant float"; }
 
-  V calculate(__attribute__((unused)) const FrameContext& frame) const override { return value; }
+  V calculate(const FrameContext&) const override { return value; }
 
 private:
   V value;

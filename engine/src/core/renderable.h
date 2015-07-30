@@ -10,11 +10,10 @@ class Renderable {
 public:
   virtual ~Renderable() {}
 
-  virtual void initRenderable(__attribute__((unused)) const Model& model) {}
+  virtual void initRenderable(const Model&) {}
   virtual void deinitRenderable() {}
 
-  virtual void updateRenderable(__attribute__((unused)) const FrameContext& frame) {}
-  virtual void renderRenderable(__attribute__((unused)) const FrameContext& frame,
-                                __attribute__((unused)) vector<Color>& colorBuffer) {}
+  virtual void updateRenderable(const FrameContext&) {}
+  virtual void renderRenderable(const FrameContext&, vector<Color>&) {}
 
 };

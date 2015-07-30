@@ -123,7 +123,7 @@ void OutputSimulationQt::paintGL()
   glDrawArrays(GL_POINTS, 0, model->pixels.size());
 }
 
-void OutputSimulationQt::timerEvent(__attribute__((unused)) QTimerEvent *event)
+void OutputSimulationQt::timerEvent(QTimerEvent*)
 {
   engineUi->processDownstreamFlowingTransactions();
   update();

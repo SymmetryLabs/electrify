@@ -1,6 +1,6 @@
 #include "constant_color_component.h"
 
-Color ConstantColorComponent::calculate(__attribute__((unused)) const FrameContext& frame) const
+Color ConstantColorComponent::calculate(const FrameContext&) const
 {
   return color;
 }
