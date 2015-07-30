@@ -17,9 +17,9 @@ public:
 
   template <typename Type, typename... Targs>
   Type* makeSubcomponent(Targs&&... Fargs);
-  Component* createSubcomponent(const string& name);
+  size_t createSubcomponent(const string& name);
 
-  void addSubcomponent(unique_ptr<Component> subcomponent);
+  size_t addSubcomponent(unique_ptr<Component> subcomponent);
   void removeSubcomponent(Component* subcomponent);
 
   bool canWireSubcomponents(Component& emittingSubcomponent, const string& emittingOutputName,
@@ -55,10 +55,12 @@ public:
 
   ObservableVector<Domain, shared_ptr<ComponentProxy<Domain>>, EngineDomain> subcomponents;
 
-  void addSubcomponent(const string& name)
+  void addSubcomponent(const string& name, function<void(size_t)> response)
   {
-    this->template sendCommand<CompoundComponent>([=] (shared_ptr<CompoundComponent> compoundComponent) {
-      compoundComponent->createSubcomponent(name);
+    this->template sendCommand<CompoundComponent, size_t>([=] (shared_ptr<CompoundComponent> compoundComponent) -> size_t {
+      return compoundComponent->createSubcomponent(name);
+    }, [=] (size_t pos) {
+        response(pos);
     });
   }
 };

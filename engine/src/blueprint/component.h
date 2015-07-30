@@ -113,6 +113,13 @@ public:
   }
 
   VarSignal<Domain, string> name = MakeVar<Domain>(string());
+
+  void setName(const string& name_)
+  {
+    this->template sendCommand([=] (shared_ptr<Component> component) {
+      component->name <<= name_;
+    });
+  }
 };
 
 template<typename Domain>

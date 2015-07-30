@@ -29,6 +29,9 @@ protected:
   template<typename C>
   void sendCommand(function<void(shared_ptr<C>)> func);
 
+  template<typename C, typename R>
+  void sendCommand(function<R(shared_ptr<C>)> func, function<void(R)> response);
+
 private:
   weak_ptr<void> master;
 

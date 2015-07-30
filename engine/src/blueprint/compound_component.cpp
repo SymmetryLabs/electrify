@@ -21,18 +21,17 @@ void CompoundComponent::update(const FrameContext& frame)
   }
 }
 
-Component* CompoundComponent::createSubcomponent(const string& name)
+size_t CompoundComponent::createSubcomponent(const string& name)
 {
   ComponentRegistrar registrar;
   auto subcomponent = registrar.getComponent(name);
-  auto subcomponentPtr = subcomponent.get();
-  addSubcomponent(move(subcomponent));
-  return subcomponentPtr;
+  return addSubcomponent(move(subcomponent));
 }
 
-void CompoundComponent::addSubcomponent(unique_ptr<Component> subcomponent)
+size_t CompoundComponent::addSubcomponent(unique_ptr<Component> subcomponent)
 {
   subcomponents.push_back(move(subcomponent));
+  return subcomponents.size() - 1;
 }
 
 void CompoundComponent::removeSubcomponent(Component* subcomponent)

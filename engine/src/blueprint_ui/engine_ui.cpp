@@ -3,10 +3,10 @@
 EngineUi::EngineUi(Engine& engine_)
   : engine(engine_)
 {
-  observers.push_back(Observe(engine.preFrameUpdateEvent, [this] (Token) {
+  addObserver(Observe(engine.preFrameUpdateEvent, [this] (Token) {
     proxyBridge.processUpstreamFlowingTransactions();
   }));
-  observers.push_back(Observe(engine.postFrameUpdateEvent, [this] (Token) {
+  addObserver(Observe(engine.postFrameUpdateEvent, [this] (Token) {
     proxyBridge.commitDownstreamFlowingTransaction();
   }));
 

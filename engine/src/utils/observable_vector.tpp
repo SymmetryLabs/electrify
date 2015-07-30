@@ -81,13 +81,13 @@ void ObservableVector<D, T, MasterDomain>
       out = make_pair(object.first, makeProxy<SlaveDomain>(object.second.get(), proxyBridge));
     }
   });
-  slave.observers.push_back(Observe(slave.masterAddedValueEvent, [&] (pair<size_t, shared_ptr<SlaveType>> p) {
+  slave.addObserver(Observe(slave.masterAddedValueEvent, [&] (pair<size_t, shared_ptr<SlaveType>> p) {
     proxyBridge.queueDownstreamEvent([=, &slave] {
       slave.insert(slave.begin() + p.first, p.second);
     });
   }));
 
-  slave.observers.push_back(Observe(valueRemoved, [&] (pair<size_t, T> p) {
+  slave.addObserver(Observe(valueRemoved, [&] (pair<size_t, T> p) {
     proxyBridge.queueDownstreamEvent([=, &slave] {
       slave.erase(slave.begin() + p.first);
     });

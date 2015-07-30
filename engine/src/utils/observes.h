@@ -7,6 +7,9 @@ class Observes {
 public:
   virtual ~Observes();
 
+  void addObserver(Observer<Domain>&& observer);
+
+private:
   vector<Observer<Domain>> observers;
 
 };

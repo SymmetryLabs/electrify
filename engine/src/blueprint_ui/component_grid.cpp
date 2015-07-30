@@ -3,10 +3,10 @@
 ComponentGrid::ComponentGrid(CompoundComponentProxy<EngineUiDomain>* compoundComponent_)
   : compoundComponent(compoundComponent_)
 {
-  observers.push_back(Observe(compoundComponent->subcomponents.valueAdded, [this] (const pair<size_t, shared_ptr<ComponentProxy<EngineUiDomain>>>& pair) {
+  addObserver(Observe(compoundComponent->subcomponents.valueAdded, [this] (const pair<size_t, shared_ptr<ComponentProxy<EngineUiDomain>>>& pair) {
     addGridItemWith(pair.first, *pair.second.get());
   }));
-  observers.push_back(Observe(compoundComponent->subcomponents.valueRemoved, [this] (const pair<size_t, shared_ptr<ComponentProxy<EngineUiDomain>>>& pair) {
+  addObserver(Observe(compoundComponent->subcomponents.valueRemoved, [this] (const pair<size_t, shared_ptr<ComponentProxy<EngineUiDomain>>>& pair) {
     removeGridItemWith(pair.first, *pair.second.get());
   }));
   size_t i = 0;
@@ -17,7 +17,9 @@ ComponentGrid::ComponentGrid(CompoundComponentProxy<EngineUiDomain>* compoundCom
 
 void ComponentGrid::addComponent(string name, float x, float y)
 {
-  compoundComponent->addSubcomponent(name);
+  compoundComponent->addSubcomponent(name, [=] (size_t pos) {
+    gridItems[pos]->setPos(x, y);
+  });
 }
 
 void ComponentGrid::removeComponent()

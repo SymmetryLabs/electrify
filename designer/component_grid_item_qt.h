@@ -1,9 +1,10 @@
 #ifndef COMPONENTGRIDITEMQT_H
 #define COMPONENTGRIDITEMQT_H
 
-#include "globals.h"
+#include "blueprint_ui_globals.h"
 
 #include "component_grid_item.h"
+#include "observes.h"
 
 #include <QWidget>
 
@@ -11,7 +12,7 @@ namespace Ui {
 class ComponentGridItemQt;
 }
 
-class ComponentGridItemQt : public QWidget
+class ComponentGridItemQt : public QWidget, public Observes<EngineUiDomain>
 {
   Q_OBJECT
 

@@ -16,7 +16,14 @@ ComponentGridItemQt::ComponentGridItemQt(ComponentGridItem* componentGridItem_, 
 
   qDebug() << QString::fromStdString(componentGridItem->component->name.Value());
 
-  move(componentGridItem->x, componentGridItem->y);
+  addObserver(Observe<EngineUiDomain>(componentGridItem->x, [this] (float) {
+    move(componentGridItem->x.Value(), componentGridItem->y.Value());
+  }));
+  addObserver(Observe<EngineUiDomain>(componentGridItem->y, [this] (float) {
+    move(componentGridItem->x.Value(), componentGridItem->y.Value());
+  }));
+
+  move(componentGridItem->x.Value(), componentGridItem->y.Value());
 }
 
 ComponentGridItemQt::~ComponentGridItemQt()

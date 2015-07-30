@@ -5,3 +5,9 @@ Observes<Domain>::~Observes()
     observer.Detach();
   }
 }
+
+template<typename Domain>
+void Observes<Domain>::addObserver(Observer<Domain>&& observer)
+{
+  observers.push_back(move(observer));
+}
