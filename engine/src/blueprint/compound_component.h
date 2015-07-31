@@ -47,7 +47,7 @@ template<typename Domain>
 class CompoundComponentProxy : public ComponentProxy<Domain> {
 
 public:
-  explicit CompoundComponentProxy(shared_ptr<CompoundComponent> master, ProxyBridge& proxyBridge)
+  CompoundComponentProxy(shared_ptr<CompoundComponent> master, ProxyBridge& proxyBridge)
     : ComponentProxy<Domain>(master, proxyBridge)
   {
     master->subcomponents.makeProxySlave<Domain, ComponentProxy<Domain>>(subcomponents, proxyBridge);

@@ -6,6 +6,7 @@
 #include <unordered_map>
 
 #include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_io.hpp>
 #include <boost/uuid/random_generator.hpp>
 
 #include "pixel.h"
@@ -105,14 +106,16 @@ template<typename Domain>
 class ComponentProxy : public DataProxy<EngineDomain, Domain> {
 
 public:
-  explicit ComponentProxy(shared_ptr<Component> master, ProxyBridge& proxyBridge)
+  ComponentProxy(shared_ptr<Component> master, ProxyBridge& proxyBridge)
     : DataProxy<EngineDomain, Domain>(master, proxyBridge)
+    , name(MakeVar<Domain>(master->name.Value()))
+    , uuid(to_string(master->uuid))
   {
     this->bindSignal(master->name, this->name);
-    this->name <<= master->name.Value();
   }
 
-  VarSignal<Domain, string> name = MakeVar<Domain>(string());
+  VarSignal<Domain, string> name;
+  string uuid;
 
   void setName(const string& name_)
   {

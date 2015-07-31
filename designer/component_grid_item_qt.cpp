@@ -9,24 +9,29 @@ ComponentGridItemQt::ComponentGridItemQt(ComponentGridItem* componentGridItem_, 
   ui(new Ui::ComponentGridItemQt)
 {
   ui->setupUi(this);
-//  Observe<EngineUiDomain>(componentGridItem->component->name, [&] (string name) {
-//    ui->componentName->setText(QString::fromStdString(name));
-//  });
-  ui->componentName->setText(QString::fromStdString(componentGridItem->component->name.Value()));
 
-  qDebug() << QString::fromStdString(componentGridItem->component->name.Value());
+  setObjectName(QString::fromStdString(componentGridItem->component->uuid));
 
-  addObserver(Observe<EngineUiDomain>(componentGridItem->x, [this] (float) {
+  observeWithStart(componentGridItem->component->name, [&] (string name) {
+    ui->componentName->setText(QString::fromStdString(name));
+  });
+
+  qDebug() << "Added" << QString::fromStdString(componentGridItem->component->name.Value());
+
+  observeWithStart(componentGridItem->x, [this] (float) {
     move(componentGridItem->x.Value(), componentGridItem->y.Value());
-  }));
-  addObserver(Observe<EngineUiDomain>(componentGridItem->y, [this] (float) {
+  });
+  observeWithStart(componentGridItem->y, [this] (float) {
     move(componentGridItem->x.Value(), componentGridItem->y.Value());
-  }));
-
-  move(componentGridItem->x.Value(), componentGridItem->y.Value());
+  });
 }
 
 ComponentGridItemQt::~ComponentGridItemQt()
 {
   delete ui;
+}
+
+void ComponentGridItemQt::setPos(QPoint pos)
+{
+  componentGridItem->setPos(pos.x(), pos.y());
 }

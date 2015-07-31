@@ -9,6 +9,9 @@ public:
 
   void addObserver(Observer<Domain>&& observer);
 
+  template <typename FIn, typename S>
+  void observeWithStart(const Signal<Domain, S>& subject, FIn&& func);
+
 private:
   vector<Observer<Domain>> observers;
 

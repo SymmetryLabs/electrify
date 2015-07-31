@@ -22,6 +22,8 @@ public:
 
   ComponentGridItem* componentGridItem;
 
+  void setPos(QPoint pos);
+
 private:
   Ui::ComponentGridItemQt* ui;
 };

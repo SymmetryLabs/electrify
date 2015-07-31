@@ -11,3 +11,11 @@ void Observes<Domain>::addObserver(Observer<Domain>&& observer)
 {
   observers.push_back(move(observer));
 }
+
+template<typename Domain>
+template <typename FIn, typename S>
+void Observes<Domain>::observeWithStart(const Signal<Domain, S>& subject, FIn&& func)
+{
+  addObserver(Observe(subject, forward<FIn>(func)));
+  func(subject.Value());
+}
