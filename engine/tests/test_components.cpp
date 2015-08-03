@@ -1,19 +1,19 @@
 #include "catch/catch.hpp"
 
 #include "globals.h"
-#include "constant_color_component.h"
+#include "constant_color_node.h"
 #include "frame_context.h"
 #include "color.h"
 
-SCENARIO( "Create a Constant Color component", "[component]" ) {
+SCENARIO( "Create a Constant Color node", "[node]" ) {
 
-  GIVEN( "A Constant Color Component" ) {
-    ConstantColorComponent c;
+  GIVEN( "A Constant Color Node" ) {
+    ConstantColorNode c;
 
     WHEN("We inspect its name") {
       
       THEN("We get a value") {
-        REQUIRE(c.componentName() != "");
+        REQUIRE(c.nodeName() != "");
       }
     }
     GIVEN("A Frame") {
@@ -26,7 +26,7 @@ SCENARIO( "Create a Constant Color component", "[component]" ) {
           REQUIRE(color.asRGBA() == 0xFF0000FF);
         }
       }
-      WHEN("We can change the component color and get the correct") {
+      WHEN("We can change the node color and get the correct") {
         c.color.fromRGBA(0x00FF00FF);
         Color color = c.getOutput<Color>("output")->calculate(frame);
 

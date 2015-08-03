@@ -1,17 +1,17 @@
 #pragma once
 #include "globals.h"
 
-#include "compound_component.h"
+#include "compound_node.h"
 #include "renderable.h"
 #include "socket.h"
 
-class Blueprint : public CompoundComponent, public Renderable {
+class Blueprint : public CompoundNode, public Renderable {
 
 public:
   Blueprint();
   virtual ~Blueprint() {}
 
-  static const string componentName() { return "Blueprint"; }
+  static const string nodeName() { return "Blueprint"; }
 
   virtual void initRenderable(const Model& model_) override;
   virtual void deinitRenderable() override;

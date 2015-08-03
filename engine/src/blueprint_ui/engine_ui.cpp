@@ -10,9 +10,9 @@ EngineUi::EngineUi(Engine& engine_)
     proxyBridge.commitDownstreamFlowingTransaction();
   }));
 
-  auto engineBlueprint = dynamic_pointer_cast<CompoundComponent>(engine.getRenderable());
+  auto engineBlueprint = dynamic_pointer_cast<CompoundNode>(engine.getRenderable());
   blueprint = makeProxy<EngineUiDomain>(engineBlueprint, proxyBridge);
-  componentGrid = make_unique<ComponentGrid>(blueprint.get());
+  nodeGrid = make_unique<NodeGrid>(blueprint.get());
 }
 
 void EngineUi::commitUpstreamFlowingTransaction()

@@ -2,7 +2,7 @@
 #include "blueprint_ui_globals.h"
 
 #include "engine.h"
-#include "component_grid.h"
+#include "node_grid.h"
 #include "blueprint.h"
 #include "proxy_bridge.h"
 #include "observes.h"
@@ -14,9 +14,9 @@ class EngineUi : public Observes<EngineDomain> {
 public:
   explicit EngineUi(Engine& engine);
 
-  shared_ptr<CompoundComponentProxy<EngineUiDomain>> blueprint;
+  shared_ptr<CompoundNodeProxy<EngineUiDomain>> blueprint;
 
-  unique_ptr<ComponentGrid> componentGrid;
+  unique_ptr<NodeGrid> nodeGrid;
 
   void commitUpstreamFlowingTransaction();
   void processDownstreamFlowingTransactions();

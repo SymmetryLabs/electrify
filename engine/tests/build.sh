@@ -4,4 +4,17 @@
 # or you can:
 # cp ../lib/libengine.so .
 cd "$( dirname "$0" )"
-g++ -L../../build/engine --std=c++11 -I../../build/engine/include -o main *.cpp -lSymmetryEngine 
+g++ --std=c++11                             \
+-I../src                                    \
+-I../src/core                               \
+-I../src/blueprint                          \
+-I../src/blueprint_ui                       \
+-I../src/nodes                              \
+-I../src/nodes/oscillators                  \
+-I../src/nodes/transforms                   \
+-I../src/utils                              \
+-isystem ../../build/engine/ext_include     \
+-isystem /usr/local/include                 \
+-o main *.cpp                               \
+-Wl,-rpath,@loader_path/../../build/engine  \
+-L../../build/engine -lSymmetryEngine       \

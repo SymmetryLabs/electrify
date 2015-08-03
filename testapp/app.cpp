@@ -1,7 +1,7 @@
 #include "app.h"
 
 #include "color.h"
-#include "constant_color_component.h"
+#include "constant_color_node.h"
 #include "color_doubler.h"
 #include "signal.h"
 #include "pixel.h"
@@ -11,16 +11,16 @@
 #include "incrementer.h"
 #include "engine.h"
 #include "loader.h"
-#include "compound_component.h"
-#include "translate_component.h"
+#include "compound_node.h"
+#include "translate_node.h"
 #include "blueprint.h"
-#include "component_registrar.h"
+#include "node_registrar.h"
 
 int main()
 {
   FrameContext frame {nanoseconds(100)};
 
-  ConstantColorComponent c;
+  ConstantColorNode c;
   cout << c.getOutput<Color>("output")->calculate(frame) << endl;
 
   ColorDoubler colorDoubler;
@@ -47,22 +47,22 @@ int main()
   cout << incr.getOutput<Color>("output")->calculate(frame) << endl;
 
 
-  ComponentRegistrar componentRegistrar;
-  cout << componentRegistrar.getAvailableComponents()[0] << endl;
+  NodeRegistrar nodeRegistrar;
+  cout << nodeRegistrar.getAvailableNodes()[0] << endl;
 
 
   auto blueprint = make_shared<Blueprint>();
   auto model = make_unique<Model>();
   model->pixels = {new Pixel()};
 
-  auto compound = blueprint->makeSubcomponent<CompoundComponent>();
+  auto compound = blueprint->makeSubnode<CompoundNode>();
   compound->registerWirableOutput<Color>("color");
 
-  auto constantColor = compound->makeSubcomponent<ConstantColorComponent>();
-  auto translateComponent = compound->makeSubcomponent<TranslateComponent>();
+  auto constantColor = compound->makeSubnode<ConstantColorNode>();
+  auto translateNode = compound->makeSubnode<TranslateNode>();
 
-  compound->wireSubcomponents(*constantColor, "output", *translateComponent, "signalInput");
-  compound->wireOutput("color", *translateComponent, "output");
+  compound->wireSubnodes(*constantColor, "output", *translateNode, "signalInput");
+  compound->wireOutput("color", *translateNode, "output");
 
   blueprint->wireOutput("color", *compound, "color");
   

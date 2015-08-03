@@ -56,9 +56,9 @@ file(GLOB HEADER_DIRS
   "src"
   "src/core"
   "src/blueprint"
-  "src/components"
-  "src/components/oscillators"
-  "src/components/transforms"
+  "src/nodes"
+  "src/nodes/oscillators"
+  "src/nodes/transforms"
   "src/utils"
 )
 

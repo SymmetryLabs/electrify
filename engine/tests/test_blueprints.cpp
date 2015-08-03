@@ -3,10 +3,10 @@
 #include "globals.h"
 #include "output.h"
 #include "blueprint.h"
-#include "constant_color_component.h"
+#include "constant_color_node.h"
 #include "incrementer.h"
 
-SCENARIO( "wiring a blueprint", "[component],[blueprint]" ) {
+SCENARIO( "wiring a blueprint", "[node],[blueprint]" ) {
   GIVEN("A Blueprint, a frame and an output") {
     auto blueprint = make_unique<Blueprint>();
     FrameContext frame {nanoseconds(100)};
@@ -26,16 +26,16 @@ SCENARIO( "wiring a blueprint", "[component],[blueprint]" ) {
       blueprint->initRenderable(model);
       
 
-      GIVEN("A CompoundComponent with A registered color output ") {
-        auto compound = blueprint->makeSubcomponent<CompoundComponent>();
+      GIVEN("A CompoundNode with A registered color output ") {
+        auto compound = blueprint->makeSubnode<CompoundNode>();
         compound->registerWirableOutput<Color>("color");
 
-        GIVEN("Two subcomponents (constant color, incrementer)") {
-          auto constantColor = compound->makeSubcomponent<ConstantColorComponent>();
-          auto incrementer = compound->makeSubcomponent<Incrementer>();
+        GIVEN("Two subnodes (constant color, incrementer)") {
+          auto constantColor = compound->makeSubnode<ConstantColorNode>();
+          auto incrementer = compound->makeSubnode<Incrementer>();
           
-          GIVEN("The components are wired up to the blueprint") {
-            compound->wireSubcomponents(*constantColor, "output", *incrementer, "color");
+          GIVEN("The nodes are wired up to the blueprint") {
+            compound->wireSubnodes(*constantColor, "output", *incrementer, "color");
             compound->wireOutput("color", *incrementer, "output");
             blueprint->wireOutput("color", *compound, "color");
             

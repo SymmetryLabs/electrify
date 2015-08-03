@@ -16,7 +16,7 @@ constexpr static int FPS = 60;
 constexpr static nanoseconds TIME_PER_FRAME {duration_cast<nanoseconds>(seconds{1}) / FPS};
 
 /**
- * The engine loads networks of Components and also keeps time
+ * The engine loads networks of Nodes and also keeps time
  */
 class Engine {
 
