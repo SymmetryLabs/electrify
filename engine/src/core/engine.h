@@ -39,6 +39,7 @@ public:
   void setProfilingEnabled(bool enabled);
 
   shared_ptr<Renderable> getRenderable() { return renderable; }
+  Model* getModel() { return model.get(); }
 
   EventSourceT<> preFrameUpdateEvent = MakeEventSource<EngineDomain>();
   EventSourceT<> postFrameUpdateEvent = MakeEventSource<EngineDomain>();

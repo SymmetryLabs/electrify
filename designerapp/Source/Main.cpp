@@ -10,9 +10,32 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-#include "globals.h"
+#include "DesignerWindowComponent.h"
 
-Component* createMainContentComponent();
+#include "globals.h"
+#include "engine.h"
+#include "engine_ui.h"
+#include "output.h"
+
+#include "color.h"
+#include "constant_color_node.h"
+#include "color_doubler.h"
+#include "signal.h"
+#include "pixel.h"
+#include "group.h"
+#include "frame_context.h"
+#include "square_wave.h"
+#include "incrementer.h"
+#include "engine.h"
+#include "loader.h"
+#include "compound_node.h"
+#include "blueprint.h"
+#include "hsv_node.h"
+#include "saw_wave.h"
+#include "constant_node.h"
+#include "perlin_noise_node.h"
+#include "time_node.h"
+#include "scale_transform.h"
 
 //==============================================================================
 class DesignerApplication  : public JUCEApplication
@@ -29,15 +52,67 @@ public:
     void initialise (const String& commandLine) override
     {
         // This method is where you should put your application's initialisation code..
-
-        mainWindow = new MainWindow (getApplicationName());
+        
+        auto blueprint = make_unique<Blueprint>();
+        
+        /* file loading */
+        Loader loader = Loader();
+        unique_ptr<Model> model = loader.loadJSON("../../../../../data/cubesExport2.json");
+        cout << "file loaded" << endl;
+        
+        output = make_unique<Output>();
+        for (auto pixel : model->pixels) {
+            output->colorBuffer.push_back(Color(0xFFFFFFFF));
+        }
+        
+        auto compound = blueprint->makeSubnode<CompoundNode>();
+        compound->registerWirableOutput<Color>("color");
+        
+        auto constantColor = compound->makeSubnode<ConstantColorNode>();
+        auto incrementer = compound->makeSubnode<Incrementer>();
+        
+        compound->wireSubnodes(*constantColor, "output", *incrementer, "color");
+        compound->wireOutput("color", *incrementer, "output");
+        
+        
+        auto compound2 = blueprint->makeSubnode<CompoundNode>();
+        compound2->registerWirableOutput<Color>("color");
+        
+        auto hsvNode = compound2->makeSubnode<HsvNode>();
+        auto sawWaveNode = compound2->makeSubnode<SawWave>();
+        auto timeNode = compound2->makeSubnode<TimeNode>();
+        auto scaleTransform = compound2->makeSubnode<ScaleTransform>();
+        auto multiplyAmountNode = compound2->makeSubnode<ConstantNode<float>>(1.0 / 10);
+        auto perlinNoiseNode = compound2->makeSubnode<PerlinNoiseNode>();
+        auto frequency = compound2->makeSubnode<ConstantNode<float>>(1.0 / 10);
+        
+        compound->wireSubnodes(*frequency, "output", *sawWaveNode, "frequency");
+        compound->wireSubnodes(*multiplyAmountNode, "output", *scaleTransform, "multiplier");
+        compound->wireSubnodes(*timeNode, "output", *scaleTransform, "input");
+        compound->wireSubnodes(*scaleTransform, "output", *perlinNoiseNode, "zInput");
+        compound->wireSubnodes(*perlinNoiseNode, "output", *hsvNode, "hue");
+        
+        compound2->wireOutput("color", *hsvNode, "output");
+        
+        blueprint->wireOutput("color", *compound2, "color");
+        
+        engine = make_unique<Engine>(std::move(blueprint), std::move(model));
+        engineUi = make_unique<EngineUi>(*engine);
+        // engine->setProfilerEnabled(true);
+        engine->start();
+        
+        designerWindow = new DesignerWindow (getApplicationName(), engine.get(), engineUi.get(), output.get());
     }
 
     void shutdown() override
     {
         // Add your application's shutdown code here..
 
-        mainWindow = nullptr; // (deletes our window)
+        designerWindow = nullptr; // (deletes our window)
+        
+        if (engine) {
+            engine->stopAndWait();
+        }
     }
 
     //==============================================================================
@@ -58,17 +133,21 @@ public:
     //==============================================================================
     /*
         This class implements the desktop window that contains an instance of
-        our MainContentComponent class.
+        our MainContentNode class.
     */
-    class MainWindow    : public DocumentWindow
+    class DesignerWindow    : public DocumentWindow
     {
     public:
-        MainWindow (String name)  : DocumentWindow (name,
-                                                    Colours::lightgrey,
-                                                    DocumentWindow::allButtons)
+        DesignerWindow (String name,
+                        Engine* engine,
+                        EngineUi* engineUi,
+                        Output* output)
+            : DocumentWindow (name,
+                              Colours::lightgrey,
+                              DocumentWindow::allButtons)
         {
             setUsingNativeTitleBar (true);
-            setContentOwned (createMainContentComponent(), true);
+            setContentOwned (new DesignerWindowComponent(engine, engineUi, output), true);
             setResizable (true, true);
 
             centreWithSize (getWidth(), getHeight());
@@ -85,17 +164,21 @@ public:
 
         /* Note: Be careful if you override any DocumentWindow methods - the base
            class uses a lot of them, so by overriding you might break its functionality.
-           It's best to do all your work in your content component instead, but if
+           It's best to do all your work in your content node instead, but if
            you really have to override any DocumentWindow methods, make sure your
            subclass also calls the superclass's method.
         */
 
     private:
-        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainWindow)
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DesignerWindow)
     };
 
 private:
-    ScopedPointer<MainWindow> mainWindow;
+    ScopedPointer<DesignerWindow> designerWindow;
+    
+    unique_ptr<Engine> engine;
+    unique_ptr<EngineUi> engineUi;
+    unique_ptr<Output> output;
 };
 
 //==============================================================================
