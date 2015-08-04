@@ -31,7 +31,7 @@ NodeRegistrar::NodeRegistrar()
   registerNode<TranslateNode>();
 }
 
-vector<string> NodeRegistrar::getAvailableNodes() const
+vector<string> NodeRegistrar::getAvailableNodeNames() const
 {
   vector<string> keys;
   keys.reserve(nodeFactories.size());
@@ -39,4 +39,9 @@ vector<string> NodeRegistrar::getAvailableNodes() const
       keys.push_back(kv.first);
   }
   return keys;
+}
+
+size_t NodeRegistrar::getAvailableNodeCount() const
+{
+  return nodeFactories.size();
 }

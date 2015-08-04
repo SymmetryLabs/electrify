@@ -14,38 +14,40 @@
 //==============================================================================
 NodeListJ::NodeListJ()
 {
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
-
+    listBox.setModel(this);
+    addAndMakeVisible(listBox);
 }
 
-NodeListJ::~NodeListJ()
-{
-}
+#pragma mark - Component
 
 void NodeListJ::paint (Graphics& g)
 {
-    /* This demo code just fills the component's background and
-       draws some placeholder text to get you started.
-
-       You should replace everything in this method with your own
-       drawing code..
-    */
-
-    g.fillAll (Colours::white);   // clear the background
-
-    g.setColour (Colours::grey);
-    g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
-
-    g.setColour (Colours::lightblue);
-    g.setFont (14.0f);
-    g.drawText ("NodeListJ", getLocalBounds(),
-                Justification::centred, true);   // draw some placeholder text
 }
 
 void NodeListJ::resized()
 {
-    // This method is where you should set the bounds of any child
-    // components that your component contains..
+    listBox.setBounds(getLocalBounds());
+}
 
+#pragma mark - ListBoxModel
+
+int NodeListJ::getNumRows()
+{
+    return availableNodeNames.size();
+}
+
+void NodeListJ::paintListBoxItem (int rowNumber, Graphics& g, int width, int height, bool rowIsSelected)
+{
+    g.drawText(availableNodeNames[rowNumber], g.getClipBounds(), Justification::centred);
+}
+
+var NodeListJ::getDragSourceDescription (const SparseSet<int>& rowsToDescribe)
+{
+    var names;
+    int i = 0;
+    while (i < rowsToDescribe.size()) {
+        int row = rowsToDescribe[i++];
+        names.append(var(availableNodeNames[row]));
+    }
+    return names;
 }

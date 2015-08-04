@@ -11,7 +11,8 @@ public:
   template<typename ClassType>
   void registerNode();
 
-  vector<string> getAvailableNodes() const;
+  vector<string> getAvailableNodeNames() const;
+  size_t getAvailableNodeCount() const;
 
   template<typename ClassType = Node>
   unique_ptr<ClassType> getNode(const string& name) const;
