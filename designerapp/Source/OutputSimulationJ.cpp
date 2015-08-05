@@ -113,9 +113,13 @@ Matrix3D<float> OutputSimulationJ::getViewMatrix() const
     return rotationMatrix * viewMatrix;
 }
 
+#pragma mark - Component
+
 void OutputSimulationJ::paint (Graphics& g)
 {
 }
+
+#pragma mark - OpenGLRenderer
 
 void OutputSimulationJ::newOpenGLContextCreated()
 {

@@ -14,6 +14,7 @@
 #include "react/Domain.h"
 #include "react/Signal.h"
 #include "react/Event.h"
+#include "react/Algorithm.h"
 
 using namespace std;
 using namespace chrono;

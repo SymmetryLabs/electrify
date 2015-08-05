@@ -8,14 +8,22 @@ Engine::Engine(std::shared_ptr<Renderable> renderable_, unique_ptr<Model> model_
   : renderable(renderable_)
   , model(move(model_))
   , keepRunning(ATOMIC_FLAG_INIT)
+  , isRunning(false)
   , internalEventQueue(10)
 {
   frontColorBuffer = make_unique<vector<Color>>(model->pixels.size());
   backColorBuffer = make_unique<vector<Color>>(model->pixels.size());
 }
 
+Engine::~Engine()
+{
+  stopAndWait();
+}
+
 void Engine::start()
 {
+  assert(!isRunning);
+
   cout << "Starting Engine" << endl;
   keepRunning.test_and_set();
   isRunning = true;
@@ -26,7 +34,7 @@ void Engine::startAndWait()
 {
   shouldStopAfter2Seconds = true;
   start();
-  engineThread.join();
+  wait();
 }
 
 void Engine::stop()
@@ -37,7 +45,14 @@ void Engine::stop()
 void Engine::stopAndWait()
 {
   stop();
-  engineThread.join();
+  wait();
+}
+
+void Engine::wait()
+{
+  if (engineThread.joinable()) {
+    engineThread.join();
+  }
 }
 
 void Engine::init()

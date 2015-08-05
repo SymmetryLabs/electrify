@@ -11,41 +11,85 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "NodeGridJ.h"
 
+#include "NodeListJ.h"
+
 //==============================================================================
-NodeGridJ::NodeGridJ()
+NodeGridJ::NodeGridJ(NodeGrid* nodeGrid_)
 {
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
-
+    Observe(nodeGrid, [this] (NodeGrid* nodeGrid) {
+        removeAllGridItems();
+        if (nodeGrid != nullptr) {
+            for (const shared_ptr<NodeGridItem>& gridItem : nodeGrid->gridItems) {
+                addWithGridItem(gridItem.get());
+            }
+        }
+    });
+    
+    this->nodeGrid <<= nodeGrid_;
+    
+    Observe(nodeGrid.Value()->gridItems.valueAdded, [this] (const pair<size_t, reference_wrapper<shared_ptr<NodeGridItem>>>& p) {
+        addWithGridItem(p.second.get().get());
+    });
+    
+    Observe(nodeGrid.Value()->gridItems.valueRemoved, [this] (const pair<size_t, shared_ptr<NodeGridItem>>& p) {
+        removeWithGridItem(p.second.get());
+    });
 }
 
-NodeGridJ::~NodeGridJ()
+void NodeGridJ::addWithGridItem(NodeGridItem* gridItem)
+{
+    gridItems.push_back(make_unique<NodeGridItemJ>(gridItem));
+    addAndMakeVisible(gridItems.back().get());
+}
+
+void NodeGridJ::removeWithGridItem(NodeGridItem* gridItem)
 {
 }
+
+void NodeGridJ::removeAllGridItems()
+{
+}
+
+#pragma mark - Component
 
 void NodeGridJ::paint (Graphics& g)
 {
-    /* This demo code just fills the component's background and
-       draws some placeholder text to get you started.
-
-       You should replace everything in this method with your own
-       drawing code..
-    */
-
-    g.fillAll (Colours::white);   // clear the background
-
-    g.setColour (Colours::grey);
-    g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
-
-    g.setColour (Colours::lightblue);
-    g.setFont (14.0f);
-    g.drawText ("NodeGridJ", getLocalBounds(),
-                Justification::centred, true);   // draw some placeholder text
 }
 
 void NodeGridJ::resized()
 {
-    // This method is where you should set the bounds of any child
-    // components that your component contains..
+}
 
+void NodeGridJ::mouseDrag(const MouseEvent& event)
+{
+    
+}
+
+#pragma mark - DragAndDropTarget
+
+bool NodeGridJ::isInterestedInDragSource (const SourceDetails& dragSourceDetails)
+{
+    if (dragSourceDetails.sourceComponent) {
+        Component* sourceComponent = dragSourceDetails.sourceComponent;
+        if (dynamic_cast<NodeListJ*>(sourceComponent->getParentComponent())) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void NodeGridJ::itemDropped (const SourceDetails& dragSourceDetails)
+{
+    if (dragSourceDetails.sourceComponent) {
+        Component* sourceComponent = dragSourceDetails.sourceComponent;
+        if (dynamic_cast<NodeListJ*>(sourceComponent->getParentComponent())) {
+            const var& description = dragSourceDetails.description;
+            int i = 0;
+            while (i < description.size()) {
+                string name = description[i++].toString().toStdString();
+                cout << "Added " << name << endl;
+                nodeGrid.Value()->addNode(name, dragSourceDetails.localPosition.x, dragSourceDetails.localPosition.y);
+            }
+        }
+    }
 }

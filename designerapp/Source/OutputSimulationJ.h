@@ -13,12 +13,10 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-#include "blueprint_ui_globals.h"
-
-#include "model.h"
-#include "output.h"
-#include "engine.h"
-#include "engine_ui.h"
+#include <model.h>
+#include <output.h>
+#include <engine.h>
+#include <engine_ui.h>
 
 //==============================================================================
 /*

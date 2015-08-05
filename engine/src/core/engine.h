@@ -24,13 +24,15 @@ class Engine {
 
 public:
   Engine(shared_ptr<Renderable> renderable, unique_ptr<Model> model);
-  virtual ~Engine() {}
+  virtual ~Engine();
 
   void start();
   void startAndWait();
 
   void stop();
   void stopAndWait();
+
+  void wait();
 
   void copyColorBuffer(vector<Color>& colorBuffer);
 

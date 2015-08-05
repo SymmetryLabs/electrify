@@ -13,8 +13,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-#include "blueprint_ui_globals.h"
-#include "node_registrar.h"
+#include <node_registrar.h>
 
 //==============================================================================
 /*
@@ -24,8 +23,8 @@ class NodeListJ    : public Component, public ListBoxModel, public DragAndDropCo
 public:
     NodeListJ();
 
-    void paint (Graphics&);
-    void resized();
+    void paint (Graphics&) override;
+    void resized() override;
 
 private:
     

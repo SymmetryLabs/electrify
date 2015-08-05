@@ -39,7 +39,7 @@ DesignerWindowComponent::DesignerWindowComponent (Engine* engine, EngineUi* engi
     addAndMakeVisible (component2 = new NodeListJ());
     component2->setName ("new component");
 
-    addAndMakeVisible (component3 = new NodeGridJ());
+    addAndMakeVisible (component3 = new NodeGridJ (engineUi->nodeGrid.get()));
     component3->setName ("new component");
 
 
@@ -71,9 +71,6 @@ DesignerWindowComponent::~DesignerWindowComponent()
 void DesignerWindowComponent::paint (Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
-
-    engineUi->processDownstreamFlowingTransactions();
-
     //[/UserPrePaint]
 
     g.fillAll (Colours::white);
@@ -97,12 +94,6 @@ void DesignerWindowComponent::resized()
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
-
-void DesignerWindowComponent::paintOverChildren (Graphics&)
-{
-    engineUi->commitUpstreamFlowingTransaction();
-}
-
 //[/MiscUserCode]
 
 
@@ -130,7 +121,7 @@ BEGIN_JUCER_METADATA
                     class="Component" params=""/>
   <GENERICCOMPONENT name="new component" id="84be50bd51afc9b6" memberName="component3"
                     virtualName="NodeGridJ" explicitFocusOrder="0" pos="0R 0 200M 100%"
-                    posRelativeX="46591e2475c6760e" class="Component" params=""/>
+                    posRelativeX="46591e2475c6760e" class="Component" params="engineUi-&gt;nodeGrid.get()"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

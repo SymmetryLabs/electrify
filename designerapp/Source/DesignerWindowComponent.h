@@ -58,8 +58,6 @@ private:
 
     EngineUi* engineUi;
 
-    void paintOverChildren (Graphics& g) override;
-
     //[/UserVariables]
 
     //==============================================================================

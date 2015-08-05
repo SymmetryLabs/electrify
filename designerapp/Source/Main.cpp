@@ -12,30 +12,29 @@
 
 #include "DesignerWindowComponent.h"
 
-#include "globals.h"
-#include "engine.h"
-#include "engine_ui.h"
-#include "output.h"
+#include <engine.h>
+#include <engine_ui.h>
+#include <output.h>
 
-#include "color.h"
-#include "constant_color_node.h"
-#include "color_doubler.h"
-#include "signal.h"
-#include "pixel.h"
-#include "group.h"
-#include "frame_context.h"
-#include "square_wave.h"
-#include "incrementer.h"
-#include "engine.h"
-#include "loader.h"
-#include "compound_node.h"
-#include "blueprint.h"
-#include "hsv_node.h"
-#include "saw_wave.h"
-#include "constant_node.h"
-#include "perlin_noise_node.h"
-#include "time_node.h"
-#include "scale_transform.h"
+#include <color.h>
+#include <constant_color_node.h>
+#include <color_doubler.h>
+#include <signal.h>
+#include <pixel.h>
+#include <group.h>
+#include <frame_context.h>
+#include <square_wave.h>
+#include <incrementer.h>
+#include <engine.h>
+#include <loader.h>
+#include <compound_node.h>
+#include <blueprint.h>
+#include <hsv_node.h>
+#include <saw_wave.h>
+#include <constant_node.h>
+#include <perlin_noise_node.h>
+#include <time_node.h>
+#include <scale_transform.h>
 
 //==============================================================================
 class DesignerApplication  : public JUCEApplication
@@ -62,6 +61,7 @@ public:
         
         output = make_unique<Output>();
         for (auto pixel : model->pixels) {
+            (void)pixel;
             output->colorBuffer.push_back(Color(0xFFFFFFFF));
         }
         
@@ -73,7 +73,6 @@ public:
         
         compound->wireSubnodes(*constantColor, "output", *incrementer, "color");
         compound->wireOutput("color", *incrementer, "output");
-        
         
         auto compound2 = blueprint->makeSubnode<CompoundNode>();
         compound2->registerWirableOutput<Color>("color");
@@ -106,18 +105,29 @@ public:
 
     void shutdown() override
     {
-        // Add your application's shutdown code here..
-
         designerWindow = nullptr; // (deletes our window)
-        
-        if (engine) {
-            engine->stopAndWait();
-        }
+        output = nullptr;
+        engineUi = nullptr;
+        engine = nullptr;
+    }
+    
+    //==============================================================================
+    void preMainRunLoop() override
+    {
+        engineUi->processDownstreamFlowingTransactions();
+    }
+    
+    void postMainRunLoop() override
+    {
+        engineUi->commitUpstreamFlowingTransaction();
     }
 
     //==============================================================================
     void systemRequestedQuit() override
     {
+        if (engine) {
+            engine->stop();
+        }
         // This is called when the app is being asked to quit: you can ignore this
         // request and let the app carry on running, or call quit() to allow the app to close.
         quit();

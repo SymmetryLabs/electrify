@@ -12,26 +12,31 @@
 #include "NodeGridItemJ.h"
 
 //==============================================================================
-NodeGridItemJ::NodeGridItemJ()
+NodeGridItemJ::NodeGridItemJ(NodeGridItem* nodeGridItem_)
+: nodeGridItem(nodeGridItem_)
+, dragStarted(false)
 {
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
-
+    setSize(200, 100);
+//    setObjectName(QString::fromStdString(componentGridItem->component->uuid));
+    
+    Observe(nodeGridItem->positionChanged, [this] (Token) {
+        setTopLeftPosition(nodeGridItem->x.Value(), nodeGridItem->y.Value());
+    });
+    setTopLeftPosition(nodeGridItem->x.Value(), nodeGridItem->y.Value());
 }
 
-NodeGridItemJ::~NodeGridItemJ()
+void NodeGridItemJ::setPos(Point<int> pos)
 {
+    nodeGridItem->setPos(pos.x, pos.y);
 }
 
+//==============================================================================
+#pragma mark - Component
+//==============================================================================
+
+//==============================================================================
 void NodeGridItemJ::paint (Graphics& g)
 {
-    /* This demo code just fills the component's background and
-       draws some placeholder text to get you started.
-
-       You should replace everything in this method with your own
-       drawing code..
-    */
-
     g.fillAll (Colours::white);   // clear the background
 
     g.setColour (Colours::grey);
@@ -39,13 +44,29 @@ void NodeGridItemJ::paint (Graphics& g)
 
     g.setColour (Colours::lightblue);
     g.setFont (14.0f);
-    g.drawText ("NodeGridItemJ", getLocalBounds(),
+    g.drawText (nodeGridItem->node->name.Value(), getLocalBounds(),
                 Justification::centred, true);   // draw some placeholder text
 }
 
 void NodeGridItemJ::resized()
 {
-    // This method is where you should set the bounds of any child
-    // components that your component contains..
+}
 
+//==============================================================================
+void NodeGridItemJ::mouseDown(const MouseEvent& e)
+{
+    dragStarted = true;
+    dragger.startDraggingComponent(this, e);
+}
+
+void NodeGridItemJ::mouseDrag(const MouseEvent& e)
+{
+    if (dragStarted)
+        dragger.dragComponent(this, e, nullptr);
+}
+
+void NodeGridItemJ::mouseUp(const MouseEvent& e)
+{
+    dragStarted = false;
+    setPos(getPosition());
 }

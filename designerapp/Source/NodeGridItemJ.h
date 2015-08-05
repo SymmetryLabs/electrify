@@ -13,19 +13,33 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
+#include <node_grid_item.h>
+#include <observes.h>
+
 //==============================================================================
 /*
 */
-class NodeGridItemJ    : public Component
+class NodeGridItemJ    : public Component, public Observes<EngineUiDomain>
 {
 public:
-    NodeGridItemJ();
-    ~NodeGridItemJ();
-
-    void paint (Graphics&);
-    void resized();
+    NodeGridItemJ(NodeGridItem* nodeGridItem);
+    
+    void setPos(Point<int> pos);
 
 private:
+    
+    NodeGridItem* nodeGridItem;
+    
+    ComponentDragger dragger;
+    bool dragStarted;
+    
+    void paint(Graphics&) override;
+    void resized() override;
+    
+    void mouseDown(const MouseEvent& e) override;
+    void mouseDrag(const MouseEvent& e) override;
+    void mouseUp(const MouseEvent&) override;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NodeGridItemJ)
 };
 
