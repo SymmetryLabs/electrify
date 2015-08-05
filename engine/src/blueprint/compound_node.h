@@ -41,6 +41,9 @@ public:
 private:
   unordered_map<string, BaseSocket*> wirableOutputs;
 
+  template<typename T>
+  friend class CompoundNodeProxy;
+
 };
 
 template<typename Domain>

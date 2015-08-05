@@ -161,6 +161,7 @@ public:
             setResizable (true, true);
 
             centreWithSize (getWidth(), getHeight());
+            setBounds(getBounds().withY(0));
             setVisible (true);
         }
 

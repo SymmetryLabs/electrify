@@ -20,8 +20,10 @@ NodeListJ::NodeListJ()
 
 #pragma mark - Component
 
-void NodeListJ::paint (Graphics& g)
+void NodeListJ::paintOverChildren(Graphics &g)
 {
+    g.setColour (Colours::grey);
+    g.drawVerticalLine(getRight() - 1, 0, getBottom());
 }
 
 void NodeListJ::resized()

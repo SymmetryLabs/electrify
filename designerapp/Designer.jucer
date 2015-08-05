@@ -5,6 +5,8 @@
               jucerVersion="3.2.0">
   <MAINGROUP id="wQ89CT" name="Designer">
     <GROUP id="{FD40B928-CCA8-FE86-E11B-047A03A31108}" name="Source">
+      <FILE id="FNv12L" name="SignalView.cpp" compile="1" resource="0" file="Source/SignalView.cpp"/>
+      <FILE id="VB09rn" name="SignalView.h" compile="0" resource="0" file="Source/SignalView.h"/>
       <FILE id="LC01TY" name="OutputSimulationJ.cpp" compile="1" resource="0"
             file="Source/OutputSimulationJ.cpp"/>
       <FILE id="B6r1BS" name="OutputSimulationJ.h" compile="0" resource="0"

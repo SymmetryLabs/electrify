@@ -100,6 +100,9 @@ private:
   unordered_map<string, unique_ptr<BaseSignal>> outputs;
   unordered_map<string, unique_ptr<BaseParameter>> parameters;
 
+  template<typename T>
+  friend class NodeProxy;
+
 };
 
 template<typename Domain>
@@ -112,10 +115,22 @@ public:
     , uuid(to_string(master->uuid))
   {
     this->bindSignal(master->name, this->name);
+
+    inputs.reserve(master->inputs.size());
+    for(auto& kv : master->inputs) {
+        inputs.push_back(kv.first);
+    }
+
+    outputs.reserve(master->outputs.size());
+    for(auto& kv : master->outputs) {
+        outputs.push_back(kv.first);
+    }
   }
 
   VarSignal<Domain, string> name;
   string uuid;
+  vector<string> inputs;
+  vector<string> outputs;
 
   void setName(const string& name_)
   {

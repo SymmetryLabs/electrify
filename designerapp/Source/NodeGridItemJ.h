@@ -16,6 +16,8 @@
 #include <node_grid_item.h>
 #include <observes.h>
 
+#include "SignalView.h"
+
 //==============================================================================
 /*
 */
@@ -29,6 +31,8 @@ public:
 private:
     
     NodeGridItem* nodeGridItem;
+    
+    vector<unique_ptr<SignalView>> signalViews;
     
     ComponentDragger dragger;
     bool dragStarted;

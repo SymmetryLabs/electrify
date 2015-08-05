@@ -23,6 +23,26 @@ NodeGridItemJ::NodeGridItemJ(NodeGridItem* nodeGridItem_)
         setTopLeftPosition(nodeGridItem->x.Value(), nodeGridItem->y.Value());
     });
     setTopLeftPosition(nodeGridItem->x.Value(), nodeGridItem->y.Value());
+    
+    int i = 0;
+    signalViews.reserve(nodeGridItem->node->inputs.size());
+    for (string input : nodeGridItem->node->inputs) {
+        signalViews.push_back(make_unique<SignalView>());
+        SignalView* signalView = signalViews.back().get();
+        addAndMakeVisible(signalView);
+        signalView->setTopLeftPosition(10, 20 + 20 * i);
+        i++;
+    }
+    
+    i = 0;
+    signalViews.reserve(nodeGridItem->node->outputs.size());
+    for (string output : nodeGridItem->node->outputs) {
+        signalViews.push_back(make_unique<SignalView>());
+        SignalView* signalView = signalViews.back().get();
+        addAndMakeVisible(signalView);
+        signalView->setTopRightPosition(getRight() - 10, 20 + 20 * i);
+        i++;
+    }
 }
 
 void NodeGridItemJ::setPos(Point<int> pos)

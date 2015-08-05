@@ -23,7 +23,7 @@ class NodeListJ    : public Component, public ListBoxModel, public DragAndDropCo
 public:
     NodeListJ();
 
-    void paint (Graphics&) override;
+    void paintOverChildren(Graphics &g) override;
     void resized() override;
 
 private:
