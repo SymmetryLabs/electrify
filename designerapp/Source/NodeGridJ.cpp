@@ -27,18 +27,18 @@ NodeGridJ::NodeGridJ(NodeGrid* nodeGrid_)
     
     this->nodeGrid <<= nodeGrid_;
     
-    Observe(nodeGrid.Value()->gridItems.valueAdded, [this] (const pair<size_t, reference_wrapper<shared_ptr<NodeGridItem>>>& p) {
+    observeWithCapture(nodeGrid.Value()->gridItems.valueAdded, [this] (const pair<size_t, reference_wrapper<shared_ptr<NodeGridItem>>>& p) {
         addWithGridItem(p.second.get().get());
     });
     
-    Observe(nodeGrid.Value()->gridItems.valueRemoved, [this] (const pair<size_t, shared_ptr<NodeGridItem>>& p) {
+    observeWithCapture(nodeGrid.Value()->gridItems.valueRemoved, [this] (const pair<size_t, shared_ptr<NodeGridItem>>& p) {
         removeWithGridItem(p.second.get());
     });
 }
 
 void NodeGridJ::addWithGridItem(NodeGridItem* gridItem)
 {
-    gridItems.push_back(make_unique<NodeGridItemJ>(gridItem));
+    gridItems.push_back(make_unique<NodeGridItemJ>(*gridItem));
     addAndMakeVisible(gridItems.back().get());
 }
 

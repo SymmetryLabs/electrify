@@ -3,19 +3,27 @@
 
 #include "blueprint_ui_object.h"
 #include "node.h"
+#include "grid_item_coordinator.h"
 
 class NodeGridItem : public BlueprintUiObject {
 
 public:
-  explicit NodeGridItem(NodeProxy<EngineUiDomain>* node);
-
-  VarSignalT<float> x;
-  VarSignalT<float> y;
-    
-  EventsT<> positionChanged;
+  NodeGridItem(NodeProxy<EngineUiDomain>* node, GridItemCoordinator& gridItemCoordinator);
 
   NodeProxy<EngineUiDomain>* node;
 
+  VarSignalT<float> x;
+  VarSignalT<float> y;
+  EventsT<> positionChanged;
+
   void setPos(float x, float y);
+
+  VarSignalT<bool> selected;
+  void setSelected(bool selected);
+
+private:
+  GridItemCoordinator& gridItemCoordinator;
+
+  friend class GridItemCoordinator;
 
 };

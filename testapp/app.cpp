@@ -48,7 +48,7 @@ int main()
 
 
   NodeRegistrar nodeRegistrar;
-  cout << nodeRegistrar.getAvailableNodes()[0] << endl;
+  cout << nodeRegistrar.getAvailableNodeNames()[0] << endl;
 
 
   auto blueprint = make_shared<Blueprint>();

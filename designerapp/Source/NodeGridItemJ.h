@@ -24,18 +24,20 @@
 class NodeGridItemJ    : public Component, public Observes<EngineUiDomain>
 {
 public:
-    NodeGridItemJ(NodeGridItem* nodeGridItem);
+    NodeGridItemJ(NodeGridItem& nodeGridItem);
     
     void setPos(Point<int> pos);
 
 private:
     
-    NodeGridItem* nodeGridItem;
+    NodeGridItem& nodeGridItem;
     
     vector<unique_ptr<SignalView>> signalViews;
     
     ComponentDragger dragger;
     bool dragStarted;
+    
+    bool focused;
     
     void paint(Graphics&) override;
     void resized() override;

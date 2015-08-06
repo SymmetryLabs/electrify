@@ -20,7 +20,7 @@
 //==============================================================================
 /*
 */
-class NodeGridJ    : public Component, public DragAndDropTarget
+class NodeGridJ    : public Component, public DragAndDropTarget, public Observes<EngineUiDomain>
 {
     USING_REACTIVE_DOMAIN(EngineUiDomain)
     

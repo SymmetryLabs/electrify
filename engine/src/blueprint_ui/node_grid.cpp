@@ -13,6 +13,7 @@ NodeGrid::NodeGrid(CompoundNodeProxy<EngineUiDomain>* compoundNode_)
   for (auto& node : compoundNode->subnodes) {
     addGridItemWith(i++, *node);
   }
+  test = Tokenize(gridItems.valueAdded);
 }
 
 void NodeGrid::addNode(string name, float x, float y)
@@ -29,7 +30,7 @@ void NodeGrid::removeNode()
 NodeGridItem* NodeGrid::addGridItemWith(size_t pos, NodeProxy<EngineUiDomain>& node)
 {
   vector<shared_ptr<NodeGridItem>>::iterator iter = gridItems.begin() + pos;
-  gridItems.insert(iter, make_shared<NodeGridItem>(&node));
+  gridItems.insert(iter, make_shared<NodeGridItem>(&node, gridItemCoordinator));
   return gridItems.back().get();
 }
 
