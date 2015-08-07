@@ -94,10 +94,6 @@ install_manifest.txt
 *.sublime-workspace
 
 
-##### Juce
-Builds/
-
-
 ##### Project
 testapp/app
 engine/tests/main
