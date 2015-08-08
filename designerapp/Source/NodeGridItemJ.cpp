@@ -20,7 +20,7 @@ NodeGridItemJ::NodeGridItemJ(NodeGridItem& nodeGridItem_)
     setBroughtToFrontOnMouseClick(true);
 //    setObjectName(QString::fromStdString(componentGridItem->component->uuid));
     
-    observeWithStart(nodeGridItem.positionChanged, [this] (Token) {
+    observeWithStart(Tokenize(Monitor(nodeGridItem.x) | Monitor(nodeGridItem.y)), [this] (Token) {
         setTopLeftPosition(nodeGridItem.x.Value(), nodeGridItem.y.Value());
     });
     

@@ -21,8 +21,6 @@ public:
 
   ObservableVector<EngineUiDomain, shared_ptr<NodeGridItem>> gridItems;
 
-  Events<EngineUiDomain, Token> test;
-
 private:
   GridItemCoordinator gridItemCoordinator;
 

@@ -5,7 +5,6 @@ NodeGridItem::NodeGridItem(NodeProxy<EngineUiDomain>* node, GridItemCoordinator&
   , gridItemCoordinator(gridItemCoordinator)
   , x(MakeVar<EngineUiDomain, float>(0))
   , y(MakeVar<EngineUiDomain, float>(0))
-  , positionChanged(Tokenize(Monitor(x) | Monitor(y)))
   , selected(MakeVar<EngineUiDomain, bool>(false))
 {
   // TODO: load persisted x,y for node

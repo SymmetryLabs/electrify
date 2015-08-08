@@ -11,9 +11,10 @@
 #ifndef NODEGRIDJ_H_INCLUDED
 #define NODEGRIDJ_H_INCLUDED
 
+#include <node_grid.h>
+
 #include "../JuceLibraryCode/JuceHeader.h"
 
-#include <node_grid.h>
 
 #include "NodeGridItemJ.h"
 

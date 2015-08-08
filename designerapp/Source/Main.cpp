@@ -105,10 +105,11 @@ public:
 
     void shutdown() override
     {
+        engine->wait();
         designerWindow = nullptr; // (deletes our window)
-        output = nullptr;
-        engineUi = nullptr;
         engine = nullptr;
+        engineUi = nullptr;
+        output = nullptr;
     }
     
     //==============================================================================

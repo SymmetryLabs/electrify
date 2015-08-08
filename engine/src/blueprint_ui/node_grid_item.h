@@ -14,7 +14,6 @@ public:
 
   VarSignalT<float> x;
   VarSignalT<float> y;
-  EventsT<> positionChanged;
 
   void setPos(float x, float y);
 
