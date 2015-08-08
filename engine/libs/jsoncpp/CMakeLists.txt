@@ -7,7 +7,7 @@ set(CPM_MODULE_NAME jsoncpp)
 set(CPM_LIB_TARGET_NAME ${CPM_MODULE_NAME})
 
 if ((DEFINED CPM_DIR) AND (DEFINED CPM_UNIQUE_ID) AND (DEFINED CPM_TARGET_NAME))
-  set(CPM_LIB_TARGET_NAME ${CPM_TARGET_NAME})
+  set(CPM_LIB_TARGET_NAME ${CPM_MODULE_NAME})
   set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CPM_DIR})
   include(CPM)
 else()
@@ -34,8 +34,11 @@ CPM_ForceOnlyOneModuleVersion()
 CPM_InitModule(${CPM_MODULE_NAME})
 
 #------------------------------------------------------------------------------
-# libnoise
+# jsoncpp
 #------------------------------------------------------------------------------
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 # Download source code
 set(REPO_SOURCE_DIR "${CMAKE_BINARY_DIR}/${__CPM_FULL_UNID}/repo")
@@ -77,4 +80,6 @@ add_library(${CPM_LIB_TARGET_NAME} STATIC ${Sources} ${SystemSpecificSources})
 if (NOT EMSCRIPTEN AND CPM_LIBRARIES)
   target_link_libraries(${CPM_LIB_TARGET_NAME} ${CPM_LIBRARIES})
 endif()
+
+CPM_ExportAdditionalLibraryTarget("jsoncpp")
 

@@ -48,6 +48,9 @@ find_package(Boost REQUIRED)
 # SymmetryEngine
 #------------------------------------------------------------------------------
 
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+
 if (APPLE)
   set(CMAKE_MACOSX_RPATH ON)
 endif()
@@ -56,6 +59,7 @@ file(GLOB HEADER_DIRS
   "src"
   "src/core"
   "src/blueprint"
+  "src/blueprint_ui"
   "src/nodes"
   "src/nodes/oscillators"
   "src/nodes/transforms"
@@ -81,13 +85,13 @@ include_directories(SYSTEM ${LIB_HEADER_DIRS})
 include_directories(${HEADER_DIRS})
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-add_library(SymmetryEngine SHARED ${SRCS})
+add_library(SymmetryEngine STATIC ${SRCS})
 target_include_directories(SymmetryEngine SYSTEM PUBLIC ${CPM_INCLUDE_DIRS})
 target_include_directories(SymmetryEngine SYSTEM PUBLIC ${Boost_INCLUDE_DIRS})
 target_include_directories(SymmetryEngine SYSTEM PUBLIC ${LIB_HEADER_DIRS})
 target_include_directories(SymmetryEngine PUBLIC ${HEADER_DIRS})
 
-target_link_libraries(SymmetryEngine ${CPM_LIBRARIES})
+target_link_libraries(SymmetryEngine PUBLIC ${CPM_LIBRARIES})
 
 foreach(subdir ${LIB_HEADER_DIRS} ${CPM_INCLUDE_DIRS})
   file(GLOB temp ${subdir}/*)

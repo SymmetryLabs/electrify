@@ -1887,10 +1887,10 @@
 				HEADER_SEARCH_PATHS = ("../../JuceLibraryCode", "../../JuceLibraryCode/modules", "../../../engine/src", "../../../engine/src/core", "../../../engine/src/blueprint", "../../../engine/src/blueprint_ui", "../../../engine/src/nodes", "../../../engine/src/nodes/oscillators", "../../../engine/src/nodes/transforms", "../../../engine/src/utils", "$(inherited)");
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = ("$(inherited)", "\"${BUILD_DIR}/engine\"", "\"/usr/local/lib\"");
+				LIBRARY_SEARCH_PATHS = ("$(inherited)", "\"${BUILD_DIR}/engine\"", "\"${BUILD_DIR}/engine/lib\"", "\"/usr/local/lib\"");
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
 				OTHER_CPLUSPLUSFLAGS = "-isystem ${BUILD_DIR}/engine/ext_include -isystem /usr/local/include";
-				OTHER_LDFLAGS = "-Wl,-rpath,@loader_path/../Frameworks -lSymmetryEngine -ltbb";
+				OTHER_LDFLAGS = "-lSymmetryEngine -ltbb -lCppReact -lnoise -ljsoncpp";
 				SDKROOT_ppc = macosx10.5; }; name = Debug; };
 		FD29D67D86B65523B7973352 = {isa = XCBuildConfiguration; buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
@@ -1914,7 +1914,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
 				OTHER_CPLUSPLUSFLAGS = "-isystem ${BUILD_DIR}/engine/ext_include -isystem /usr/local/include";
-				OTHER_LDFLAGS = "-Wl,-rpath,@loader_path/../Frameworks -lSymmetryEngine -ltbb";
+				OTHER_LDFLAGS = "-lSymmetryEngine -ltbb -lCppReact -lnoise -ljsoncpp";
 				SDKROOT_ppc = macosx10.5; }; name = Release; };
 		87126AE48C6CE9ABE5FBA86D = {isa = XCBuildConfiguration; buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1986,7 +1986,7 @@
 					FA9A78567507B0322E1A7AF0,
 					1F624875EA533119E386369A,
 					BA267D3E9EF80A1B1E734CDF, ); runOnlyForDeploymentPostprocessing = 0; };
-		74882F548629297C9560FCC2 = {isa = PBXShellScriptBuildPhase; buildActionMask = 2147483647; files = (  ); runOnlyForDeploymentPostprocessing = 0; name = "Post-build script"; shellPath = /bin/sh; shellScript = "export DYLIB=SymmetryEngine\nmkdir -p \"$TARGET_BUILD_DIR/$TARGET_NAME.app/Contents/Frameworks\"\ncp -f \"${BUILD_DIR}/engine/lib$DYLIB.dylib\" \"$TARGET_BUILD_DIR/$TARGET_NAME.app/Contents/Frameworks\""; };
+		74882F548629297C9560FCC2 = {isa = PBXShellScriptBuildPhase; buildActionMask = 2147483647; files = (  ); runOnlyForDeploymentPostprocessing = 0; name = "Post-build script"; shellPath = /bin/sh; shellScript = "#export DYLIB=SymmetryEngine\n#mkdir -p \"$TARGET_BUILD_DIR/$TARGET_NAME.app/Contents/Frameworks\"\n#cp -f \"${BUILD_DIR}/engine/lib$DYLIB.dylib\" \"$TARGET_BUILD_DIR/$TARGET_NAME.app/Contents/Frameworks\""; };
 		C51E0A04C73299A507449738 = {isa = PBXNativeTarget; buildConfigurationList = 5AC62E57915BC59ACDBBD849; buildPhases = (
 					CF961712875D32E474D641F5,
 					2D87984B87714ED87B1AE8E8,

@@ -7,7 +7,7 @@ set(CPM_MODULE_NAME libnoise)
 set(CPM_LIB_TARGET_NAME ${CPM_MODULE_NAME})
 
 if ((DEFINED CPM_DIR) AND (DEFINED CPM_UNIQUE_ID) AND (DEFINED CPM_TARGET_NAME))
-  set(CPM_LIB_TARGET_NAME ${CPM_TARGET_NAME})
+  set(CPM_LIB_TARGET_NAME ${CPM_MODULE_NAME})
   set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CPM_DIR})
   include(CPM)
 else()
@@ -37,6 +37,9 @@ CPM_InitModule(${CPM_MODULE_NAME})
 # libnoise
 #------------------------------------------------------------------------------
 
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+
 if (APPLE)
   set(CMAKE_MACOSX_RPATH TRUE)
 endif()
@@ -50,7 +53,7 @@ CPM_EnsureRepoIsCurrent(
   )
 
 # Invoke CMake
-add_subdirectory("${REPO_SOURCE_DIR}" "${CMAKE_BINARY_DIR}/${__CPM_FULL_UNID}/build")
+add_subdirectory("${REPO_SOURCE_DIR}" "${CMAKE_BINARY_DIR}/${__CPM_FULL_UNID}/build" EXCLUDE_FROM_ALL)
 
 CPM_ExportAdditionalIncludeDir("${REPO_SOURCE_DIR}/src")
 CPM_ExportAdditionalLibraryTarget("noise-static")
