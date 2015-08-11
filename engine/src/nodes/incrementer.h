@@ -6,18 +6,18 @@
 class Incrementer : public BasicNode<Color> {
 
 public:
-  Incrementer();
+    Incrementer();
 
-  static const string nodeName() { return "Incrementer"; }
-  
-  virtual void init();
-  virtual void update(const FrameContext& frame) override;
+    static const string nodeName() { return "Incrementer"; }
+    
+    virtual void init();
+    virtual void update(const FrameContext& frame) override;
 
-  Color calculate(const FrameContext& frame) const override;
+    Color calculate(const FrameContext& frame) const override;
 
 private:
-  SignalFunction<Color> colorInput;
-  
-  int increment = 0;
+    SignalFunction<Color> colorInput;
+    
+    int increment = 0;
 
 };

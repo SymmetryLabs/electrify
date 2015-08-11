@@ -7,15 +7,15 @@ template <typename V>
 class ConstantNode : public BasicNode<V> {
 
 public:
-  ConstantNode() {}
-  explicit ConstantNode(V value_) : value(value_) {}
+    ConstantNode() {}
+    explicit ConstantNode(V value_) : value(value_) {}
 
-  static const string nodeName() { return "Constant float"; }
+    static const string nodeName() { return "Constant float"; }
 
-  V calculate(const FrameContext&) const override { return value; }
+    V calculate(const FrameContext&) const override { return value; }
 
 private:
-  V value;
+    V value;
 
 };
 

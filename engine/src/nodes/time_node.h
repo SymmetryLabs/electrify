@@ -6,8 +6,8 @@
 class TimeNode : public BasicNode<float> {
 
 public:
-  static const string nodeName() { return "Time"; }
+    static const string nodeName() { return "Time"; }
 
-  float calculate(const FrameContext& frame) const override;
+    float calculate(const FrameContext& frame) const override;
 
 };

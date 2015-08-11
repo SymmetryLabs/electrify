@@ -2,5 +2,5 @@
 
 ScalarTransform::ScalarTransform()
 {
-  registerInput("input", &input);
+    registerInput("input", &input);
 }

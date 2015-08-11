@@ -6,14 +6,14 @@
 class HsvNode : public BasicNode<Color> {
 
 public:
-  HsvNode();
+    HsvNode();
 
-  static const string nodeName() { return "HSV"; }
+    static const string nodeName() { return "HSV"; }
 
-  Color calculate(const FrameContext& frame) const override;
-  
-  SignalFunction<float> hue;
-  SignalFunction<float> saturation;
-  SignalFunction<float> value;
+    Color calculate(const FrameContext& frame) const override;
+    
+    SignalFunction<float> hue;
+    SignalFunction<float> saturation;
+    SignalFunction<float> value;
 
 };

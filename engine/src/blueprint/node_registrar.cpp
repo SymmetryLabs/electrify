@@ -16,32 +16,32 @@
 
 NodeRegistrar::NodeRegistrar()
 {
-  registerNode<SawWave>();
-  registerNode<SinWave>();
-  registerNode<SquareWave>();
-  registerNode<ScaleTransform>();
-  registerNode<ColorDoubler>();
-  registerNode<ConstantColorNode>();
-  registerNode<ConstantFloatNode>();
-  registerNode<HsvNode>();
-  registerNode<Incrementer>();
-  registerNode<PerlinNoiseNode>();
-  registerNode<PixelXNode>();
-  registerNode<TimeNode>();
-  registerNode<TranslateNode>();
+    registerNode<SawWave>();
+    registerNode<SinWave>();
+    registerNode<SquareWave>();
+    registerNode<ScaleTransform>();
+    registerNode<ColorDoubler>();
+    registerNode<ConstantColorNode>();
+    registerNode<ConstantFloatNode>();
+    registerNode<HsvNode>();
+    registerNode<Incrementer>();
+    registerNode<PerlinNoiseNode>();
+    registerNode<PixelXNode>();
+    registerNode<TimeNode>();
+    registerNode<TranslateNode>();
 }
 
 vector<string> NodeRegistrar::getAvailableNodeNames() const
 {
-  vector<string> keys;
-  keys.reserve(nodeFactories.size());
-  for(auto kv : nodeFactories) {
-      keys.push_back(kv.first);
-  }
-  return keys;
+    vector<string> keys;
+    keys.reserve(nodeFactories.size());
+    for(auto kv : nodeFactories) {
+            keys.push_back(kv.first);
+    }
+    return keys;
 }
 
 size_t NodeRegistrar::getAvailableNodeCount() const
 {
-  return nodeFactories.size();
+    return nodeFactories.size();
 }

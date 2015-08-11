@@ -8,20 +8,20 @@
 class NodeGridItem : public BlueprintUiObject {
 
 public:
-  NodeGridItem(NodeProxy<EngineUiDomain>* node, GridItemCoordinator& gridItemCoordinator);
+    NodeGridItem(NodeProxy<EngineUiDomain>* node, GridItemCoordinator& gridItemCoordinator);
 
-  NodeProxy<EngineUiDomain>* node;
+    NodeProxy<EngineUiDomain>* node;
 
-  VarSignalT<float> x;
-  VarSignalT<float> y;
-  void setPos(float x, float y);
+    VarSignalT<float> x;
+    VarSignalT<float> y;
+    void setPos(float x, float y);
 
-  VarSignalT<bool> selected;
-  void setSelected(bool selected);
+    VarSignalT<bool> selected;
+    void setSelected(bool selected);
 
 private:
-  GridItemCoordinator& gridItemCoordinator;
+    GridItemCoordinator& gridItemCoordinator;
 
-  friend class GridItemCoordinator;
+    friend class GridItemCoordinator;
 
 };

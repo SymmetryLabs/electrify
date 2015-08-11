@@ -7,17 +7,17 @@ class ProxyBridge {
 
 public:
 
-  void queueDownstreamEvent(const function<void()>& eventFunc);
-  void commitDownstreamFlowingTransaction();
-  void processDownstreamFlowingTransactions();
+    void queueDownstreamEvent(const function<void()>& eventFunc);
+    void commitDownstreamFlowingTransaction();
+    void processDownstreamFlowingTransactions();
 
-  void queueUpstreamEvent(const function<void()>& eventFunc);
-  void commitUpstreamFlowingTransaction();
-  void processUpstreamFlowingTransactions();
+    void queueUpstreamEvent(const function<void()>& eventFunc);
+    void commitUpstreamFlowingTransaction();
+    void processUpstreamFlowingTransactions();
 
 private:
 
-  EventQueue downstreamFlowingEventQueue;
-  EventQueue upstreamFlowingEventQueue;
+    EventQueue downstreamFlowingEventQueue;
+    EventQueue upstreamFlowingEventQueue;
 
 };

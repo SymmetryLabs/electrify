@@ -5,18 +5,18 @@
 
 class BaseParameter {
 public:
-  BaseParameter(type_index type_) : type(type_) {}
-  virtual ~BaseParameter() {}
+    BaseParameter(type_index type_) : type(type_) {}
+    virtual ~BaseParameter() {}
 
-  const type_index type;
+    const type_index type;
 };
 
 template <typename V>
 class Parameter : public BaseParameter, public SignalX<V> {
 
 public:
-  Parameter() : BaseParameter(typeid(V)) {}
-  virtual ~Parameter() {}
+    Parameter() : BaseParameter(typeid(V)) {}
+    virtual ~Parameter() {}
 
 };
 
@@ -24,12 +24,12 @@ template <typename V>
 class ValueParameter : public Parameter<V> {
 
 public:
-  virtual ~ValueParameter() {}
+    virtual ~ValueParameter() {}
 
-  virtual V calculate(const FrameContext& frame) override;
+    virtual V calculate(const FrameContext& frame) override;
 
 private:
-  V value;
+    V value;
 
 };
 

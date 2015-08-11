@@ -6,11 +6,11 @@
 class Waveform : public BasicNode<float> {
 
 public:
-  Waveform();
-  virtual ~Waveform() {}
+    Waveform();
+    virtual ~Waveform() {}
 
-  SignalFunction<float> amplitude;
-  SignalFunction<float> frequency;
-  SignalFunction<float> phase;
+    SignalFunction<float> amplitude;
+    SignalFunction<float> frequency;
+    SignalFunction<float> phase;
 
 };

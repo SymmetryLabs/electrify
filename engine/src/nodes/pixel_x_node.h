@@ -6,8 +6,8 @@
 class PixelXNode : public BasicNode<float> {
 
 public:
-  static const string nodeName() { return "Pixel.x"; }
+    static const string nodeName() { return "Pixel.x"; }
 
-  float calculate(const FrameContext& frame) const override;
+    float calculate(const FrameContext& frame) const override;
 
 };

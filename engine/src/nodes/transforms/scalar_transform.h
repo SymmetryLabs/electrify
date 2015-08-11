@@ -6,9 +6,9 @@
 class ScalarTransform : public BasicNode<float> {
 
 public:
-  ScalarTransform();
-  virtual ~ScalarTransform() {}
+    ScalarTransform();
+    virtual ~ScalarTransform() {}
 
-  SignalFunction<float> input;
+    SignalFunction<float> input;
 
 };

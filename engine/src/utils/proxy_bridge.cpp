@@ -2,30 +2,30 @@
 
 void ProxyBridge::queueDownstreamEvent(const function<void()>& eventFunc)
 {
-  downstreamFlowingEventQueue.queueEvent(eventFunc);
+    downstreamFlowingEventQueue.queueEvent(eventFunc);
 }
 
 void ProxyBridge::commitDownstreamFlowingTransaction()
 {
-  downstreamFlowingEventQueue.commitTransaction();
+    downstreamFlowingEventQueue.commitTransaction();
 }
 
 void ProxyBridge::processDownstreamFlowingTransactions()
 {
-  downstreamFlowingEventQueue.processTransactions();
+    downstreamFlowingEventQueue.processTransactions();
 }
 
 void ProxyBridge::queueUpstreamEvent(const function<void()>& eventFunc)
 {
-  upstreamFlowingEventQueue.queueEvent(eventFunc);
+    upstreamFlowingEventQueue.queueEvent(eventFunc);
 }
 
 void ProxyBridge::commitUpstreamFlowingTransaction()
 {
-  upstreamFlowingEventQueue.commitTransaction();
+    upstreamFlowingEventQueue.commitTransaction();
 }
 
 void ProxyBridge::processUpstreamFlowingTransactions()
 {
-  upstreamFlowingEventQueue.processTransactions();
+    upstreamFlowingEventQueue.processTransactions();
 }

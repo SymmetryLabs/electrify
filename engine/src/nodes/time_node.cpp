@@ -2,5 +2,5 @@
 
 float TimeNode::calculate(const FrameContext& frame) const
 {
-  return frame.timeSeconds();
+    return frame.timeSeconds();
 }

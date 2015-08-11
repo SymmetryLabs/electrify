@@ -8,12 +8,12 @@
 class Renderable {
 
 public:
-  virtual ~Renderable() {}
+    virtual ~Renderable() {}
 
-  virtual void initRenderable(const Model&) {}
-  virtual void deinitRenderable() {}
+    virtual void initRenderable(const Model&) {}
+    virtual void deinitRenderable() {}
 
-  virtual void updateRenderable(const FrameContext&) {}
-  virtual void renderRenderable(const FrameContext&, vector<Color>&) {}
+    virtual void updateRenderable(const FrameContext&) {}
+    virtual void renderRenderable(const FrameContext&, vector<Color>&) {}
 
 };

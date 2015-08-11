@@ -6,13 +6,13 @@
 class ColorDoubler : public BasicNode<Color> {
 
 public:
-  ColorDoubler();
+    ColorDoubler();
 
-  static const string nodeName() { return "Color doubler"; }
+    static const string nodeName() { return "Color doubler"; }
 
-  Color calculate(const FrameContext& frame) const override;
+    Color calculate(const FrameContext& frame) const override;
 
 private:
-  SignalFunction<Color> colorInput;
+    SignalFunction<Color> colorInput;
 
 };

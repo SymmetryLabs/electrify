@@ -2,5 +2,5 @@
 
 Color ConstantColorNode::calculate(const FrameContext&) const
 {
-  return color;
+    return color;
 }

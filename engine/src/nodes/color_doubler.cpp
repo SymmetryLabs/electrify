@@ -2,12 +2,12 @@
 
 ColorDoubler::ColorDoubler()
 {
-  registerInput("color", &colorInput);
+    registerInput("color", &colorInput);
 }
 
 Color ColorDoubler::calculate(const FrameContext& frame) const
 {
-  Color in = colorInput(frame);
-  in.fromRGBA(in.asRGBA() * 2);
-  return in;
+    Color in = colorInput(frame);
+    in.fromRGBA(in.asRGBA() * 2);
+    return in;
 }

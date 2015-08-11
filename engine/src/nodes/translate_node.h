@@ -6,15 +6,15 @@
 class TranslateNode : public ContextModifierNode {
 
 public:
-  TranslateNode();
+    TranslateNode();
 
-  static const string nodeName() { return "Translate"; }
+    static const string nodeName() { return "Translate"; }
 
-  FrameContext modifyContext(const FrameContext& original) override;
+    FrameContext modifyContext(const FrameContext& original) override;
 
 private:
-  SignalFunction<float> translateX;
-  SignalFunction<float> translateY;
-  SignalFunction<float> translateZ;
+    SignalFunction<float> translateX;
+    SignalFunction<float> translateY;
+    SignalFunction<float> translateZ;
 
 };

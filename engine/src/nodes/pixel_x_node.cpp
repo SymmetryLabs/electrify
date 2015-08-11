@@ -2,5 +2,5 @@
 
 float PixelXNode::calculate(const FrameContext& frame) const
 {
-  return frame.frag->pixel.x;
+    return frame.frag->pixel.x;
 }

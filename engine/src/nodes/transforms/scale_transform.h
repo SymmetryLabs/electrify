@@ -6,12 +6,12 @@
 class ScaleTransform : public ScalarTransform {
 
 public:
-  ScaleTransform();
+    ScaleTransform();
 
-  static const string nodeName() { return "Scale"; }
+    static const string nodeName() { return "Scale"; }
 
-  float calculate(const FrameContext& frame) const override;
+    float calculate(const FrameContext& frame) const override;
 
-  SignalFunction<float> multiplier;
+    SignalFunction<float> multiplier;
 
 };

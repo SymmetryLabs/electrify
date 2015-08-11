@@ -6,19 +6,19 @@
 class NodeRegistrar {
 
 public:
-  NodeRegistrar();
+    NodeRegistrar();
 
-  template<typename ClassType>
-  void registerNode();
+    template<typename ClassType>
+    void registerNode();
 
-  vector<string> getAvailableNodeNames() const;
-  size_t getAvailableNodeCount() const;
+    vector<string> getAvailableNodeNames() const;
+    size_t getAvailableNodeCount() const;
 
-  template<typename ClassType = Node>
-  unique_ptr<ClassType> getNode(const string& name) const;
+    template<typename ClassType = Node>
+    unique_ptr<ClassType> getNode(const string& name) const;
 
 private:
-  unordered_map<string, function<Node* ()>> nodeFactories;
+    unordered_map<string, function<Node* ()>> nodeFactories;
 
 };
 

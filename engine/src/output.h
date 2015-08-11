@@ -6,6 +6,6 @@
 class Output {
 
 public:
-  vector<Color> colorBuffer;
+    vector<Color> colorBuffer;
 
 };

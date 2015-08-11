@@ -4,7 +4,7 @@
 class BlueprintUiObject {
 
 protected:
-  USING_REACTIVE_DOMAIN(EngineUiDomain)
+    USING_REACTIVE_DOMAIN(EngineUiDomain)
 
 };
 

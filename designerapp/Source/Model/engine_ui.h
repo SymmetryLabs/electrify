@@ -9,21 +9,21 @@
 
 class EngineUi : public Observes<EngineDomain> {
 
-  USING_REACTIVE_DOMAIN(EngineUiDomain)
+    USING_REACTIVE_DOMAIN(EngineUiDomain)
 
 public:
-  explicit EngineUi(Engine& engine);
+    explicit EngineUi(Engine& engine);
 
-  shared_ptr<CompoundNodeProxy<EngineUiDomain>> blueprint;
+    shared_ptr<CompoundNodeProxy<EngineUiDomain>> blueprint;
 
-  unique_ptr<NodeGrid> nodeGrid;
+    unique_ptr<NodeGrid> nodeGrid;
 
-  void commitUpstreamFlowingTransaction();
-  void processDownstreamFlowingTransactions();
+    void commitUpstreamFlowingTransaction();
+    void processDownstreamFlowingTransactions();
 
-  ProxyBridge proxyBridge;
+    ProxyBridge proxyBridge;
 
 private:
-  Engine& engine;
+    Engine& engine;
 
 };

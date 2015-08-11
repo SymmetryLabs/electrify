@@ -12,7 +12,7 @@
 
 class Loader {
 public:
-  unique_ptr<Model> loadJSON(string filename);
-  Group* parseGroup(Json::Value val, vector<Pixel*> *pixels, Group *parent);
-  Pixel* parsePixelReference(Json::Value val, vector<Pixel*> *pixels, Group *parent);
+    unique_ptr<Model> loadJSON(string filename);
+    Group* parseGroup(Json::Value val, vector<Pixel*> *pixels, Group *parent);
+    Pixel* parsePixelReference(Json::Value val, vector<Pixel*> *pixels, Group *parent);
 };

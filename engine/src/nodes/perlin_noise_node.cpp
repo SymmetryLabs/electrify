@@ -2,12 +2,12 @@
 
 PerlinNoiseNode::PerlinNoiseNode()
 {
-  registerInput("xInput", &xInput);
-  registerInput("yInput", &yInput);
-  registerInput("zInput", &zInput);
+    registerInput("xInput", &xInput);
+    registerInput("yInput", &yInput);
+    registerInput("zInput", &zInput);
 }
 
 float PerlinNoiseNode::calculate(const FrameContext& frame) const
 {
-  return noiseGenerator.GetValue(xInput(frame), yInput(frame), zInput(frame));
+    return noiseGenerator.GetValue(xInput(frame), yInput(frame), zInput(frame));
 }

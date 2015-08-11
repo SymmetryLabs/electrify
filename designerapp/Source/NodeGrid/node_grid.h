@@ -13,24 +13,24 @@
 class NodeGrid : public BlueprintUiObject, Observes<EngineUiDomain> {
 
 public:
-  explicit NodeGrid(CompoundNodeProxy<EngineUiDomain>* compoundNode);
+    explicit NodeGrid(CompoundNodeProxy<EngineUiDomain>* compoundNode);
 
-  CompoundNodeProxy<EngineUiDomain>* compoundNode;
+    CompoundNodeProxy<EngineUiDomain>* compoundNode;
 
-  void addNode(string name, float x, float y);
-  void removeNode();
-  NodeGridItem* nodeWithUuid(boost::uuids::uuid uuid);
+    void addNode(string name, float x, float y);
+    void removeNode();
+    NodeGridItem* nodeWithUuid(boost::uuids::uuid uuid);
 
-  ObservableVector<EngineUiDomain, shared_ptr<NodeGridItem>> gridItems;
-  ObservableVector<EngineUiDomain, shared_ptr<NodeGridWire>> gridWires;
+    ObservableVector<EngineUiDomain, shared_ptr<NodeGridItem>> gridItems;
+    ObservableVector<EngineUiDomain, shared_ptr<NodeGridWire>> gridWires;
 
 private:
-  GridItemCoordinator gridItemCoordinator;
+    GridItemCoordinator gridItemCoordinator;
 
-  NodeGridItem* addGridItemWith(size_t pos, NodeProxy<EngineUiDomain>& node);
-  shared_ptr<NodeGridItem> removeGridItemWith(size_t pos, NodeProxy<EngineUiDomain>& node);
+    NodeGridItem* addGridItemWith(size_t pos, NodeProxy<EngineUiDomain>& node);
+    shared_ptr<NodeGridItem> removeGridItemWith(size_t pos, NodeProxy<EngineUiDomain>& node);
 
-  NodeGridWire* addGridWireWith(size_t pos, NodeWire& wire);
-  shared_ptr<NodeGridWire> removeGridWireWith(size_t pos, NodeWire wire);
+    NodeGridWire* addGridWireWith(size_t pos, NodeWire& wire);
+    shared_ptr<NodeGridWire> removeGridWireWith(size_t pos, NodeWire wire);
 
 };

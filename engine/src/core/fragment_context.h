@@ -5,11 +5,11 @@
 
 struct FragmentContext {
 
-  FragmentContext(const Pixel& pixel_) : pixel(pixel_) {}
+    FragmentContext(const Pixel& pixel_) : pixel(pixel_) {}
 
-  const Pixel& pixel;
+    const Pixel& pixel;
 
-  // const vec3 pt3;
-  // const vec2 pt2;
+    // const vec3 pt3;
+    // const vec2 pt2;
 
 };

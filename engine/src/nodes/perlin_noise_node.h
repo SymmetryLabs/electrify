@@ -8,16 +8,16 @@
 class PerlinNoiseNode : public BasicNode<float> {
 
 public:
-  PerlinNoiseNode();
+    PerlinNoiseNode();
 
-  static const string nodeName() { return "Perlin noise"; }
+    static const string nodeName() { return "Perlin noise"; }
 
-  float calculate(const FrameContext& frame) const override;
+    float calculate(const FrameContext& frame) const override;
 
-  SignalFunction<float> xInput;
-  SignalFunction<float> yInput;
-  SignalFunction<float> zInput;
+    SignalFunction<float> xInput;
+    SignalFunction<float> yInput;
+    SignalFunction<float> zInput;
 
-  noise::module::Perlin noiseGenerator;
+    noise::module::Perlin noiseGenerator;
 
 };

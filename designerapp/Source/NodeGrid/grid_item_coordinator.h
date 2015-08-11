@@ -6,10 +6,10 @@ class NodeGridItem;
 class GridItemCoordinator {
 
 public:
-  void deselectAll();
-  void setSelected(NodeGridItem& gridItem, bool selected);
+    void deselectAll();
+    void setSelected(NodeGridItem& gridItem, bool selected);
 
 private:
-  VarSignal<EngineUiDomain, NodeGridItem*> selectedGridItem = MakeVar<EngineUiDomain, NodeGridItem*>(nullptr);
+    VarSignal<EngineUiDomain, NodeGridItem*> selectedGridItem = MakeVar<EngineUiDomain, NodeGridItem*>(nullptr);
 
 };

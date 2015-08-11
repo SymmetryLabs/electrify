@@ -2,6 +2,6 @@
 
 float SawWave::calculate(const FrameContext& frame) const
 {
-  float unused;
-  return amplitude(frame) * modf(frame.timeSeconds() * frequency(frame) + phase(frame), &unused);
+    float unused;
+    return amplitude(frame) * modf(frame.timeSeconds() * frequency(frame) + phase(frame), &unused);
 }

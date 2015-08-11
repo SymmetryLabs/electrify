@@ -9,16 +9,16 @@
 class NodeGridWire : public BlueprintUiObject {
 
 public:
-  NodeGridWire(NodeWire& nodeWire, GridItemCoordinator& gridItemCoordinator,
-    NodeGridItem& emittingGridItem, NodeGridItem& receivingGridItem);
+    NodeGridWire(NodeWire& nodeWire, GridItemCoordinator& gridItemCoordinator,
+        NodeGridItem& emittingGridItem, NodeGridItem& receivingGridItem);
 
-  NodeWire& nodeWire;
+    NodeWire& nodeWire;
 
-  NodeGridItem& emittingGridItem;
-  NodeGridItem& receivingGridItem;
+    NodeGridItem& emittingGridItem;
+    NodeGridItem& receivingGridItem;
 
 private:
 
-  GridItemCoordinator& gridItemCoordinator;
+    GridItemCoordinator& gridItemCoordinator;
 
 };
