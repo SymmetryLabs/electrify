@@ -5,6 +5,32 @@
               jucerVersion="3.2.0">
   <MAINGROUP id="wQ89CT" name="Designer">
     <GROUP id="{FD40B928-CCA8-FE86-E11B-047A03A31108}" name="Source">
+      <GROUP id="{31FD6C8C-56DD-3215-F275-7A36FDAB8651}" name="Model">
+        <FILE id="C4XEYQ" name="blueprint_ui_globals.h" compile="0" resource="0"
+              file="Source/Model/blueprint_ui_globals.h"/>
+        <FILE id="SK7BSR" name="blueprint_ui_object.cpp" compile="1" resource="0"
+              file="Source/Model/blueprint_ui_object.cpp"/>
+        <FILE id="ftnWt2" name="blueprint_ui_object.h" compile="0" resource="0"
+              file="Source/Model/blueprint_ui_object.h"/>
+        <FILE id="sAuGtF" name="blueprint_ui_object.tpp" compile="0" resource="0"
+              file="Source/Model/blueprint_ui_object.tpp"/>
+        <FILE id="WVeSq0" name="engine_ui.cpp" compile="1" resource="0" file="Source/Model/engine_ui.cpp"/>
+        <FILE id="KEfKdP" name="engine_ui.h" compile="0" resource="0" file="Source/Model/engine_ui.h"/>
+        <FILE id="w8j9LP" name="grid_item_coordinator.cpp" compile="1" resource="0"
+              file="Source/Model/grid_item_coordinator.cpp"/>
+        <FILE id="WdY8V5" name="grid_item_coordinator.h" compile="0" resource="0"
+              file="Source/Model/grid_item_coordinator.h"/>
+        <FILE id="vTXe9V" name="node_grid.cpp" compile="1" resource="0" file="Source/Model/node_grid.cpp"/>
+        <FILE id="hfnmQM" name="node_grid.h" compile="0" resource="0" file="Source/Model/node_grid.h"/>
+        <FILE id="KohF3f" name="node_grid_item.cpp" compile="1" resource="0"
+              file="Source/Model/node_grid_item.cpp"/>
+        <FILE id="qUfLMz" name="node_grid_item.h" compile="0" resource="0"
+              file="Source/Model/node_grid_item.h"/>
+        <FILE id="YG3F6C" name="node_grid_wire.cpp" compile="1" resource="0"
+              file="Source/Model/node_grid_wire.cpp"/>
+        <FILE id="bR2of4" name="node_grid_wire.h" compile="0" resource="0"
+              file="Source/Model/node_grid_wire.h"/>
+      </GROUP>
       <FILE id="RC8A4E" name="NodeGridWireView.cpp" compile="1" resource="0"
             file="Source/NodeGridWireView.cpp"/>
       <FILE id="kbbpXs" name="NodeGridWireView.h" compile="0" resource="0"

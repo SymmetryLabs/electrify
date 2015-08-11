@@ -13,7 +13,6 @@
 #include "DesignerWindowComponent.h"
 
 #include <engine.h>
-#include <engine_ui.h>
 #include <output.h>
 
 #include <color.h>
@@ -35,6 +34,8 @@
 #include <perlin_noise_node.h>
 #include <time_node.h>
 #include <scale_transform.h>
+
+#include "engine_ui.h"
 
 //==============================================================================
 class DesignerApplication  : public JUCEApplication

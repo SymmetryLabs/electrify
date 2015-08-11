@@ -2,10 +2,10 @@
 
 NodeGridItem::NodeGridItem(NodeProxy<EngineUiDomain>* node, GridItemCoordinator& gridItemCoordinator)
   : node(node)
-  , gridItemCoordinator(gridItemCoordinator)
   , x(MakeVar<EngineUiDomain, float>(0))
   , y(MakeVar<EngineUiDomain, float>(0))
   , selected(MakeVar<EngineUiDomain, bool>(false))
+  , gridItemCoordinator(gridItemCoordinator)
 {
   // TODO: load persisted x,y for node
 }

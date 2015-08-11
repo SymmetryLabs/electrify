@@ -13,9 +13,9 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-#include <node_grid_item.h>
 #include <observes.h>
 
+#include "node_grid_item.h"
 #include "SignalView.h"
 
 //==============================================================================
