@@ -49,6 +49,32 @@ NodeGridItem* NodeGrid::nodeWithUuid(boost::uuids::uuid uuid)
     }
     return nullptr;
 }
+void NodeGrid::deselectAllNodes()
+{
+    if (selectedGridItem.Value()) {
+        DoTransaction<EngineUiDomain>([this] {
+            selectedGridItem.Value()->selected <<= false;
+            selectedGridItem <<= nullptr;
+        });
+    }
+}
+
+void NodeGrid::setSelectedNode(NodeGridItem& gridItem, bool selected)
+{
+    if (selected && (&gridItem != selectedGridItem.Value())) {
+        // Select
+        DoTransaction<EngineUiDomain>([&, this] {
+            if (selectedGridItem.Value()) {
+                selectedGridItem.Value()->selected <<= false;
+            }
+            gridItem.selected <<= true;
+            selectedGridItem <<= &gridItem;
+        });
+    } else if (!selected && (&gridItem == selectedGridItem.Value())) {
+        // Unselect
+        deselectAll();
+    }
+}
 
 NodeGridItem* NodeGrid::addGridItemWith(size_t pos, NodeProxy<EngineUiDomain>& node)
 {

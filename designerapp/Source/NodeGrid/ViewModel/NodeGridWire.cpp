@@ -1,10 +1,12 @@
 #include "NodeGridWire.h"
 
-NodeGridWire::NodeGridWire(NodeWire& nodeWire, GridItemCoordinator& gridItemCoordinator,
+#include "NodeGrid.h"
+
+NodeGridWire::NodeGridWire(NodeWire& nodeWire, NodeGrid& nodeGrid,
     NodeGridItem& emittingGridItem, NodeGridItem& receivingGridItem)
     : nodeWire(nodeWire)
     , emittingGridItem(emittingGridItem)
     , receivingGridItem(receivingGridItem)
-    , gridItemCoordinator(gridItemCoordinator)
+    , nodeGrid(nodeGrid)
 {
 }

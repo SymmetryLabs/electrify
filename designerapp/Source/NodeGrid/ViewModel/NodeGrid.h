@@ -8,7 +8,6 @@
 
 #include "BlueprintUiObject.h"
 #include "NodeGridItem.h"
-#include "GridItemCoordinator.h"
 #include "NodeGridWire.h"
 
 class NodeGrid : public BlueprintUiObject, Observes<EngineUiDomain> {
@@ -21,12 +20,16 @@ public:
     void addNode(string name, float x, float y);
     void removeNode();
     NodeGridItem* nodeWithUuid(boost::uuids::uuid uuid);
+    
+    void deselectAllNodes();
+    void setSelectedNode(NodeGridItem& gridItem, bool selected);
 
     ObservableVector<EngineUiDomain, shared_ptr<NodeGridItem>> gridItems;
     ObservableVector<EngineUiDomain, shared_ptr<NodeGridWire>> gridWires;
 
 private:
-    GridItemCoordinator gridItemCoordinator;
+    
+    VarSignal<EngineUiDomain, NodeGridItem*> selectedGridItem = MakeVar<EngineUiDomain, NodeGridItem*>(nullptr);
 
     NodeGridItem* addGridItemWith(size_t pos, NodeProxy<EngineUiDomain>& node);
     shared_ptr<NodeGridItem> removeGridItemWith(size_t pos, NodeProxy<EngineUiDomain>& node);

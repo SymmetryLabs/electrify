@@ -5,12 +5,13 @@
 
 #include "BlueprintUiObject.h"
 #include "NodeGridItem.h"
-#include "GridItemCoordinator.h"
+
+class NodeGrid;
 
 class NodeGridWire : public BlueprintUiObject {
 
 public:
-    NodeGridWire(NodeWire& nodeWire, GridItemCoordinator& gridItemCoordinator,
+    NodeGridWire(NodeWire& nodeWire, NodeGrid& nodeGrid,
         NodeGridItem& emittingGridItem, NodeGridItem& receivingGridItem);
 
     NodeWire& nodeWire;
@@ -20,6 +21,6 @@ public:
 
 private:
 
-    GridItemCoordinator& gridItemCoordinator;
+    NodeGrid& nodeGrid;
 
 };

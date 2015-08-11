@@ -4,12 +4,13 @@
 #include <node.h>
 
 #include "BlueprintUiObject.h"
-#include "GridItemCoordinator.h"
+
+class NodeGrid;
 
 class NodeGridItem : public BlueprintUiObject {
 
 public:
-    NodeGridItem(NodeProxy<EngineUiDomain>* node, GridItemCoordinator& gridItemCoordinator);
+    NodeGridItem(NodeProxy<EngineUiDomain>* node, NodeGrid& nodeGrid);
 
     NodeProxy<EngineUiDomain>* node;
 
@@ -21,7 +22,7 @@ public:
     void setSelected(bool selected);
 
 private:
-    GridItemCoordinator& gridItemCoordinator;
+    NodeGrid& nodeGrid;
 
     friend class GridItemCoordinator;
 

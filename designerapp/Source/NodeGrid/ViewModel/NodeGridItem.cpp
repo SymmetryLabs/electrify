@@ -1,11 +1,13 @@
 #include "NodeGridItem.h"
 
-NodeGridItem::NodeGridItem(NodeProxy<EngineUiDomain>* node, GridItemCoordinator& gridItemCoordinator)
+#include "NodeGrid.h"
+
+NodeGridItem::NodeGridItem(NodeProxy<EngineUiDomain>* node, NodeGrid& nodeGrid)
     : node(node)
     , x(MakeVar<EngineUiDomain, float>(0))
     , y(MakeVar<EngineUiDomain, float>(0))
     , selected(MakeVar<EngineUiDomain, bool>(false))
-    , gridItemCoordinator(gridItemCoordinator)
+    , nodeGrid(nodeGrid)
 {
     // TODO: load persisted x,y for node
 }
@@ -18,5 +20,5 @@ void NodeGridItem::setPos(float x_, float y_)
 
 void NodeGridItem::setSelected(bool selected)
 {
-    gridItemCoordinator.setSelected(*this, selected);
+    nodeGrid.setSelectedNode(*this, selected);
 }
