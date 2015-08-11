@@ -13,7 +13,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-#include "node_grid.h"
+#include "NodeGrid.h"
 #include "NodeGridItemView.h"
 #include "NodeGridWireView.h"
 

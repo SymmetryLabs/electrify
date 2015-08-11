@@ -1,8 +1,8 @@
 #pragma once
-#include "blueprint_ui_globals.h"
+#include "BlueprintUiGlobals.h"
 
 #include "engine.h"
-#include "node_grid.h"
+#include "NodeGrid.h"
 #include "blueprint.h"
 #include "proxy_bridge.h"
 #include "observes.h"

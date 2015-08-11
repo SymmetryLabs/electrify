@@ -1,6 +1,6 @@
-#include "grid_item_coordinator.h"
+#include "GridItemCoordinator.h"
 
-#include "node_grid_item.h"
+#include "NodeGridItem.h"
 
 void GridItemCoordinator::deselectAll()
 {

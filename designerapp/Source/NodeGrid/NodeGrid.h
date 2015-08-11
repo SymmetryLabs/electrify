@@ -1,14 +1,15 @@
 #pragma once
-#include "blueprint_ui_globals.h"
+#include "BlueprintUiGlobals.h"
 
-#include "blueprint_ui_object.h"
-#include "compound_node.h"
-#include "node_grid_item.h"
-#include "observable_vector.h"
-#include "node.h"
-#include "observes.h"
-#include "grid_item_coordinator.h"
-#include "node_grid_wire.h"
+#include <compound_node.h>
+#include <observable_vector.h>
+#include <node.h>
+#include <observes.h>
+
+#include "BlueprintUiObject.h"
+#include "NodeGridItem.h"
+#include "GridItemCoordinator.h"
+#include "NodeGridWire.h"
 
 class NodeGrid : public BlueprintUiObject, Observes<EngineUiDomain> {
 

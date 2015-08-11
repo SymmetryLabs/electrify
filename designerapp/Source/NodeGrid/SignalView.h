@@ -23,7 +23,7 @@
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
 
-#include "blueprint_ui_globals.h"
+#include "BlueprintUiGlobals.h"
 //[/Headers]
 
 

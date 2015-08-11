@@ -1,5 +1,5 @@
 #pragma once
-#include "blueprint_ui_globals.h"
+#include "BlueprintUiGlobals.h"
 
 class NodeGridItem;
 

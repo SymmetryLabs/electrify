@@ -1,4 +1,4 @@
-#include "node_grid_wire.h"
+#include "NodeGridWire.h"
 
 NodeGridWire::NodeGridWire(NodeWire& nodeWire, GridItemCoordinator& gridItemCoordinator,
     NodeGridItem& emittingGridItem, NodeGridItem& receivingGridItem)

@@ -1,4 +1,4 @@
-#include "node_grid_item.h"
+#include "NodeGridItem.h"
 
 NodeGridItem::NodeGridItem(NodeProxy<EngineUiDomain>* node, GridItemCoordinator& gridItemCoordinator)
     : node(node)

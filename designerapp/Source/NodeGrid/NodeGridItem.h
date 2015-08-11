@@ -1,9 +1,10 @@
 #pragma once
-#include "blueprint_ui_globals.h"
+#include "BlueprintUiGlobals.h"
 
-#include "blueprint_ui_object.h"
-#include "node.h"
-#include "grid_item_coordinator.h"
+#include <node.h>
+
+#include "BlueprintUiObject.h"
+#include "GridItemCoordinator.h"
 
 class NodeGridItem : public BlueprintUiObject {
 

@@ -1,4 +1,4 @@
-#include "node_grid.h"
+#include "NodeGrid.h"
 
 NodeGrid::NodeGrid(CompoundNodeProxy<EngineUiDomain>* compoundNode_)
     : compoundNode(compoundNode_)

@@ -35,7 +35,7 @@
 #include <time_node.h>
 #include <scale_transform.h>
 
-#include "engine_ui.h"
+#include "EngineUi.h"
 
 //==============================================================================
 class DesignerApplication  : public JUCEApplication

@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    OutputSimulationJ.h
+    OutputSimulationView.h
     Created: 3 Aug 2015 5:07:46pm
     Author:  Kyle Fleming
 
@@ -17,17 +17,17 @@
 #include <output.h>
 #include <engine.h>
 
-#include "engine_ui.h"
+#include "EngineUi.h"
 
 //==============================================================================
 /*
 */
-class OutputSimulationJ    : public Component,
+class OutputSimulationView    : public Component,
                              public OpenGLRenderer
 {
 public:
-    OutputSimulationJ(Engine* engine, EngineUi* engineUi, Output* output);
-    ~OutputSimulationJ();
+    OutputSimulationView(Engine* engine, EngineUi* engineUi, Output* output);
+    ~OutputSimulationView();
     
     Engine* engine;
     EngineUi* engineUi;
@@ -61,7 +61,7 @@ private:
     void renderOpenGL() override;
     void openGLContextClosing() override;
     
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OutputSimulationJ)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OutputSimulationView)
 };
 
 

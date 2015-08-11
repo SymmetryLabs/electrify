@@ -5,54 +5,52 @@
               jucerVersion="3.2.0">
   <MAINGROUP id="wQ89CT" name="Designer">
     <GROUP id="{FD40B928-CCA8-FE86-E11B-047A03A31108}" name="Source">
-      <GROUP id="{C7899901-5808-42C1-5635-388496375696}" name="NodeGrid">
-        <FILE id="ebzv1z" name="grid_item_coordinator.cpp" compile="1" resource="0"
-              file="Source/NodeGrid/grid_item_coordinator.cpp"/>
-        <FILE id="K17ezG" name="grid_item_coordinator.h" compile="0" resource="0"
-              file="Source/NodeGrid/grid_item_coordinator.h"/>
-        <FILE id="LqylT9" name="node_grid_item.cpp" compile="1" resource="0"
-              file="Source/NodeGrid/node_grid_item.cpp"/>
-        <FILE id="cSrqgI" name="node_grid_item.h" compile="0" resource="0"
-              file="Source/NodeGrid/node_grid_item.h"/>
-        <FILE id="XHKfO1" name="node_grid_wire.cpp" compile="1" resource="0"
-              file="Source/NodeGrid/node_grid_wire.cpp"/>
-        <FILE id="WWzarO" name="node_grid_wire.h" compile="0" resource="0"
-              file="Source/NodeGrid/node_grid_wire.h"/>
-        <FILE id="VZryak" name="node_grid.cpp" compile="1" resource="0" file="Source/NodeGrid/node_grid.cpp"/>
-        <FILE id="OPGJiT" name="node_grid.h" compile="0" resource="0" file="Source/NodeGrid/node_grid.h"/>
-        <FILE id="vPAAmc" name="NodeGridItemView.cpp" compile="1" resource="0"
-              file="Source/NodeGrid/NodeGridItemView.cpp"/>
-        <FILE id="b3u83H" name="NodeGridItemView.h" compile="0" resource="0"
-              file="Source/NodeGrid/NodeGridItemView.h"/>
-        <FILE id="ZH624O" name="NodeGridView.cpp" compile="1" resource="0"
-              file="Source/NodeGrid/NodeGridView.cpp"/>
-        <FILE id="iKaYZe" name="NodeGridView.h" compile="0" resource="0" file="Source/NodeGrid/NodeGridView.h"/>
-        <FILE id="GstcOs" name="NodeGridWireView.cpp" compile="1" resource="0"
-              file="Source/NodeGrid/NodeGridWireView.cpp"/>
-        <FILE id="DHA3OC" name="NodeGridWireView.h" compile="0" resource="0"
-              file="Source/NodeGrid/NodeGridWireView.h"/>
-        <FILE id="ahFdld" name="NodeListView.cpp" compile="1" resource="0"
-              file="Source/NodeGrid/NodeListView.cpp"/>
-        <FILE id="bDtPII" name="NodeListView.h" compile="0" resource="0" file="Source/NodeGrid/NodeListView.h"/>
-        <FILE id="J0WHwD" name="SignalView.cpp" compile="1" resource="0" file="Source/NodeGrid/SignalView.cpp"/>
-        <FILE id="tjGAoc" name="SignalView.h" compile="0" resource="0" file="Source/NodeGrid/SignalView.h"/>
-      </GROUP>
       <GROUP id="{31FD6C8C-56DD-3215-F275-7A36FDAB8651}" name="Model">
-        <FILE id="C4XEYQ" name="blueprint_ui_globals.h" compile="0" resource="0"
-              file="Source/Model/blueprint_ui_globals.h"/>
-        <FILE id="SK7BSR" name="blueprint_ui_object.cpp" compile="1" resource="0"
-              file="Source/Model/blueprint_ui_object.cpp"/>
-        <FILE id="ftnWt2" name="blueprint_ui_object.h" compile="0" resource="0"
-              file="Source/Model/blueprint_ui_object.h"/>
-        <FILE id="sAuGtF" name="blueprint_ui_object.tpp" compile="0" resource="0"
-              file="Source/Model/blueprint_ui_object.tpp"/>
-        <FILE id="WVeSq0" name="engine_ui.cpp" compile="1" resource="0" file="Source/Model/engine_ui.cpp"/>
-        <FILE id="KEfKdP" name="engine_ui.h" compile="0" resource="0" file="Source/Model/engine_ui.h"/>
+        <FILE id="C4XEYQ" name="BlueprintUiGlobals.h" compile="0" resource="0"
+              file="Source/Model/BlueprintUiGlobals.h"/>
+        <FILE id="SK7BSR" name="BlueprintUiObject.cpp" compile="1" resource="0"
+              file="Source/Model/BlueprintUiObject.cpp"/>
+        <FILE id="ftnWt2" name="BlueprintUiObject.h" compile="0" resource="0"
+              file="Source/Model/BlueprintUiObject.h"/>
+        <FILE id="sAuGtF" name="BlueprintUiObject.tpp" compile="0" resource="0"
+              file="Source/Model/BlueprintUiObject.tpp"/>
+        <FILE id="WVeSq0" name="EngineUi.cpp" compile="1" resource="0" file="Source/Model/EngineUi.cpp"/>
+        <FILE id="KEfKdP" name="EngineUi.h" compile="0" resource="0" file="Source/Model/EngineUi.h"/>
       </GROUP>
-      <FILE id="LC01TY" name="OutputSimulationJ.cpp" compile="1" resource="0"
-            file="Source/OutputSimulationJ.cpp"/>
-      <FILE id="B6r1BS" name="OutputSimulationJ.h" compile="0" resource="0"
-            file="Source/OutputSimulationJ.h"/>
+      <GROUP id="{C7899901-5808-42C1-5635-388496375696}" name="NodeGrid">
+        <FILE id="jyd6WH" name="GridItemCoordinator.cpp" compile="1" resource="0"
+              file="Source/NodeGrid/GridItemCoordinator.cpp"/>
+        <FILE id="TSOp3y" name="GridItemCoordinator.h" compile="0" resource="0"
+              file="Source/NodeGrid/GridItemCoordinator.h"/>
+        <FILE id="EiLTAt" name="NodeGrid.cpp" compile="1" resource="0" file="Source/NodeGrid/NodeGrid.cpp"/>
+        <FILE id="M0SKwt" name="NodeGrid.h" compile="0" resource="0" file="Source/NodeGrid/NodeGrid.h"/>
+        <FILE id="fbOSnz" name="NodeGridItem.cpp" compile="1" resource="0"
+              file="Source/NodeGrid/NodeGridItem.cpp"/>
+        <FILE id="Ryim0V" name="NodeGridItem.h" compile="0" resource="0" file="Source/NodeGrid/NodeGridItem.h"/>
+        <FILE id="GpvwMs" name="NodeGridItemView.cpp" compile="1" resource="0"
+              file="Source/NodeGrid/NodeGridItemView.cpp"/>
+        <FILE id="sbQCbF" name="NodeGridItemView.h" compile="0" resource="0"
+              file="Source/NodeGrid/NodeGridItemView.h"/>
+        <FILE id="M4YBqy" name="NodeGridView.cpp" compile="1" resource="0"
+              file="Source/NodeGrid/NodeGridView.cpp"/>
+        <FILE id="K7VUxA" name="NodeGridView.h" compile="0" resource="0" file="Source/NodeGrid/NodeGridView.h"/>
+        <FILE id="aJAlJr" name="NodeGridWire.cpp" compile="1" resource="0"
+              file="Source/NodeGrid/NodeGridWire.cpp"/>
+        <FILE id="rGJN76" name="NodeGridWire.h" compile="0" resource="0" file="Source/NodeGrid/NodeGridWire.h"/>
+        <FILE id="UYbnJl" name="NodeGridWireView.cpp" compile="1" resource="0"
+              file="Source/NodeGrid/NodeGridWireView.cpp"/>
+        <FILE id="dOZ8sg" name="NodeGridWireView.h" compile="0" resource="0"
+              file="Source/NodeGrid/NodeGridWireView.h"/>
+        <FILE id="f1PSGA" name="NodeListView.cpp" compile="1" resource="0"
+              file="Source/NodeGrid/NodeListView.cpp"/>
+        <FILE id="ASjtSO" name="NodeListView.h" compile="0" resource="0" file="Source/NodeGrid/NodeListView.h"/>
+        <FILE id="EYaWdC" name="SignalView.cpp" compile="1" resource="0" file="Source/NodeGrid/SignalView.cpp"/>
+        <FILE id="dJAxx8" name="SignalView.h" compile="0" resource="0" file="Source/NodeGrid/SignalView.h"/>
+      </GROUP>
+      <FILE id="LC01TY" name="OutputSimulationView.cpp" compile="1" resource="0"
+            file="Source/OutputSimulationView.cpp"/>
+      <FILE id="B6r1BS" name="OutputSimulationView.h" compile="0" resource="0"
+            file="Source/OutputSimulationView.h"/>
       <FILE id="cJQNrw" name="DesignerWindowComponent.cpp" compile="1" resource="0"
             file="Source/DesignerWindowComponent.cpp"/>
       <FILE id="SomgKZ" name="DesignerWindowComponent.h" compile="0" resource="0"

@@ -33,7 +33,7 @@ DesignerWindowComponent::DesignerWindowComponent (Engine* engine, EngineUi* engi
     //[Constructor_pre] You can add your own custom stuff here..
     //[/Constructor_pre]
 
-    addAndMakeVisible (component = new OutputSimulationJ (engine, engineUi, output));
+    addAndMakeVisible (component = new OutputSimulationView (engine, engineUi, output));
     component->setName ("new component");
 
     addAndMakeVisible (component2 = new NodeListView());
@@ -113,7 +113,7 @@ BEGIN_JUCER_METADATA
                  initialHeight="500">
   <BACKGROUND backgroundColour="ffffffff"/>
   <GENERICCOMPONENT name="new component" id="46591e2475c6760e" memberName="component"
-                    virtualName="OutputSimulationJ" explicitFocusOrder="0" pos="0 0 200 200"
+                    virtualName="OutputSimulationView" explicitFocusOrder="0" pos="0 0 200 200"
                     class="Component" params="engine, engineUi, output"/>
   <GENERICCOMPONENT name="new component" id="6a329d8e126ce007" memberName="component2"
                     virtualName="NodeListView" explicitFocusOrder="0" pos="0 0R 100% 200M"

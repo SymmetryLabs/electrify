@@ -15,7 +15,7 @@
 
 #include <observes.h>
 
-#include "node_grid_item.h"
+#include "NodeGridItem.h"
 #include "SignalView.h"
 
 //==============================================================================

@@ -1,5 +1,5 @@
 #pragma once
-#include "blueprint_ui_globals.h"
+#include "BlueprintUiGlobals.h"
 
 class BlueprintUiObject {
 
@@ -8,4 +8,4 @@ protected:
 
 };
 
-#include "blueprint_ui_object.tpp"
+#include "BlueprintUiObject.tpp"

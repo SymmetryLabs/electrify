@@ -13,9 +13,9 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-#include "blueprint_ui_globals.h"
+#include "BlueprintUiGlobals.h"
 
-#include "node_grid_wire.h"
+#include "NodeGridWire.h"
 
 //==============================================================================
 /*

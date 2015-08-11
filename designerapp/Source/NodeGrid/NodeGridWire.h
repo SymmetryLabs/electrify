@@ -1,10 +1,11 @@
 #pragma once
-#include "blueprint_ui_globals.h"
+#include "BlueprintUiGlobals.h"
 
-#include "blueprint_ui_object.h"
-#include "node_wire.h"
-#include "node_grid_item.h"
-#include "grid_item_coordinator.h"
+#include <node_wire.h>
+
+#include "BlueprintUiObject.h"
+#include "NodeGridItem.h"
+#include "GridItemCoordinator.h"
 
 class NodeGridWire : public BlueprintUiObject {
 

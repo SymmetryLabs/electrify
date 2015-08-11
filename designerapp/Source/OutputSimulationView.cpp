@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    OutputSimulationJ.cpp
+    OutputSimulationView.cpp
     Created: 3 Aug 2015 5:07:46pm
     Author:  Kyle Fleming
 
@@ -9,10 +9,10 @@
 */
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "OutputSimulationJ.h"
+#include "OutputSimulationView.h"
 
 //==============================================================================
-OutputSimulationJ::OutputSimulationJ(Engine* engine, EngineUi* engineUi, Output* output)
+OutputSimulationView::OutputSimulationView(Engine* engine, EngineUi* engineUi, Output* output)
 : engine(engine)
 , engineUi(engineUi)
 , output(output)
@@ -32,12 +32,12 @@ OutputSimulationJ::OutputSimulationJ(Engine* engine, EngineUi* engineUi, Output*
     populateModel();
 }
 
-OutputSimulationJ::~OutputSimulationJ()
+OutputSimulationView::~OutputSimulationView()
 {
     openGLContext.detach();
 }
 
-void OutputSimulationJ::populateModel()
+void OutputSimulationView::populateModel()
 {
     int i = 0;
     for(auto p : model->pixels) {
@@ -47,7 +47,7 @@ void OutputSimulationJ::populateModel()
     }
 }
 
-void OutputSimulationJ::populateColors()
+void OutputSimulationView::populateColors()
 {
     engine->copyColorBuffer(output->colorBuffer);
     
@@ -60,7 +60,7 @@ void OutputSimulationJ::populateColors()
     }
 }
 
-void OutputSimulationJ::initializeScene()
+void OutputSimulationView::initializeScene()
 {
     shader = new OpenGLShaderProgram(openGLContext);
     shader->addVertexShader(
@@ -97,14 +97,14 @@ void OutputSimulationJ::initializeScene()
     colors = new OpenGLShaderProgram::Attribute (*shader, "colors");
 }
 
-Matrix3D<float> OutputSimulationJ::getProjectionMatrix() const
+Matrix3D<float> OutputSimulationView::getProjectionMatrix() const
 {
     float w = 1.0f / (0.5f + 0.1f);
     float h = w * getLocalBounds().toFloat().getAspectRatio (false);
     return Matrix3D<float>::fromFrustum (-w, w, -h, h, 4.0f, 1000.0f);
 }
 
-Matrix3D<float> OutputSimulationJ::getViewMatrix() const
+Matrix3D<float> OutputSimulationView::getViewMatrix() const
 {
     Matrix3D<float> viewMatrix (Vector3D<float> (0.0f, 0.0f, -10.0f));
     Matrix3D<float> rotationMatrix
@@ -115,18 +115,18 @@ Matrix3D<float> OutputSimulationJ::getViewMatrix() const
 
 #pragma mark - Component
 
-void OutputSimulationJ::paint (Graphics& g)
+void OutputSimulationView::paint (Graphics& g)
 {
 }
 
 #pragma mark - OpenGLRenderer
 
-void OutputSimulationJ::newOpenGLContextCreated()
+void OutputSimulationView::newOpenGLContextCreated()
 {
     initializeScene();
 }
 
-void OutputSimulationJ::renderOpenGL()
+void OutputSimulationView::renderOpenGL()
 {
     populateColors();
     
@@ -159,7 +159,7 @@ void OutputSimulationJ::renderOpenGL()
     openGLContext.extensions.glBindBuffer (GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void OutputSimulationJ::openGLContextClosing()
+void OutputSimulationView::openGLContextClosing()
 {
     shader = nullptr;
     projectionMatrix = nullptr;

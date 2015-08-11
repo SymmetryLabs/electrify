@@ -5,7 +5,7 @@
 
 #include "output.h"
 #include "engine.h"
-#include "engine_ui.h"
+#include "EngineUi.h"
 
 #include <QMainWindow>
 
