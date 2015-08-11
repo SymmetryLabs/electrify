@@ -27,10 +27,12 @@ public:
     NodeGridItemJ(NodeGridItem& nodeGridItem);
     
     void setPos(Point<int> pos);
-
-private:
     
     NodeGridItem& nodeGridItem;
+    
+    SignalView* signalViewFromSignal(string& signalName);
+
+private:
     
     vector<unique_ptr<SignalView>> signalViews;
     

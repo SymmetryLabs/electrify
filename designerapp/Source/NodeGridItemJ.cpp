@@ -26,8 +26,8 @@ NodeGridItemJ::NodeGridItemJ(NodeGridItem& nodeGridItem_)
     
     int i = 0;
     signalViews.reserve(nodeGridItem.node->inputs.size());
-    for (string input : nodeGridItem.node->inputs) {
-        signalViews.push_back(make_unique<SignalView>());
+    for (const string& input : nodeGridItem.node->inputs) {
+        signalViews.push_back(make_unique<SignalView>(input));
         SignalView* signalView = signalViews.back().get();
         addAndMakeVisible(signalView);
         signalView->setTopLeftPosition(10, 20 + 20 * i);
@@ -36,15 +36,15 @@ NodeGridItemJ::NodeGridItemJ(NodeGridItem& nodeGridItem_)
     
     i = 0;
     signalViews.reserve(nodeGridItem.node->outputs.size());
-    for (string output : nodeGridItem.node->outputs) {
-        signalViews.push_back(make_unique<SignalView>());
+    for (const string& output : nodeGridItem.node->outputs) {
+        signalViews.push_back(make_unique<SignalView>(output));
         SignalView* signalView = signalViews.back().get();
         addAndMakeVisible(signalView);
         signalView->setTopRightPosition(getRight() - 10, 20 + 20 * i);
         i++;
     }
     
-    Observe(nodeGridItem.selected, [this] (bool) {
+    observeWithCapture(nodeGridItem.selected, [this] (bool) {
         repaint();
     });
 }
@@ -52,6 +52,16 @@ NodeGridItemJ::NodeGridItemJ(NodeGridItem& nodeGridItem_)
 void NodeGridItemJ::setPos(Point<int> pos)
 {
     nodeGridItem.setPos(pos.x, pos.y);
+}
+
+SignalView* NodeGridItemJ::signalViewFromSignal(string& signalName)
+{
+    for (auto& signalView : signalViews) {
+        if (signalView->signalName == signalName) {
+            return signalView.get();
+        }
+    }
+    return nullptr;
 }
 
 //==============================================================================

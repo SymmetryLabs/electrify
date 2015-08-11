@@ -74,26 +74,21 @@ public:
         compound->wireSubnodes(*constantColor, "output", *incrementer, "color");
         compound->wireOutput("color", *incrementer, "output");
         
-        auto compound2 = blueprint->makeSubnode<CompoundNode>();
-        compound2->registerWirableOutput<Color>("color");
+        auto hsvNode = blueprint->makeSubnode<HsvNode>();
+        auto sawWaveNode = blueprint->makeSubnode<SawWave>();
+        auto timeNode = blueprint->makeSubnode<TimeNode>();
+        auto scaleTransform = blueprint->makeSubnode<ScaleTransform>();
+        auto multiplyAmountNode = blueprint->makeSubnode<ConstantNode<float>>(1.0 / 10);
+        auto perlinNoiseNode = blueprint->makeSubnode<PerlinNoiseNode>();
+        auto frequency = blueprint->makeSubnode<ConstantNode<float>>(1.0 / 10);
         
-        auto hsvNode = compound2->makeSubnode<HsvNode>();
-        auto sawWaveNode = compound2->makeSubnode<SawWave>();
-        auto timeNode = compound2->makeSubnode<TimeNode>();
-        auto scaleTransform = compound2->makeSubnode<ScaleTransform>();
-        auto multiplyAmountNode = compound2->makeSubnode<ConstantNode<float>>(1.0 / 10);
-        auto perlinNoiseNode = compound2->makeSubnode<PerlinNoiseNode>();
-        auto frequency = compound2->makeSubnode<ConstantNode<float>>(1.0 / 10);
+        blueprint->wireSubnodes(*frequency, "output", *sawWaveNode, "frequency");
+        blueprint->wireSubnodes(*multiplyAmountNode, "output", *scaleTransform, "multiplier");
+        blueprint->wireSubnodes(*timeNode, "output", *scaleTransform, "input");
+        blueprint->wireSubnodes(*scaleTransform, "output", *perlinNoiseNode, "zInput");
+        blueprint->wireSubnodes(*perlinNoiseNode, "output", *hsvNode, "hue");
         
-        compound->wireSubnodes(*frequency, "output", *sawWaveNode, "frequency");
-        compound->wireSubnodes(*multiplyAmountNode, "output", *scaleTransform, "multiplier");
-        compound->wireSubnodes(*timeNode, "output", *scaleTransform, "input");
-        compound->wireSubnodes(*scaleTransform, "output", *perlinNoiseNode, "zInput");
-        compound->wireSubnodes(*perlinNoiseNode, "output", *hsvNode, "hue");
-        
-        compound2->wireOutput("color", *hsvNode, "output");
-        
-        blueprint->wireOutput("color", *compound2, "color");
+        blueprint->wireOutput("color", *hsvNode, "output");
         
         engine = make_unique<Engine>(std::move(blueprint), std::move(model));
         engineUi = make_unique<EngineUi>(*engine);

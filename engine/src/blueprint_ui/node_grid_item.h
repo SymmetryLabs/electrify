@@ -14,7 +14,6 @@ public:
 
   VarSignalT<float> x;
   VarSignalT<float> y;
-
   void setPos(float x, float y);
 
   VarSignalT<bool> selected;

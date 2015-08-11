@@ -49,6 +49,7 @@ bool CompoundNode::canWireSubnodes(Node& emittingSubnode, const string& emitting
 void CompoundNode::wireSubnodes(Node& emittingSubnode, const string& emittingOutputName,
   Node& receivingSubnode, const string& receivingInputName)
 {
+  nodeWires.push_back(NodeWire(emittingSubnode, emittingOutputName, receivingSubnode, receivingInputName));
   return emittingSubnode.wireOutputTo(emittingOutputName, receivingSubnode, receivingInputName);
 }
 

@@ -55,6 +55,9 @@ CPM_EnsureRepoIsCurrent(
 
 # set(REPO_SOURCE_DIR "/Users/Kyle/code/opensource/cpp.react")
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden -fvisibility-inlines-hidden")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
 # Invoke CMake
 SET(build_examples OFF CACHE BOOL "Build examples?")
 add_subdirectory("${REPO_SOURCE_DIR}" "${CMAKE_BINARY_DIR}/${__CPM_FULL_UNID}/build")

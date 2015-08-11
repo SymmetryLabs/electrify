@@ -17,3 +17,9 @@ template <typename V>
 SignalX<V>* Node::getOutput(const string& name) const {
   return (SignalX<V>*)getOutput(name);
 }
+
+template<class Archive>
+void Node::serialize(Archive& archive)
+{
+
+}

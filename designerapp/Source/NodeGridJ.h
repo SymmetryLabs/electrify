@@ -17,6 +17,7 @@
 
 
 #include "NodeGridItemJ.h"
+#include "NodeGridWireView.h"
 
 //==============================================================================
 /*
@@ -33,10 +34,17 @@ private:
     VarSignalT<NodeGrid*> nodeGrid = MakeVar<EngineUiDomain, NodeGrid*>(nullptr);
     
     vector<unique_ptr<NodeGridItemJ>> gridItems;
+    vector<unique_ptr<NodeGridWireView>> gridWireViews;
     
     void addWithGridItem(NodeGridItem* gridItem);
     void removeWithGridItem(NodeGridItem* gridItem);
     void removeAllGridItems();
+    
+    NodeGridItemJ* gridItemViewWithGridItem(NodeGridItem& gridItem);
+    
+    void addViewWithGridWire(NodeGridWire* gridWire);
+    void removeViewWithGridWire(NodeGridWire* gridWire);
+    void removeAllGridWireViews();
     
     void paint (Graphics&) override;
     void resized() override;

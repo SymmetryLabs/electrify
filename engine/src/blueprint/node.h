@@ -5,6 +5,7 @@
 #include <functional>
 #include <unordered_map>
 
+#include <boost/any.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/uuid/random_generator.hpp>
@@ -95,10 +96,15 @@ public:
 
   void registerParameter(const string& name, unique_ptr<BaseParameter> parameter);
 
+  template<class Archive>
+  void serialize(Archive& archive);
+
 private:
   unordered_map<string, unique_ptr<BaseSocket>> inputs;
   unordered_map<string, unique_ptr<BaseSignal>> outputs;
   unordered_map<string, unique_ptr<BaseParameter>> parameters;
+
+  unordered_map<string, VarSignalT<boost::any>> data;
 
   template<typename T>
   friend class NodeProxy;
@@ -112,7 +118,7 @@ public:
   NodeProxy(shared_ptr<Node> master, ProxyBridge& proxyBridge)
     : DataProxy<EngineDomain, Domain>(master, proxyBridge)
     , name(MakeVar<Domain>(master->name.Value()))
-    , uuid(to_string(master->uuid))
+    , uuid(master->uuid)
   {
     this->bindSignal(master->name, this->name);
 
@@ -128,7 +134,7 @@ public:
   }
 
   VarSignal<Domain, string> name;
-  string uuid;
+  boost::uuids::uuid uuid;
   vector<string> inputs;
   vector<string> outputs;
 

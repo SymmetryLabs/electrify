@@ -84,8 +84,10 @@ include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 include_directories(SYSTEM ${LIB_HEADER_DIRS})
 include_directories(${HEADER_DIRS})
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden -fvisibility-inlines-hidden")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 add_library(SymmetryEngine STATIC ${SRCS})
+
 target_include_directories(SymmetryEngine SYSTEM PUBLIC ${CPM_INCLUDE_DIRS})
 target_include_directories(SymmetryEngine SYSTEM PUBLIC ${Boost_INCLUDE_DIRS})
 target_include_directories(SymmetryEngine SYSTEM PUBLIC ${LIB_HEADER_DIRS})

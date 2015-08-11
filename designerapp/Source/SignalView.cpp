@@ -27,7 +27,8 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-SignalView::SignalView ()
+SignalView::SignalView (string signalName)
+    : signalName(signalName)
 {
     //[Constructor_pre] You can add your own custom stuff here..
     //[/Constructor_pre]
@@ -94,9 +95,10 @@ void SignalView::resized()
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="SignalView" componentName=""
-                 parentClasses="public Component" constructorParams="" variableInitialisers=""
-                 snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
-                 fixedSize="1" initialWidth="10" initialHeight="10">
+                 parentClasses="public Component" constructorParams="string signalName"
+                 variableInitialisers="signalName(signalName)" snapPixels="8"
+                 snapActive="1" snapShown="1" overlayOpacity="0.330" fixedSize="1"
+                 initialWidth="10" initialHeight="10">
   <BACKGROUND backgroundColour="ffffffff">
     <ELLIPSE pos="0 0 10 10" fill="solid: ffff0000" hasStroke="0"/>
   </BACKGROUND>

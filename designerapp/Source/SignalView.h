@@ -22,6 +22,8 @@
 
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
+
+#include "blueprint_ui_globals.h"
 //[/Headers]
 
 
@@ -38,11 +40,12 @@ class SignalView  : public Component
 {
 public:
     //==============================================================================
-    SignalView ();
+    SignalView (string signalName);
     ~SignalView();
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
+    string signalName;
     //[/UserMethods]
 
     void paint (Graphics& g);

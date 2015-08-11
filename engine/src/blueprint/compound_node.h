@@ -5,6 +5,7 @@
 #include "socket.h"
 #include "observable_vector.h"
 #include "data_proxy.h"
+#include "node_wire.h"
 
 class CompoundNode : public Node {
 
@@ -37,6 +38,7 @@ public:
     Node& emittingSubnode, const string& emittingOutputName);
 
   ObservableVector<EngineDomain, shared_ptr<Node>> subnodes;
+  ObservableVector<EngineDomain, NodeWire> nodeWires;
 
 private:
   unordered_map<string, BaseSocket*> wirableOutputs;
@@ -54,16 +56,18 @@ public:
     : NodeProxy<Domain>(master, proxyBridge)
   {
     master->subnodes.makeProxySlave<Domain, NodeProxy<Domain>>(subnodes, proxyBridge);
+    master->nodeWires.makeProxySlave<Domain>(nodeWires, proxyBridge);
   }
 
   ObservableVector<Domain, shared_ptr<NodeProxy<Domain>>, EngineDomain> subnodes;
+  ObservableVector<Domain, NodeWire, EngineDomain> nodeWires;
 
   void addSubnode(const string& name, function<void(size_t)> response)
   {
     this->template sendCommand<CompoundNode, size_t>([=] (shared_ptr<CompoundNode> compoundNode) -> size_t {
       return compoundNode->createSubnode(name);
     }, [=] (size_t pos) {
-        response(pos);
+      response(pos);
     });
   }
 };

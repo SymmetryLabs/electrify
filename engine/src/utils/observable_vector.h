@@ -47,6 +47,9 @@ public:
 
   void pop_back();
 
+  template<typename SlaveDomain>
+  void makeProxySlave(ObservableVector<SlaveDomain, T, D>& slave, ProxyBridge& proxyBridge);
+
   template<typename SlaveDomain, typename SlaveType>
   void makeProxySlave(ObservableVector<SlaveDomain, shared_ptr<SlaveType>, D>& slave, ProxyBridge& proxyBridge);
 

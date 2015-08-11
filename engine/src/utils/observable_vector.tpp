@@ -47,7 +47,7 @@ typename vector<T>::iterator ObservableVector<D, T, MasterDomain>::erase(typenam
 template<typename D, typename T, typename MasterDomain>
 void ObservableVector<D, T, MasterDomain>::push_back(const T& value)
 {
-  v.push_back(forward<T>(value));
+  v.push_back(value);
   valueAdded(make_pair<size_t, reference_wrapper<T>>(size() - 1, ref(back())));
 }
 
@@ -64,6 +64,34 @@ void ObservableVector<D, T, MasterDomain>::pop_back()
   T value = move(v.back());
   v.pop_back();
   valueRemoved(make_pair<size_t, T>(size(), move(value)));
+}
+
+template<typename D, typename T, typename MasterDomain>
+template<typename SlaveDomain>
+void ObservableVector<D, T, MasterDomain>
+  ::makeProxySlave(ObservableVector<SlaveDomain, T, D>& slave, ProxyBridge& proxyBridge)
+{
+  for (T& obj : v) {
+    slave.push_back(obj);
+  }
+
+  slave.masterAddedValueEvent = Process<pair<size_t, T>>(valueAdded,
+    [&](EventRange<pair<size_t, reference_wrapper<T>>> range, EventEmitter<pair<size_t, T>> out) {
+    for (pair<size_t, reference_wrapper<T>> object : range) {
+      out = make_pair(object.first, object.second.get());
+    }
+  });
+  slave.addObserver(Observe(slave.masterAddedValueEvent, [&] (pair<size_t, T> p) {
+    proxyBridge.queueDownstreamEvent([=, &slave] {
+      slave.insert(slave.begin() + p.first, p.second);
+    });
+  }));
+
+  slave.addObserver(Observe(valueRemoved, [&] (pair<size_t, T> p) {
+    proxyBridge.queueDownstreamEvent([=, &slave] {
+      slave.erase(slave.begin() + p.first);
+    });
+  }));
 }
 
 template<typename D, typename T, typename MasterDomain>
