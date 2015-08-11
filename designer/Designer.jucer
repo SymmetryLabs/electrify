@@ -7,19 +7,19 @@
     <GROUP id="{FD40B928-CCA8-FE86-E11B-047A03A31108}" name="Source">
       <GROUP id="{C7899901-5808-42C1-5635-388496375696}" name="NodeGrid">
         <GROUP id="{49E44DD9-B16E-E06D-D100-4B9BDDE3B059}" name="View">
+          <FILE id="Sbnel9" name="NodeGridView.cpp" compile="1" resource="0"
+                file="Source/NodeGrid/View/NodeGridView.cpp"/>
+          <FILE id="gQLaIi" name="NodeGridView.h" compile="0" resource="0" file="Source/NodeGrid/View/NodeGridView.h"/>
           <FILE id="WluCVG" name="NodeGridItemView.cpp" compile="1" resource="0"
                 file="Source/NodeGrid/View/NodeGridItemView.cpp"/>
           <FILE id="fhh6BU" name="NodeGridItemView.h" compile="0" resource="0"
                 file="Source/NodeGrid/View/NodeGridItemView.h"/>
-          <FILE id="Sbnel9" name="NodeGridView.cpp" compile="1" resource="0"
-                file="Source/NodeGrid/View/NodeGridView.cpp"/>
-          <FILE id="gQLaIi" name="NodeGridView.h" compile="0" resource="0" file="Source/NodeGrid/View/NodeGridView.h"/>
+          <FILE id="z673zZ" name="SignalView.cpp" compile="1" resource="0" file="Source/NodeGrid/View/SignalView.cpp"/>
+          <FILE id="raf4OZ" name="SignalView.h" compile="0" resource="0" file="Source/NodeGrid/View/SignalView.h"/>
           <FILE id="l7wLvF" name="NodeGridWireView.cpp" compile="1" resource="0"
                 file="Source/NodeGrid/View/NodeGridWireView.cpp"/>
           <FILE id="YSMcd0" name="NodeGridWireView.h" compile="0" resource="0"
                 file="Source/NodeGrid/View/NodeGridWireView.h"/>
-          <FILE id="z673zZ" name="SignalView.cpp" compile="1" resource="0" file="Source/NodeGrid/View/SignalView.cpp"/>
-          <FILE id="raf4OZ" name="SignalView.h" compile="0" resource="0" file="Source/NodeGrid/View/SignalView.h"/>
         </GROUP>
         <GROUP id="{AF961D6D-38FD-1265-46CA-19B03878C7EB}" name="ViewModel">
           <FILE id="M2IhSp" name="NodeGrid.cpp" compile="1" resource="0" file="Source/NodeGrid/ViewModel/NodeGrid.cpp"/>

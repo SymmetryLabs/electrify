@@ -72,14 +72,14 @@ void NodeGrid::setSelectedNode(NodeGridItem& gridItem, bool selected)
         });
     } else if (!selected && (&gridItem == selectedGridItem.Value())) {
         // Unselect
-        deselectAll();
+        deselectAllNodes();
     }
 }
 
 NodeGridItem* NodeGrid::addGridItemWith(size_t pos, NodeProxy<EngineUiDomain>& node)
 {
     vector<shared_ptr<NodeGridItem>>::iterator iter = gridItems.begin() + pos;
-    gridItems.insert(iter, make_shared<NodeGridItem>(&node, gridItemCoordinator));
+    gridItems.insert(iter, make_shared<NodeGridItem>(&node, *this));
     return gridItems.back().get();
 }
 
@@ -95,7 +95,7 @@ NodeGridWire* NodeGrid::addGridWireWith(size_t pos, NodeWire& wire)
     vector<shared_ptr<NodeGridWire>>::iterator iter = gridWires.begin() + pos;
     NodeGridItem* emittingNode = nodeWithUuid(wire.emittingNodeUuid);
     NodeGridItem* receivingNode = nodeWithUuid(wire.receivingNodeUuid);
-    gridWires.insert(iter, make_shared<NodeGridWire>(wire, gridItemCoordinator, *emittingNode, *receivingNode));
+    gridWires.insert(iter, make_shared<NodeGridWire>(wire, *this, *emittingNode, *receivingNode));
     return gridWires.back().get();
 }
 
