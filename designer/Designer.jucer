@@ -5,18 +5,6 @@
               jucerVersion="3.2.0">
   <MAINGROUP id="wQ89CT" name="Designer">
     <GROUP id="{FD40B928-CCA8-FE86-E11B-047A03A31108}" name="Source">
-      <GROUP id="{31FD6C8C-56DD-3215-F275-7A36FDAB8651}" name="Model">
-        <FILE id="C4XEYQ" name="BlueprintUiGlobals.h" compile="0" resource="0"
-              file="Source/Model/BlueprintUiGlobals.h"/>
-        <FILE id="SK7BSR" name="BlueprintUiObject.cpp" compile="1" resource="0"
-              file="Source/Model/BlueprintUiObject.cpp"/>
-        <FILE id="ftnWt2" name="BlueprintUiObject.h" compile="0" resource="0"
-              file="Source/Model/BlueprintUiObject.h"/>
-        <FILE id="sAuGtF" name="BlueprintUiObject.tpp" compile="0" resource="0"
-              file="Source/Model/BlueprintUiObject.tpp"/>
-        <FILE id="WVeSq0" name="EngineUi.cpp" compile="1" resource="0" file="Source/Model/EngineUi.cpp"/>
-        <FILE id="KEfKdP" name="EngineUi.h" compile="0" resource="0" file="Source/Model/EngineUi.h"/>
-      </GROUP>
       <GROUP id="{C7899901-5808-42C1-5635-388496375696}" name="NodeGrid">
         <GROUP id="{49E44DD9-B16E-E06D-D100-4B9BDDE3B059}" name="View">
           <FILE id="WluCVG" name="NodeGridItemView.cpp" compile="1" resource="0"
@@ -44,18 +32,32 @@
           <FILE id="u6VBGg" name="NodeGridWire.h" compile="0" resource="0" file="Source/NodeGrid/ViewModel/NodeGridWire.h"/>
         </GROUP>
       </GROUP>
-      <FILE id="djwjTq" name="NodeListView.cpp" compile="1" resource="0"
-            file="Source/NodeListView.cpp"/>
-      <FILE id="fBuSoC" name="NodeListView.h" compile="0" resource="0" file="Source/NodeListView.h"/>
-      <FILE id="LC01TY" name="OutputSimulationView.cpp" compile="1" resource="0"
-            file="Source/OutputSimulationView.cpp"/>
-      <FILE id="B6r1BS" name="OutputSimulationView.h" compile="0" resource="0"
-            file="Source/OutputSimulationView.h"/>
-      <FILE id="cJQNrw" name="DesignerWindowComponent.cpp" compile="1" resource="0"
-            file="Source/DesignerWindowComponent.cpp"/>
-      <FILE id="SomgKZ" name="DesignerWindowComponent.h" compile="0" resource="0"
-            file="Source/DesignerWindowComponent.h"/>
-      <FILE id="ZPHbRZ" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+      <GROUP id="{31FD6C8C-56DD-3215-F275-7A36FDAB8651}" name="Model">
+        <FILE id="C4XEYQ" name="BlueprintUiGlobals.h" compile="0" resource="0"
+              file="Source/Model/BlueprintUiGlobals.h"/>
+        <FILE id="SK7BSR" name="BlueprintUiObject.cpp" compile="1" resource="0"
+              file="Source/Model/BlueprintUiObject.cpp"/>
+        <FILE id="ftnWt2" name="BlueprintUiObject.h" compile="0" resource="0"
+              file="Source/Model/BlueprintUiObject.h"/>
+        <FILE id="sAuGtF" name="BlueprintUiObject.tpp" compile="0" resource="0"
+              file="Source/Model/BlueprintUiObject.tpp"/>
+        <FILE id="WVeSq0" name="EngineUi.cpp" compile="1" resource="0" file="Source/Model/EngineUi.cpp"/>
+        <FILE id="KEfKdP" name="EngineUi.h" compile="0" resource="0" file="Source/Model/EngineUi.h"/>
+      </GROUP>
+      <GROUP id="{7E99A221-AD47-D736-6AA4-51500C5933A5}" name="Main">
+        <FILE id="j0Xzqb" name="DesignerWindowComponent.cpp" compile="1" resource="0"
+              file="Source/Main/DesignerWindowComponent.cpp"/>
+        <FILE id="SPJIZO" name="DesignerWindowComponent.h" compile="0" resource="0"
+              file="Source/Main/DesignerWindowComponent.h"/>
+        <FILE id="yE7VgG" name="Main.cpp" compile="1" resource="0" file="Source/Main/Main.cpp"/>
+        <FILE id="uN5ItF" name="NodeListView.cpp" compile="1" resource="0"
+              file="Source/Main/NodeListView.cpp"/>
+        <FILE id="CFSNAT" name="NodeListView.h" compile="0" resource="0" file="Source/Main/NodeListView.h"/>
+        <FILE id="bvitCn" name="OutputSimulationView.cpp" compile="1" resource="0"
+              file="Source/Main/OutputSimulationView.cpp"/>
+        <FILE id="gftXIp" name="OutputSimulationView.h" compile="0" resource="0"
+              file="Source/Main/OutputSimulationView.h"/>
+      </GROUP>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
