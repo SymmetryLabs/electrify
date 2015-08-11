@@ -23,8 +23,8 @@
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
 #include "OutputSimulationJ.h"
-#include "NodeListJ.h"
-#include "NodeGridJ.h"
+#include "NodeListView.h"
+#include "NodeGridView.h"
 //[/Headers]
 
 
@@ -62,8 +62,8 @@ private:
 
     //==============================================================================
     ScopedPointer<OutputSimulationJ> component;
-    ScopedPointer<NodeListJ> component2;
-    ScopedPointer<NodeGridJ> component3;
+    ScopedPointer<NodeListView> component2;
+    ScopedPointer<NodeGridView> component3;
 
 
     //==============================================================================

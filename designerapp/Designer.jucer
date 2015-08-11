@@ -20,17 +20,20 @@
               file="Source/NodeGrid/node_grid_wire.h"/>
         <FILE id="VZryak" name="node_grid.cpp" compile="1" resource="0" file="Source/NodeGrid/node_grid.cpp"/>
         <FILE id="OPGJiT" name="node_grid.h" compile="0" resource="0" file="Source/NodeGrid/node_grid.h"/>
-        <FILE id="vPAAmc" name="NodeGridItemJ.cpp" compile="1" resource="0"
-              file="Source/NodeGrid/NodeGridItemJ.cpp"/>
-        <FILE id="b3u83H" name="NodeGridItemJ.h" compile="0" resource="0" file="Source/NodeGrid/NodeGridItemJ.h"/>
-        <FILE id="ZH624O" name="NodeGridJ.cpp" compile="1" resource="0" file="Source/NodeGrid/NodeGridJ.cpp"/>
-        <FILE id="iKaYZe" name="NodeGridJ.h" compile="0" resource="0" file="Source/NodeGrid/NodeGridJ.h"/>
+        <FILE id="vPAAmc" name="NodeGridItemView.cpp" compile="1" resource="0"
+              file="Source/NodeGrid/NodeGridItemView.cpp"/>
+        <FILE id="b3u83H" name="NodeGridItemView.h" compile="0" resource="0"
+              file="Source/NodeGrid/NodeGridItemView.h"/>
+        <FILE id="ZH624O" name="NodeGridView.cpp" compile="1" resource="0"
+              file="Source/NodeGrid/NodeGridView.cpp"/>
+        <FILE id="iKaYZe" name="NodeGridView.h" compile="0" resource="0" file="Source/NodeGrid/NodeGridView.h"/>
         <FILE id="GstcOs" name="NodeGridWireView.cpp" compile="1" resource="0"
               file="Source/NodeGrid/NodeGridWireView.cpp"/>
         <FILE id="DHA3OC" name="NodeGridWireView.h" compile="0" resource="0"
               file="Source/NodeGrid/NodeGridWireView.h"/>
-        <FILE id="ahFdld" name="NodeListJ.cpp" compile="1" resource="0" file="Source/NodeGrid/NodeListJ.cpp"/>
-        <FILE id="bDtPII" name="NodeListJ.h" compile="0" resource="0" file="Source/NodeGrid/NodeListJ.h"/>
+        <FILE id="ahFdld" name="NodeListView.cpp" compile="1" resource="0"
+              file="Source/NodeGrid/NodeListView.cpp"/>
+        <FILE id="bDtPII" name="NodeListView.h" compile="0" resource="0" file="Source/NodeGrid/NodeListView.h"/>
         <FILE id="J0WHwD" name="SignalView.cpp" compile="1" resource="0" file="Source/NodeGrid/SignalView.cpp"/>
         <FILE id="tjGAoc" name="SignalView.h" compile="0" resource="0" file="Source/NodeGrid/SignalView.h"/>
       </GROUP>

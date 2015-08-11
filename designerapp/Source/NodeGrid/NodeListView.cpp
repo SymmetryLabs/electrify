@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    NodeListJ.cpp
+    NodeListView.cpp
     Created: 3 Aug 2015 5:05:34pm
     Author:  Kyle Fleming
 
@@ -9,10 +9,10 @@
 */
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "NodeListJ.h"
+#include "NodeListView.h"
 
 //==============================================================================
-NodeListJ::NodeListJ()
+NodeListView::NodeListView()
 {
     listBox.setModel(this);
     addAndMakeVisible(listBox);
@@ -20,30 +20,30 @@ NodeListJ::NodeListJ()
 
 #pragma mark - Component
 
-void NodeListJ::paintOverChildren(Graphics &g)
+void NodeListView::paintOverChildren(Graphics &g)
 {
     g.setColour (Colours::grey);
     g.drawVerticalLine(getRight() - 1, 0, getBottom());
 }
 
-void NodeListJ::resized()
+void NodeListView::resized()
 {
     listBox.setBounds(getLocalBounds());
 }
 
 #pragma mark - ListBoxModel
 
-int NodeListJ::getNumRows()
+int NodeListView::getNumRows()
 {
     return availableNodeNames.size();
 }
 
-void NodeListJ::paintListBoxItem (int rowNumber, Graphics& g, int width, int height, bool rowIsSelected)
+void NodeListView::paintListBoxItem (int rowNumber, Graphics& g, int width, int height, bool rowIsSelected)
 {
     g.drawText(availableNodeNames[rowNumber], g.getClipBounds(), Justification::centred);
 }
 
-var NodeListJ::getDragSourceDescription (const SparseSet<int>& rowsToDescribe)
+var NodeListView::getDragSourceDescription (const SparseSet<int>& rowsToDescribe)
 {
     var names;
     int i = 0;

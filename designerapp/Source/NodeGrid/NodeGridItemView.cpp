@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    NodeGridItemJ.cpp
+    NodeGridItemView.cpp
     Created: 3 Aug 2015 5:05:56pm
     Author:  Kyle Fleming
 
@@ -9,10 +9,10 @@
 */
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "NodeGridItemJ.h"
+#include "NodeGridItemView.h"
 
 //==============================================================================
-NodeGridItemJ::NodeGridItemJ(NodeGridItem& nodeGridItem_)
+NodeGridItemView::NodeGridItemView(NodeGridItem& nodeGridItem_)
 : nodeGridItem(nodeGridItem_)
 , dragStarted(false)
 {
@@ -49,12 +49,12 @@ NodeGridItemJ::NodeGridItemJ(NodeGridItem& nodeGridItem_)
     });
 }
 
-void NodeGridItemJ::setPos(Point<int> pos)
+void NodeGridItemView::setPos(Point<int> pos)
 {
     nodeGridItem.setPos(pos.x, pos.y);
 }
 
-SignalView* NodeGridItemJ::signalViewFromSignal(string& signalName)
+SignalView* NodeGridItemView::signalViewFromSignal(string& signalName)
 {
     for (auto& signalView : signalViews) {
         if (signalView->signalName == signalName) {
@@ -69,7 +69,7 @@ SignalView* NodeGridItemJ::signalViewFromSignal(string& signalName)
 //==============================================================================
 
 //==============================================================================
-void NodeGridItemJ::paint (Graphics& g)
+void NodeGridItemView::paint (Graphics& g)
 {
     g.fillAll (Colours::white);   // clear the background
 
@@ -88,25 +88,25 @@ void NodeGridItemJ::paint (Graphics& g)
                 Justification::centred, true);   // draw some placeholder text
 }
 
-void NodeGridItemJ::resized()
+void NodeGridItemView::resized()
 {
 }
 
 //==============================================================================
-void NodeGridItemJ::mouseDown(const MouseEvent& e)
+void NodeGridItemView::mouseDown(const MouseEvent& e)
 {
     dragStarted = true;
     dragger.startDraggingComponent(this, e);
     nodeGridItem.setSelected(true);
 }
 
-void NodeGridItemJ::mouseDrag(const MouseEvent& e)
+void NodeGridItemView::mouseDrag(const MouseEvent& e)
 {
     if (dragStarted)
         dragger.dragComponent(this, e, nullptr);
 }
 
-void NodeGridItemJ::mouseUp(const MouseEvent& e)
+void NodeGridItemView::mouseUp(const MouseEvent& e)
 {
     dragStarted = false;
     setPos(getPosition());

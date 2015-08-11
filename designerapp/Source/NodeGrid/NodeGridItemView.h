@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    NodeGridItemJ.h
+    NodeGridItemView.h
     Created: 3 Aug 2015 5:05:56pm
     Author:  Kyle Fleming
 
@@ -21,10 +21,10 @@
 //==============================================================================
 /*
 */
-class NodeGridItemJ    : public Component, public Observes<EngineUiDomain>
+class NodeGridItemView    : public Component, public Observes<EngineUiDomain>
 {
 public:
-    NodeGridItemJ(NodeGridItem& nodeGridItem);
+    NodeGridItemView(NodeGridItem& nodeGridItem);
     
     void setPos(Point<int> pos);
     
@@ -48,7 +48,7 @@ private:
     void mouseDrag(const MouseEvent& e) override;
     void mouseUp(const MouseEvent&) override;
     
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NodeGridItemJ)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NodeGridItemView)
 };
 
 

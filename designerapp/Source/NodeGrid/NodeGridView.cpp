@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    NodeGridJ.cpp
+    NodeGridView.cpp
     Created: 3 Aug 2015 5:05:45pm
     Author:  Kyle Fleming
 
@@ -9,12 +9,12 @@
 */
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "NodeGridJ.h"
+#include "NodeGridView.h"
 
-#include "NodeListJ.h"
+#include "NodeListView.h"
 
 //==============================================================================
-NodeGridJ::NodeGridJ(NodeGrid* nodeGrid_)
+NodeGridView::NodeGridView(NodeGrid* nodeGrid_)
 {
     Observe(nodeGrid, [this] (NodeGrid* nodeGrid) {
         removeAllGridItems();
@@ -48,22 +48,22 @@ NodeGridJ::NodeGridJ(NodeGrid* nodeGrid_)
     });
 }
 
-void NodeGridJ::addWithGridItem(NodeGridItem* gridItem)
+void NodeGridView::addWithGridItem(NodeGridItem* gridItem)
 {
-    gridItems.push_back(make_unique<NodeGridItemJ>(*gridItem));
+    gridItems.push_back(make_unique<NodeGridItemView>(*gridItem));
     addAndMakeVisible(gridItems.back().get());
 }
 
-void NodeGridJ::removeWithGridItem(NodeGridItem* gridItem)
+void NodeGridView::removeWithGridItem(NodeGridItem* gridItem)
 {
 }
 
-void NodeGridJ::removeAllGridItems()
+void NodeGridView::removeAllGridItems()
 {
 }
 
 
-NodeGridItemJ* NodeGridJ::gridItemViewWithGridItem(NodeGridItem& gridItem)
+NodeGridItemView* NodeGridView::gridItemViewWithGridItem(NodeGridItem& gridItem)
 {
     for (auto& gridItemView : gridItems) {
         if (&gridItemView->nodeGridItem == &gridItem) {
@@ -73,57 +73,57 @@ NodeGridItemJ* NodeGridJ::gridItemViewWithGridItem(NodeGridItem& gridItem)
     return nullptr;
 }
 
-void NodeGridJ::addViewWithGridWire(NodeGridWire* gridWire)
+void NodeGridView::addViewWithGridWire(NodeGridWire* gridWire)
 {
-    NodeGridItemJ* emittingGridItem = gridItemViewWithGridItem(gridWire->emittingGridItem);
-    NodeGridItemJ* receivingGridItem = gridItemViewWithGridItem(gridWire->receivingGridItem);
+    NodeGridItemView* emittingGridItem = gridItemViewWithGridItem(gridWire->emittingGridItem);
+    NodeGridItemView* receivingGridItem = gridItemViewWithGridItem(gridWire->receivingGridItem);
     SignalView* emittingSignalView = emittingGridItem->signalViewFromSignal(gridWire->nodeWire.emittingOutputName);
     SignalView* receivingSignalView = receivingGridItem->signalViewFromSignal(gridWire->nodeWire.receivingInputName);
     gridWireViews.push_back(make_unique<NodeGridWireView>(*gridWire, *emittingSignalView, *emittingGridItem, *receivingSignalView, *receivingGridItem));
     addAndMakeVisible(gridWireViews.back().get());
 }
 
-void NodeGridJ::removeViewWithGridWire(NodeGridWire* gridWire)
+void NodeGridView::removeViewWithGridWire(NodeGridWire* gridWire)
 {
 }
 
-void NodeGridJ::removeAllGridWireViews()
+void NodeGridView::removeAllGridWireViews()
 {
 }
 
 #pragma mark - Component
 
-void NodeGridJ::paint (Graphics& g)
+void NodeGridView::paint (Graphics& g)
 {
 }
 
-void NodeGridJ::resized()
+void NodeGridView::resized()
 {
 }
 
-void NodeGridJ::mouseDrag(const MouseEvent& event)
+void NodeGridView::mouseDrag(const MouseEvent& event)
 {
     
 }
 
 #pragma mark - DragAndDropTarget
 
-bool NodeGridJ::isInterestedInDragSource (const SourceDetails& dragSourceDetails)
+bool NodeGridView::isInterestedInDragSource (const SourceDetails& dragSourceDetails)
 {
     if (dragSourceDetails.sourceComponent) {
         Component* sourceComponent = dragSourceDetails.sourceComponent;
-        if (dynamic_cast<NodeListJ*>(sourceComponent->getParentComponent())) {
+        if (dynamic_cast<NodeListView*>(sourceComponent->getParentComponent())) {
             return true;
         }
     }
     return false;
 }
 
-void NodeGridJ::itemDropped (const SourceDetails& dragSourceDetails)
+void NodeGridView::itemDropped (const SourceDetails& dragSourceDetails)
 {
     if (dragSourceDetails.sourceComponent) {
         Component* sourceComponent = dragSourceDetails.sourceComponent;
-        if (dynamic_cast<NodeListJ*>(sourceComponent->getParentComponent())) {
+        if (dynamic_cast<NodeListView*>(sourceComponent->getParentComponent())) {
             const var& description = dragSourceDetails.description;
             int i = 0;
             while (i < description.size()) {

@@ -36,10 +36,10 @@ DesignerWindowComponent::DesignerWindowComponent (Engine* engine, EngineUi* engi
     addAndMakeVisible (component = new OutputSimulationJ (engine, engineUi, output));
     component->setName ("new component");
 
-    addAndMakeVisible (component2 = new NodeListJ());
+    addAndMakeVisible (component2 = new NodeListView());
     component2->setName ("new component");
 
-    addAndMakeVisible (component3 = new NodeGridJ (engineUi->nodeGrid.get()));
+    addAndMakeVisible (component3 = new NodeGridView (engineUi->nodeGrid.get()));
     component3->setName ("new component");
 
 
@@ -116,11 +116,11 @@ BEGIN_JUCER_METADATA
                     virtualName="OutputSimulationJ" explicitFocusOrder="0" pos="0 0 200 200"
                     class="Component" params="engine, engineUi, output"/>
   <GENERICCOMPONENT name="new component" id="6a329d8e126ce007" memberName="component2"
-                    virtualName="NodeListJ" explicitFocusOrder="0" pos="0 0R 100% 200M"
+                    virtualName="NodeListView" explicitFocusOrder="0" pos="0 0R 100% 200M"
                     posRelativeY="46591e2475c6760e" posRelativeW="46591e2475c6760e"
                     class="Component" params=""/>
   <GENERICCOMPONENT name="new component" id="84be50bd51afc9b6" memberName="component3"
-                    virtualName="NodeGridJ" explicitFocusOrder="0" pos="0R 0 200M 100%"
+                    virtualName="NodeGridView" explicitFocusOrder="0" pos="0R 0 200M 100%"
                     posRelativeX="46591e2475c6760e" class="Component" params="engineUi-&gt;nodeGrid.get()"/>
 </JUCER_COMPONENT>
 
