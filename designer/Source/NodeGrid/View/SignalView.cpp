@@ -18,6 +18,7 @@
 */
 
 //[Headers] You can add your own extra header files here...
+#include "NodeGridView.h"
 //[/Headers]
 
 #include "SignalView.h"
@@ -27,8 +28,10 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-SignalView::SignalView (string signalName)
-    : signalName(signalName)
+SignalView::SignalView (string signalName, NodeGrid& nodeGrid, NodeGridItem& nodeGridItem)
+    : signalName(signalName),
+      nodeGrid(nodeGrid),
+      nodeGridItem(nodeGridItem)
 {
     //[Constructor_pre] You can add your own custom stuff here..
     //[/Constructor_pre]
@@ -63,10 +66,13 @@ void SignalView::paint (Graphics& g)
 
     g.fillAll (Colours::white);
 
-    g.setColour (Colours::red);
-    g.fillEllipse (0.0f, 0.0f, 10.0f, 10.0f);
-
     //[UserPaint] Add your own custom painting code here..
+    if (hovering) {
+        g.setColour (Colours::darkslateblue);
+    } else {
+        g.setColour (Colours::darkmagenta);
+    }
+    g.fillEllipse (0.0f, 0.0f, 10.0f, 10.0f);
     //[/UserPaint]
 }
 
@@ -77,6 +83,77 @@ void SignalView::resized()
 
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
+}
+
+void SignalView::mouseEnter (const MouseEvent& e)
+{
+    //[UserCode_mouseEnter] -- Add your code here...
+    hovering = true;
+    repaint();
+    //[/UserCode_mouseEnter]
+}
+
+void SignalView::mouseExit (const MouseEvent& e)
+{
+    //[UserCode_mouseExit] -- Add your code here...
+    hovering = false;
+    repaint();
+    //[/UserCode_mouseExit]
+}
+
+void SignalView::mouseDown (const MouseEvent& e)
+{
+    //[UserCode_mouseDown] -- Add your code here...
+    dragStarted = true;
+    nodeGrid.draggingWireStarted(nodeGridItem, signalName);
+    lastHover = this;
+    hovering = true;
+    //[/UserCode_mouseDown]
+}
+
+void SignalView::mouseDrag (const MouseEvent& e)
+{
+    //[UserCode_mouseDrag] -- Add your code here...
+    if (dragStarted) {
+        NodeGridView* nodeGridView = findParentComponentOfClass<NodeGridView>();
+        Point<int> p = nodeGridView->getLocalPoint(this, e.getPosition());
+        nodeGrid.draggingWireMoved(p);
+        
+        Component* component = nodeGridView->getComponentAt(p);
+        SignalView* signalView = dynamic_cast<SignalView*>(component);
+        if (lastHover && signalView != lastHover) {
+            lastHover->hovering = false;
+            lastHover = signalView;
+        }
+        if (signalView) {
+            lastHover = signalView;
+            signalView->hovering = true;
+            signalView->repaint();
+        }
+    }
+    //[/UserCode_mouseDrag]
+}
+
+void SignalView::mouseUp (const MouseEvent& e)
+{
+    //[UserCode_mouseUp] -- Add your code here...
+    if (dragStarted) {
+        dragStarted = false;
+        if (lastHover) {
+            lastHover->hovering = false;
+            lastHover = nullptr;
+        }
+        
+        NodeGridView* nodeGridView = findParentComponentOfClass<NodeGridView>();
+        Point<int> p = nodeGridView->getLocalPoint(this, e.getPosition());
+        
+        Component* component = nodeGridView->getComponentAt(p);
+        SignalView* signalView = dynamic_cast<SignalView*>(component);
+        if (signalView) {
+            nodeGrid.draggingWireEnded(signalView->nodeGridItem, signalView->signalName);
+        }
+    }
+    //[/UserCode_mouseUp]
 }
 
 
@@ -95,10 +172,17 @@ void SignalView::resized()
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="SignalView" componentName=""
-                 parentClasses="public Component" constructorParams="string signalName"
-                 variableInitialisers="signalName(signalName)" snapPixels="8"
-                 snapActive="1" snapShown="1" overlayOpacity="0.330" fixedSize="1"
-                 initialWidth="10" initialHeight="10">
+                 parentClasses="public Component" constructorParams="string signalName, NodeGrid&amp; nodeGrid, NodeGridItem&amp; nodeGridItem"
+                 variableInitialisers="signalName(signalName),&#10;nodeGrid(nodeGrid),&#10;nodeGridItem(nodeGridItem)"
+                 snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
+                 fixedSize="1" initialWidth="10" initialHeight="10">
+  <METHODS>
+    <METHOD name="mouseEnter (const MouseEvent&amp; e)"/>
+    <METHOD name="mouseExit (const MouseEvent&amp; e)"/>
+    <METHOD name="mouseDown (const MouseEvent&amp; e)"/>
+    <METHOD name="mouseDrag (const MouseEvent&amp; e)"/>
+    <METHOD name="mouseUp (const MouseEvent&amp; e)"/>
+  </METHODS>
   <BACKGROUND backgroundColour="ffffffff">
     <ELLIPSE pos="0 0 10 10" fill="solid: ffff0000" hasStroke="0"/>
   </BACKGROUND>

@@ -11,23 +11,26 @@
 #ifndef NODEGRIDWIREVIEW_H_INCLUDED
 #define NODEGRIDWIREVIEW_H_INCLUDED
 
-#include "../JuceLibraryCode/JuceHeader.h"
-
 #include "BlueprintUiGlobals.h"
+
+#include <observes.h>
 
 #include "NodeGridWire.h"
 
 //==============================================================================
 /*
 */
-class NodeGridWireView    : public Component, ComponentListener
+class NodeGridWireView    : public Component, ComponentListener, Observes<EngineUiDomain>
 {
+    USING_REACTIVE_DOMAIN(EngineUiDomain)
+    
 public:
-    NodeGridWireView(NodeGridWire& nodeGridWire, Component& emittingComponent, Component& emittingParentComponent, Component& receivingComponent, Component& receivingParentComponent);
+    NodeGridWireView(NodeGridWire& nodeGridWire, Component* emittingComponent, Component* emittingParentComponent, Component* receivingComponent, Component* receivingParentComponent);
     ~NodeGridWireView();
 
-    void paint (Graphics&);
-    void resized();
+    void parentHierarchyChanged() override;
+    void paint(Graphics&) override;
+    void resized() override;
     
     void componentBroughtToFront(Component& component) override;
     void componentMovedOrResized(Component& component, bool wasMoved, bool wasResized) override;
@@ -36,15 +39,13 @@ private:
     
     NodeGridWire& nodeGridWire;
     
-    Component& emittingComponent;
-    Component& emittingParentComponent;
-    Component& receivingComponent;
-    Component& receivingParentComponent;
+    Component* emittingComponent;
+    Component* emittingParentComponent;
+    Component* receivingComponent;
+    Component* receivingParentComponent;
     
-    Point<int> emittingPos;
-    Point<int> receivingPos;
-    
-    void calculateSize();
+    void calculatePositions();
+    void calculateBounds();
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NodeGridWireView)
 };

@@ -23,10 +23,14 @@ public:
     size_t addSubnode(unique_ptr<Node> subnode);
     void removeSubnode(Node* subnode);
 
+    Node* getSubnodeByUuid(boost::uuids::uuid uuid);
+
     bool canWireSubnodes(Node& emittingSubnode, const string& emittingOutputName,
         Node& receivingSubnode, const string& receivingInputName);
     void wireSubnodes(Node& emittingSubnode, const string& emittingOutputName,
         Node& receivingSubnode, const string& receivingInputName);
+    void wireSubnodes(const boost::uuids::uuid& emittingUuid, const string& emittingOutputName,
+        const boost::uuids::uuid& receivingUuid, const string& receivingInputName);
     void unwireSubnodes(Node& emittingSubnode, const string& emittingOutputName,
         Node& receivingSubnode, const string& receivingInputName);
 
@@ -68,6 +72,14 @@ public:
             return compoundNode->createSubnode(name);
         }, [=] (size_t pos) {
             response(pos);
+        });
+    }
+
+    void wireSubnodes(boost::uuids::uuid& emittingUuid, const string& emittingOutputName,
+        boost::uuids::uuid& receivingUuid, const string& receivingInputName)
+    {
+        this->template sendCommand<CompoundNode>([=] (shared_ptr<CompoundNode> compoundNode) {
+            return compoundNode->wireSubnodes(emittingUuid, emittingOutputName, receivingUuid, receivingInputName);
         });
     }
 };

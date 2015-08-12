@@ -2,6 +2,7 @@
 
 NodeGrid::NodeGrid(CompoundNodeProxy<EngineUiDomain>* compoundNode_)
     : compoundNode(compoundNode_)
+, draggingWire(MakeVar<EngineUiDomain, shared_ptr<NodeGridWire>>(nullptr))
 {
     {
         addObserver(Observe(compoundNode->subnodes.valueAdded, [this] (const pair<size_t, shared_ptr<NodeProxy<EngineUiDomain>>>& pair) {
@@ -76,6 +77,26 @@ void NodeGrid::setSelectedNode(NodeGridItem& gridItem, bool selected)
     }
 }
 
+void NodeGrid::draggingWireStarted(NodeGridItem& nodeGridItem, string signalName)
+{
+    draggingWire <<= make_shared<NodeGridWire>(*this, &nodeGridItem, signalName, nullptr, string());
+}
+
+void NodeGrid::draggingWireMoved(Point<int> p)
+{
+    if (draggingWire.Value()) {
+        draggingWire.Value()->setOtherPosition(p);
+    }
+}
+
+void NodeGrid::draggingWireEnded(NodeGridItem& gridItemEnd, string signalName)
+{
+    if (draggingWire.Value()) {
+        compoundNode->wireSubnodes(draggingWire.Value()->emittingGridItem->node->uuid, draggingWire.Value()->emittingOutputName, gridItemEnd.node->uuid, signalName);
+        draggingWire <<= nullptr;
+    }
+}
+
 NodeGridItem* NodeGrid::addGridItemWith(size_t pos, NodeProxy<EngineUiDomain>& node)
 {
     vector<shared_ptr<NodeGridItem>>::iterator iter = gridItems.begin() + pos;
@@ -95,7 +116,7 @@ NodeGridWire* NodeGrid::addGridWireWith(size_t pos, NodeWire& wire)
     vector<shared_ptr<NodeGridWire>>::iterator iter = gridWires.begin() + pos;
     NodeGridItem* emittingNode = nodeWithUuid(wire.emittingNodeUuid);
     NodeGridItem* receivingNode = nodeWithUuid(wire.receivingNodeUuid);
-    gridWires.insert(iter, make_shared<NodeGridWire>(wire, *this, *emittingNode, *receivingNode));
+    gridWires.insert(iter, make_shared<NodeGridWire>(&wire, *this, emittingNode, receivingNode));
     return gridWires.back().get();
 }
 

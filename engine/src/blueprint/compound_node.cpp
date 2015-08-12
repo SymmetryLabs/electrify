@@ -40,6 +40,16 @@ void CompoundNode::removeSubnode(Node* subnode)
     removeSharedPtr(subnodes, subnode);
 }
 
+Node* CompoundNode::getSubnodeByUuid(boost::uuids::uuid uuid)
+{
+    for (const auto& subnode : subnodes) {
+        if (subnode->uuid == uuid) {
+            return subnode.get();
+        }
+    }
+    return nullptr;
+}
+
 bool CompoundNode::canWireSubnodes(Node& emittingSubnode, const string& emittingOutputName,
     Node& receivingSubnode, const string& receivingInputName)
 {
@@ -51,6 +61,13 @@ void CompoundNode::wireSubnodes(Node& emittingSubnode, const string& emittingOut
 {
     nodeWires.push_back(NodeWire(emittingSubnode, emittingOutputName, receivingSubnode, receivingInputName));
     return emittingSubnode.wireOutputTo(emittingOutputName, receivingSubnode, receivingInputName);
+}
+void CompoundNode::wireSubnodes(const boost::uuids::uuid& emittingUuid, const string& emittingOutputName,
+    const boost::uuids::uuid& receivingUuid, const string& receivingInputName)
+{
+    Node* emittingSubnode = getSubnodeByUuid(emittingUuid);
+    Node* receivingSubnode = getSubnodeByUuid(receivingUuid);
+    wireSubnodes(*emittingSubnode, emittingOutputName, *receivingSubnode, receivingInputName);
 }
 
 void CompoundNode::unwireSubnodes(Node& emittingSubnode, const string& emittingOutputName,

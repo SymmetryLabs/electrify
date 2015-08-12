@@ -21,9 +21,10 @@
 #define __JUCE_HEADER_23AD31501534E282__
 
 //[Headers]     -- You can add your own extra header files here --
-#include "JuceHeader.h"
-
 #include "BlueprintUiGlobals.h"
+
+#include "NodeGrid.h"
+#include "NodeGridItem.h"
 //[/Headers]
 
 
@@ -40,7 +41,7 @@ class SignalView  : public Component
 {
 public:
     //==============================================================================
-    SignalView (string signalName);
+    SignalView (string signalName, NodeGrid& nodeGrid, NodeGridItem& nodeGridItem);
     ~SignalView();
 
     //==============================================================================
@@ -50,11 +51,22 @@ public:
 
     void paint (Graphics& g);
     void resized();
+    void mouseEnter (const MouseEvent& e);
+    void mouseExit (const MouseEvent& e);
+    void mouseDown (const MouseEvent& e);
+    void mouseDrag (const MouseEvent& e);
+    void mouseUp (const MouseEvent& e);
 
 
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
+    NodeGrid& nodeGrid;
+    NodeGridItem& nodeGridItem;
+
+    bool dragStarted;
+    SignalView* lastHover;
+    bool hovering;
     //[/UserVariables]
 
     //==============================================================================

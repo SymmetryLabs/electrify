@@ -11,7 +11,7 @@
 #ifndef NODEGRIDJ_H_INCLUDED
 #define NODEGRIDJ_H_INCLUDED
 
-#include "../JuceLibraryCode/JuceHeader.h"
+#include "BlueprintUiGlobals.h"
 
 #include "NodeGrid.h"
 #include "NodeGridItemView.h"
@@ -34,6 +34,8 @@ private:
     vector<unique_ptr<NodeGridItemView>> gridItems;
     vector<unique_ptr<NodeGridWireView>> gridWireViews;
     
+    unique_ptr<NodeGridWireView> draggingWireView;
+    
     void addWithGridItem(NodeGridItem* gridItem);
     void removeWithGridItem(NodeGridItem* gridItem);
     void removeAllGridItems();
@@ -43,6 +45,8 @@ private:
     void addViewWithGridWire(NodeGridWire* gridWire);
     void removeViewWithGridWire(NodeGridWire* gridWire);
     void removeAllGridWireViews();
+    
+    void resetZOrdering();
     
     void paint (Graphics&) override;
     void resized() override;

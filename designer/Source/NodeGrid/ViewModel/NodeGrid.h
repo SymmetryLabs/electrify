@@ -26,6 +26,11 @@ public:
 
     ObservableVector<EngineUiDomain, shared_ptr<NodeGridItem>> gridItems;
     ObservableVector<EngineUiDomain, shared_ptr<NodeGridWire>> gridWires;
+    
+    VarSignalT<shared_ptr<NodeGridWire>> draggingWire;
+    void draggingWireStarted(NodeGridItem& gridItemStart, string signalName);
+    void draggingWireMoved(Point<int> p);
+    void draggingWireEnded(NodeGridItem& gridItemEnd, string signalName);
 
 private:
     

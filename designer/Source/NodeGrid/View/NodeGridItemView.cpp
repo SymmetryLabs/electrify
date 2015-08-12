@@ -8,12 +8,12 @@
   ==============================================================================
 */
 
-#include "../JuceLibraryCode/JuceHeader.h"
 #include "NodeGridItemView.h"
 
 //==============================================================================
-NodeGridItemView::NodeGridItemView(NodeGridItem& nodeGridItem_)
+NodeGridItemView::NodeGridItemView(NodeGridItem& nodeGridItem_, NodeGrid& nodeGrid)
 : nodeGridItem(nodeGridItem_)
+, nodeGrid(nodeGrid)
 , dragStarted(false)
 {
     setSize(200, 100);
@@ -27,7 +27,7 @@ NodeGridItemView::NodeGridItemView(NodeGridItem& nodeGridItem_)
     int i = 0;
     signalViews.reserve(nodeGridItem.node->inputs.size());
     for (const string& input : nodeGridItem.node->inputs) {
-        signalViews.push_back(make_unique<SignalView>(input));
+        signalViews.push_back(make_unique<SignalView>(input, nodeGrid, nodeGridItem));
         SignalView* signalView = signalViews.back().get();
         addAndMakeVisible(signalView);
         signalView->setTopLeftPosition(10, 20 + 20 * i);
@@ -37,7 +37,7 @@ NodeGridItemView::NodeGridItemView(NodeGridItem& nodeGridItem_)
     i = 0;
     signalViews.reserve(nodeGridItem.node->outputs.size());
     for (const string& output : nodeGridItem.node->outputs) {
-        signalViews.push_back(make_unique<SignalView>(output));
+        signalViews.push_back(make_unique<SignalView>(output, nodeGrid, nodeGridItem));
         SignalView* signalView = signalViews.back().get();
         addAndMakeVisible(signalView);
         signalView->setTopRightPosition(getRight() - 10, 20 + 20 * i);

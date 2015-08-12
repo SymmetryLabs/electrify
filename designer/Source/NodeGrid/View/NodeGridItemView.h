@@ -11,12 +11,13 @@
 #ifndef NODEGRIDITEMJ_H_INCLUDED
 #define NODEGRIDITEMJ_H_INCLUDED
 
-#include "../JuceLibraryCode/JuceHeader.h"
+#include "BlueprintUiGlobals.h"
 
 #include <observes.h>
 
 #include "NodeGridItem.h"
 #include "SignalView.h"
+#include "NodeGrid.h"
 
 //==============================================================================
 /*
@@ -24,11 +25,12 @@
 class NodeGridItemView    : public Component, public Observes<EngineUiDomain>
 {
 public:
-    NodeGridItemView(NodeGridItem& nodeGridItem);
+    NodeGridItemView(NodeGridItem& nodeGridItem, NodeGrid& nodeGrid);
     
     void setPos(Point<int> pos);
     
     NodeGridItem& nodeGridItem;
+    NodeGrid& nodeGrid;
     
     SignalView* signalViewFromSignal(string& signalName);
 
