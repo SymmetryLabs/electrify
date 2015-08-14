@@ -23,7 +23,9 @@
 //[Headers]     -- You can add your own extra header files here --
 #include "BlueprintUiGlobals.h"
 
-#include "NodeGrid.h"
+#include <node_socket.h>
+
+#include "NodeGridCoordinator.h"
 #include "NodeGridItem.h"
 //[/Headers]
 
@@ -41,12 +43,12 @@ class SignalView  : public Component
 {
 public:
     //==============================================================================
-    SignalView (string signalName, NodeGrid& nodeGrid, NodeGridItem& nodeGridItem);
+    SignalView (const NodeSocket& socket, NodeGridCoordinator& nodeGridCoordinator, NodeGridItem& nodeGridItem);
     ~SignalView();
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    string signalName;
+    NodeSocket socket;
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -61,7 +63,7 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    NodeGrid& nodeGrid;
+    NodeGridCoordinator& nodeGridCoordinator;
     NodeGridItem& nodeGridItem;
 
     bool dragStarted;

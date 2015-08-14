@@ -124,12 +124,12 @@ public:
 
         inputs.reserve(master->inputs.size());
         for(auto& kv : master->inputs) {
-                inputs.push_back(kv.first);
+            inputs.push_back(kv.first);
         }
 
         outputs.reserve(master->outputs.size());
         for(auto& kv : master->outputs) {
-                outputs.push_back(kv.first);
+            outputs.push_back(kv.first);
         }
     }
 

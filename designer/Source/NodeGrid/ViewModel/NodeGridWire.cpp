@@ -7,25 +7,22 @@ NodeGridWire::NodeGridWire(NodeWire* nodeWire, NodeGrid& nodeGrid,
     : nodeWire(nodeWire)
     , emittingGridItem(emittingGridItem)
     , receivingGridItem(receivingGridItem)
-    , emittingOutputName(nodeWire->emittingOutputName)
-    , receivingInputName(nodeWire->receivingInputName)
+    , emittingSocket(nodeWire->emittingSocket)
+    , receivingSocket(nodeWire->receivingSocket)
     , emittingPos(MakeVar<EngineUiDomain>(Point<int>()))
     , receivingPos(MakeVar<EngineUiDomain>(Point<int>()))
-    , nodeGrid(nodeGrid)
 {
 }
 
-NodeGridWire::NodeGridWire(NodeGrid& nodeGrid,
-                           NodeGridItem* emittingGridItem, string emittingOutputName,
-                           NodeGridItem* receivingGridItem, string receivingInputName)
+NodeGridWire::NodeGridWire(NodeGridItem* emittingGridItem, NodeSocket emittingSocket,
+                           NodeGridItem* receivingGridItem, NodeSocket receivingSocket)
 : nodeWire(nullptr)
 , emittingGridItem(emittingGridItem)
 , receivingGridItem(receivingGridItem)
-, emittingOutputName(emittingOutputName)
-, receivingInputName(receivingInputName)
+, emittingSocket(emittingSocket)
+, receivingSocket(receivingSocket)
 , emittingPos(MakeVar<EngineUiDomain>(Point<int>()))
 , receivingPos(MakeVar<EngineUiDomain>(Point<int>()))
-, nodeGrid(nodeGrid)
 {
 }
 

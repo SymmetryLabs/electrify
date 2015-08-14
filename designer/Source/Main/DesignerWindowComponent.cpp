@@ -46,7 +46,7 @@ DesignerWindowComponent::DesignerWindowComponent (Engine* engine, EngineUi* engi
     //[UserPreSize]
     //[/UserPreSize]
 
-    setSize (1000, 500);
+    setSize (1200, 600);
 
 
     //[Constructor] You can add your own custom stuff here..
@@ -109,8 +109,8 @@ BEGIN_JUCER_METADATA
 <JUCER_COMPONENT documentType="Component" className="DesignerWindowComponent"
                  componentName="" parentClasses="public Component" constructorParams="Engine* engine, EngineUi* engineUi, Output* output"
                  variableInitialisers="engineUi(engineUi)" snapPixels="8" snapActive="1"
-                 snapShown="1" overlayOpacity="0.330" fixedSize="0" initialWidth="1000"
-                 initialHeight="500">
+                 snapShown="1" overlayOpacity="0.330" fixedSize="0" initialWidth="1200"
+                 initialHeight="600">
   <BACKGROUND backgroundColour="ffffffff"/>
   <GENERICCOMPONENT name="new component" id="46591e2475c6760e" memberName="component"
                     virtualName="OutputSimulationView" explicitFocusOrder="0" pos="0 0 200 200"

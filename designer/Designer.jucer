@@ -6,6 +6,12 @@
   <MAINGROUP id="wQ89CT" name="Designer">
     <GROUP id="{FD40B928-CCA8-FE86-E11B-047A03A31108}" name="Source">
       <GROUP id="{C7899901-5808-42C1-5635-388496375696}" name="NodeGrid">
+        <GROUP id="{89313AB2-6681-D231-D5A8-009FC4EB5FEE}" name="Controller">
+          <FILE id="GLCMEY" name="NodeGridCoordinator.cpp" compile="1" resource="0"
+                file="Source/NodeGrid/Controller/NodeGridCoordinator.cpp"/>
+          <FILE id="zGSl9b" name="NodeGridCoordinator.h" compile="0" resource="0"
+                file="Source/NodeGrid/Controller/NodeGridCoordinator.h"/>
+        </GROUP>
         <GROUP id="{49E44DD9-B16E-E06D-D100-4B9BDDE3B059}" name="View">
           <FILE id="Sbnel9" name="NodeGridView.cpp" compile="1" resource="0"
                 file="Source/NodeGrid/View/NodeGridView.cpp"/>
@@ -35,12 +41,6 @@
       <GROUP id="{31FD6C8C-56DD-3215-F275-7A36FDAB8651}" name="Model">
         <FILE id="C4XEYQ" name="BlueprintUiGlobals.h" compile="0" resource="0"
               file="Source/Model/BlueprintUiGlobals.h"/>
-        <FILE id="SK7BSR" name="BlueprintUiObject.cpp" compile="1" resource="0"
-              file="Source/Model/BlueprintUiObject.cpp"/>
-        <FILE id="ftnWt2" name="BlueprintUiObject.h" compile="0" resource="0"
-              file="Source/Model/BlueprintUiObject.h"/>
-        <FILE id="sAuGtF" name="BlueprintUiObject.tpp" compile="0" resource="0"
-              file="Source/Model/BlueprintUiObject.tpp"/>
         <FILE id="WVeSq0" name="EngineUi.cpp" compile="1" resource="0" file="Source/Model/EngineUi.cpp"/>
         <FILE id="KEfKdP" name="EngineUi.h" compile="0" resource="0" file="Source/Model/EngineUi.h"/>
       </GROUP>

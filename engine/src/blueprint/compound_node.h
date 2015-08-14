@@ -6,6 +6,7 @@
 #include "observable_vector.h"
 #include "data_proxy.h"
 #include "node_wire.h"
+#include "node_socket.h"
 
 class CompoundNode : public Node {
 
@@ -29,8 +30,7 @@ public:
         Node& receivingSubnode, const string& receivingInputName);
     void wireSubnodes(Node& emittingSubnode, const string& emittingOutputName,
         Node& receivingSubnode, const string& receivingInputName);
-    void wireSubnodes(const boost::uuids::uuid& emittingUuid, const string& emittingOutputName,
-        const boost::uuids::uuid& receivingUuid, const string& receivingInputName);
+    void wireSubnodes(const NodeSocket& emittingSocket, const NodeSocket& receivingSocket);
     void unwireSubnodes(Node& emittingSubnode, const string& emittingOutputName,
         Node& receivingSubnode, const string& receivingInputName);
 
@@ -75,11 +75,10 @@ public:
         });
     }
 
-    void wireSubnodes(boost::uuids::uuid& emittingUuid, const string& emittingOutputName,
-        boost::uuids::uuid& receivingUuid, const string& receivingInputName)
+    void wireSubnodes(const NodeSocket& emittingSocket, const NodeSocket& receivingSocket)
     {
         this->template sendCommand<CompoundNode>([=] (shared_ptr<CompoundNode> compoundNode) {
-            return compoundNode->wireSubnodes(emittingUuid, emittingOutputName, receivingUuid, receivingInputName);
+            return compoundNode->wireSubnodes(emittingSocket, receivingSocket);
         });
     }
 };

@@ -3,11 +3,11 @@
 
 #include <node.h>
 
-#include "BlueprintUiObject.h"
-
 class NodeGrid;
 
-class NodeGridItem : public BlueprintUiObject {
+class NodeGridItem {
+    
+    USING_REACTIVE_DOMAIN(EngineUiDomain)
 
 public:
     NodeGridItem(NodeProxy<EngineUiDomain>* node, NodeGrid& nodeGrid);

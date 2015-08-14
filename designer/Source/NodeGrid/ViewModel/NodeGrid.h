@@ -6,16 +6,20 @@
 #include <node.h>
 #include <observes.h>
 
-#include "BlueprintUiObject.h"
 #include "NodeGridItem.h"
 #include "NodeGridWire.h"
+#include "NodeGridCoordinator.h"
 
-class NodeGrid : public BlueprintUiObject, Observes<EngineUiDomain> {
+class NodeGrid : Observes<EngineUiDomain> {
+    
+    USING_REACTIVE_DOMAIN(EngineUiDomain)
 
 public:
     explicit NodeGrid(CompoundNodeProxy<EngineUiDomain>* compoundNode);
 
     CompoundNodeProxy<EngineUiDomain>* compoundNode;
+    
+    NodeGridCoordinator nodeGridCoordinator;
 
     void addNode(string name, float x, float y);
     void removeNode();
@@ -26,11 +30,6 @@ public:
 
     ObservableVector<EngineUiDomain, shared_ptr<NodeGridItem>> gridItems;
     ObservableVector<EngineUiDomain, shared_ptr<NodeGridWire>> gridWires;
-    
-    VarSignalT<shared_ptr<NodeGridWire>> draggingWire;
-    void draggingWireStarted(NodeGridItem& gridItemStart, string signalName);
-    void draggingWireMoved(Point<int> p);
-    void draggingWireEnded(NodeGridItem& gridItemEnd, string signalName);
 
 private:
     

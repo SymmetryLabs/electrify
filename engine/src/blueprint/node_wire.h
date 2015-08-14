@@ -1,24 +1,18 @@
 #pragma once
 #include "globals.h"
 
-#include "node.h"
+#include "node_socket.h"
 
 class NodeWire {
 
 public:
-    NodeWire(Node& emittingNode, const string& emittingOutputName,
-        Node& receivingNode, const string& receivingInputName)
-    : emittingNodeUuid(emittingNode.uuid)
-    , emittingOutputName(emittingOutputName)
-    , receivingNodeUuid(receivingNode.uuid)
-    , receivingInputName(receivingInputName)
+    NodeWire(NodeSocket& emittingSocket, NodeSocket& receivingSocket)
+    : emittingSocket(emittingSocket)
+    , receivingSocket(receivingSocket)
     {
     }
 
-    boost::uuids::uuid emittingNodeUuid;
-    string emittingOutputName;
-
-    boost::uuids::uuid receivingNodeUuid;
-    string receivingInputName;
+    NodeSocket emittingSocket;
+    NodeSocket receivingSocket;
 
 };

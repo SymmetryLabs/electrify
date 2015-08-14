@@ -28,9 +28,9 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-SignalView::SignalView (string signalName, NodeGrid& nodeGrid, NodeGridItem& nodeGridItem)
-    : signalName(signalName),
-      nodeGrid(nodeGrid),
+SignalView::SignalView (const NodeSocket& socket, NodeGridCoordinator& nodeGridCoordinator, NodeGridItem& nodeGridItem)
+    : socket(socket),
+      nodeGridCoordinator(nodeGridCoordinator),
       nodeGridItem(nodeGridItem)
 {
     //[Constructor_pre] You can add your own custom stuff here..
@@ -105,7 +105,7 @@ void SignalView::mouseDown (const MouseEvent& e)
 {
     //[UserCode_mouseDown] -- Add your code here...
     dragStarted = true;
-    nodeGrid.draggingWireStarted(nodeGridItem, signalName);
+    nodeGridCoordinator.draggingWireStarted(nodeGridItem, socket);
     lastHover = this;
     hovering = true;
     //[/UserCode_mouseDown]
@@ -117,8 +117,8 @@ void SignalView::mouseDrag (const MouseEvent& e)
     if (dragStarted) {
         NodeGridView* nodeGridView = findParentComponentOfClass<NodeGridView>();
         Point<int> p = nodeGridView->getLocalPoint(this, e.getPosition());
-        nodeGrid.draggingWireMoved(p);
-        
+        nodeGridCoordinator.draggingWireMoved(p);
+
         Component* component = nodeGridView->getComponentAt(p);
         SignalView* signalView = dynamic_cast<SignalView*>(component);
         if (lastHover && signalView != lastHover) {
@@ -143,14 +143,14 @@ void SignalView::mouseUp (const MouseEvent& e)
             lastHover->hovering = false;
             lastHover = nullptr;
         }
-        
+
         NodeGridView* nodeGridView = findParentComponentOfClass<NodeGridView>();
         Point<int> p = nodeGridView->getLocalPoint(this, e.getPosition());
-        
+
         Component* component = nodeGridView->getComponentAt(p);
         SignalView* signalView = dynamic_cast<SignalView*>(component);
         if (signalView) {
-            nodeGrid.draggingWireEnded(signalView->nodeGridItem, signalView->signalName);
+            nodeGridCoordinator.draggingWireEnded(signalView->nodeGridItem, signalView->socket);
         }
     }
     //[/UserCode_mouseUp]
@@ -172,8 +172,8 @@ void SignalView::mouseUp (const MouseEvent& e)
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="SignalView" componentName=""
-                 parentClasses="public Component" constructorParams="string signalName, NodeGrid&amp; nodeGrid, NodeGridItem&amp; nodeGridItem"
-                 variableInitialisers="signalName(signalName),&#10;nodeGrid(nodeGrid),&#10;nodeGridItem(nodeGridItem)"
+                 parentClasses="public Component" constructorParams="const NodeSocket&amp; socket, NodeGridCoordinator&amp; nodeGridCoordinator, NodeGridItem&amp; nodeGridItem"
+                 variableInitialisers="socket(socket),&#10;nodeGridCoordinator(nodeGridCoordinator),&#10;nodeGridItem(nodeGridItem)"
                  snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
                  fixedSize="1" initialWidth="10" initialHeight="10">
   <METHODS>
@@ -183,9 +183,7 @@ BEGIN_JUCER_METADATA
     <METHOD name="mouseDrag (const MouseEvent&amp; e)"/>
     <METHOD name="mouseUp (const MouseEvent&amp; e)"/>
   </METHODS>
-  <BACKGROUND backgroundColour="ffffffff">
-    <ELLIPSE pos="0 0 10 10" fill="solid: ffff0000" hasStroke="0"/>
-  </BACKGROUND>
+  <BACKGROUND backgroundColour="ffffffff"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

@@ -59,15 +59,16 @@ bool CompoundNode::canWireSubnodes(Node& emittingSubnode, const string& emitting
 void CompoundNode::wireSubnodes(Node& emittingSubnode, const string& emittingOutputName,
     Node& receivingSubnode, const string& receivingInputName)
 {
-    nodeWires.push_back(NodeWire(emittingSubnode, emittingOutputName, receivingSubnode, receivingInputName));
+    NodeSocket emittingSocket(emittingSubnode.uuid, emittingOutputName);
+    NodeSocket receivingSocket(receivingSubnode.uuid, receivingInputName);
+    nodeWires.push_back(NodeWire(emittingSocket, receivingSocket));
     return emittingSubnode.wireOutputTo(emittingOutputName, receivingSubnode, receivingInputName);
 }
-void CompoundNode::wireSubnodes(const boost::uuids::uuid& emittingUuid, const string& emittingOutputName,
-    const boost::uuids::uuid& receivingUuid, const string& receivingInputName)
+void CompoundNode::wireSubnodes(const NodeSocket& emittingSocket, const NodeSocket& receivingSocket)
 {
-    Node* emittingSubnode = getSubnodeByUuid(emittingUuid);
-    Node* receivingSubnode = getSubnodeByUuid(receivingUuid);
-    wireSubnodes(*emittingSubnode, emittingOutputName, *receivingSubnode, receivingInputName);
+    Node* emittingSubnode = getSubnodeByUuid(emittingSocket.nodeUuid);
+    Node* receivingSubnode = getSubnodeByUuid(receivingSocket.nodeUuid);
+    wireSubnodes(*emittingSubnode, emittingSocket.socketName, *receivingSubnode, receivingSocket.socketName);
 }
 
 void CompoundNode::unwireSubnodes(Node& emittingSubnode, const string& emittingOutputName,

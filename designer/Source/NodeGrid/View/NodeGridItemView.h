@@ -14,10 +14,12 @@
 #include "BlueprintUiGlobals.h"
 
 #include <observes.h>
+#include <node_socket.h>
 
 #include "NodeGridItem.h"
 #include "SignalView.h"
 #include "NodeGrid.h"
+#include "NodeGridCoordinator.h"
 
 //==============================================================================
 /*
@@ -25,14 +27,21 @@
 class NodeGridItemView    : public Component, public Observes<EngineUiDomain>
 {
 public:
-    NodeGridItemView(NodeGridItem& nodeGridItem, NodeGrid& nodeGrid);
+    NodeGridItemView(NodeGridItem& nodeGridItem, NodeGridCoordinator& nodeGridCoordinator);
     
     void setPos(Point<int> pos);
     
     NodeGridItem& nodeGridItem;
-    NodeGrid& nodeGrid;
+    NodeGridCoordinator& nodeGridCoordinator;
     
-    SignalView* signalViewFromSignal(string& signalName);
+    SignalView* signalViewFromSignal(const NodeSocket& socket);
+    
+    void paint(Graphics&) override;
+    void resized() override;
+    
+    void mouseDown(const MouseEvent& e) override;
+    void mouseDrag(const MouseEvent& e) override;
+    void mouseUp(const MouseEvent&) override;
 
 private:
     
@@ -42,13 +51,6 @@ private:
     bool dragStarted;
     
     bool focused;
-    
-    void paint(Graphics&) override;
-    void resized() override;
-    
-    void mouseDown(const MouseEvent& e) override;
-    void mouseDrag(const MouseEvent& e) override;
-    void mouseUp(const MouseEvent&) override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NodeGridItemView)
 };

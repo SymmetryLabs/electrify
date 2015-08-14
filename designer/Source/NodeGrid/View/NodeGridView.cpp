@@ -15,7 +15,9 @@
 //==============================================================================
 NodeGridView::NodeGridView(NodeGrid* nodeGrid_)
 {
-    Observe(nodeGrid, [this] (NodeGrid* nodeGrid) {
+    this->nodeGrid <<= nodeGrid_;
+    
+    observeWithStart(nodeGrid, [this] (NodeGrid* nodeGrid) {
         removeAllGridItems();
         removeAllGridWireViews();
         if (nodeGrid != nullptr) {
@@ -28,8 +30,6 @@ NodeGridView::NodeGridView(NodeGrid* nodeGrid_)
             resetZOrdering();
         }
     });
-    
-    this->nodeGrid <<= nodeGrid_;
     
     observeWithCapture(REACTIVE_PTR(nodeGrid, gridItems.valueAdded), [this] (const pair<size_t, reference_wrapper<shared_ptr<NodeGridItem>>>& p) {
         addWithGridItem(p.second.get().get());
@@ -47,7 +47,7 @@ NodeGridView::NodeGridView(NodeGrid* nodeGrid_)
         removeViewWithGridWire(p.second.get());
     });
     
-    observeWithCapture(REACTIVE_PTR(nodeGrid, draggingWire), [this] (const shared_ptr<NodeGridWire>& draggingWire) {
+    observeWithCapture(REACTIVE_PTR(nodeGrid, nodeGridCoordinator.draggingWire), [this] (const shared_ptr<NodeGridWire>& draggingWire) {
         if (draggingWire) {
             NodeGridItemView* emittingGridItem = nullptr;
             NodeGridItemView* receivingGridItem = nullptr;
@@ -55,11 +55,11 @@ NodeGridView::NodeGridView(NodeGrid* nodeGrid_)
             SignalView* receivingSignalView = nullptr;
             if (draggingWire->emittingGridItem) {
                 emittingGridItem = gridItemViewWithGridItem(*draggingWire->emittingGridItem);
-                emittingSignalView = emittingGridItem->signalViewFromSignal(draggingWire->emittingOutputName);
+                emittingSignalView = emittingGridItem->signalViewFromSignal(draggingWire->emittingSocket);
             }
             if (draggingWire->receivingGridItem) {
                 receivingGridItem = gridItemViewWithGridItem(*draggingWire->receivingGridItem);
-                receivingSignalView = receivingGridItem->signalViewFromSignal(draggingWire->receivingInputName);
+                receivingSignalView = receivingGridItem->signalViewFromSignal(draggingWire->receivingSocket);
             }
             draggingWireView = make_unique<NodeGridWireView>(*draggingWire, emittingSignalView, emittingGridItem, receivingSignalView, receivingGridItem);
             addAndMakeVisible(draggingWireView.get());
@@ -72,7 +72,7 @@ NodeGridView::NodeGridView(NodeGrid* nodeGrid_)
 
 void NodeGridView::addWithGridItem(NodeGridItem* gridItem)
 {
-    gridItems.push_back(make_unique<NodeGridItemView>(*gridItem, *nodeGrid.Value()));
+    gridItems.push_back(make_unique<NodeGridItemView>(*gridItem, nodeGrid.Value()->nodeGridCoordinator));
     addAndMakeVisible(gridItems.back().get());
 }
 
@@ -98,8 +98,8 @@ void NodeGridView::addViewWithGridWire(NodeGridWire* gridWire)
 {
     NodeGridItemView* emittingGridItem = gridItemViewWithGridItem(*gridWire->emittingGridItem);
     NodeGridItemView* receivingGridItem = gridItemViewWithGridItem(*gridWire->receivingGridItem);
-    SignalView* emittingSignalView = emittingGridItem->signalViewFromSignal(gridWire->emittingOutputName);
-    SignalView* receivingSignalView = receivingGridItem->signalViewFromSignal(gridWire->receivingInputName);
+    SignalView* emittingSignalView = emittingGridItem->signalViewFromSignal(gridWire->emittingSocket);
+    SignalView* receivingSignalView = receivingGridItem->signalViewFromSignal(gridWire->receivingSocket);
     gridWireViews.push_back(make_unique<NodeGridWireView>(*gridWire, emittingSignalView, emittingGridItem, receivingSignalView, receivingGridItem));
     addAndMakeVisible(gridWireViews.back().get());
 }
@@ -115,8 +115,10 @@ void NodeGridView::removeAllGridWireViews()
 void NodeGridView::resetZOrdering()
 {
     for (int i = 0; i < getNumChildComponents(); i++) {
-        auto component = getChildComponent(i++);
-        component->toFront(false);
+        auto component = dynamic_cast<NodeGridItemView*>(getChildComponent(i));
+        if (component) {
+            component->toFront(true);
+        }
     }
 }
 
@@ -128,6 +130,13 @@ void NodeGridView::paint (Graphics& g)
 
 void NodeGridView::resized()
 {
+}
+
+void NodeGridView::parentHierarchyChanged()
+{
+    if (getParentComponent()) {
+        resetZOrdering();
+    }
 }
 
 void NodeGridView::mouseDrag(const MouseEvent& event)

@@ -16,6 +16,7 @@
 #include "NodeGrid.h"
 #include "NodeGridItemView.h"
 #include "NodeGridWireView.h"
+#include "NodeGridCoordinator.h"
 
 //==============================================================================
 /*
@@ -50,6 +51,7 @@ private:
     
     void paint (Graphics&) override;
     void resized() override;
+    void parentHierarchyChanged() override;
     void mouseDrag (const MouseEvent& event) override;
     
     bool isInterestedInDragSource (const SourceDetails& dragSourceDetails) override;
