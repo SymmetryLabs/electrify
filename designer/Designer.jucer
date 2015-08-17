@@ -12,6 +12,16 @@
           <FILE id="zGSl9b" name="NodeGridCoordinator.h" compile="0" resource="0"
                 file="Source/NodeGrid/Controller/NodeGridCoordinator.h"/>
         </GROUP>
+        <GROUP id="{AF961D6D-38FD-1265-46CA-19B03878C7EB}" name="Model">
+          <FILE id="PqVSp8" name="NodeGrid.cpp" compile="1" resource="0" file="Source/NodeGrid/Model/NodeGrid.cpp"/>
+          <FILE id="WQuN8g" name="NodeGrid.h" compile="0" resource="0" file="Source/NodeGrid/Model/NodeGrid.h"/>
+          <FILE id="h5k6Xf" name="NodeGridItem.cpp" compile="1" resource="0"
+                file="Source/NodeGrid/Model/NodeGridItem.cpp"/>
+          <FILE id="mN7FT5" name="NodeGridItem.h" compile="0" resource="0" file="Source/NodeGrid/Model/NodeGridItem.h"/>
+          <FILE id="oh4u5L" name="NodeGridWire.cpp" compile="1" resource="0"
+                file="Source/NodeGrid/Model/NodeGridWire.cpp"/>
+          <FILE id="HHamCa" name="NodeGridWire.h" compile="0" resource="0" file="Source/NodeGrid/Model/NodeGridWire.h"/>
+        </GROUP>
         <GROUP id="{49E44DD9-B16E-E06D-D100-4B9BDDE3B059}" name="View">
           <FILE id="Sbnel9" name="NodeGridView.cpp" compile="1" resource="0"
                 file="Source/NodeGrid/View/NodeGridView.cpp"/>
@@ -27,22 +37,6 @@
           <FILE id="YSMcd0" name="NodeGridWireView.h" compile="0" resource="0"
                 file="Source/NodeGrid/View/NodeGridWireView.h"/>
         </GROUP>
-        <GROUP id="{AF961D6D-38FD-1265-46CA-19B03878C7EB}" name="ViewModel">
-          <FILE id="M2IhSp" name="NodeGrid.cpp" compile="1" resource="0" file="Source/NodeGrid/ViewModel/NodeGrid.cpp"/>
-          <FILE id="fTbYYK" name="NodeGrid.h" compile="0" resource="0" file="Source/NodeGrid/ViewModel/NodeGrid.h"/>
-          <FILE id="YMkOmG" name="NodeGridItem.cpp" compile="1" resource="0"
-                file="Source/NodeGrid/ViewModel/NodeGridItem.cpp"/>
-          <FILE id="iHSw82" name="NodeGridItem.h" compile="0" resource="0" file="Source/NodeGrid/ViewModel/NodeGridItem.h"/>
-          <FILE id="dKkNjd" name="NodeGridWire.cpp" compile="1" resource="0"
-                file="Source/NodeGrid/ViewModel/NodeGridWire.cpp"/>
-          <FILE id="u6VBGg" name="NodeGridWire.h" compile="0" resource="0" file="Source/NodeGrid/ViewModel/NodeGridWire.h"/>
-        </GROUP>
-      </GROUP>
-      <GROUP id="{31FD6C8C-56DD-3215-F275-7A36FDAB8651}" name="Model">
-        <FILE id="C4XEYQ" name="BlueprintUiGlobals.h" compile="0" resource="0"
-              file="Source/Model/BlueprintUiGlobals.h"/>
-        <FILE id="WVeSq0" name="EngineUi.cpp" compile="1" resource="0" file="Source/Model/EngineUi.cpp"/>
-        <FILE id="KEfKdP" name="EngineUi.h" compile="0" resource="0" file="Source/Model/EngineUi.h"/>
       </GROUP>
       <GROUP id="{7E99A221-AD47-D736-6AA4-51500C5933A5}" name="Main">
         <FILE id="j0Xzqb" name="DesignerWindowComponent.cpp" compile="1" resource="0"
@@ -57,6 +51,12 @@
               file="Source/Main/OutputSimulationView.cpp"/>
         <FILE id="gftXIp" name="OutputSimulationView.h" compile="0" resource="0"
               file="Source/Main/OutputSimulationView.h"/>
+      </GROUP>
+      <GROUP id="{6363C1F2-3176-B5E2-5D42-3CDC5B26D681}" name="Common">
+        <FILE id="tkTRkV" name="BlueprintUiGlobals.h" compile="0" resource="0"
+              file="Source/Common/BlueprintUiGlobals.h"/>
+        <FILE id="yNMByT" name="EngineUi.cpp" compile="1" resource="0" file="Source/Common/EngineUi.cpp"/>
+        <FILE id="wrkeBE" name="EngineUi.h" compile="0" resource="0" file="Source/Common/EngineUi.h"/>
       </GROUP>
     </GROUP>
   </MAINGROUP>
