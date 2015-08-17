@@ -40,6 +40,10 @@ CPM_AddModule("CppReact"
  EXPORT_MODULE TRUE
  )
 
+CPM_AddModule("cereal"
+ SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs/cereal"
+ )
+
 CPM_Finish()
 
 find_package(Boost REQUIRED)
@@ -100,4 +104,4 @@ foreach(subdir ${LIB_HEADER_DIRS} ${CPM_INCLUDE_DIRS})
   set(EXPORT_HEADERS ${EXPORT_HEADERS} ${temp})
 endforeach()
 
-file(COPY ${EXPORT_HEADERS} DESTINATION ext_include FILES_MATCHING PATTERN *.h PATTERN *.tpp)
+file(COPY ${EXPORT_HEADERS} DESTINATION ext_include FILES_MATCHING PATTERN *.h PATTERN *.tpp PATTERN *.hpp)
