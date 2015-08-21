@@ -44,6 +44,10 @@ CPM_AddModule("cereal"
  SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs/cereal"
  )
 
+CPM_AddModule("RxCpp"
+ SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs/RxCpp"
+ )
+
 CPM_Finish()
 
 find_package(Boost REQUIRED)
