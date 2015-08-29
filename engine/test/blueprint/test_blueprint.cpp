@@ -1,4 +1,4 @@
-#include "app.h"
+#include "catch/catch.hpp"
 
 #include "color.h"
 #include "constant_color_node.h"
@@ -16,36 +16,32 @@
 #include "blueprint.h"
 #include "node_registrar.h"
 
-int main()
-{
-  cout << "start" << endl;
-
+SCENARIO("using blueprint") {
   FrameContext frame {nanoseconds(100)};
 
   ConstantColorNode c;
-  cout << c.calculate(frame) << endl;
+  REQUIRE(c.calculate(frame) == Color(0xff0000ff));
 
   ColorDoubler colorDoubler;
   c.getOutput("output")->wireOutput(*colorDoubler.getInput("color"));
-  cout << colorDoubler.calculate(frame) << endl;
-  
-  SquareWave sq;
+  REQUIRE(colorDoubler.calculate(frame) == Color(0xfe0001fe));
 
-  cout << sq.calculate(frame) << endl;
+  SquareWave sq;
+  REQUIRE(sq.calculate(frame) == 0);
 
   Incrementer incr;
   colorDoubler.getOutput("output")->wireOutput(*incr.getInput("color"));
-  cout << incr.calculate(frame) << endl;
+  REQUIRE(incr.calculate(frame) == Color(0xfe0001fe));
 
   incr.update(frame);
-  cout << incr.calculate(frame) << endl;
+  REQUIRE(incr.calculate(frame) == Color(0xfe0002fe));
 
   incr.update(frame);
-  cout << incr.calculate(frame) << endl;
+  REQUIRE(incr.calculate(frame) == Color(0xfe0003fe));
 
 
   NodeRegistrar nodeRegistrar;
-  cout << nodeRegistrar.getAvailableNodeNames()[0] << endl;
+  nodeRegistrar.getAvailableNodeNames()[0];
 
 
   auto blueprint = make_shared<Blueprint>();
@@ -65,6 +61,4 @@ int main()
   
   Engine engine(blueprint, move(model));
   engine.startAndWait();
- 
-  return 0;
- }
+}

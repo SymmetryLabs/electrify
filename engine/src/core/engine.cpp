@@ -32,7 +32,7 @@ void Engine::start()
 
 void Engine::startAndWait()
 {
-    shouldStopAfter2Seconds = true;
+    shouldStopAfter1Second = true;
     start();
     wait();
 }
@@ -99,7 +99,7 @@ void Engine::loop()
         // auto wakeupOffBy = high_resolution_clock::now() - nextFrameTime;
         // cout << "cycle " << duration_cast<nanoseconds>(wakeupOffBy).count() << endl;
 
-        if (shouldStopAfter2Seconds && currentFrameNumber > 100) {
+        if (shouldStopAfter1Second && currentFrameNumber > 30) {
             stop();
         }
 

@@ -11,6 +11,9 @@ public:
     void fromHSV(double h, double s, double v);
     void fromRGBA(unsigned long int rgba) {_rgba = rgba;};
 
+    bool operator==(const Color& other) const;
+    bool operator!=(const Color& other) const;
+
 private:
     unsigned long int _rgba =0;
 

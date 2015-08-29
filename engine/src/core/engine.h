@@ -53,7 +53,7 @@ private:
     atomic_bool isRunning;
 
     bool profilingEnabled = false;
-    bool shouldStopAfter2Seconds = false;
+    bool shouldStopAfter1Second = false;
 
     boost::lockfree::queue<function<void()>*> internalEventQueue;
 
