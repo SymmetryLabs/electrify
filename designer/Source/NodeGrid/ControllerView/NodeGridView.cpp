@@ -13,56 +13,26 @@
 #include "NodeListView.h"
 
 //==============================================================================
-NodeGridView::NodeGridView(NodeGrid* nodeGrid_)
+NodeGridView::NodeGridView(NodeGrid& nodeGrid_)
+: nodeGrid(nodeGrid_)
 {
-    this->nodeGrid <<= nodeGrid_;
+    setWantsKeyboardFocus(true);
     
-    observeWithStart(nodeGrid, [this] (NodeGrid* nodeGrid) {
-        removeAllGridItems();
-        removeAllGridWireViews();
-        if (nodeGrid != nullptr) {
-            for (const auto& gridItem : nodeGrid->gridItems) {
-                addWithGridItem(gridItem.get());
-            }
-            for (const auto& gridWire : nodeGrid->gridWires) {
-                addViewWithGridWire(gridWire.get());
-            }
-            resetZOrdering();
-        }
+    nodeGrid.gridItems.makeSlave(gridItemViews, [this] (const shared_ptr<NodeGridItem>& gridItem) {
+        auto gridItemView = make_shared<NodeGridItemView>(*gridItem, nodeGrid);
+        addAndMakeVisible(gridItemView.get());
+        return gridItemView;
+    });
+    nodeGrid.gridWires.makeSlave(gridWireViews, [this] (const shared_ptr<NodeGridWire>& gridWire) {
+        return makeGridWireViewFromGridWire(*gridWire.get());
     });
     
-    observeWithCapture(REACTIVE_PTR(nodeGrid, gridItems.valueAdded), [this] (const pair<size_t, reference_wrapper<shared_ptr<NodeGridItem>>>& p) {
-        addWithGridItem(p.second.get().get());
-    });
+    resetZOrdering();
+    addKeyListener(&nodeGrid.selectionController);
     
-    observeWithCapture(REACTIVE_PTR(nodeGrid, gridItems.valueRemoved), [this] (const pair<size_t, shared_ptr<NodeGridItem>>& p) {
-        removeWithGridItem(p.second.get());
-    });
-    
-    observeWithCapture(REACTIVE_PTR(nodeGrid, gridWires.valueAdded), [this] (const pair<size_t, reference_wrapper<shared_ptr<NodeGridWire>>>& p) {
-        addViewWithGridWire(p.second.get().get());
-    });
-    
-    observeWithCapture(REACTIVE_PTR(nodeGrid, gridWires.valueRemoved), [this] (const pair<size_t, shared_ptr<NodeGridWire>>& p) {
-        removeViewWithGridWire(p.second.get());
-    });
-    
-    observeWithCapture(REACTIVE_PTR(nodeGrid, nodeGridCoordinator.draggingWire), [this] (const shared_ptr<NodeGridWire>& draggingWire) {
+    observe(nodeGrid.draggingWire, [this] (const shared_ptr<NodeGridWire>& draggingWire) {
         if (draggingWire) {
-            NodeGridItemView* emittingGridItem = nullptr;
-            NodeGridItemView* receivingGridItem = nullptr;
-            SignalView* emittingSignalView = nullptr;
-            SignalView* receivingSignalView = nullptr;
-            if (draggingWire->emittingGridItem) {
-                emittingGridItem = gridItemViewWithGridItem(*draggingWire->emittingGridItem);
-                emittingSignalView = emittingGridItem->signalViewFromSignal(draggingWire->emittingSocket);
-            }
-            if (draggingWire->receivingGridItem) {
-                receivingGridItem = gridItemViewWithGridItem(*draggingWire->receivingGridItem);
-                receivingSignalView = receivingGridItem->signalViewFromSignal(draggingWire->receivingSocket);
-            }
-            draggingWireView = make_unique<NodeGridWireView>(*draggingWire, emittingSignalView, emittingGridItem, receivingSignalView, receivingGridItem);
-            addAndMakeVisible(draggingWireView.get());
+            makeGridWireViewFromGridWire(*draggingWire.get());
         } else if (draggingWireView) {
             removeChildComponent(draggingWireView.get());
             draggingWireView = nullptr;
@@ -70,46 +40,35 @@ NodeGridView::NodeGridView(NodeGrid* nodeGrid_)
     });
 }
 
-void NodeGridView::addWithGridItem(NodeGridItem* gridItem)
+shared_ptr<NodeGridWireView> NodeGridView::makeGridWireViewFromGridWire(NodeGridWire& nodeGridWire)
 {
-    gridItems.push_back(make_unique<NodeGridItemView>(*gridItem, nodeGrid.Value()->nodeGridCoordinator));
-    addAndMakeVisible(gridItems.back().get());
+    NodeGridItemView* emittingGridItem = nullptr;
+    NodeGridItemView* receivingGridItem = nullptr;
+    SignalView* emittingSignalView = nullptr;
+    SignalView* receivingSignalView = nullptr;
+    if (nodeGridWire.emittingGridSocket) {
+        emittingGridItem = gridItemViewForGridSocket(*nodeGridWire.emittingGridSocket);
+        emittingSignalView = emittingGridItem->signalViewFromSignal(*nodeGridWire.emittingGridSocket);
+    }
+    if (nodeGridWire.receivingGridSocket) {
+        receivingGridItem = gridItemViewForGridSocket(*nodeGridWire.receivingGridSocket);
+        receivingSignalView = receivingGridItem->signalViewFromSignal(*nodeGridWire.receivingGridSocket);
+    }
+    auto gridWireView = make_shared<NodeGridWireView>(nodeGridWire, emittingSignalView, emittingGridItem, receivingSignalView, receivingGridItem);
+    addAndMakeVisible(gridWireView.get());
+    return gridWireView;
 }
 
-void NodeGridView::removeWithGridItem(NodeGridItem* gridItem)
+NodeGridItemView* NodeGridView::gridItemViewForGridSocket(const NodeGridSocket& gridSocket) const
 {
-}
-
-void NodeGridView::removeAllGridItems()
-{
-}
-
-NodeGridItemView* NodeGridView::gridItemViewWithGridItem(NodeGridItem& gridItem)
-{
-    for (auto& gridItemView : gridItems) {
-        if (&gridItemView->nodeGridItem == &gridItem) {
-            return gridItemView.get();
+    if (auto gridItem = gridSocket.gridItem) {
+        for (const auto& gridItemView : gridItemViews) {
+            if (&gridItemView->nodeGridItem == gridItem) {
+                return gridItemView.get();
+            }
         }
     }
     return nullptr;
-}
-
-void NodeGridView::addViewWithGridWire(NodeGridWire* gridWire)
-{
-    NodeGridItemView* emittingGridItem = gridItemViewWithGridItem(*gridWire->emittingGridItem);
-    NodeGridItemView* receivingGridItem = gridItemViewWithGridItem(*gridWire->receivingGridItem);
-    SignalView* emittingSignalView = emittingGridItem->signalViewFromSignal(gridWire->emittingSocket);
-    SignalView* receivingSignalView = receivingGridItem->signalViewFromSignal(gridWire->receivingSocket);
-    gridWireViews.push_back(make_unique<NodeGridWireView>(*gridWire, emittingSignalView, emittingGridItem, receivingSignalView, receivingGridItem));
-    addAndMakeVisible(gridWireViews.back().get());
-}
-
-void NodeGridView::removeViewWithGridWire(NodeGridWire* gridWire)
-{
-}
-
-void NodeGridView::removeAllGridWireViews()
-{
 }
 
 void NodeGridView::resetZOrdering()
@@ -166,7 +125,7 @@ void NodeGridView::itemDropped (const SourceDetails& dragSourceDetails)
             for (int i = 0; i < description.size(); i++) {
                 string name = description[i].toString().toStdString();
                 cout << "Added " << name << endl;
-                nodeGrid.Value()->addNode(name, dragSourceDetails.localPosition.x, dragSourceDetails.localPosition.y);
+                nodeGrid.addNode(name, dragSourceDetails.localPosition.x, dragSourceDetails.localPosition.y);
             }
         }
     }

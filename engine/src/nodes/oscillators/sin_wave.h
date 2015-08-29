@@ -6,7 +6,7 @@
 class SinWave : public Waveform {
 
 public:
-    static const string nodeName() { return "Sin wave"; }
+    SinWave();
     
     float calculate(const FrameContext& frame) const override;
 

@@ -35,11 +35,6 @@ CPM_AddModule("jsoncpp"
  EXPORT_MODULE TRUE
  )
 
-CPM_AddModule("CppReact"
- SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs/CppReact"
- EXPORT_MODULE TRUE
- )
-
 CPM_AddModule("cereal"
  SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs/cereal"
  )
@@ -72,6 +67,9 @@ file(GLOB HEADER_DIRS
   "src/nodes/oscillators"
   "src/nodes/transforms"
   "src/utils"
+  "src/utils/data_proxy"
+  "src/utils/event_queue"
+  "src/utils/reactive"
 )
 
 file(GLOB LIB_HEADER_DIRS
@@ -82,6 +80,7 @@ file(GLOB_RECURSE SRCS
   "src/*.cpp"
   "src/*.h"
   "src/*.tpp"
+  "src/*.hpp"
   "libs/FastLED/*.cpp"
   "libs/FastLED/*.h"
 )
@@ -92,6 +91,7 @@ include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 include_directories(SYSTEM ${LIB_HEADER_DIRS})
 include_directories(${HEADER_DIRS})
 
+set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden -fvisibility-inlines-hidden")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 add_library(SymmetryEngine STATIC ${SRCS})

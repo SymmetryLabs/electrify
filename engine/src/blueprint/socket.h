@@ -10,10 +10,13 @@ public:
     explicit BaseSocket(type_index type_) : type(type_) {}
     virtual ~BaseSocket() {}
 
+    operator BaseSignal() const;
+
     virtual bool hasSignal() const = 0;
     virtual bool acceptsSignal(const BaseSignal& signal) const;
     virtual void setSignal(BaseSignal* signal) = 0;
     void addContextModifier(ContextModifierChain& contextModifierChain);
+    void removeContextModifier(ContextModifierChain& contextModifierChain);
 
     const type_index type;
 

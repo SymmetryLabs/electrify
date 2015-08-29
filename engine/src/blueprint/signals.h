@@ -29,7 +29,7 @@ public:
 
     template <typename C>
     FunctionSignal(V (C::* calculate_function_)(const FrameContext& frame) const, void* inst)
-        :calculate_function(bind(mem_fn(calculate_function_), (C*)inst, placeholders::_1))
+        :calculate_function(bind(mem_fn(calculate_function_), static_cast<C*>(inst), placeholders::_1))
     {}
     virtual ~FunctionSignal() {}
 

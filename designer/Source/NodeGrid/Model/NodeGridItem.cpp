@@ -2,23 +2,37 @@
 
 #include "NodeGrid.h"
 
-NodeGridItem::NodeGridItem(NodeProxy<EngineUiDomain>* node, NodeGrid& nodeGrid)
-    : node(node)
-    , x(MakeVar<EngineUiDomain, float>(0))
-    , y(MakeVar<EngineUiDomain, float>(0))
-    , selected(MakeVar<EngineUiDomain, bool>(false))
-    , nodeGrid(nodeGrid)
+NodeGridItem::NodeGridItem(NodeProxy& node, NodeGrid& nodeGrid)
+: Selectable(&nodeGrid)
+, node(node)
+, nodeGrid(nodeGrid)
 {
-    // TODO: load persisted x,y for node
+    node.inputs.makeSlave(inputs, nodeGrid, this);
+    node.outputs.makeSlave(outputs, nodeGrid, this);
+}
+
+NodeGridSocket* NodeGridItem::gridSocketForNodeSignal(NodeSignalProxy& nodeSignal)
+{
+    for (auto& input : inputs) {
+        if (&input->nodeSignal == &nodeSignal) {
+            return input.get();
+        }
+    }
+    for (auto& output : outputs) {
+        if (&output->nodeSignal == &nodeSignal) {
+            return output.get();
+        }
+    }
+    return nullptr;
 }
 
 void NodeGridItem::setPos(float x_, float y_)
 {
-    x <<= x_;
-    y <<= y_;
+    x << x_;
+    y << y_;
 }
 
-void NodeGridItem::setSelected(bool selected)
+void NodeGridItem::deleteSelectable()
 {
-    nodeGrid.setSelectedNode(*this, selected);
+    nodeGrid.removeNode(*this);
 }

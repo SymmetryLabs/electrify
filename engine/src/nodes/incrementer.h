@@ -7,8 +7,6 @@ class Incrementer : public BasicNode<Color> {
 
 public:
     Incrementer();
-
-    static const string nodeName() { return "Incrementer"; }
     
     virtual void init();
     virtual void update(const FrameContext& frame) override;

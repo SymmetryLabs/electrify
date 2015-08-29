@@ -1,5 +1,10 @@
 #include "saw_wave.h"
 
+SawWave::SawWave()
+: Waveform("Sawtooth wave")
+{
+}
+
 float SawWave::calculate(const FrameContext& frame) const
 {
     float unused;

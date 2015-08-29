@@ -8,7 +8,7 @@ template <typename V>
 class BasicNode : public Node {
 
 public:
-    BasicNode();
+    explicit BasicNode(const string& name);
     virtual ~BasicNode() {}
 
     virtual V calculate(const FrameContext& frame) const = 0;

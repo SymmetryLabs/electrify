@@ -7,11 +7,16 @@
 #include "data_proxy.h"
 #include "node_wire.h"
 #include "node_socket.h"
+#include "node_signal.h"
+#include "proxyable.h"
 
-class CompoundNode : public Node {
+class CompoundNodeProxy;
+
+class CompoundNode : public Node, public Proxyable {
 
 public:
-    static const string nodeName() { return "Compound Node"; }
+    explicit CompoundNode(const string& name = "Compound Node");
+    virtual ~CompoundNode() {}
 
     virtual void init() override;
     virtual void deinit() override;
@@ -26,45 +31,46 @@ public:
 
     Node* getSubnodeByUuid(boost::uuids::uuid uuid);
 
-    bool canWireSubnodes(Node& emittingSubnode, const string& emittingOutputName,
-        Node& receivingSubnode, const string& receivingInputName);
-    void wireSubnodes(Node& emittingSubnode, const string& emittingOutputName,
-        Node& receivingSubnode, const string& receivingInputName);
-    void wireSubnodes(const NodeSocket& emittingSocket, const NodeSocket& receivingSocket);
-    void unwireSubnodes(Node& emittingSubnode, const string& emittingOutputName,
-        Node& receivingSubnode, const string& receivingInputName);
+    // bool canWireSubnodes(Node& emittingSubnode, const string& emittingOutputName,
+    //     Node& receivingSubnode, const string& receivingInputName);
+    void wireSubnodes(NodeSignal& emittingSignal, NodeSocket& receivingSocket);
+    void unwireSubnode(Node& subnode);
+    void removeWire(NodeWire& wire);
 
     template <typename V>
-    Socket<V>* registerWirableOutput(const string& name);
+    void registerWirableOutput(const string& name, SignalFunction<V>* inputAddr, const V defaultValue = V());
+    template <typename V>
+    void registerWirableOutput(const string& name, const V defaultValue = V());
 
-    BaseSocket* getWirableOutput(const string& name);
-    void wireOutput(const string& name,
-        Node& emittingSubnode, const string& emittingOutputName);
+    NodeSocket* getWirableOutput(const string& name);
+    void wireOutput(const string& name, NodeSignal& emittingSignal);
 
-    ObservableVector<EngineDomain, shared_ptr<Node>> subnodes;
-    ObservableVector<EngineDomain, NodeWire> nodeWires;
+    ObservableVector<shared_ptr<Node>> subnodes;
+    ObservableVector<shared_ptr<NodeWire>> nodeWires;
 
 private:
-    unordered_map<string, BaseSocket*> wirableOutputs;
+    unordered_map<string, NodeSocket*> wirableOutputs;
 
-    template<typename T>
-    friend class CompoundNodeProxy;
+    SYNTHESIZE_PROXYABLE(CompoundNodeProxy);
 
 };
 
-template<typename Domain>
-class CompoundNodeProxy : public NodeProxy<Domain> {
+class CompoundNodeProxy : public NodeProxy {
 
 public:
     CompoundNodeProxy(shared_ptr<CompoundNode> master, ProxyBridge& proxyBridge)
-        : NodeProxy<Domain>(master, proxyBridge)
+    : NodeProxy(master, proxyBridge)
+    {}
+
+    void init(shared_ptr<CompoundNode> master, ProxyBridge& proxyBridge)
     {
-        master->subnodes.makeProxySlave<Domain, NodeProxy<Domain>>(subnodes, proxyBridge);
-        master->nodeWires.makeProxySlave<Domain>(nodeWires, proxyBridge);
+        NodeProxy::init(master, proxyBridge);
+        master->subnodes.makeProxySlave(subnodes, proxyBridge);
+        master->nodeWires.makeProxySlave(nodeWires, proxyBridge);
     }
 
-    ObservableVector<Domain, shared_ptr<NodeProxy<Domain>>, EngineDomain> subnodes;
-    ObservableVector<Domain, NodeWire, EngineDomain> nodeWires;
+    ObservableVector<shared_ptr<NodeProxy>> subnodes;
+    ObservableVector<shared_ptr<NodeWireProxy>> nodeWires;
 
     void addSubnode(const string& name, function<void(size_t)> response)
     {
@@ -74,18 +80,30 @@ public:
             response(pos);
         });
     }
-
-    void wireSubnodes(const NodeSocket& emittingSocket, const NodeSocket& receivingSocket)
+    
+    void removeSubnode(const NodeProxy& node)
     {
-        this->template sendCommand<CompoundNode>([=] (shared_ptr<CompoundNode> compoundNode) {
-            return compoundNode->wireSubnodes(emittingSocket, receivingSocket);
-        });
+        this->template sendCommand<CompoundNode, Node>(
+            [] (shared_ptr<CompoundNode> compoundNode, shared_ptr<Node> node) {
+            compoundNode->removeSubnode(node.get());
+        }, node);
+    }
+
+    void wireSubnodes(const NodeSignalProxy& emittingSignal, const NodeSocketProxy& receivingSocket)
+    {
+        this->template sendCommand<CompoundNode, NodeSignal, NodeSocket>(
+            [] (shared_ptr<CompoundNode> compoundNode, shared_ptr<NodeSignal> emittingSignal, shared_ptr<NodeSocket> receivingSocket) {
+            compoundNode->wireSubnodes(*emittingSignal.get(), *receivingSocket.get());
+        }, emittingSignal, receivingSocket);
+    }
+    
+    void removeWire(const NodeWireProxy& nodeWire)
+    {
+        this->template sendCommand<CompoundNode, NodeWire>(
+            [] (shared_ptr<CompoundNode> compoundNode, shared_ptr<NodeWire> nodeWire) {
+            compoundNode->removeWire(*nodeWire.get());
+        }, nodeWire);
     }
 };
-
-template<typename Domain>
-shared_ptr<CompoundNodeProxy<Domain>> makeProxy(shared_ptr<CompoundNode> object, ProxyBridge& proxyBridge) {
-    return make_shared<CompoundNodeProxy<Domain>>(object, proxyBridge);
-}
 
 #include "compound_node.tpp"

@@ -3,17 +3,42 @@
 
 #include <boost/uuid/uuid.hpp>
 
-// enum class NodeSocketDirection { INPUT, OUTPUT };
+#include "data_proxy.h"
+#include "proxyable.h"
+#include "signals.h"
+#include "socket.h"
+#include "node_signal.h"
 
-class NodeSocket {
+class NodeSocketProxy;
+
+class NodeSocket : public NodeSignal, public Proxyable {
 
 public:
-    NodeSocket() {}
-    NodeSocket(boost::uuids::uuid nodeUuid, string socketName);
- 
-    boost::uuids::uuid nodeUuid;
-    string socketName;
+    NodeSocket(Node& node, const string& name, unique_ptr<BaseSocket>&& socket);
+    virtual ~NodeSocket() {}
 
-    // NodeSocketDirection direction;
+    virtual void wireInput(BaseSignal& sourceSignal);
+    virtual void unwireInput(BaseSignal& sourceSignal);
 
+    virtual void registerContextModifier(ContextModifierChain& contextModifier);
+    virtual void unregisterContextModifier(ContextModifierChain& contextModifier);
+
+protected:
+    virtual BaseSignal* getSignal() const override;
+
+private:
+
+    unique_ptr<BaseSocket> socket;
+
+    SYNTHESIZE_PROXYABLE(NodeSocketProxy);
+
+};
+
+class NodeSocketProxy : public NodeSignalProxy {
+
+public:
+    NodeSocketProxy(shared_ptr<NodeSocket> master, ProxyBridge& proxyBridge)
+    : NodeSignalProxy(master, proxyBridge)
+    {
+    }
 };

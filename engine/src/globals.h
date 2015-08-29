@@ -11,21 +11,13 @@
 #include <typeindex>
 #include <vector>
 
-#include "react/Domain.h"
-#include "react/Signal.h"
-#include "react/Event.h"
-#include "react/Algorithm.h"
-
 using namespace std;
 using namespace chrono;
-using namespace react;
 
 #include "container_utils.h"
+#include "smart_ptr_utils.h"
+#include "template_utils.h"
 
-template<typename T, typename ...Args>
-std::unique_ptr<T> make_unique( Args&& ...args )
-{
-        return std::unique_ptr<T>( new T( std::forward<Args>(args)... ) );
-}
+#include "reactive.h"
 
-REACTIVE_DOMAIN(EngineDomain, sequential)
+#define printFunction std::cout << __PRETTY_FUNCTION__ << std::endl;

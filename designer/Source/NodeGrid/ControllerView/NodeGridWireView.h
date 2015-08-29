@@ -20,9 +20,8 @@
 //==============================================================================
 /*
 */
-class NodeGridWireView    : public Component, ComponentListener, Observes<EngineUiDomain>
+class NodeGridWireView : public Component, ComponentListener, Observes
 {
-    USING_REACTIVE_DOMAIN(EngineUiDomain)
     
 public:
     NodeGridWireView(NodeGridWire& nodeGridWire, Component* emittingComponent, Component* emittingParentComponent, Component* receivingComponent, Component* receivingParentComponent);

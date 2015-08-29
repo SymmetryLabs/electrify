@@ -28,9 +28,9 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-SignalView::SignalView (const NodeSocket& socket, NodeGridCoordinator& nodeGridCoordinator, NodeGridItem& nodeGridItem)
+SignalView::SignalView (NodeGridSocket& socket, NodeGrid& nodeGrid, NodeGridItem& nodeGridItem)
     : socket(socket),
-      nodeGridCoordinator(nodeGridCoordinator),
+      nodeGrid(nodeGrid),
       nodeGridItem(nodeGridItem)
 {
     //[Constructor_pre] You can add your own custom stuff here..
@@ -105,7 +105,7 @@ void SignalView::mouseDown (const MouseEvent& e)
 {
     //[UserCode_mouseDown] -- Add your code here...
     dragStarted = true;
-    nodeGridCoordinator.draggingWireStarted(nodeGridItem, socket);
+    nodeGrid.draggingWireStarted(nodeGridItem, socket);
     lastHover = this;
     hovering = true;
     //[/UserCode_mouseDown]
@@ -117,7 +117,7 @@ void SignalView::mouseDrag (const MouseEvent& e)
     if (dragStarted) {
         NodeGridView* nodeGridView = findParentComponentOfClass<NodeGridView>();
         Point<int> p = nodeGridView->getLocalPoint(this, e.getPosition());
-        nodeGridCoordinator.draggingWireMoved(p);
+        nodeGrid.draggingWireMoved(p);
 
         Component* component = nodeGridView->getComponentAt(p);
         SignalView* signalView = dynamic_cast<SignalView*>(component);
@@ -150,7 +150,7 @@ void SignalView::mouseUp (const MouseEvent& e)
         Component* component = nodeGridView->getComponentAt(p);
         SignalView* signalView = dynamic_cast<SignalView*>(component);
         if (signalView) {
-            nodeGridCoordinator.draggingWireEnded(signalView->nodeGridItem, signalView->socket);
+            nodeGrid.draggingWireEnded(signalView->nodeGridItem, signalView->socket);
         }
     }
     //[/UserCode_mouseUp]
@@ -172,8 +172,8 @@ void SignalView::mouseUp (const MouseEvent& e)
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="SignalView" componentName=""
-                 parentClasses="public Component" constructorParams="const NodeSocket&amp; socket, NodeGridCoordinator&amp; nodeGridCoordinator, NodeGridItem&amp; nodeGridItem"
-                 variableInitialisers="socket(socket),&#10;nodeGridCoordinator(nodeGridCoordinator),&#10;nodeGridItem(nodeGridItem)"
+                 parentClasses="public Component" constructorParams="NodeGridSocket&amp; socket, NodeGrid&amp; nodeGrid, NodeGridItem&amp; nodeGridItem"
+                 variableInitialisers="socket(socket),&#10;nodeGrid(nodeGrid),&#10;nodeGridItem(nodeGridItem)"
                  snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
                  fixedSize="1" initialWidth="10" initialHeight="10">
   <METHODS>

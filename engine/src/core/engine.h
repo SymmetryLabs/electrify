@@ -20,8 +20,6 @@ constexpr static nanoseconds TIME_PER_FRAME {duration_cast<nanoseconds>(seconds{
  */
 class Engine {
 
-    USING_REACTIVE_DOMAIN(EngineDomain)
-
 public:
     Engine(shared_ptr<Renderable> renderable, unique_ptr<Model> model);
     virtual ~Engine();
@@ -43,8 +41,8 @@ public:
     shared_ptr<Renderable> getRenderable() { return renderable; }
     Model* getModel() { return model.get(); }
 
-    EventSourceT<> preFrameUpdateEvent = MakeEventSource<EngineDomain>();
-    EventSourceT<> postFrameUpdateEvent = MakeEventSource<EngineDomain>();
+    Event<> preFrameUpdateEvent;
+    Event<> postFrameUpdateEvent;
 
 private:
     std::shared_ptr<Renderable> renderable;

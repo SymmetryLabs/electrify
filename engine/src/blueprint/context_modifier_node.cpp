@@ -1,39 +1,61 @@
 #include "context_modifier_node.h"
 
-void ContextModifierNode::wireInput(const string& name, BaseSignal& signal)
+ContextModifierNode::ContextModifierNode(const string& name)
+: Node(name)
+, nodeSocket(make_shared<ContextModifierNodeSocket>(*this, name))
 {
-    sourceSignal = &signal;
+    registerInput(name, nodeSocket);
+    registerOutput(name, nodeSocket);
+}
+
+ContextModifierNode::ContextModifierNodeSocket::ContextModifierNodeSocket(ContextModifierNode& node, const string& name)
+: NodeSocket(node, name, nullptr)
+, contextModifierNode(bind(
+    mem_fn(&ContextModifierNode::modifyContext), &node, placeholders::_1))
+{
+}
+
+void ContextModifierNode::ContextModifierNodeSocket::wireInput(BaseSignal& sourceSignal)
+{
+    this->sourceSignal = &sourceSignal;
     completeWiringIfNeeded();
 }
 
-void ContextModifierNode::registerContextModifier(const string& name,
-    ContextModifierChain& contextModifier)
+void ContextModifierNode::ContextModifierNodeSocket::unwireInput(BaseSignal& sourceSignal)
 {
-    contextModifierNode.nextModifierNode = &contextModifier;
+    unwireIfNeeded();
+    this->sourceSignal = nullptr;
 }
 
-void ContextModifierNode::wireOutputTo(const string& emittingOutputName,
-    Node& receivingSubnode, const string& receivingInputName)
+void ContextModifierNode::ContextModifierNodeSocket::wireOutput(NodeSocket& destinationNodeSocket)
 {
-    destinationSubnode = &receivingSubnode;
-    destinationInputName = receivingInputName;
+    this->destinationNodeSocket = &destinationNodeSocket;
     completeWiringIfNeeded();
 }
 
-void ContextModifierNode::wireOutputTo(const string& emittingOutputName,
-    BaseSocket& receivingSocket)
+void ContextModifierNode::ContextModifierNodeSocket::unwireOutput(NodeSocket& destinationNodeSocket)
 {
-    destinationSocket = &receivingSocket;
-    completeWiringIfNeeded();
+    unwireIfNeeded();
+    this->destinationNodeSocket = nullptr;
 }
 
-void ContextModifierNode::completeWiringIfNeeded()
+void ContextModifierNode::ContextModifierNodeSocket::completeWiringIfNeeded()
 {
-    if (sourceSignal && destinationSubnode) {
-        destinationSubnode->wireInput(destinationInputName, *sourceSignal);
-        destinationSubnode->registerContextModifier(destinationInputName, contextModifierNode);
-    } else if (sourceSignal && destinationSocket) {
-        destinationSocket->setSignal(sourceSignal);
-        destinationSocket->addContextModifier(contextModifierNode);
+    if (sourceSignal && destinationNodeSocket) {
+        destinationNodeSocket->wireInput(*sourceSignal);
+        destinationNodeSocket->registerContextModifier(contextModifierNode);
     }
+}
+
+void ContextModifierNode::ContextModifierNodeSocket::unwireIfNeeded()
+{
+    if (sourceSignal && destinationNodeSocket) {
+        destinationNodeSocket->unwireInput(*sourceSignal);
+        destinationNodeSocket->unregisterContextModifier(contextModifierNode);
+    }
+}
+
+void ContextModifierNode::ContextModifierNodeSocket::registerContextModifier(ContextModifierChain& contextModifier)
+{
+    this->contextModifierNode.nextModifierNode = &contextModifier;
 }

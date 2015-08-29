@@ -9,7 +9,7 @@ public:
     NodeRegistrar();
 
     template<typename ClassType>
-    void registerNode();
+    void registerNode(const string& name);
 
     vector<string> getAvailableNodeNames() const;
     size_t getAvailableNodeCount() const;

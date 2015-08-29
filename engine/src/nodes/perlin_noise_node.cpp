@@ -1,6 +1,7 @@
 #include "perlin_noise_node.h"
 
 PerlinNoiseNode::PerlinNoiseNode()
+: BasicNode<float>("Perlin noise")
 {
     registerInput("xInput", &xInput);
     registerInput("yInput", &yInput);

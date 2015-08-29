@@ -19,22 +19,21 @@
 #include "NodeGridItem.h"
 #include "SignalView.h"
 #include "NodeGrid.h"
-#include "NodeGridCoordinator.h"
 
 //==============================================================================
 /*
 */
-class NodeGridItemView    : public Component, public Observes<EngineUiDomain>
+class NodeGridItemView : public Component, public Observes
 {
 public:
-    NodeGridItemView(NodeGridItem& nodeGridItem, NodeGridCoordinator& nodeGridCoordinator);
+    NodeGridItemView(NodeGridItem& nodeGridItem, NodeGrid& nodeGrid);
     
     void setPos(Point<int> pos);
     
     NodeGridItem& nodeGridItem;
-    NodeGridCoordinator& nodeGridCoordinator;
+    NodeGrid& nodeGrid;
     
-    SignalView* signalViewFromSignal(const NodeSocket& socket);
+    SignalView* signalViewFromSignal(const NodeGridSocket& gridSocket) const;
     
     void paint(Graphics&) override;
     void resized() override;
@@ -48,9 +47,9 @@ private:
     vector<unique_ptr<SignalView>> signalViews;
     
     ComponentDragger dragger;
-    bool dragStarted;
+    bool dragStarted = false;
     
-    bool focused;
+    bool focused = false;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NodeGridItemView)
 };

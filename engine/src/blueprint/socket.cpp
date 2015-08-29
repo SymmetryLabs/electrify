@@ -1,5 +1,10 @@
 #include "socket.h"
 
+BaseSocket::operator BaseSignal() const
+{
+    return static_cast<BaseSignal>(*this);
+}
+
 bool BaseSocket::acceptsSignal(const BaseSignal& signal) const
 {
     return type == signal.type;
@@ -8,6 +13,11 @@ bool BaseSocket::acceptsSignal(const BaseSignal& signal) const
 void BaseSocket::addContextModifier(ContextModifierChain& contextModifier)
 {
     contextModifierChain = &contextModifier;
+}
+
+void BaseSocket::removeContextModifier(ContextModifierChain& contextModifier)
+{
+    contextModifierChain = nullptr;
 }
 
 FrameContext ContextModifierChain::modifyContext(const FrameContext& frame)

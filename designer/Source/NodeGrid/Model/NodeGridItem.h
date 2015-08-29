@@ -3,27 +3,29 @@
 
 #include <node.h>
 
+#include "Selectable.h"
+#include "NodeGridSocket.h"
+
 class NodeGrid;
 
-class NodeGridItem {
-    
-    USING_REACTIVE_DOMAIN(EngineUiDomain)
+class NodeGridItem : public Selectable {
 
 public:
-    NodeGridItem(NodeProxy<EngineUiDomain>* node, NodeGrid& nodeGrid);
+    NodeGridItem(NodeProxy& node, NodeGrid& NodeGrid);
 
-    NodeProxy<EngineUiDomain>* node;
-
-    VarSignalT<float> x;
-    VarSignalT<float> y;
-    void setPos(float x, float y);
-
-    VarSignalT<bool> selected;
-    void setSelected(bool selected);
-
-private:
+    NodeProxy& node;
+    
     NodeGrid& nodeGrid;
+    
+    ObservableVector<shared_ptr<NodeGridSocket>> inputs;
+    ObservableVector<shared_ptr<NodeGridSocket>> outputs;
+    
+    NodeGridSocket* gridSocketForNodeSignal(NodeSignalProxy& nodeSignal);
 
-    friend class GridItemCoordinator;
+    Var<float> x;
+    Var<float> y;
+    void setPos(float x, float y);
+    
+    void deleteSelectable() override;
 
 };

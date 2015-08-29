@@ -31,8 +31,7 @@ NodeGridWireView::NodeGridWireView(NodeGridWire& nodeGridWire, Component* emitti
         receivingParentComponent->addComponentListener(this);
     }
     
-    observeWithCapture(Tokenize(Monitor(nodeGridWire.emittingPos)
-                              | Monitor(nodeGridWire.receivingPos)), [this] (Token) {
+    observe(nodeGridWire.emittingPos.merge(nodeGridWire.receivingPos), [this] (Point<int>) {
         calculateBounds();
     });
 }
@@ -53,9 +52,9 @@ void NodeGridWireView::parentHierarchyChanged()
         calculatePositions();
         
         if (emittingComponent && !receivingComponent) {
-            nodeGridWire.receivingPos <<= nodeGridWire.emittingPos.Value();
+            nodeGridWire.receivingPos << nodeGridWire.emittingPos.getValue();
         } else if (receivingComponent && !emittingComponent) {
-            nodeGridWire.emittingPos <<= nodeGridWire.receivingPos.Value();
+            nodeGridWire.emittingPos << nodeGridWire.receivingPos.getValue();
         }
     }
 }
@@ -64,8 +63,8 @@ void NodeGridWireView::paint (Graphics& g)
 {
     g.setColour (Colours::grey);
     
-    Point<int> emittingLocalPoint = getLocalPoint(getParentComponent(), nodeGridWire.emittingPos.Value());
-    Point<int> receivingLocalPoint = getLocalPoint(getParentComponent(), nodeGridWire.receivingPos.Value());
+    Point<int> emittingLocalPoint = getLocalPoint(getParentComponent(), nodeGridWire.emittingPos.getValue());
+    Point<int> receivingLocalPoint = getLocalPoint(getParentComponent(), nodeGridWire.receivingPos.getValue());
     g.drawArrow(Line<int>(emittingLocalPoint, receivingLocalPoint).toFloat(), 2, 10, 10);
 }
 
@@ -85,24 +84,22 @@ void NodeGridWireView::componentMovedOrResized(Component& component, bool wasMov
 
 void NodeGridWireView::calculatePositions()
 {
-    DoTransaction<EngineUiDomain>([this] {
-        if (emittingComponent) {
-            Point<int> emittingLocalPos = emittingComponent->getBounds().getCentre();
-            nodeGridWire.emittingPos <<= getParentComponent()->getLocalPoint(emittingComponent->getParentComponent(), emittingLocalPos);
-        }
-        if (receivingComponent) {
-            Point<int> receivingLocalPos = receivingComponent->getBounds().getCentre();
-            nodeGridWire.receivingPos <<= getParentComponent()->getLocalPoint(receivingComponent->getParentComponent(), receivingLocalPos);
-        }
-    });
+    if (emittingComponent) {
+        Point<int> emittingLocalPos = emittingComponent->getBounds().getCentre();
+        nodeGridWire.emittingPos << getParentComponent()->getLocalPoint(emittingComponent->getParentComponent(), emittingLocalPos);
+    }
+    if (receivingComponent) {
+        Point<int> receivingLocalPos = receivingComponent->getBounds().getCentre();
+        nodeGridWire.receivingPos << getParentComponent()->getLocalPoint(receivingComponent->getParentComponent(), receivingLocalPos);
+    }
 }
 
 void NodeGridWireView::calculateBounds()
 {
-    int left = min(nodeGridWire.emittingPos.Value().x, nodeGridWire.receivingPos.Value().x) - 10;
-    int right = max(nodeGridWire.emittingPos.Value().x, nodeGridWire.receivingPos.Value().x) + 10;
-    int top = min(nodeGridWire.emittingPos.Value().y, nodeGridWire.receivingPos.Value().y) - 10;
-    int bottom = max(nodeGridWire.emittingPos.Value().y, nodeGridWire.receivingPos.Value().y) + 10;
+    int left = min(nodeGridWire.emittingPos.getValue().x, nodeGridWire.receivingPos.getValue().x) - 10;
+    int right = max(nodeGridWire.emittingPos.getValue().x, nodeGridWire.receivingPos.getValue().x) + 10;
+    int top = min(nodeGridWire.emittingPos.getValue().y, nodeGridWire.receivingPos.getValue().y) - 10;
+    int bottom = max(nodeGridWire.emittingPos.getValue().y, nodeGridWire.receivingPos.getValue().y) + 10;
     
     setBounds(Rectangle<int>::leftTopRightBottom(left, top, right, bottom));
 }

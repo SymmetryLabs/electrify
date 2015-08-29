@@ -1,7 +1,7 @@
 template<typename ClassType>
-void NodeRegistrar::registerNode()
+void NodeRegistrar::registerNode(const string& name)
 {
-    nodeFactories[ClassType::nodeName()] = []() -> ClassType* {
+    nodeFactories[name] = []() -> ClassType* {
         return Node::createNode<ClassType>();
     };
 }

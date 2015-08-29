@@ -16,36 +16,26 @@
 #include "NodeGrid.h"
 #include "NodeGridItemView.h"
 #include "NodeGridWireView.h"
-#include "NodeGridCoordinator.h"
 
 //==============================================================================
 /*
 */
-class NodeGridView    : public Component, public DragAndDropTarget, public Observes<EngineUiDomain>
-{
-    USING_REACTIVE_DOMAIN(EngineUiDomain)
+class NodeGridView : public Component, public DragAndDropTarget, public Observes {
     
 public:
-    NodeGridView(NodeGrid* nodeGrid);
+    explicit NodeGridView(NodeGrid& nodeGrid);
 
 private:
     
-    VarSignalT<NodeGrid*> nodeGrid = MakeVar<EngineUiDomain, NodeGrid*>(nullptr);
+    NodeGrid& nodeGrid;
     
-    vector<unique_ptr<NodeGridItemView>> gridItems;
-    vector<unique_ptr<NodeGridWireView>> gridWireViews;
+    ObservableVector<shared_ptr<NodeGridItemView>> gridItemViews;
+    ObservableVector<shared_ptr<NodeGridWireView>> gridWireViews;
     
-    unique_ptr<NodeGridWireView> draggingWireView;
+    shared_ptr<NodeGridWireView> draggingWireView;
     
-    void addWithGridItem(NodeGridItem* gridItem);
-    void removeWithGridItem(NodeGridItem* gridItem);
-    void removeAllGridItems();
-    
-    NodeGridItemView* gridItemViewWithGridItem(NodeGridItem& gridItem);
-    
-    void addViewWithGridWire(NodeGridWire* gridWire);
-    void removeViewWithGridWire(NodeGridWire* gridWire);
-    void removeAllGridWireViews();
+    shared_ptr<NodeGridWireView> makeGridWireViewFromGridWire(NodeGridWire& nodeGridWire);
+    NodeGridItemView* gridItemViewForGridSocket(const NodeGridSocket& gridSocket) const;
     
     void resetZOrdering();
     

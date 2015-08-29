@@ -1,8 +1,9 @@
 #include "blueprint.h"
 
-Blueprint::Blueprint()
+Blueprint::Blueprint(const string& name)
+: CompoundNode(name)
 {
-    output = registerWirableOutput<Color>("color");
+    registerWirableOutput("color", &output);
 }
 
 void Blueprint::initRenderable(const Model& model_)
@@ -29,6 +30,6 @@ void Blueprint::renderRenderable(const FrameContext& frame, vector<Color>& color
     for (const auto& pixel : model->pixels) {
         FragmentContext frag(*pixel);
         FrameContext childFrame(frame, &frag);
-        colorBuffer[i++] = output->calculate(childFrame);
+        colorBuffer[i++] = output(childFrame);
     }
 }

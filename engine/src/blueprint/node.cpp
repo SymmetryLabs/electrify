@@ -1,76 +1,57 @@
 #include "node.h"
 
-void Node::registerInput(const string& name, unique_ptr<BaseSocket> inputSocket)
+#include <boost/uuid/random_generator.hpp>
+
+Node::Node(const string& name)
+: name(Var<string>(name))
 {
-    inputs[name] = move(inputSocket);
+    static boost::uuids::random_generator nodeUuidGenerator;
+    uuid = nodeUuidGenerator();
 }
 
-BaseSocket* Node::getInput(const string& name) const
+void Node::registerInput(const string& name, const shared_ptr<NodeSocket>& inputNodeSocket)
 {
-    try {
-        return inputs.at(name).get();
-    } catch (out_of_range& e) {
-        return nullptr;
+    inputs.push_back(inputNodeSocket);
+}
+
+void Node::registerInput(const string& name, unique_ptr<BaseSocket>&& inputSocket)
+{
+    inputs.push_back(make_shared<NodeSocket>(*this, name, move(inputSocket)));
+}
+
+NodeSocket* Node::getInput(const string& name) const
+{
+    for (const auto& input : inputs) {
+        if (input->getName() == name) {
+            return input.get();
+        }
     }
+    return nullptr;
 }
 
-bool Node::canWireInput(const string& name, const BaseSignal& signal) const
+void Node::registerOutput(const string& name, const shared_ptr<NodeSignal>& outputNodeSignal)
 {
-    auto input = getInput(name);
-    return input && input->acceptsSignal(signal);
+    outputs.push_back(outputNodeSignal);
 }
 
-void Node::wireInput(const string& name, BaseSignal& signal)
+void Node::registerOutput(const string& name, unique_ptr<BaseSignal>&& signal)
 {
-    getInput(name)->setSignal(&signal);
+    outputs.push_back(make_shared<NodeSignal>(*this, name, move(signal)));
 }
 
-void Node::registerContextModifier(const string& name,
-    ContextModifierChain& contextModifier)
+NodeSignal* Node::getOutput(const string& name) const
 {
-    getInput(name)->addContextModifier(contextModifier);
-}
-
-void Node::registerOutput(const string& name, unique_ptr<BaseSignal> signal)
-{
-    outputs[name] = move(signal);
-}
-
-BaseSignal* Node::getOutput(const string& name) const
-{
-    try {
-        return outputs.at(name).get();
-    } catch (out_of_range& e) {
-        return nullptr;
+    for (const auto& output : outputs) {
+        if (output->getName() == name) {
+            return output.get();
+        }
     }
+    return nullptr;
 }
 
-bool Node::canWireOutputTo(const string& emittingOutputName,
-    const Node& receivingNode, const string& receivingInputName) const
-{
-    auto output = getOutput(emittingOutputName);
-    return output && receivingNode.canWireInput(receivingInputName, *output);
-}
+SYNTHESIZE_PROXYABLE_IMPL(Node, NodeProxy);
 
-bool Node::canWireOutputTo(const string& emittingOutputName,
-    const BaseSocket& receivingSocket) const
-{
-    auto output = getOutput(emittingOutputName);
-    return output && receivingSocket.acceptsSignal(*output);
-}
-
-void Node::wireOutputTo(const string& emittingOutputName,
-    Node& receivingNode, const string& receivingInputName)
-{
-    receivingNode.wireInput(receivingInputName, *getOutput(emittingOutputName));
-}
-
-void Node::wireOutputTo(const string& emittingOutputName, BaseSocket& receivingSocket)
-{
-    receivingSocket.setSignal(getOutput(emittingOutputName));
-}
-
-void Node::registerParameter(const string& name, unique_ptr<BaseParameter> parameter)
-{
-    parameters[name] = move(parameter);
-}
+// void Node::registerParameter(const string& name, unique_ptr<BaseParameter> parameter)
+// {
+//     parameters[name] = move(parameter);
+// }

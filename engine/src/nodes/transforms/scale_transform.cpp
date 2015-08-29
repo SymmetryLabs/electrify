@@ -1,6 +1,7 @@
 #include "scale_transform.h"
 
 ScaleTransform::ScaleTransform()
+: ScalarTransform("Scale")
 {
     registerInput("multiplier", &multiplier, 1.0f);
 }

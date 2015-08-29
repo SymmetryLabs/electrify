@@ -18,33 +18,30 @@
 
 int main()
 {
+  cout << "start" << endl;
+
   FrameContext frame {nanoseconds(100)};
 
   ConstantColorNode c;
-  cout << c.getOutput<Color>("output")->calculate(frame) << endl;
+  cout << c.calculate(frame) << endl;
 
   ColorDoubler colorDoubler;
-  colorDoubler.wireInput("color", *c.getOutput<Color>("output"));
-  cout << colorDoubler.getOutput<Color>("output")->calculate(frame) << endl;
+  c.getOutput("output")->wireOutput(*colorDoubler.getInput("color"));
+  cout << colorDoubler.calculate(frame) << endl;
   
   SquareWave sq;
-  
-  SignalX<double> *ds = sq.getOutput<double>("output");
 
-  double d = ds->calculate(frame);
-  cout << d << endl;
-
-  cout << sq.getOutput<double>("output")->calculate(frame) << endl;
+  cout << sq.calculate(frame) << endl;
 
   Incrementer incr;
-  incr.wireInput("color", *colorDoubler.getOutput<Color>("output"));
-  cout << incr.getOutput<Color>("output")->calculate(frame) << endl;
+  colorDoubler.getOutput("output")->wireOutput(*incr.getInput("color"));
+  cout << incr.calculate(frame) << endl;
 
   incr.update(frame);
-  cout << incr.getOutput<Color>("output")->calculate(frame) << endl;
+  cout << incr.calculate(frame) << endl;
 
   incr.update(frame);
-  cout << incr.getOutput<Color>("output")->calculate(frame) << endl;
+  cout << incr.calculate(frame) << endl;
 
 
   NodeRegistrar nodeRegistrar;
@@ -61,10 +58,10 @@ int main()
   auto constantColor = compound->makeSubnode<ConstantColorNode>();
   auto translateNode = compound->makeSubnode<TranslateNode>();
 
-  compound->wireSubnodes(*constantColor, "output", *translateNode, "signalInput");
-  compound->wireOutput("color", *translateNode, "output");
+  compound->wireSubnodes(*constantColor->getOutput("output"), *translateNode->getInput("Translate"));
+  compound->wireSubnodes(*translateNode->getOutput("Translate"), *compound->getWirableOutput("color"));
 
-  blueprint->wireOutput("color", *compound, "color");
+  compound->wireSubnodes(*compound->getOutput("color"), *blueprint->getWirableOutput("color"));
   
   Engine engine(blueprint, move(model));
   engine.startAndWait();

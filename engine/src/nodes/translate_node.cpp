@@ -1,6 +1,7 @@
 #include "translate_node.h"
 
 TranslateNode::TranslateNode()
+: ContextModifierNode("Translate")
 {
     registerInput("translateX", &translateX);
     registerInput("translateY", &translateY);

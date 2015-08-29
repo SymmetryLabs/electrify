@@ -1,33 +1,12 @@
 #include "NodeGrid.h"
 
-NodeGrid::NodeGrid(CompoundNodeProxy<EngineUiDomain>* compoundNode_)
-    : compoundNode(compoundNode_)
-    , nodeGridCoordinator(compoundNode)
+NodeGrid::NodeGrid(CompoundNodeProxy* compoundNode_)
+: compoundNode(compoundNode_)
 {
-    {
-        addObserver(Observe(compoundNode->subnodes.valueAdded, [this] (const pair<size_t, shared_ptr<NodeProxy<EngineUiDomain>>>& pair) {
-            addGridItemWith(pair.first, *pair.second.get());
-        }));
-        addObserver(Observe(compoundNode->subnodes.valueRemoved, [this] (const pair<size_t, shared_ptr<NodeProxy<EngineUiDomain>>>& pair) {
-            removeGridItemWith(pair.first, *pair.second.get());
-        }));
-        size_t i = 0;
-        for (auto& node : compoundNode->subnodes) {
-            addGridItemWith(i++, *node);
-        }
-    }
-    {
-        addObserver(Observe(compoundNode->nodeWires.valueAdded, [this] (const pair<size_t, reference_wrapper<NodeWire>>& pair) {
-            addGridWireWith(pair.first, pair.second);
-        }));
-        addObserver(Observe(compoundNode->nodeWires.valueRemoved, [this] (const pair<size_t, NodeWire>& pair) {
-            removeGridWireWith(pair.first, pair.second);
-        }));
-        size_t i = 0;
-        for (auto& wire : compoundNode->nodeWires) {
-            addGridWireWith(i++, wire);
-        }
-    }
+    compoundNode->subnodes.makeSlave(gridItems, *this);
+    compoundNode->nodeWires.makeSlave(gridWires, [this] (const shared_ptr<NodeWireProxy>& nodeWire) {
+        return make_shared<NodeGridWire>(*nodeWire.get(), *this, gridSocketForNodeSignal(*nodeWire->source.get()), gridSocketForNodeSignal(*nodeWire->destination.get()));
+    });
 }
 
 void NodeGrid::addNode(string name, float x, float y)
@@ -37,72 +16,53 @@ void NodeGrid::addNode(string name, float x, float y)
     });
 }
 
-void NodeGrid::removeNode()
+void NodeGrid::removeNode(NodeGridItem& gridItem)
 {
+    compoundNode->removeSubnode(gridItem.node);
 }
 
 NodeGridItem* NodeGrid::nodeWithUuid(boost::uuids::uuid uuid)
 {
     for (shared_ptr<NodeGridItem> gridItem : gridItems) {
-        if (gridItem->node->uuid == uuid) {
+        if (gridItem->node.uuid == uuid) {
             return gridItem.get();
         }
     }
     return nullptr;
 }
-void NodeGrid::deselectAllNodes()
+
+void NodeGrid::removeWire(NodeGridWire& gridWire)
 {
-    if (selectedGridItem.Value()) {
-        DoTransaction<EngineUiDomain>([this] {
-            selectedGridItem.Value()->selected <<= false;
-            selectedGridItem <<= nullptr;
-        });
+    compoundNode->removeWire(*gridWire.nodeWire);
+}
+
+NodeGridSocket* NodeGrid::gridSocketForNodeSignal(NodeSignalProxy& nodeSignal)
+{
+    for (auto& gridItem : gridItems) {
+        auto socket = gridItem->gridSocketForNodeSignal(nodeSignal);
+        if (socket) {
+            return socket;
+        }
+    }
+    return nullptr;
+}
+
+void NodeGrid::draggingWireStarted(NodeGridItem& nodeGridItem, NodeGridSocket& socket)
+{
+    draggingWire << make_shared<NodeGridWire>(*this, &socket);
+}
+
+void NodeGrid::draggingWireMoved(Point<int> p)
+{
+    if (draggingWire.getValue()) {
+        draggingWire.getValue()->setOtherPosition(p);
     }
 }
 
-void NodeGrid::setSelectedNode(NodeGridItem& gridItem, bool selected)
+void NodeGrid::draggingWireEnded(NodeGridItem& gridItemEnd, NodeGridSocket& socket)
 {
-    if (selected && (&gridItem != selectedGridItem.Value())) {
-        // Select
-        DoTransaction<EngineUiDomain>([&, this] {
-            if (selectedGridItem.Value()) {
-                selectedGridItem.Value()->selected <<= false;
-            }
-            gridItem.selected <<= true;
-            selectedGridItem <<= &gridItem;
-        });
-    } else if (!selected && (&gridItem == selectedGridItem.Value())) {
-        // Unselect
-        deselectAllNodes();
+    if (draggingWire.getValue()) {
+        compoundNode->wireSubnodes(draggingWire.getValue()->emittingGridSocket->nodeSignal, dynamic_cast<NodeSocketProxy&>(socket.nodeSignal));
+        draggingWire << nullptr;
     }
-}
-
-NodeGridItem* NodeGrid::addGridItemWith(size_t pos, NodeProxy<EngineUiDomain>& node)
-{
-    vector<shared_ptr<NodeGridItem>>::iterator iter = gridItems.begin() + pos;
-    gridItems.insert(iter, make_shared<NodeGridItem>(&node, *this));
-    return gridItems.back().get();
-}
-
-shared_ptr<NodeGridItem> NodeGrid::removeGridItemWith(size_t pos, NodeProxy<EngineUiDomain>& node)
-{
-    auto gridItem = move(gridItems[pos]);
-    gridItems.erase(gridItems.begin() + pos);
-    return gridItem;
-}
-
-NodeGridWire* NodeGrid::addGridWireWith(size_t pos, NodeWire& wire)
-{
-    vector<shared_ptr<NodeGridWire>>::iterator iter = gridWires.begin() + pos;
-    NodeGridItem* emittingNode = nodeWithUuid(wire.emittingSocket.nodeUuid);
-    NodeGridItem* receivingNode = nodeWithUuid(wire.receivingSocket.nodeUuid);
-    gridWires.insert(iter, make_shared<NodeGridWire>(&wire, *this, emittingNode, receivingNode));
-    return gridWires.back().get();
-}
-
-shared_ptr<NodeGridWire> NodeGrid::removeGridWireWith(size_t pos, NodeWire wire)
-{
-    auto gridItem = move(gridWires[pos]);
-    gridWires.erase(gridWires.begin() + pos);
-    return gridItem;
 }

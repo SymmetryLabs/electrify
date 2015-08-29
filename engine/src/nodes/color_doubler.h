@@ -8,8 +8,6 @@ class ColorDoubler : public BasicNode<Color> {
 public:
     ColorDoubler();
 
-    static const string nodeName() { return "Color doubler"; }
-
     Color calculate(const FrameContext& frame) const override;
 
 private:

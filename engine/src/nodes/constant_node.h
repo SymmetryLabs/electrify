@@ -7,10 +7,8 @@ template <typename V>
 class ConstantNode : public BasicNode<V> {
 
 public:
-    ConstantNode() {}
-    explicit ConstantNode(V value_) : value(value_) {}
-
-    static const string nodeName() { return "Constant float"; }
+    ConstantNode();
+    explicit ConstantNode(V value);
 
     V calculate(const FrameContext&) const override { return value; }
 
@@ -20,3 +18,5 @@ private:
 };
 
 typedef ConstantNode<float> ConstantFloatNode;
+
+#include "constant_node.hpp"

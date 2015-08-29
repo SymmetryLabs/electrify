@@ -6,7 +6,7 @@
 class Waveform : public BasicNode<float> {
 
 public:
-    Waveform();
+    explicit Waveform(const string& name);
     virtual ~Waveform() {}
 
     SignalFunction<float> amplitude;

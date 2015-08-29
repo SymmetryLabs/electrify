@@ -39,7 +39,7 @@ DesignerWindowComponent::DesignerWindowComponent (Engine* engine, EngineUi* engi
     addAndMakeVisible (component2 = new NodeListView());
     component2->setName ("new component");
 
-    addAndMakeVisible (component3 = new NodeGridView (engineUi->nodeGrid.get()));
+    addAndMakeVisible (component3 = new NodeGridView (*engineUi->nodeGrid.get()));
     component3->setName ("new component");
 
 
@@ -121,7 +121,7 @@ BEGIN_JUCER_METADATA
                     class="Component" params=""/>
   <GENERICCOMPONENT name="new component" id="84be50bd51afc9b6" memberName="component3"
                     virtualName="NodeGridView" explicitFocusOrder="0" pos="0R 0 200M 100%"
-                    posRelativeX="46591e2475c6760e" class="Component" params="engineUi-&gt;nodeGrid.get()"/>
+                    posRelativeX="46591e2475c6760e" class="Component" params="*engineUi-&gt;nodeGrid.get()"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

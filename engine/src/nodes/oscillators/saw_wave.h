@@ -6,7 +6,7 @@
 class SawWave : public Waveform {
 
 public:
-    static const string nodeName() { return "Sawtooth wave"; }
+    SawWave();
     
     float calculate(const FrameContext& frame) const override;
 

@@ -7,14 +7,12 @@
 #include "proxy_bridge.h"
 #include "observes.h"
 
-class EngineUi : public Observes<EngineDomain> {
-
-    USING_REACTIVE_DOMAIN(EngineUiDomain)
+class EngineUi : public Observes {
 
 public:
     explicit EngineUi(Engine& engine);
 
-    shared_ptr<CompoundNodeProxy<EngineUiDomain>> blueprint;
+    shared_ptr<CompoundNodeProxy> blueprint;
 
     unique_ptr<NodeGrid> nodeGrid;
 

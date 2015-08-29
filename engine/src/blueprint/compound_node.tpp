@@ -10,10 +10,19 @@ Type* CompoundNode::makeSubnode(Targs&&... Fargs)
 }
 
 template <typename V>
-Socket<V>* CompoundNode::registerWirableOutput(const string& name)
+void CompoundNode::registerWirableOutput(const string& name, SignalFunction<V>* inputAddr, const V defaultValue)
 {
-    Socket<V>* output = new Socket<V>();
-    registerOutput(name, unique_ptr<BaseSignal> {output});
-    wirableOutputs[name] = output;
-    return output;
+    auto socket = make_unique<ProxySocket<V>>(inputAddr, defaultValue);
+    auto nodeSocket = make_shared<NodeSocket>(*this, name, move(socket));
+    wirableOutputs[name] = nodeSocket.get();
+    registerOutput(name, nodeSocket);
+}
+
+template <typename V>
+void CompoundNode::registerWirableOutput(const string& name, const V defaultValue)
+{
+    auto socket = make_unique<Socket<V>>(defaultValue);
+    auto nodeSocket = make_shared<NodeSocket>(*this, name, move(socket));
+    wirableOutputs[name] = nodeSocket.get();
+    registerOutput(name, nodeSocket);
 }

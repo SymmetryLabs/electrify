@@ -5,7 +5,7 @@
 
 struct FragmentContext {
 
-    FragmentContext(const Pixel& pixel_) : pixel(pixel_) {}
+    explicit FragmentContext(const Pixel& pixel_) : pixel(pixel_) {}
 
     const Pixel& pixel;
 

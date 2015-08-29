@@ -1,35 +1,34 @@
 #pragma once
-
 #include "BlueprintUiGlobals.h"
 
 #include <node_wire.h>
 #include <node_socket.h>
 
+#include "Selectable.h"
 #include "NodeGridItem.h"
+#include "NodeGridSocket.h"
 
 class NodeGrid;
 
-class NodeGridWire {
-    
-    USING_REACTIVE_DOMAIN(EngineUiDomain)
+class NodeGridWire : public Selectable {
 
 public:
-    NodeGridWire(NodeWire* nodeWire, NodeGrid& nodeGrid,
-                 NodeGridItem* emittingGridItem, NodeGridItem* receivingGridItem);
-    NodeGridWire(NodeGridItem* emittingGridItem, NodeSocket emittingSocket,
-                 NodeGridItem* receivingGridItem = nullptr, NodeSocket receivingSocket = NodeSocket());
+    NodeGridWire(NodeWireProxy& nodeWire, NodeGrid& nodeGrid, NodeGridSocket* emittingGridSocket, NodeGridSocket* receivingGridSocket);
+    NodeGridWire(NodeGrid& nodeGrid, NodeGridSocket* emittingGridSocket, NodeGridSocket* receivingGridSocket = nullptr);
 
-    NodeWire* nodeWire;
+    NodeWireProxy* nodeWire;
 
-    NodeGridItem* emittingGridItem;
-    NodeGridItem* receivingGridItem;
+    NodeGridSocket* emittingGridSocket;
+    NodeGridSocket* receivingGridSocket;
     
-    NodeSocket emittingSocket;
-    NodeSocket receivingSocket;
-    
-    VarSignalT<Point<int>> emittingPos;
-    VarSignalT<Point<int>> receivingPos;
+    Var<Point<int>> emittingPos;
+    Var<Point<int>> receivingPos;
     
     void setOtherPosition(Point<int> pos);
+    
+    void deleteSelectable() override;
+    
+private:
+    NodeGrid& nodeGrid;
 
 };

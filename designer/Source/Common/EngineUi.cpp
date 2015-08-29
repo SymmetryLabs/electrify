@@ -3,15 +3,15 @@
 EngineUi::EngineUi(Engine& engine_)
     : engine(engine_)
 {
-    addObserver(Observe(engine.preFrameUpdateEvent, [this] (Token) {
+    observe(engine.preFrameUpdateEvent, [this] (void*) {
         proxyBridge.processUpstreamFlowingTransactions();
-    }));
-    addObserver(Observe(engine.postFrameUpdateEvent, [this] (Token) {
+    });
+    observe(engine.postFrameUpdateEvent, [this] (void*) {
         proxyBridge.commitDownstreamFlowingTransaction();
-    }));
+    });
 
     auto engineBlueprint = dynamic_pointer_cast<CompoundNode>(engine.getRenderable());
-    blueprint = makeProxy<EngineUiDomain>(engineBlueprint, proxyBridge);
+    blueprint = engineBlueprint->getProxy<CompoundNodeProxy>(proxyBridge);
     nodeGrid = make_unique<NodeGrid>(blueprint.get());
 }
 

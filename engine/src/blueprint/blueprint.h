@@ -4,14 +4,13 @@
 #include "compound_node.h"
 #include "renderable.h"
 #include "socket.h"
+#include "proxyable.h"
 
 class Blueprint : public CompoundNode, public Renderable {
 
 public:
-    Blueprint();
+    explicit Blueprint(const string& name = "Blueprint");
     virtual ~Blueprint() {}
-
-    static const string nodeName() { return "Blueprint"; }
 
     virtual void initRenderable(const Model& model_) override;
     virtual void deinitRenderable() override;
@@ -19,7 +18,7 @@ public:
     virtual void renderRenderable(const FrameContext& frame, vector<Color>& colorBuffer) override;
 
 private:
-    Socket<Color>* output = nullptr;
+    SignalFunction<Color> output;
     const Model* model = nullptr;
 
 };

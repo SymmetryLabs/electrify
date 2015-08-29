@@ -3,38 +3,40 @@
 
 #include "node.h"
 #include "frame_context.h"
+#include "node_socket.h"
 
 class ContextModifierNode : public Node {
 
 public:
-    ContextModifierNode()
-    : contextModifierNode(bind(
-            mem_fn(&ContextModifierNode::modifyContext), this, placeholders::_1))
-    {}
-
+    explicit ContextModifierNode(const string& name);
     virtual ~ContextModifierNode() {}
 
     virtual FrameContext modifyContext(const FrameContext& original) = 0;
 
-    void wireInput(const string& name, BaseSignal& signal) override;
-
-    void registerContextModifier(const string& name,
-        ContextModifierChain& contextModifier) override;
-
-    void wireOutputTo(const string& emittingOutputName,
-        Node& receivingSubnode, const string& receivingInputName) override;
-
-    // bool canWireOutputTo(const string& emittingOutputName, const BaseSocket& receivingSocket) const override;
-    void wireOutputTo(const string& emittingOutputName, BaseSocket& receivingSocket) override;
-
 private:
-    BaseSignal* sourceSignal = nullptr;
-    BaseSocket* destinationSocket = nullptr;
-    Node* destinationSubnode = nullptr;
-    string destinationInputName;
 
-    void completeWiringIfNeeded();
+    struct ContextModifierNodeSocket : public NodeSocket {
 
-    ContextModifierChain contextModifierNode;
+        ContextModifierNodeSocket(ContextModifierNode& node, const string& name);
+
+        void wireInput(BaseSignal& sourceSignal) override;
+        void unwireInput(BaseSignal& sourceSignal) override;
+
+        void wireOutput(NodeSocket& destinationNodeSocket) override;
+        void unwireOutput(NodeSocket& destinationNodeSocket) override;
+
+        void completeWiringIfNeeded();
+        void unwireIfNeeded();
+
+        void registerContextModifier(ContextModifierChain& contextModifier) override;
+
+        BaseSignal* sourceSignal = nullptr;
+        NodeSocket* destinationNodeSocket = nullptr;
+
+        ContextModifierChain contextModifierNode;
+
+    };
+
+    shared_ptr<ContextModifierNodeSocket> nodeSocket;
 
 };

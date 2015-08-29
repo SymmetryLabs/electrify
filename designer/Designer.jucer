@@ -6,12 +6,6 @@
   <MAINGROUP id="wQ89CT" name="Designer">
     <GROUP id="{FD40B928-CCA8-FE86-E11B-047A03A31108}" name="Source">
       <GROUP id="{C7899901-5808-42C1-5635-388496375696}" name="NodeGrid">
-        <GROUP id="{89313AB2-6681-D231-D5A8-009FC4EB5FEE}" name="Controller">
-          <FILE id="GLCMEY" name="NodeGridCoordinator.cpp" compile="1" resource="0"
-                file="Source/NodeGrid/Controller/NodeGridCoordinator.cpp"/>
-          <FILE id="zGSl9b" name="NodeGridCoordinator.h" compile="0" resource="0"
-                file="Source/NodeGrid/Controller/NodeGridCoordinator.h"/>
-        </GROUP>
         <GROUP id="{AF961D6D-38FD-1265-46CA-19B03878C7EB}" name="Model">
           <FILE id="PqVSp8" name="NodeGrid.cpp" compile="1" resource="0" file="Source/NodeGrid/Model/NodeGrid.cpp"/>
           <FILE id="WQuN8g" name="NodeGrid.h" compile="0" resource="0" file="Source/NodeGrid/Model/NodeGrid.h"/>
@@ -21,22 +15,38 @@
           <FILE id="oh4u5L" name="NodeGridWire.cpp" compile="1" resource="0"
                 file="Source/NodeGrid/Model/NodeGridWire.cpp"/>
           <FILE id="HHamCa" name="NodeGridWire.h" compile="0" resource="0" file="Source/NodeGrid/Model/NodeGridWire.h"/>
+          <FILE id="N9x7XP" name="NodeGridSocket.cpp" compile="1" resource="0"
+                file="Source/NodeGrid/Model/NodeGridSocket.cpp"/>
+          <FILE id="nECSgl" name="NodeGridSocket.h" compile="0" resource="0"
+                file="Source/NodeGrid/Model/NodeGridSocket.h"/>
         </GROUP>
-        <GROUP id="{49E44DD9-B16E-E06D-D100-4B9BDDE3B059}" name="View">
-          <FILE id="Sbnel9" name="NodeGridView.cpp" compile="1" resource="0"
-                file="Source/NodeGrid/View/NodeGridView.cpp"/>
-          <FILE id="gQLaIi" name="NodeGridView.h" compile="0" resource="0" file="Source/NodeGrid/View/NodeGridView.h"/>
-          <FILE id="WluCVG" name="NodeGridItemView.cpp" compile="1" resource="0"
-                file="Source/NodeGrid/View/NodeGridItemView.cpp"/>
-          <FILE id="fhh6BU" name="NodeGridItemView.h" compile="0" resource="0"
-                file="Source/NodeGrid/View/NodeGridItemView.h"/>
-          <FILE id="z673zZ" name="SignalView.cpp" compile="1" resource="0" file="Source/NodeGrid/View/SignalView.cpp"/>
-          <FILE id="raf4OZ" name="SignalView.h" compile="0" resource="0" file="Source/NodeGrid/View/SignalView.h"/>
-          <FILE id="l7wLvF" name="NodeGridWireView.cpp" compile="1" resource="0"
-                file="Source/NodeGrid/View/NodeGridWireView.cpp"/>
-          <FILE id="YSMcd0" name="NodeGridWireView.h" compile="0" resource="0"
-                file="Source/NodeGrid/View/NodeGridWireView.h"/>
+        <GROUP id="{49E44DD9-B16E-E06D-D100-4B9BDDE3B059}" name="ControllerView">
+          <FILE id="ehkPWj" name="NodeGridView.cpp" compile="1" resource="0"
+                file="Source/NodeGrid/ControllerView/NodeGridView.cpp"/>
+          <FILE id="eDsTxP" name="NodeGridView.h" compile="0" resource="0" file="Source/NodeGrid/ControllerView/NodeGridView.h"/>
+          <FILE id="yhIaFw" name="NodeGridItemView.cpp" compile="1" resource="0"
+                file="Source/NodeGrid/ControllerView/NodeGridItemView.cpp"/>
+          <FILE id="AMAQEB" name="NodeGridItemView.h" compile="0" resource="0"
+                file="Source/NodeGrid/ControllerView/NodeGridItemView.h"/>
+          <FILE id="Eav4yG" name="SignalView.cpp" compile="1" resource="0" file="Source/NodeGrid/ControllerView/SignalView.cpp"/>
+          <FILE id="t9g4Pq" name="SignalView.h" compile="0" resource="0" file="Source/NodeGrid/ControllerView/SignalView.h"/>
+          <FILE id="i1FcCo" name="NodeGridWireView.cpp" compile="1" resource="0"
+                file="Source/NodeGrid/ControllerView/NodeGridWireView.cpp"/>
+          <FILE id="XYhBv3" name="NodeGridWireView.h" compile="0" resource="0"
+                file="Source/NodeGrid/ControllerView/NodeGridWireView.h"/>
         </GROUP>
+      </GROUP>
+      <GROUP id="{9A039131-0AAF-B342-BE63-4A2CAABE7A76}" name="Controller">
+        <FILE id="mvy8Sk" name="SelectionContainer.cpp" compile="1" resource="0"
+              file="Source/Controller/SelectionContainer.cpp"/>
+        <FILE id="O0X2Cu" name="SelectionContainer.h" compile="0" resource="0"
+              file="Source/Controller/SelectionContainer.h"/>
+        <FILE id="byju16" name="SelectionController.cpp" compile="1" resource="0"
+              file="Source/Controller/SelectionController.cpp"/>
+        <FILE id="YaNPzb" name="SelectionController.h" compile="0" resource="0"
+              file="Source/Controller/SelectionController.h"/>
+        <FILE id="pNPMur" name="Selectable.cpp" compile="1" resource="0" file="Source/Controller/Selectable.cpp"/>
+        <FILE id="ShhagW" name="Selectable.h" compile="0" resource="0" file="Source/Controller/Selectable.h"/>
       </GROUP>
       <GROUP id="{7E99A221-AD47-D736-6AA4-51500C5933A5}" name="Main">
         <FILE id="j0Xzqb" name="DesignerWindowComponent.cpp" compile="1" resource="0"
@@ -69,7 +79,7 @@
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
                        isDebug="1" optimisation="1" targetName="Designer" libraryPath="${BUILD_DIR}/engine&#10;${BUILD_DIR}/engine/lib&#10;/usr/local/lib"
-                       headerPath="../../../engine/src&#10;../../../engine/src/core&#10;../../../engine/src/blueprint&#10;../../../engine/src/blueprint_ui&#10;../../../engine/src/nodes&#10;../../../engine/src/nodes/oscillators&#10;../../../engine/src/nodes/transforms&#10;../../../engine/src/utils"
+                       headerPath="../../../engine/src&#10;../../../engine/src/core&#10;../../../engine/src/blueprint&#10;../../../engine/src/blueprint_ui&#10;../../../engine/src/nodes&#10;../../../engine/src/nodes/oscillators&#10;../../../engine/src/nodes/transforms&#10;../../../engine/src/utils&#10;../../../engine/src/utils/data_proxy&#10;../../../engine/src/utils/event_queue&#10;../../../engine/src/utils/reactive"
                        cppLanguageStandard="c++11"/>
         <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
                        isDebug="0" optimisation="3" targetName="Designer" cppLanguageStandard="c++11"/>

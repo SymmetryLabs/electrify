@@ -8,37 +8,33 @@
 
 #include "NodeGridItem.h"
 #include "NodeGridWire.h"
-#include "NodeGridCoordinator.h"
+#include "SelectionContainer.h"
 
-class NodeGrid : Observes<EngineUiDomain> {
-    
-    USING_REACTIVE_DOMAIN(EngineUiDomain)
+class NodeGrid : Observes, public SelectionContainer {
 
 public:
-    explicit NodeGrid(CompoundNodeProxy<EngineUiDomain>* compoundNode);
+    explicit NodeGrid(CompoundNodeProxy* compoundNode);
 
-    CompoundNodeProxy<EngineUiDomain>* compoundNode;
-    
-    NodeGridCoordinator nodeGridCoordinator;
+    CompoundNodeProxy* compoundNode;
 
     void addNode(string name, float x, float y);
-    void removeNode();
+    void removeNode(NodeGridItem& gridItem);
     NodeGridItem* nodeWithUuid(boost::uuids::uuid uuid);
     
-    void deselectAllNodes();
-    void setSelectedNode(NodeGridItem& gridItem, bool selected);
+    void removeWire(NodeGridWire& gridWire);
 
-    ObservableVector<EngineUiDomain, shared_ptr<NodeGridItem>> gridItems;
-    ObservableVector<EngineUiDomain, shared_ptr<NodeGridWire>> gridWires;
+    ObservableVector<shared_ptr<NodeGridItem>> gridItems;
+    ObservableVector<shared_ptr<NodeGridWire>> gridWires;
+    
+    NodeGridSocket* gridSocketForNodeSignal(NodeSignalProxy& nodeSignal);
+    
+    Var<shared_ptr<NodeGridWire>> draggingWire;
+    void draggingWireStarted(NodeGridItem& gridItemStart, NodeGridSocket& socket);
+    void draggingWireMoved(Point<int> p);
+    void draggingWireEnded(NodeGridItem& gridItemEnd, NodeGridSocket& socket);
 
 private:
     
-    VarSignal<EngineUiDomain, NodeGridItem*> selectedGridItem = MakeVar<EngineUiDomain, NodeGridItem*>(nullptr);
-
-    NodeGridItem* addGridItemWith(size_t pos, NodeProxy<EngineUiDomain>& node);
-    shared_ptr<NodeGridItem> removeGridItemWith(size_t pos, NodeProxy<EngineUiDomain>& node);
-
-    NodeGridWire* addGridWireWith(size_t pos, NodeWire& wire);
-    shared_ptr<NodeGridWire> removeGridWireWith(size_t pos, NodeWire wire);
+    Var<NodeGridItem*> selectedGridItem;
 
 };

@@ -8,8 +8,6 @@ class TranslateNode : public ContextModifierNode {
 public:
     TranslateNode();
 
-    static const string nodeName() { return "Translate"; }
-
     FrameContext modifyContext(const FrameContext& original) override;
 
 private:

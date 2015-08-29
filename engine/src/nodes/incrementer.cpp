@@ -1,6 +1,7 @@
 #include "incrementer.h"
 
 Incrementer::Incrementer()
+: BasicNode<Color>("Incrementer")
 {
     registerInput("color", &colorInput);
 }

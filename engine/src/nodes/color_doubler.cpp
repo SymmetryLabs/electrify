@@ -1,6 +1,7 @@
 #include "color_doubler.h"
 
 ColorDoubler::ColorDoubler()
+: BasicNode<Color>("Color doubler")
 {
     registerInput("color", &colorInput);
 }

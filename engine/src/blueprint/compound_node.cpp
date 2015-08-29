@@ -1,5 +1,10 @@
 #include "compound_node.h"
 
+CompoundNode::CompoundNode(const string& name)
+: Node(name)
+{
+}
+
 void CompoundNode::init()
 {
     for (auto& subnode : subnodes) {
@@ -36,7 +41,7 @@ size_t CompoundNode::addSubnode(unique_ptr<Node> subnode)
 
 void CompoundNode::removeSubnode(Node* subnode)
 {
-    // TODO: break connections
+    unwireSubnode(*subnode);
     removeSharedPtr(subnodes, subnode);
 }
 
@@ -50,34 +55,38 @@ Node* CompoundNode::getSubnodeByUuid(boost::uuids::uuid uuid)
     return nullptr;
 }
 
-bool CompoundNode::canWireSubnodes(Node& emittingSubnode, const string& emittingOutputName,
-    Node& receivingSubnode, const string& receivingInputName)
+// bool CompoundNode::canWireSubnodes(Node& emittingSubnode, const string& emittingOutputName,
+//     Node& receivingSubnode, const string& receivingInputName)
+// {
+//     return emittingSubnode.canWireOutputTo(emittingOutputName, receivingSubnode, receivingInputName);
+// }
+
+void CompoundNode::wireSubnodes(NodeSignal& emittingSignal, NodeSocket& receivingSocket)
 {
-    return emittingSubnode.canWireOutputTo(emittingOutputName, receivingSubnode, receivingInputName);
+    nodeWires.push_back(make_shared<NodeWire>(emittingSignal, receivingSocket));
 }
 
-void CompoundNode::wireSubnodes(Node& emittingSubnode, const string& emittingOutputName,
-    Node& receivingSubnode, const string& receivingInputName)
+void CompoundNode::unwireSubnode(Node& subnode)
 {
-    NodeSocket emittingSocket(emittingSubnode.uuid, emittingOutputName);
-    NodeSocket receivingSocket(receivingSubnode.uuid, receivingInputName);
-    nodeWires.push_back(NodeWire(emittingSocket, receivingSocket));
-    return emittingSubnode.wireOutputTo(emittingOutputName, receivingSubnode, receivingInputName);
-}
-void CompoundNode::wireSubnodes(const NodeSocket& emittingSocket, const NodeSocket& receivingSocket)
-{
-    Node* emittingSubnode = getSubnodeByUuid(emittingSocket.nodeUuid);
-    Node* receivingSubnode = getSubnodeByUuid(receivingSocket.nodeUuid);
-    wireSubnodes(*emittingSubnode, emittingSocket.socketName, *receivingSubnode, receivingSocket.socketName);
-}
-
-void CompoundNode::unwireSubnodes(Node& emittingSubnode, const string& emittingOutputName,
-    Node& receivingSubnode, const string& receivingInputName)
-{
-    // TODO
+//     for (auto iter = nodeWires.begin(); iter != nodeWires.end(); ) {
+//         NodeWire& wire = *iter;
+//         if (wire.emittingSocket.nodeUuid == subnode.uuid
+//                 || wire.receivingSocket.nodeUuid == subnode.uuid) {
+//             wire.unwireOutputTo()
+//             iter = nodeWires.erase(iter);
+//         } else {
+//             ++iter;
+//         }
+//     }
 }
 
-BaseSocket* CompoundNode::getWirableOutput(const string& name)
+void CompoundNode::removeWire(NodeWire& nodeWire)
+{
+    // unwireSubnode(*subnode);
+    // removeSharedPtr(subnodes, subnode);
+}
+
+NodeSocket* CompoundNode::getWirableOutput(const string& name)
 {
     try {
         return wirableOutputs.at(name);
@@ -86,8 +95,9 @@ BaseSocket* CompoundNode::getWirableOutput(const string& name)
     }
 }
 
-void CompoundNode::wireOutput(const string& name,
-    Node& emittingSubnode, const string& emittingOutputName)
+void CompoundNode::wireOutput(const string& name, NodeSignal& emittingSignal)
 {
-    emittingSubnode.wireOutputTo(emittingOutputName, *getWirableOutput(name));
+    // emittingSubnode.wireOutputTo(emittingOutputName, *getWirableOutput(name));
 }
+
+SYNTHESIZE_PROXYABLE_IMPL(CompoundNode, CompoundNodeProxy);

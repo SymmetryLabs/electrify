@@ -16,19 +16,19 @@
 
 NodeRegistrar::NodeRegistrar()
 {
-    registerNode<SawWave>();
-    registerNode<SinWave>();
-    registerNode<SquareWave>();
-    registerNode<ScaleTransform>();
-    registerNode<ColorDoubler>();
-    registerNode<ConstantColorNode>();
-    registerNode<ConstantFloatNode>();
-    registerNode<HsvNode>();
-    registerNode<Incrementer>();
-    registerNode<PerlinNoiseNode>();
-    registerNode<PixelXNode>();
-    registerNode<TimeNode>();
-    registerNode<TranslateNode>();
+    registerNode<SawWave>("SawWave");
+    registerNode<SinWave>("SinWave");
+    registerNode<SquareWave>("SquareWave");
+    registerNode<ScaleTransform>("ScaleTransform");
+    registerNode<ColorDoubler>("ColorDoubler");
+    registerNode<ConstantColorNode>("ConstantColorNode");
+    registerNode<ConstantFloatNode>("ConstantFloatNode");
+    registerNode<HsvNode>("HsvNode");
+    registerNode<Incrementer>("Incrementer");
+    registerNode<PerlinNoiseNode>("PerlinNoiseNode");
+    registerNode<PixelXNode>("PixelXNode");
+    registerNode<TimeNode>("TimeNode");
+    registerNode<TranslateNode>("TranslateNode");
 }
 
 vector<string> NodeRegistrar::getAvailableNodeNames() const

@@ -8,8 +8,6 @@ class HsvNode : public BasicNode<Color> {
 public:
     HsvNode();
 
-    static const string nodeName() { return "HSV"; }
-
     Color calculate(const FrameContext& frame) const override;
     
     SignalFunction<float> hue;

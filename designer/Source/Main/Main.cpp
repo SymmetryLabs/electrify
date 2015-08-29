@@ -53,7 +53,7 @@ public:
     {
         // This method is where you should put your application's initialisation code..
         
-        auto blueprint = make_unique<Blueprint>();
+        auto blueprint = make_shared<Blueprint>();
         
         /* file loading */
         Loader loader = Loader();
@@ -72,8 +72,8 @@ public:
         auto constantColor = compound->makeSubnode<ConstantColorNode>();
         auto incrementer = compound->makeSubnode<Incrementer>();
         
-        compound->wireSubnodes(*constantColor, "output", *incrementer, "color");
-        compound->wireOutput("color", *incrementer, "output");
+        compound->wireSubnodes(*constantColor->getOutput("output"), *incrementer->getInput("color"));
+        compound->wireSubnodes(*incrementer->getOutput("output"), *compound->getWirableOutput("color"));
         
         auto hsvNode = blueprint->makeSubnode<HsvNode>();
         auto sawWaveNode = blueprint->makeSubnode<SawWave>();
@@ -83,15 +83,15 @@ public:
         auto perlinNoiseNode = blueprint->makeSubnode<PerlinNoiseNode>();
         auto frequency = blueprint->makeSubnode<ConstantNode<float>>(1.0 / 10);
         
-        blueprint->wireSubnodes(*frequency, "output", *sawWaveNode, "frequency");
-        blueprint->wireSubnodes(*multiplyAmountNode, "output", *scaleTransform, "multiplier");
-        blueprint->wireSubnodes(*timeNode, "output", *scaleTransform, "input");
-        blueprint->wireSubnodes(*scaleTransform, "output", *perlinNoiseNode, "zInput");
-        blueprint->wireSubnodes(*perlinNoiseNode, "output", *hsvNode, "hue");
+        blueprint->wireSubnodes(*frequency->getOutput("output"), *sawWaveNode->getInput("frequency"));
+        blueprint->wireSubnodes(*multiplyAmountNode->getOutput("output"), *scaleTransform->getInput("multiplier"));
+        blueprint->wireSubnodes(*timeNode->getOutput("output"), *scaleTransform->getInput("input"));
+        blueprint->wireSubnodes(*scaleTransform->getOutput("output"), *perlinNoiseNode->getInput("zInput"));
+        blueprint->wireSubnodes(*perlinNoiseNode->getOutput("output"), *hsvNode->getInput("hue"));
         
-        blueprint->wireOutput("color", *hsvNode, "output");
+        blueprint->wireSubnodes(*hsvNode->getOutput("output"), *blueprint->getWirableOutput("color"));
         
-        engine = make_unique<Engine>(std::move(blueprint), std::move(model));
+        engine = make_unique<Engine>(blueprint, std::move(model));
         engineUi = make_unique<EngineUi>(*engine);
         // engine->setProfilerEnabled(true);
         engine->start();
