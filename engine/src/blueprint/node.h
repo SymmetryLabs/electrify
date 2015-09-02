@@ -93,31 +93,15 @@ private:
 class NodeProxy : public DataProxy {
 
 public:
-    NodeProxy(shared_ptr<Node> master, ProxyBridge& proxyBridge)
-        : DataProxy(master, proxyBridge)
-        , name(Var<string>(master->name.getValue()))
-        , uuid(master->uuid)
-    {}
-
-    void init(shared_ptr<Node> master, ProxyBridge& proxyBridge)
-    {
-        this->bind(master->name, this->name);
-
-        master->inputs.makeProxySlave(inputs, proxyBridge);
-        master->outputs.makeProxySlave(outputs, proxyBridge);
-    }
+    NodeProxy(shared_ptr<Node> master, ProxyBridge& proxyBridge);
+    void init(shared_ptr<Node> master, ProxyBridge& proxyBridge);
 
     Var<string> name;
     boost::uuids::uuid uuid;
     ObservableVector<shared_ptr<NodeSocketProxy>> inputs;
     ObservableVector<shared_ptr<NodeSignalProxy>> outputs;
 
-    void setName(const string& name_)
-    {
-        sendCommand<Node>([=] (shared_ptr<Node> node) {
-            node->name << name_;
-        });
-    }
+    void setName(const string& name);
 };
 
 #include "node.tpp"

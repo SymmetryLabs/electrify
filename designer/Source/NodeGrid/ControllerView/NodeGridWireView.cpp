@@ -18,11 +18,7 @@ NodeGridWireView::NodeGridWireView(NodeGridWire& nodeGridWire, Component* emitti
 , receivingComponent(receivingComponent)
 , receivingParentComponent(receivingParentComponent)
 {
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
-    
     setOpaque(false);
-    setInterceptsMouseClicks(false, false);
     
     if (emittingParentComponent) {
         emittingParentComponent->addComponentListener(this);
@@ -33,6 +29,10 @@ NodeGridWireView::NodeGridWireView(NodeGridWire& nodeGridWire, Component* emitti
     
     observe(nodeGridWire.emittingPos.merge(nodeGridWire.receivingPos), [this] (Point<int>) {
         calculateBounds();
+    });
+    
+    observe(nodeGridWire.selected, [this] (bool) {
+        repaint();
     });
 }
 
@@ -61,7 +61,11 @@ void NodeGridWireView::parentHierarchyChanged()
 
 void NodeGridWireView::paint (Graphics& g)
 {
-    g.setColour (Colours::grey);
+    if (nodeGridWire.selected.getValue()) {
+        g.setColour (Colours::blue);
+    } else {
+        g.setColour (Colours::grey);
+    }
     
     Point<int> emittingLocalPoint = getLocalPoint(getParentComponent(), nodeGridWire.emittingPos.getValue());
     Point<int> receivingLocalPoint = getLocalPoint(getParentComponent(), nodeGridWire.receivingPos.getValue());
@@ -70,6 +74,25 @@ void NodeGridWireView::paint (Graphics& g)
 
 void NodeGridWireView::resized()
 {
+}
+
+bool NodeGridWireView::hitTest(int x, int y)
+{
+    if (Component::hitTest(x, y)) {
+        Point<float> emittingLocalPoint = getLocalPoint(getParentComponent(), nodeGridWire.emittingPos.getValue()).toFloat();
+        Point<float> receivingLocalPoint = getLocalPoint(getParentComponent(), nodeGridWire.receivingPos.getValue()).toFloat();
+        Point<float> pos(x, y);
+        Point<float> res;
+        if (Line<float>(emittingLocalPoint, receivingLocalPoint).getDistanceFromPoint(pos, res) < 4) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void NodeGridWireView::mouseDown(const MouseEvent& e)
+{
+    nodeGridWire.setSelected(true);
 }
 
 void NodeGridWireView::componentBroughtToFront(Component& component)

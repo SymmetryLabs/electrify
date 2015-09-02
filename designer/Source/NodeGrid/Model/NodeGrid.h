@@ -9,6 +9,8 @@
 #include "NodeGridItem.h"
 #include "NodeGridWire.h"
 #include "SelectionContainer.h"
+#include "NodeGridItemNode.h"
+#include "NodeGridItemSocket.h"
 
 class NodeGrid : Observes, public SelectionContainer {
 
@@ -18,20 +20,20 @@ public:
     CompoundNodeProxy* compoundNode;
 
     void addNode(string name, float x, float y);
-    void removeNode(NodeGridItem& gridItem);
-    NodeGridItem* nodeWithUuid(boost::uuids::uuid uuid);
+    void removeNode(NodeGridItemNode& gridItem);
     
     void removeWire(NodeGridWire& gridWire);
 
-    ObservableVector<shared_ptr<NodeGridItem>> gridItems;
+    ObservableVector<shared_ptr<NodeGridItemNode>> gridItems;
     ObservableVector<shared_ptr<NodeGridWire>> gridWires;
+    ObservableVector<shared_ptr<NodeGridItemSocket>> gridOutputs;
     
     NodeGridSocket* gridSocketForNodeSignal(NodeSignalProxy& nodeSignal);
     
     Var<shared_ptr<NodeGridWire>> draggingWire;
-    void draggingWireStarted(NodeGridItem& gridItemStart, NodeGridSocket& socket);
+    void draggingWireStarted(NodeGridSocket& socket);
     void draggingWireMoved(Point<int> p);
-    void draggingWireEnded(NodeGridItem& gridItemEnd, NodeGridSocket& socket);
+    void draggingWireEnded(NodeGridSocket* socket = nullptr);
 
 private:
     

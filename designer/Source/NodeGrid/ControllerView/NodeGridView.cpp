@@ -22,9 +22,20 @@ NodeGridView::NodeGridView(NodeGrid& nodeGrid_)
         auto gridItemView = make_shared<NodeGridItemView>(*gridItem, nodeGrid);
         addAndMakeVisible(gridItemView.get());
         return gridItemView;
+    }, [this] (const shared_ptr<NodeGridItemView>& gridItem) {
+        removeChildComponent(gridItem.get());
+    });
+    nodeGrid.gridOutputs.makeSlave(gridOutputViews, [this] (const shared_ptr<NodeGridItem>& gridItem) {
+        auto gridItemView = make_shared<NodeGridItemView>(*gridItem, nodeGrid);
+        addAndMakeVisible(gridItemView.get());
+        return gridItemView;
+    }, [this] (const shared_ptr<NodeGridItemView>& gridItem) {
+        removeChildComponent(gridItem.get());
     });
     nodeGrid.gridWires.makeSlave(gridWireViews, [this] (const shared_ptr<NodeGridWire>& gridWire) {
         return makeGridWireViewFromGridWire(*gridWire.get());
+    }, [this] (const shared_ptr<NodeGridWireView>& gridWire) {
+        removeChildComponent(gridWire.get());
     });
     
     resetZOrdering();
@@ -32,7 +43,7 @@ NodeGridView::NodeGridView(NodeGrid& nodeGrid_)
     
     observe(nodeGrid.draggingWire, [this] (const shared_ptr<NodeGridWire>& draggingWire) {
         if (draggingWire) {
-            makeGridWireViewFromGridWire(*draggingWire.get());
+            draggingWireView = makeGridWireViewFromGridWire(*draggingWire.get());
         } else if (draggingWireView) {
             removeChildComponent(draggingWireView.get());
             draggingWireView = nullptr;
@@ -61,11 +72,14 @@ shared_ptr<NodeGridWireView> NodeGridView::makeGridWireViewFromGridWire(NodeGrid
 
 NodeGridItemView* NodeGridView::gridItemViewForGridSocket(const NodeGridSocket& gridSocket) const
 {
-    if (auto gridItem = gridSocket.gridItem) {
-        for (const auto& gridItemView : gridItemViews) {
-            if (&gridItemView->nodeGridItem == gridItem) {
-                return gridItemView.get();
-            }
+    for (const auto& gridItemView : gridItemViews) {
+        if (gridItemView->nodeGridItem.containsNodeGridSocket(gridSocket)) {
+            return gridItemView.get();
+        }
+    }
+    for (const auto& gridOutputView : gridOutputViews) {
+        if (gridOutputView->nodeGridItem.containsNodeGridSocket(gridSocket)) {
+            return gridOutputView.get();
         }
     }
     return nullptr;
@@ -98,9 +112,9 @@ void NodeGridView::parentHierarchyChanged()
     }
 }
 
-void NodeGridView::mouseDrag(const MouseEvent& event)
+void NodeGridView::mouseDown(const MouseEvent& e)
 {
-    
+    nodeGrid.deselectAll();
 }
 
 #pragma mark - DragAndDropTarget

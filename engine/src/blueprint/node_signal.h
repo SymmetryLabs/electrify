@@ -20,16 +20,16 @@ public:
 
     virtual void wireOutput(NodeSocket& destinationNodeSocket);
     virtual void unwireOutput(NodeSocket& destinationNodeSocket);
-
-protected:
-    virtual BaseSignal* getSignal() const;
-
-private:
  
     Node& node;
     Var<string> name;
 
     unique_ptr<BaseSignal> signal;
+
+protected:
+    virtual BaseSignal* getSignal() const;
+
+private:
 
     SYNTHESIZE_PROXYABLE(NodeSignalProxy);
 
@@ -39,10 +39,10 @@ class NodeSignalProxy : public DataProxy {
 
 public:
     NodeSignalProxy(shared_ptr<NodeSignal> master, ProxyBridge& proxyBridge);
+    virtual ~NodeSignalProxy() {}
     void init(shared_ptr<NodeSignal> master, ProxyBridge& proxyBridge);
     
     shared_ptr<NodeProxy> node;
     Var<string> name;
     
-    virtual ~NodeSignalProxy() {}
 };

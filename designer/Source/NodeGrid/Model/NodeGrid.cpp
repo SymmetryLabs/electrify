@@ -4,6 +4,7 @@ NodeGrid::NodeGrid(CompoundNodeProxy* compoundNode_)
 : compoundNode(compoundNode_)
 {
     compoundNode->subnodes.makeSlave(gridItems, *this);
+    compoundNode->wirableOutputs.makeSlave(gridOutputs, *this);
     compoundNode->nodeWires.makeSlave(gridWires, [this] (const shared_ptr<NodeWireProxy>& nodeWire) {
         return make_shared<NodeGridWire>(*nodeWire.get(), *this, gridSocketForNodeSignal(*nodeWire->source.get()), gridSocketForNodeSignal(*nodeWire->destination.get()));
     });
@@ -16,19 +17,9 @@ void NodeGrid::addNode(string name, float x, float y)
     });
 }
 
-void NodeGrid::removeNode(NodeGridItem& gridItem)
+void NodeGrid::removeNode(NodeGridItemNode& gridItem)
 {
     compoundNode->removeSubnode(gridItem.node);
-}
-
-NodeGridItem* NodeGrid::nodeWithUuid(boost::uuids::uuid uuid)
-{
-    for (shared_ptr<NodeGridItem> gridItem : gridItems) {
-        if (gridItem->node.uuid == uuid) {
-            return gridItem.get();
-        }
-    }
-    return nullptr;
 }
 
 void NodeGrid::removeWire(NodeGridWire& gridWire)
@@ -44,12 +35,27 @@ NodeGridSocket* NodeGrid::gridSocketForNodeSignal(NodeSignalProxy& nodeSignal)
             return socket;
         }
     }
+    for (auto& gridItem : gridOutputs) {
+        auto socket = gridItem->gridSocketForNodeSignal(nodeSignal);
+        if (socket) {
+            return socket;
+        }
+    }
     return nullptr;
 }
 
-void NodeGrid::draggingWireStarted(NodeGridItem& nodeGridItem, NodeGridSocket& socket)
+void NodeGrid::draggingWireStarted(NodeGridSocket& socket)
 {
-    draggingWire << make_shared<NodeGridWire>(*this, &socket);
+    shared_ptr<NodeGridWire> wire;
+    switch (socket.direction) {
+        case NodeGridSocketDirection::INPUT:
+            wire = make_shared<NodeGridWire>(*this, nullptr, &socket);
+            break;
+        case NodeGridSocketDirection::OUTPUT:
+            wire = make_shared<NodeGridWire>(*this, &socket, nullptr);
+            break;
+    }
+    draggingWire << wire;
 }
 
 void NodeGrid::draggingWireMoved(Point<int> p)
@@ -59,10 +65,19 @@ void NodeGrid::draggingWireMoved(Point<int> p)
     }
 }
 
-void NodeGrid::draggingWireEnded(NodeGridItem& gridItemEnd, NodeGridSocket& socket)
+void NodeGrid::draggingWireEnded(NodeGridSocket* socket)
 {
     if (draggingWire.getValue()) {
-        compoundNode->wireSubnodes(draggingWire.getValue()->emittingGridSocket->nodeSignal, dynamic_cast<NodeSocketProxy&>(socket.nodeSignal));
+        if (socket) {
+            switch (socket->direction) {
+                case NodeGridSocketDirection::INPUT:
+                    compoundNode->wireSubnodes(draggingWire.getValue()->emittingGridSocket->nodeSignal, dynamic_cast<NodeSocketProxy&>(socket->nodeSignal));
+                    break;
+                case NodeGridSocketDirection::OUTPUT:
+                    compoundNode->wireSubnodes(socket->nodeSignal, dynamic_cast<NodeSocketProxy&>(draggingWire.getValue()->receivingGridSocket->nodeSignal));
+                    break;
+            }
+        }
         draggingWire << nullptr;
     }
 }

@@ -37,8 +37,5 @@ private:
 class NodeSocketProxy : public NodeSignalProxy {
 
 public:
-    NodeSocketProxy(shared_ptr<NodeSocket> master, ProxyBridge& proxyBridge)
-    : NodeSignalProxy(master, proxyBridge)
-    {
-    }
+    NodeSocketProxy(shared_ptr<NodeSocket> master, ProxyBridge& proxyBridge);
 };

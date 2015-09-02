@@ -31,6 +31,7 @@ private:
     
     ObservableVector<shared_ptr<NodeGridItemView>> gridItemViews;
     ObservableVector<shared_ptr<NodeGridWireView>> gridWireViews;
+    ObservableVector<shared_ptr<NodeGridItemView>> gridOutputViews;
     
     shared_ptr<NodeGridWireView> draggingWireView;
     
@@ -42,7 +43,7 @@ private:
     void paint (Graphics&) override;
     void resized() override;
     void parentHierarchyChanged() override;
-    void mouseDrag (const MouseEvent& event) override;
+    void mouseDown(const MouseEvent& e) override;
     
     bool isInterestedInDragSource (const SourceDetails& dragSourceDetails) override;
     void itemDropped (const SourceDetails& dragSourceDetails) override;

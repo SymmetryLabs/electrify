@@ -11,21 +11,20 @@ class NodeGrid;
 class NodeGridItem : public Selectable {
 
 public:
-    NodeGridItem(NodeProxy& node, NodeGrid& NodeGrid);
-
-    NodeProxy& node;
+    NodeGridItem(NodeGrid& NodeGrid);
     
     NodeGrid& nodeGrid;
     
+    bool containsNodeGridSocket(const NodeGridSocket& nodeGridSocket) const;
     ObservableVector<shared_ptr<NodeGridSocket>> inputs;
     ObservableVector<shared_ptr<NodeGridSocket>> outputs;
     
-    NodeGridSocket* gridSocketForNodeSignal(NodeSignalProxy& nodeSignal);
+    NodeGridSocket* gridSocketForNodeSignal(const NodeSignalProxy& nodeSignal) const;
 
     Var<float> x;
     Var<float> y;
     void setPos(float x, float y);
     
-    void deleteSelectable() override;
+    virtual string getName() const = 0;
 
 };

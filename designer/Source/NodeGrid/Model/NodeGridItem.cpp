@@ -2,23 +2,35 @@
 
 #include "NodeGrid.h"
 
-NodeGridItem::NodeGridItem(NodeProxy& node, NodeGrid& nodeGrid)
+NodeGridItem::NodeGridItem(NodeGrid& nodeGrid)
 : Selectable(&nodeGrid)
-, node(node)
 , nodeGrid(nodeGrid)
 {
-    node.inputs.makeSlave(inputs, nodeGrid, this);
-    node.outputs.makeSlave(outputs, nodeGrid, this);
 }
 
-NodeGridSocket* NodeGridItem::gridSocketForNodeSignal(NodeSignalProxy& nodeSignal)
+bool NodeGridItem::containsNodeGridSocket(const NodeGridSocket& nodeGridSocket) const
 {
-    for (auto& input : inputs) {
+    for (const auto& input : inputs) {
+        if (input.get() == &nodeGridSocket) {
+            return true;
+        }
+    }
+    for (const auto& output : outputs) {
+        if (output.get() == &nodeGridSocket) {
+            return true;
+        }
+    }
+    return false;
+}
+
+NodeGridSocket* NodeGridItem::gridSocketForNodeSignal(const NodeSignalProxy& nodeSignal) const
+{
+    for (const auto& input : inputs) {
         if (&input->nodeSignal == &nodeSignal) {
             return input.get();
         }
     }
-    for (auto& output : outputs) {
+    for (const auto& output : outputs) {
         if (&output->nodeSignal == &nodeSignal) {
             return output.get();
         }
@@ -30,9 +42,4 @@ void NodeGridItem::setPos(float x_, float y_)
 {
     x << x_;
     y << y_;
-}
-
-void NodeGridItem::deleteSelectable()
-{
-    nodeGrid.removeNode(*this);
 }

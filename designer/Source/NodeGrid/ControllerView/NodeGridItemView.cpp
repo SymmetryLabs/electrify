@@ -18,8 +18,7 @@ NodeGridItemView::NodeGridItemView(NodeGridItem& nodeGridItem_, NodeGrid& nodeGr
 {
     setSize(200, 100);
     setBroughtToFrontOnMouseClick(true);
-    setName(nodeGridItem.node.name.getValue());
-    setComponentID(to_string(nodeGridItem.node.uuid));
+    setName(nodeGridItem.getName());
     
     observe(nodeGridItem.x.merge(nodeGridItem.y).tokenize(), [this] (void*) {
         setTopLeftPosition(nodeGridItem.x.getValue(), nodeGridItem.y.getValue());
@@ -28,7 +27,7 @@ NodeGridItemView::NodeGridItemView(NodeGridItem& nodeGridItem_, NodeGrid& nodeGr
     int i = 0;
     signalViews.reserve(nodeGridItem.inputs.size());
     for (const auto& input : nodeGridItem.inputs) {
-        signalViews.push_back(make_unique<SignalView>(*input.get(), nodeGrid, nodeGridItem));
+        signalViews.push_back(make_unique<SignalView>(*input.get(), nodeGrid));
         SignalView* signalView = signalViews.back().get();
         addAndMakeVisible(signalView);
         signalView->setTopLeftPosition(10, 20 + 20 * i);
@@ -38,7 +37,7 @@ NodeGridItemView::NodeGridItemView(NodeGridItem& nodeGridItem_, NodeGrid& nodeGr
     i = 0;
     signalViews.reserve(nodeGridItem.outputs.size());
     for (const auto& output : nodeGridItem.outputs) {
-        signalViews.push_back(make_unique<SignalView>(*output.get(), nodeGrid, nodeGridItem));
+        signalViews.push_back(make_unique<SignalView>(*output.get(), nodeGrid));
         SignalView* signalView = signalViews.back().get();
         addAndMakeVisible(signalView);
         signalView->setTopRightPosition(getRight() - 10, 20 + 20 * i);
@@ -58,7 +57,7 @@ void NodeGridItemView::setPos(Point<int> pos)
 SignalView* NodeGridItemView::signalViewFromSignal(const NodeGridSocket& gridSocket) const
 {
     for (auto& signalView : signalViews) {
-        if (signalView->socket.nodeSignal.name.getValue() == gridSocket.nodeSignal.name.getValue()) {
+        if (&signalView->socket.nodeSignal == &gridSocket.nodeSignal) {
             return signalView.get();
         }
     }
@@ -85,7 +84,7 @@ void NodeGridItemView::paint (Graphics& g)
 
     g.setColour (Colours::lightblue);
     g.setFont (14.0f);
-    g.drawText (nodeGridItem.node.name.getValue(), getLocalBounds(),
+    g.drawText (nodeGridItem.getName(), getLocalBounds(),
                 Justification::centred, true);   // draw some placeholder text
 }
 

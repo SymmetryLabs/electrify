@@ -14,7 +14,7 @@ void CompoundNode::registerWirableOutput(const string& name, SignalFunction<V>* 
 {
     auto socket = make_unique<ProxySocket<V>>(inputAddr, defaultValue);
     auto nodeSocket = make_shared<NodeSocket>(*this, name, move(socket));
-    wirableOutputs[name] = nodeSocket.get();
+    wirableOutputs.push_back(nodeSocket);
     registerOutput(name, nodeSocket);
 }
 
@@ -23,6 +23,6 @@ void CompoundNode::registerWirableOutput(const string& name, const V defaultValu
 {
     auto socket = make_unique<Socket<V>>(defaultValue);
     auto nodeSocket = make_shared<NodeSocket>(*this, name, move(socket));
-    wirableOutputs[name] = nodeSocket.get();
+    wirableOutputs.push_back(nodeSocket);
     registerOutput(name, nodeSocket);
 }

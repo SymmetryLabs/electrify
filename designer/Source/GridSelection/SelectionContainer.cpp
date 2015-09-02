@@ -14,3 +14,8 @@ SelectionContainer::SelectionContainer()
 : selectionController(this)
 {
 }
+
+void SelectionContainer::deselectAll()
+{
+    selectionController.deselectAll();
+}

@@ -68,31 +68,32 @@ void CompoundNode::wireSubnodes(NodeSignal& emittingSignal, NodeSocket& receivin
 
 void CompoundNode::unwireSubnode(Node& subnode)
 {
-//     for (auto iter = nodeWires.begin(); iter != nodeWires.end(); ) {
-//         NodeWire& wire = *iter;
-//         if (wire.emittingSocket.nodeUuid == subnode.uuid
-//                 || wire.receivingSocket.nodeUuid == subnode.uuid) {
-//             wire.unwireOutputTo()
-//             iter = nodeWires.erase(iter);
-//         } else {
-//             ++iter;
-//         }
-//     }
+    for (auto iter = nodeWires.begin(); iter != nodeWires.end(); ) {
+        const shared_ptr<NodeWire>& wire = *iter;
+        if (&wire->source.node == &subnode
+                || &wire->destination.node == &subnode) {
+            wire->disconnect();
+            iter = nodeWires.erase(iter);
+        } else {
+            ++iter;
+        }
+    }
 }
 
 void CompoundNode::removeWire(NodeWire& nodeWire)
 {
-    // unwireSubnode(*subnode);
-    // removeSharedPtr(subnodes, subnode);
+    nodeWire.disconnect();
+    removeSharedPtr(nodeWires, &nodeWire);
 }
 
 NodeSocket* CompoundNode::getWirableOutput(const string& name)
 {
-    try {
-        return wirableOutputs.at(name);
-    } catch (out_of_range& e) {
-        return nullptr;
+    for (auto& output : wirableOutputs) {
+        if (output->getName() == name) {
+            return output.get();
+        }
     }
+    return nullptr;
 }
 
 void CompoundNode::wireOutput(const string& name, NodeSignal& emittingSignal)
@@ -101,3 +102,49 @@ void CompoundNode::wireOutput(const string& name, NodeSignal& emittingSignal)
 }
 
 SYNTHESIZE_PROXYABLE_IMPL(CompoundNode, CompoundNodeProxy);
+
+CompoundNodeProxy::CompoundNodeProxy(shared_ptr<CompoundNode> master, ProxyBridge& proxyBridge)
+: NodeProxy(master, proxyBridge)
+{
+}
+
+void CompoundNodeProxy::init(shared_ptr<CompoundNode> master, ProxyBridge& proxyBridge)
+{
+    NodeProxy::init(master, proxyBridge);
+    master->subnodes.makeProxySlave(subnodes, proxyBridge);
+    master->nodeWires.makeProxySlave(nodeWires, proxyBridge);
+    master->wirableOutputs.makeProxySlave(wirableOutputs, proxyBridge);
+}
+
+void CompoundNodeProxy::addSubnode(const string& name, function<void(size_t)> response)
+{
+    this->template sendCommand<CompoundNode, size_t>([=] (shared_ptr<CompoundNode> compoundNode) -> size_t {
+        return compoundNode->createSubnode(name);
+    }, [=] (size_t pos) {
+        response(pos);
+    });
+}
+
+void CompoundNodeProxy::removeSubnode(const NodeProxy& node)
+{
+    this->template sendCommand<CompoundNode, Node>(
+        [] (shared_ptr<CompoundNode> compoundNode, shared_ptr<Node> node) {
+        compoundNode->removeSubnode(node.get());
+    }, node);
+}
+
+void CompoundNodeProxy::wireSubnodes(const NodeSignalProxy& emittingSignal, const NodeSocketProxy& receivingSocket)
+{
+    this->template sendCommand<CompoundNode, NodeSignal, NodeSocket>(
+        [] (shared_ptr<CompoundNode> compoundNode, shared_ptr<NodeSignal> emittingSignal, shared_ptr<NodeSocket> receivingSocket) {
+        compoundNode->wireSubnodes(*emittingSignal.get(), *receivingSocket.get());
+    }, emittingSignal, receivingSocket);
+}
+
+void CompoundNodeProxy::removeWire(const NodeWireProxy& nodeWire)
+{
+    this->template sendCommand<CompoundNode, NodeWire>(
+        [] (shared_ptr<CompoundNode> compoundNode, shared_ptr<NodeWire> nodeWire) {
+        compoundNode->removeWire(*nodeWire.get());
+    }, nodeWire);
+}

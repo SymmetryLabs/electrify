@@ -146,25 +146,24 @@ auto ObservableVector<T>
 }
 
 template<typename T>
-template<typename SlaveType, typename FIn>
+template<typename SlaveType, typename FCreate, typename FDestr>
 auto ObservableVector<T>
-    ::makeSlave(ObservableVector<std::shared_ptr<SlaveType>>& slave, FIn&& createFunc)
-        -> typename std::enable_if<std::is_convertible<FIn, std::function<std::shared_ptr<SlaveType>(T)>>::value>::type
+    ::makeSlave(ObservableVector<std::shared_ptr<SlaveType>>& slave, FCreate&& createFunc, FDestr&& destructFunc)
+        -> typename std::enable_if<std::is_convertible<FCreate, std::function<std::shared_ptr<SlaveType>(T)>>::value
+                                    && std::is_convertible<FDestr, std::function<void(std::shared_ptr<SlaveType>)>>::value>::type
 {
     for (T& obj : v) {
         slave.push_back(createFunc(obj));
     }
 
-    auto masterAddedValueEvent = valueAdded.map(
-        [createFunc] (const std::pair<size_t, std::reference_wrapper<T>>& object) {
-        return std::make_pair(object.first, createFunc(object.second.get()));
-    });
-    slave.observe(masterAddedValueEvent,
-        [&] (std::pair<size_t, std::shared_ptr<SlaveType>> p) {
-        slave.insert(slave.begin() + p.first, p.second);
+    slave.observe(valueAdded,
+        [&, createFunc] (const std::pair<size_t, std::reference_wrapper<T>>& p) {
+        slave.insert(slave.begin() + p.first, createFunc(p.second.get()));
     });
 
-    slave.observe(valueRemoved, [&] (std::pair<size_t, T> p) {
+    slave.observe(valueRemoved, [&, destructFunc] (std::pair<size_t, T> p) {
+        std::shared_ptr<SlaveType> removed = slave[p.first];
         slave.erase(slave.begin() + p.first);
+        destructFunc(removed);
     });
 }

@@ -14,16 +14,18 @@
 #include <node_signal.h>
 
 class NodeGrid;
-class NodeGridItem;
+
+enum struct NodeGridSocketDirection { INPUT, OUTPUT };
 
 class NodeGridSocket {
     
 public:
-    NodeGridSocket(NodeSignalProxy& nodeSignal, NodeGrid& nodeGrid, NodeGridItem* gridItem = nullptr);
+    NodeGridSocket(NodeSignalProxy& nodeSignal, NodeGrid& nodeGrid, const NodeGridSocketDirection& direction);
     
     NodeSignalProxy& nodeSignal;
     
     NodeGrid& nodeGrid;
-    NodeGridItem* gridItem;
+    
+    NodeGridSocketDirection direction;
     
 };

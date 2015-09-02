@@ -31,6 +31,9 @@ public:
     void paint(Graphics&) override;
     void resized() override;
     
+    bool hitTest(int x, int y) override;
+    void mouseDown(const MouseEvent& e) override;
+    
     void componentBroughtToFront(Component& component) override;
     void componentMovedOrResized(Component& component, bool wasMoved, bool wasResized) override;
 

@@ -22,7 +22,6 @@ public:
     virtual ~Selectable() {}
     
     Var<bool> selected;
-    
     void setSelected(bool selected);
     
     virtual void deleteSelectable();

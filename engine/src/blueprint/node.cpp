@@ -49,9 +49,31 @@ NodeSignal* Node::getOutput(const string& name) const
     return nullptr;
 }
 
-SYNTHESIZE_PROXYABLE_IMPL(Node, NodeProxy);
-
 // void Node::registerParameter(const string& name, unique_ptr<BaseParameter> parameter)
 // {
 //     parameters[name] = move(parameter);
 // }
+
+SYNTHESIZE_PROXYABLE_IMPL(Node, NodeProxy);
+
+NodeProxy::NodeProxy(shared_ptr<Node> master, ProxyBridge& proxyBridge)
+: DataProxy(master, proxyBridge)
+, name(Var<string>(master->name.getValue()))
+, uuid(master->uuid)
+{
+}
+
+void NodeProxy::init(shared_ptr<Node> master, ProxyBridge& proxyBridge)
+{
+    this->bind(master->name, this->name);
+
+    master->inputs.makeProxySlave(inputs, proxyBridge);
+    master->outputs.makeProxySlave(outputs, proxyBridge);
+}
+
+void NodeProxy::setName(const string& name_)
+{
+    sendCommand<Node>([=] (shared_ptr<Node> node) {
+        node->name << name_;
+    });
+}

@@ -42,7 +42,7 @@ class SignalView  : public Component
 {
 public:
     //==============================================================================
-    SignalView (NodeGridSocket& socket, NodeGrid& nodeGrid, NodeGridItem& nodeGridItem);
+    SignalView (NodeGridSocket& socket, NodeGrid& nodeGrid);
     ~SignalView();
 
     //==============================================================================
@@ -63,11 +63,10 @@ public:
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
     NodeGrid& nodeGrid;
-    NodeGridItem& nodeGridItem;
 
-    bool dragStarted;
+    bool dragStarted = false;
     SignalView* lastHover;
-    bool hovering;
+    bool hovering = false;
     //[/UserVariables]
 
     //==============================================================================

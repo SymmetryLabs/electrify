@@ -5,8 +5,32 @@
               jucerVersion="3.2.0">
   <MAINGROUP id="wQ89CT" name="Designer">
     <GROUP id="{FD40B928-CCA8-FE86-E11B-047A03A31108}" name="Source">
+      <GROUP id="{7E99A221-AD47-D736-6AA4-51500C5933A5}" name="Main">
+        <FILE id="j0Xzqb" name="DesignerWindowComponent.cpp" compile="1" resource="0"
+              file="Source/Main/DesignerWindowComponent.cpp"/>
+        <FILE id="SPJIZO" name="DesignerWindowComponent.h" compile="0" resource="0"
+              file="Source/Main/DesignerWindowComponent.h"/>
+        <FILE id="yE7VgG" name="Main.cpp" compile="1" resource="0" file="Source/Main/Main.cpp"/>
+        <FILE id="uN5ItF" name="NodeListView.cpp" compile="1" resource="0"
+              file="Source/Main/NodeListView.cpp"/>
+        <FILE id="CFSNAT" name="NodeListView.h" compile="0" resource="0" file="Source/Main/NodeListView.h"/>
+        <FILE id="bvitCn" name="OutputSimulationView.cpp" compile="1" resource="0"
+              file="Source/Main/OutputSimulationView.cpp"/>
+        <FILE id="gftXIp" name="OutputSimulationView.h" compile="0" resource="0"
+              file="Source/Main/OutputSimulationView.h"/>
+      </GROUP>
       <GROUP id="{C7899901-5808-42C1-5635-388496375696}" name="NodeGrid">
         <GROUP id="{AF961D6D-38FD-1265-46CA-19B03878C7EB}" name="Model">
+          <GROUP id="{F4F0BFC9-F38D-2B41-5157-D22B58075075}" name="NodeGridItem">
+            <FILE id="BCr586" name="NodeGridItemNode.cpp" compile="1" resource="0"
+                  file="Source/NodeGrid/Model/NodeGridItem/NodeGridItemNode.cpp"/>
+            <FILE id="DdCP9H" name="NodeGridItemNode.h" compile="0" resource="0"
+                  file="Source/NodeGrid/Model/NodeGridItem/NodeGridItemNode.h"/>
+            <FILE id="rC2qgu" name="NodeGridItemSocket.cpp" compile="1" resource="0"
+                  file="Source/NodeGrid/Model/NodeGridItem/NodeGridItemSocket.cpp"/>
+            <FILE id="szARZt" name="NodeGridItemSocket.h" compile="0" resource="0"
+                  file="Source/NodeGrid/Model/NodeGridItem/NodeGridItemSocket.h"/>
+          </GROUP>
           <FILE id="PqVSp8" name="NodeGrid.cpp" compile="1" resource="0" file="Source/NodeGrid/Model/NodeGrid.cpp"/>
           <FILE id="WQuN8g" name="NodeGrid.h" compile="0" resource="0" file="Source/NodeGrid/Model/NodeGrid.h"/>
           <FILE id="h5k6Xf" name="NodeGridItem.cpp" compile="1" resource="0"
@@ -36,37 +60,27 @@
                 file="Source/NodeGrid/ControllerView/NodeGridWireView.h"/>
         </GROUP>
       </GROUP>
-      <GROUP id="{9A039131-0AAF-B342-BE63-4A2CAABE7A76}" name="Controller">
-        <FILE id="mvy8Sk" name="SelectionContainer.cpp" compile="1" resource="0"
-              file="Source/Controller/SelectionContainer.cpp"/>
-        <FILE id="O0X2Cu" name="SelectionContainer.h" compile="0" resource="0"
-              file="Source/Controller/SelectionContainer.h"/>
-        <FILE id="byju16" name="SelectionController.cpp" compile="1" resource="0"
-              file="Source/Controller/SelectionController.cpp"/>
-        <FILE id="YaNPzb" name="SelectionController.h" compile="0" resource="0"
-              file="Source/Controller/SelectionController.h"/>
-        <FILE id="pNPMur" name="Selectable.cpp" compile="1" resource="0" file="Source/Controller/Selectable.cpp"/>
-        <FILE id="ShhagW" name="Selectable.h" compile="0" resource="0" file="Source/Controller/Selectable.h"/>
-      </GROUP>
-      <GROUP id="{7E99A221-AD47-D736-6AA4-51500C5933A5}" name="Main">
-        <FILE id="j0Xzqb" name="DesignerWindowComponent.cpp" compile="1" resource="0"
-              file="Source/Main/DesignerWindowComponent.cpp"/>
-        <FILE id="SPJIZO" name="DesignerWindowComponent.h" compile="0" resource="0"
-              file="Source/Main/DesignerWindowComponent.h"/>
-        <FILE id="yE7VgG" name="Main.cpp" compile="1" resource="0" file="Source/Main/Main.cpp"/>
-        <FILE id="uN5ItF" name="NodeListView.cpp" compile="1" resource="0"
-              file="Source/Main/NodeListView.cpp"/>
-        <FILE id="CFSNAT" name="NodeListView.h" compile="0" resource="0" file="Source/Main/NodeListView.h"/>
-        <FILE id="bvitCn" name="OutputSimulationView.cpp" compile="1" resource="0"
-              file="Source/Main/OutputSimulationView.cpp"/>
-        <FILE id="gftXIp" name="OutputSimulationView.h" compile="0" resource="0"
-              file="Source/Main/OutputSimulationView.h"/>
+      <GROUP id="{6519E95B-19B8-0171-FEAE-5A6675698775}" name="GridSelection">
+        <FILE id="cxzww6" name="SelectionController.cpp" compile="1" resource="0"
+              file="Source/GridSelection/SelectionController.cpp"/>
+        <FILE id="FkE2P4" name="SelectionController.h" compile="0" resource="0"
+              file="Source/GridSelection/SelectionController.h"/>
+        <FILE id="J5OOzi" name="Selectable.cpp" compile="1" resource="0" file="Source/GridSelection/Selectable.cpp"/>
+        <FILE id="nm1q0y" name="Selectable.h" compile="0" resource="0" file="Source/GridSelection/Selectable.h"/>
+        <FILE id="tAdPvF" name="SelectionContainer.cpp" compile="1" resource="0"
+              file="Source/GridSelection/SelectionContainer.cpp"/>
+        <FILE id="eQjXeS" name="SelectionContainer.h" compile="0" resource="0"
+              file="Source/GridSelection/SelectionContainer.h"/>
       </GROUP>
       <GROUP id="{6363C1F2-3176-B5E2-5D42-3CDC5B26D681}" name="Common">
         <FILE id="tkTRkV" name="BlueprintUiGlobals.h" compile="0" resource="0"
               file="Source/Common/BlueprintUiGlobals.h"/>
         <FILE id="yNMByT" name="EngineUi.cpp" compile="1" resource="0" file="Source/Common/EngineUi.cpp"/>
         <FILE id="wrkeBE" name="EngineUi.h" compile="0" resource="0" file="Source/Common/EngineUi.h"/>
+      </GROUP>
+      <GROUP id="{76572F2C-CA33-4A7C-DF8F-8299F568D2B9}" name="Utils">
+        <FILE id="B8ykus" name="ComponentUtils.h" compile="0" resource="0"
+              file="Source/Utils/ComponentUtils.h"/>
       </GROUP>
     </GROUP>
   </MAINGROUP>

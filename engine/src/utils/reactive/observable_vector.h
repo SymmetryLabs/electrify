@@ -6,6 +6,7 @@
 
 #include "data_proxy.h"
 #include "observes.h"
+#include "template_utils.h"
 
 template<typename T>
 class ObservableVector : public Observes {
@@ -58,9 +59,10 @@ public:
     template<typename SlaveType, typename... ArgN>
     auto makeSlave(ObservableVector<std::shared_ptr<SlaveType>>& slave, ArgN&&... args)
         -> typename std::enable_if<!std::is_convertible<typename std::tuple_element<0, std::tuple<ArgN...> >::type, std::function<std::shared_ptr<SlaveType>(T)>>::value>::type;
-    template<typename SlaveType, typename FIn>
-    auto makeSlave(ObservableVector<std::shared_ptr<SlaveType>>& slave, FIn&& createFunc)
-        -> typename std::enable_if<std::is_convertible<FIn, std::function<std::shared_ptr<SlaveType>(T)>>::value>::type;
+    template<typename SlaveType, typename FCreate, typename FDestr = VoidNoOp>
+    auto makeSlave(ObservableVector<std::shared_ptr<SlaveType>>& slave, FCreate&& createFunc, FDestr&& destructFunc = VoidNoOp())
+        -> typename std::enable_if<std::is_convertible<FCreate, std::function<std::shared_ptr<SlaveType>(T)>>::value
+                                    && std::is_convertible<FDestr, std::function<void(std::shared_ptr<SlaveType>)>>::value>::type;
 
 private:
     std::vector<T> v;

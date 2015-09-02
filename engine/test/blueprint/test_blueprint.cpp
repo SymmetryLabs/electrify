@@ -17,48 +17,48 @@
 #include "node_registrar.h"
 
 SCENARIO("using blueprint") {
-  FrameContext frame {nanoseconds(100)};
+    FrameContext frame {nanoseconds(100)};
 
-  ConstantColorNode c;
-  REQUIRE(c.calculate(frame) == Color(0xff0000ff));
+    ConstantColorNode c;
+    REQUIRE(c.calculate(frame) == Color(0xff0000ff));
 
-  ColorDoubler colorDoubler;
-  c.getOutput("output")->wireOutput(*colorDoubler.getInput("color"));
-  REQUIRE(colorDoubler.calculate(frame) == Color(0xfe0001fe));
+    ColorDoubler colorDoubler;
+    c.getOutput("output")->wireOutput(*colorDoubler.getInput("color"));
+    REQUIRE(colorDoubler.calculate(frame) == Color(0xfe0001fe));
 
-  SquareWave sq;
-  REQUIRE(sq.calculate(frame) == 0);
+    SquareWave sq;
+    REQUIRE(sq.calculate(frame) == 0);
 
-  Incrementer incr;
-  colorDoubler.getOutput("output")->wireOutput(*incr.getInput("color"));
-  REQUIRE(incr.calculate(frame) == Color(0xfe0001fe));
+    Incrementer incr;
+    colorDoubler.getOutput("output")->wireOutput(*incr.getInput("color"));
+    REQUIRE(incr.calculate(frame) == Color(0xfe0001fe));
 
-  incr.update(frame);
-  REQUIRE(incr.calculate(frame) == Color(0xfe0002fe));
+    incr.update(frame);
+    REQUIRE(incr.calculate(frame) == Color(0xfe0002fe));
 
-  incr.update(frame);
-  REQUIRE(incr.calculate(frame) == Color(0xfe0003fe));
-
-
-  NodeRegistrar nodeRegistrar;
-  nodeRegistrar.getAvailableNodeNames()[0];
+    incr.update(frame);
+    REQUIRE(incr.calculate(frame) == Color(0xfe0003fe));
 
 
-  auto blueprint = make_shared<Blueprint>();
-  auto model = make_unique<Model>();
-  model->pixels = {new Pixel()};
+    NodeRegistrar nodeRegistrar;
+    nodeRegistrar.getAvailableNodeNames()[0];
 
-  auto compound = blueprint->makeSubnode<CompoundNode>();
-  compound->registerWirableOutput<Color>("color");
 
-  auto constantColor = compound->makeSubnode<ConstantColorNode>();
-  auto translateNode = compound->makeSubnode<TranslateNode>();
+    auto blueprint = make_shared<Blueprint>();
+    auto model = make_unique<Model>();
+    model->pixels = {new Pixel()};
 
-  compound->wireSubnodes(*constantColor->getOutput("output"), *translateNode->getInput("Translate"));
-  compound->wireSubnodes(*translateNode->getOutput("Translate"), *compound->getWirableOutput("color"));
+    auto compound = blueprint->makeSubnode<CompoundNode>();
+    compound->registerWirableOutput<Color>("color");
 
-  compound->wireSubnodes(*compound->getOutput("color"), *blueprint->getWirableOutput("color"));
-  
-  Engine engine(blueprint, move(model));
-  engine.startAndWait();
+    auto constantColor = compound->makeSubnode<ConstantColorNode>();
+    auto translateNode = compound->makeSubnode<TranslateNode>();
+
+    compound->wireSubnodes(*constantColor->getOutput("output"), *translateNode->getInput("Translate"));
+    compound->wireSubnodes(*translateNode->getOutput("Translate"), *compound->getWirableOutput("color"));
+
+    compound->wireSubnodes(*compound->getOutput("color"), *blueprint->getWirableOutput("color"));
+
+    Engine engine(blueprint, move(model));
+    engine.startAndWait();
 }

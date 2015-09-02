@@ -21,6 +21,8 @@ public:
     
     SelectionController selectionController;
     
+    void deselectAll();
+    
 private:
     friend class SelectionController;
     

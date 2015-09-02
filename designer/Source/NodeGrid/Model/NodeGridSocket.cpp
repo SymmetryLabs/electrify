@@ -10,9 +10,9 @@
 
 #include "NodeGridSocket.h"
 
-NodeGridSocket::NodeGridSocket(NodeSignalProxy& nodeSignal, NodeGrid& nodeGrid, NodeGridItem* gridItem)
+NodeGridSocket::NodeGridSocket(NodeSignalProxy& nodeSignal, NodeGrid& nodeGrid, const NodeGridSocketDirection& direction)
 : nodeSignal(nodeSignal)
 , nodeGrid(nodeGrid)
-, gridItem(gridItem)
+, direction(direction)
 {
 }

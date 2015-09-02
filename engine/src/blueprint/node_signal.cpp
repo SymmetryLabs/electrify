@@ -30,6 +30,8 @@ void NodeSignal::unwireOutput(NodeSocket& destinationNodeSocket)
     destinationNodeSocket.unwireInput(*getSignal());
 }
 
+SYNTHESIZE_PROXYABLE_IMPL(NodeSignal, NodeSignalProxy);
+
 NodeSignalProxy::NodeSignalProxy(shared_ptr<NodeSignal> master, ProxyBridge& proxyBridge)
 : DataProxy(master, proxyBridge)
 {
@@ -40,5 +42,3 @@ void NodeSignalProxy::init(shared_ptr<NodeSignal> master, ProxyBridge& proxyBrid
     this->node = master->node.getProxy<NodeProxy>(proxyBridge);
     this->bind(master->name, this->name);
 }
-
-SYNTHESIZE_PROXYABLE_IMPL(NodeSignal, NodeSignalProxy);

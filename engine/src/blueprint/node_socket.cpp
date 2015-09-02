@@ -32,3 +32,8 @@ void NodeSocket::unregisterContextModifier(ContextModifierChain& contextModifier
 }
 
 SYNTHESIZE_PROXYABLE_IMPL(NodeSocket, NodeSocketProxy);
+
+NodeSocketProxy::NodeSocketProxy(shared_ptr<NodeSocket> master, ProxyBridge& proxyBridge)
+: NodeSignalProxy(master, proxyBridge)
+{
+}

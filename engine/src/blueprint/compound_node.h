@@ -49,7 +49,7 @@ public:
     ObservableVector<shared_ptr<NodeWire>> nodeWires;
 
 private:
-    unordered_map<string, NodeSocket*> wirableOutputs;
+    ObservableVector<shared_ptr<NodeSocket>> wirableOutputs;
 
     SYNTHESIZE_PROXYABLE(CompoundNodeProxy);
 
@@ -58,52 +58,17 @@ private:
 class CompoundNodeProxy : public NodeProxy {
 
 public:
-    CompoundNodeProxy(shared_ptr<CompoundNode> master, ProxyBridge& proxyBridge)
-    : NodeProxy(master, proxyBridge)
-    {}
-
-    void init(shared_ptr<CompoundNode> master, ProxyBridge& proxyBridge)
-    {
-        NodeProxy::init(master, proxyBridge);
-        master->subnodes.makeProxySlave(subnodes, proxyBridge);
-        master->nodeWires.makeProxySlave(nodeWires, proxyBridge);
-    }
+    CompoundNodeProxy(shared_ptr<CompoundNode> master, ProxyBridge& proxyBridge);
+    void init(shared_ptr<CompoundNode> master, ProxyBridge& proxyBridge);
 
     ObservableVector<shared_ptr<NodeProxy>> subnodes;
     ObservableVector<shared_ptr<NodeWireProxy>> nodeWires;
+    ObservableVector<shared_ptr<NodeSocketProxy>> wirableOutputs;
 
-    void addSubnode(const string& name, function<void(size_t)> response)
-    {
-        this->template sendCommand<CompoundNode, size_t>([=] (shared_ptr<CompoundNode> compoundNode) -> size_t {
-            return compoundNode->createSubnode(name);
-        }, [=] (size_t pos) {
-            response(pos);
-        });
-    }
-    
-    void removeSubnode(const NodeProxy& node)
-    {
-        this->template sendCommand<CompoundNode, Node>(
-            [] (shared_ptr<CompoundNode> compoundNode, shared_ptr<Node> node) {
-            compoundNode->removeSubnode(node.get());
-        }, node);
-    }
-
-    void wireSubnodes(const NodeSignalProxy& emittingSignal, const NodeSocketProxy& receivingSocket)
-    {
-        this->template sendCommand<CompoundNode, NodeSignal, NodeSocket>(
-            [] (shared_ptr<CompoundNode> compoundNode, shared_ptr<NodeSignal> emittingSignal, shared_ptr<NodeSocket> receivingSocket) {
-            compoundNode->wireSubnodes(*emittingSignal.get(), *receivingSocket.get());
-        }, emittingSignal, receivingSocket);
-    }
-    
-    void removeWire(const NodeWireProxy& nodeWire)
-    {
-        this->template sendCommand<CompoundNode, NodeWire>(
-            [] (shared_ptr<CompoundNode> compoundNode, shared_ptr<NodeWire> nodeWire) {
-            compoundNode->removeWire(*nodeWire.get());
-        }, nodeWire);
-    }
+    void addSubnode(const string& name, function<void(size_t)> response);
+    void removeSubnode(const NodeProxy& node);
+    void wireSubnodes(const NodeSignalProxy& emittingSignal, const NodeSocketProxy& receivingSocket);
+    void removeWire(const NodeWireProxy& nodeWire);
 };
 
 #include "compound_node.tpp"
