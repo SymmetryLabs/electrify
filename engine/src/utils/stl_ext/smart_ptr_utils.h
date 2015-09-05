@@ -1,9 +1,13 @@
 #pragma once
 
-#include "virtual_enable_shared_from_this.h"
+#include <memory>
+
+namespace std {
 
 template<typename T, typename ...Args>
 std::unique_ptr<T> make_unique( Args&& ...args )
 {
     return std::unique_ptr<T>( new T( std::forward<Args>(args)... ) );
+}
+
 }
