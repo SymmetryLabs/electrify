@@ -149,8 +149,8 @@ void SignalView::mouseUp (const MouseEvent& e)
         Component* component = getComponentAtWithChildTypeFilter<NodeGridItemView>(nodeGridView, p);
         SignalView* signalView = dynamic_cast<SignalView*>(component);
         
-        if (socket.direction == signalView->socket.direction
-            || signalView->findParentComponentOfClass<NodeGridItemView>() == this->findParentComponentOfClass<NodeGridItemView>()) {
+        if (signalView && (socket.direction == signalView->socket.direction
+            || signalView->findParentComponentOfClass<NodeGridItemView>() == this->findParentComponentOfClass<NodeGridItemView>())) {
             signalView = nullptr;
         }
         

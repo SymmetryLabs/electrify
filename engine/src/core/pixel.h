@@ -1,6 +1,5 @@
 #pragma once
 #include "globals.h"
-#include "group.h"
 
 /**
  * Pixels are individual lights that exist in 3D space on a structure;

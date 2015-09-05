@@ -46,7 +46,7 @@ DesignerWindowComponent::DesignerWindowComponent (Engine* engine, EngineUi* engi
     //[UserPreSize]
     //[/UserPreSize]
 
-    setSize (1200, 600);
+    setSize (1400, 600);
 
 
     //[Constructor] You can add your own custom stuff here..

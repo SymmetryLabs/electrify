@@ -9,7 +9,7 @@
 #include "virtual_enable_shared_from_this.h"
 #include "data_proxy.h"
 
-class ProxyableBase {
+class Proxyable : public virtual_enable_shared_from_this_base {
 
 public:
     virtual ~Proxyable() = default;
@@ -23,13 +23,6 @@ protected:
 
 private:
     std::unordered_map<boost::uuids::uuid, std::weak_ptr<void>, boost::hash<boost::uuids::uuid>> proxies;
-
-};
-
-class Proxyable : public virtual ProxyableBase, public virtual_enable_shared_from_this {
-
-public:
-    virtual ~Proxyable() {}
 
 };
 

@@ -1,5 +1,5 @@
 template<typename ConcreteProxyType>
-std::shared_ptr<ConcreteProxyType> ProxyableBase::getProxy(ProxyBridge& proxyBridge)
+std::shared_ptr<ConcreteProxyType> Proxyable::getProxy(ProxyBridge& proxyBridge)
 {
     std::shared_ptr<void> proxy;
     auto iter = proxies.find(proxyBridge.uuid);

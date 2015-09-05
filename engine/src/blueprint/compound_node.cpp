@@ -45,7 +45,7 @@ void CompoundNode::removeSubnode(Node* subnode)
     removeSharedPtr(subnodes, subnode);
 }
 
-Node* CompoundNode::getSubnodeByUuid(boost::uuids::uuid uuid)
+Node* CompoundNode::getSubnodeByUuid(boost::uuids::uuid uuid) const
 {
     for (const auto& subnode : subnodes) {
         if (subnode->uuid == uuid) {
@@ -86,7 +86,7 @@ void CompoundNode::removeWire(NodeWire& nodeWire)
     removeSharedPtr(nodeWires, &nodeWire);
 }
 
-NodeSocket* CompoundNode::getWirableOutput(const string& name)
+NodeSocket* CompoundNode::getWirableOutput(const string& name) const
 {
     for (auto& output : wirableOutputs) {
         if (output->getName() == name) {
@@ -112,8 +112,8 @@ void CompoundNodeProxy::init(shared_ptr<CompoundNode> master, ProxyBridge& proxy
 {
     NodeProxy::init(master, proxyBridge);
     master->subnodes.makeProxySlave(subnodes, proxyBridge);
-    master->nodeWires.makeProxySlave(nodeWires, proxyBridge);
     master->wirableOutputs.makeProxySlave(wirableOutputs, proxyBridge);
+    master->nodeWires.makeProxySlave(nodeWires, proxyBridge);
 }
 
 void CompoundNodeProxy::addSubnode(const string& name, function<void(size_t)> response)

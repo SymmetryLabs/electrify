@@ -74,6 +74,7 @@ file(GLOB HEADER_DIRS
   "src/utils/data_proxy"
   "src/utils/event_queue"
   "src/utils/reactive"
+  "src/utils/stl_ext"
 )
 
 file(GLOB LIB_HEADER_DIRS

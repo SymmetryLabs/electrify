@@ -45,7 +45,7 @@ public:
     Event<> postFrameUpdateEvent;
 
 private:
-    std::shared_ptr<Renderable> renderable;
+    shared_ptr<Renderable> renderable;
     unique_ptr<Model> model;
 
     thread engineThread;

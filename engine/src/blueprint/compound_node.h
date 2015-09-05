@@ -8,11 +8,10 @@
 #include "node_wire.h"
 #include "node_socket.h"
 #include "node_signal.h"
-#include "proxyable.h"
 
 class CompoundNodeProxy;
 
-class CompoundNode : public Node, public Proxyable {
+class CompoundNode : public Node {
 
 public:
     explicit CompoundNode(const string& name = "Compound Node");
@@ -29,7 +28,7 @@ public:
     size_t addSubnode(unique_ptr<Node> subnode);
     void removeSubnode(Node* subnode);
 
-    Node* getSubnodeByUuid(boost::uuids::uuid uuid);
+    Node* getSubnodeByUuid(boost::uuids::uuid uuid) const;
 
     // bool canWireSubnodes(Node& emittingSubnode, const string& emittingOutputName,
     //     Node& receivingSubnode, const string& receivingInputName);
@@ -42,7 +41,7 @@ public:
     template <typename V>
     void registerWirableOutput(const string& name, const V defaultValue = V());
 
-    NodeSocket* getWirableOutput(const string& name);
+    NodeSocket* getWirableOutput(const string& name) const;
     void wireOutput(const string& name, NodeSignal& emittingSignal);
 
     ObservableVector<shared_ptr<Node>> subnodes;

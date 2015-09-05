@@ -1,12 +1,11 @@
 #pragma once
 #include "globals.h"
+
 #include "pixel.h"
 
 /**
  * Groups collect one or more pixels together
  */
-class Pixel;
-
 class Group {
     public:
         double x,y,z;

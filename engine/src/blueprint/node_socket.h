@@ -4,14 +4,13 @@
 #include <boost/uuid/uuid.hpp>
 
 #include "data_proxy.h"
-#include "proxyable.h"
 #include "signals.h"
 #include "socket.h"
 #include "node_signal.h"
 
 class NodeSocketProxy;
 
-class NodeSocket : public NodeSignal, public Proxyable {
+class NodeSocket : public NodeSignal {
 
 public:
     NodeSocket(Node& node, const string& name, unique_ptr<BaseSocket>&& socket);
