@@ -101,16 +101,9 @@ void CompoundNode::wireOutput(const string& name, NodeSignal& emittingSignal)
     // emittingSubnode.wireOutputTo(emittingOutputName, *getWirableOutput(name));
 }
 
-SYNTHESIZE_PROXYABLE_IMPL(CompoundNode, CompoundNodeProxy);
-
 CompoundNodeProxy::CompoundNodeProxy(shared_ptr<CompoundNode> master, ProxyBridge& proxyBridge)
 : NodeProxy(master, proxyBridge)
 {
-}
-
-void CompoundNodeProxy::init(shared_ptr<CompoundNode> master, ProxyBridge& proxyBridge)
-{
-    NodeProxy::init(master, proxyBridge);
     master->subnodes.makeProxySlave(subnodes, proxyBridge);
     master->wirableOutputs.makeProxySlave(wirableOutputs, proxyBridge);
     master->nodeWires.makeProxySlave(nodeWires, proxyBridge);

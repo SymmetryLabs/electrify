@@ -58,7 +58,6 @@ class CompoundNodeProxy : public NodeProxy {
 
 public:
     CompoundNodeProxy(shared_ptr<CompoundNode> master, ProxyBridge& proxyBridge);
-    void init(shared_ptr<CompoundNode> master, ProxyBridge& proxyBridge);
 
     ObservableVector<shared_ptr<NodeProxy>> subnodes;
     ObservableVector<shared_ptr<NodeWireProxy>> nodeWires;

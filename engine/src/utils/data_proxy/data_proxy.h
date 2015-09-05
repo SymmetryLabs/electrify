@@ -12,7 +12,6 @@ class DataProxy : public Observes {
 
 public:
     DataProxy(std::weak_ptr<void> master, ProxyBridge& proxyBridge);
-    virtual void init(std::weak_ptr<void> master, ProxyBridge& proxyBridge) {}
     
     std::weak_ptr<void> getMaster() const;
 

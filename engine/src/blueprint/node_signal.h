@@ -41,7 +41,6 @@ class NodeSignalProxy : public DataProxy {
 public:
     NodeSignalProxy(shared_ptr<NodeSignal> master, ProxyBridge& proxyBridge);
     virtual ~NodeSignalProxy() = default;
-    void init(shared_ptr<NodeSignal> master, ProxyBridge& proxyBridge);
     
     shared_ptr<NodeProxy> node;
     Var<string> name;

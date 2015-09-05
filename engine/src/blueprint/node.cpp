@@ -54,16 +54,10 @@ NodeSignal* Node::getOutput(const string& name) const
 //     parameters[name] = move(parameter);
 // }
 
-SYNTHESIZE_PROXYABLE_IMPL(Node, NodeProxy);
-
 NodeProxy::NodeProxy(shared_ptr<Node> master, ProxyBridge& proxyBridge)
 : DataProxy(master, proxyBridge)
 , name(Var<string>(master->name.getValue()))
 , uuid(master->uuid)
-{
-}
-
-void NodeProxy::init(shared_ptr<Node> master, ProxyBridge& proxyBridge)
 {
     this->bind(master->name, this->name);
 

@@ -30,5 +30,3 @@ void NodeWire::disconnect()
     connected = false;
     source.unwireOutput(destination);
 }
-
-SYNTHESIZE_PROXYABLE_IMPL(NodeWire, NodeWireProxy);

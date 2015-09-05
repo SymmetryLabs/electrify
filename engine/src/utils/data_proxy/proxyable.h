@@ -8,6 +8,7 @@
 
 #include "virtual_enable_shared_from_this.h"
 #include "data_proxy.h"
+#include "proxyable_helpers.h"
 
 class Proxyable : public virtual_enable_shared_from_this_base {
 
@@ -18,26 +19,13 @@ public:
     std::shared_ptr<ConcreteProxyType> getProxy(ProxyBridge& proxyBridge);
 
 protected:
-    virtual std::shared_ptr<void> makeAndCacheProxy(ProxyBridge& proxyBridge) = 0;
     void cacheProxy(std::weak_ptr<void> proxy, ProxyBridge& proxyBridge);
 
 private:
     std::unordered_map<boost::uuids::uuid, std::weak_ptr<void>, boost::hash<boost::uuids::uuid>> proxies;
 
+    SYNTHESIZE_PROXYABLE_BASE(DataProxy)
+
 };
-
-#define SYNTHESIZE_PROXYABLE(ProxyType)                                                     \
-protected:                                                                                  \
-virtual std::shared_ptr<void> makeAndCacheProxy(ProxyBridge& proxyBridge) override;         \
-friend class ProxyType;
-
-#define SYNTHESIZE_PROXYABLE_IMPL(MainType, ProxyType)                                      \
-std::shared_ptr<void> MainType::makeAndCacheProxy(ProxyBridge& proxyBridge)                 \
-{                                                                                           \
-    auto proxy = std::make_shared<ProxyType>(this->shared_from_this(this), proxyBridge);    \
-    cacheProxy(proxy, proxyBridge);                                                         \
-    proxy->init(this->shared_from_this(this), proxyBridge);                                 \
-    return proxy;                                                                           \
-}                                                                                           \
 
 #include "proxyable.tpp"

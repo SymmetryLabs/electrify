@@ -56,6 +56,7 @@ std::shared_ptr<T> allocSharedPtr(std::function<void(std::shared_ptr<T>)> preCon
     {
         auto statePreserver = EnabledSharedFromThisStatePreserver<T>(ptr.get());
         new (ptr.get()) T(std::forward<Args>(args)...);
+        (void)statePreserver; // suppress unused warning
     }
     *initialized = true;
 

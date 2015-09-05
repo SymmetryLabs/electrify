@@ -94,7 +94,6 @@ class NodeProxy : public DataProxy {
 
 public:
     NodeProxy(shared_ptr<Node> master, ProxyBridge& proxyBridge);
-    void init(shared_ptr<Node> master, ProxyBridge& proxyBridge);
 
     Var<string> name;
     boost::uuids::uuid uuid;

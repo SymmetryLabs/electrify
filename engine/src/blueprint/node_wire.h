@@ -33,9 +33,6 @@ class NodeWireProxy : public DataProxy {
 public:
     NodeWireProxy(shared_ptr<NodeWire> master, ProxyBridge& proxyBridge)
         : DataProxy(master, proxyBridge)
-    {}
-
-    void init(shared_ptr<NodeWire> master, ProxyBridge& proxyBridge)
     {
         this->source = master->source.getProxy<NodeSignalProxy>(proxyBridge);
         this->destination = master->destination.getProxy<NodeSocketProxy>(proxyBridge);
