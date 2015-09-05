@@ -8,7 +8,7 @@ class TranslateNode : public ContextModifierNode {
 public:
     TranslateNode();
 
-    FrameContext modifyContext(const FrameContext& original) override;
+    FrameContext modifyContext(const FrameContext& original) const override;
 
 private:
     SignalFunction<float> translateX;

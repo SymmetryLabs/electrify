@@ -11,7 +11,7 @@ public:
     explicit ContextModifierNode(const string& name);
     virtual ~ContextModifierNode() = default;
 
-    virtual FrameContext modifyContext(const FrameContext& original) = 0;
+    virtual FrameContext modifyContext(const FrameContext& original) const = 0;
 
 private:
 

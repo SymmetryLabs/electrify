@@ -8,7 +8,7 @@ TranslateNode::TranslateNode()
     registerInput("translateZ", &translateZ);
 }
 
-FrameContext TranslateNode::modifyContext(const FrameContext& original)
+FrameContext TranslateNode::modifyContext(const FrameContext& original) const
 {
     Pixel pixel {original.frag->pixel};
     pixel.x += translateX(original);
