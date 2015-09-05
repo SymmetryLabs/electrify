@@ -9,10 +9,10 @@ if (NOT TARGET SymmetryEngine)
 endif()
 
 file(GLOB_RECURSE TEST_SOURCES
-  "*.cpp"
-  "*.h"
-  "*.tpp"
-  "*.hpp"
+  "tests/*.cpp"
+  "tests/*.h"
+  "tests/*.tpp"
+  "tests/*.hpp"
 )
 source_group("src" FILES ${TEST_SOURCES})
 
