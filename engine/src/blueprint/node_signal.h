@@ -14,7 +14,7 @@ class NodeSignal : public Proxyable {
 
 public:
     NodeSignal(Node& node, const string& name, unique_ptr<BaseSignal>&& signal);
-    virtual ~NodeSignal() {}
+    virtual ~NodeSignal() = default;
 
     string getName() const;
 

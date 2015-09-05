@@ -33,7 +33,7 @@ class Node : public Proxyable {
 
 public:
     explicit Node(const string& name);
-    virtual ~Node() {}
+    virtual ~Node() = default;
 
     template<typename ConcreteType, typename... Targs>
     static ConcreteType* createNode(Targs&&... Fargs) {

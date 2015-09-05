@@ -10,7 +10,7 @@ class Blueprint : public CompoundNode, public Renderable {
 
 public:
     explicit Blueprint(const string& name = "Blueprint");
-    virtual ~Blueprint() {}
+    virtual ~Blueprint() = default;
 
     virtual void initRenderable(const Model& model_) override;
     virtual void deinitRenderable() override;

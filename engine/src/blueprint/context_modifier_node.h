@@ -9,7 +9,7 @@ class ContextModifierNode : public Node {
 
 public:
     explicit ContextModifierNode(const string& name);
-    virtual ~ContextModifierNode() {}
+    virtual ~ContextModifierNode() = default;
 
     virtual FrameContext modifyContext(const FrameContext& original) = 0;
 

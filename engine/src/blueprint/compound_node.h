@@ -16,7 +16,7 @@ class CompoundNode : public Node, public Proxyable {
 
 public:
     explicit CompoundNode(const string& name = "Compound Node");
-    virtual ~CompoundNode() {}
+    virtual ~CompoundNode() = default;
 
     virtual void init() override;
     virtual void deinit() override;

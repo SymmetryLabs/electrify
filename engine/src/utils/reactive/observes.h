@@ -9,7 +9,7 @@
 class Observes {
 
 public:
-    virtual ~Observes() {}
+    virtual ~Observes() = default;
 
     void addObserver(Observer&& observer);
 

@@ -12,7 +12,7 @@
 class ProxyableBase {
 
 public:
-    virtual ~ProxyableBase() {}
+    virtual ~Proxyable() = default;
 
     template<typename ConcreteProxyType>
     std::shared_ptr<ConcreteProxyType> getProxy(ProxyBridge& proxyBridge);

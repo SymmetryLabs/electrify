@@ -6,7 +6,7 @@
 class BaseParameter {
 public:
     BaseParameter(type_index type_) : type(type_) {}
-    virtual ~BaseParameter() {}
+    virtual ~BaseParameter() = default;
 
     const type_index type;
 };
@@ -16,7 +16,7 @@ class Parameter : public BaseParameter, public SignalX<V> {
 
 public:
     Parameter() : BaseParameter(typeid(V)) {}
-    virtual ~Parameter() {}
+    virtual ~Parameter() = default;
 
 };
 
@@ -24,7 +24,7 @@ template <typename V>
 class ValueParameter : public Parameter<V> {
 
 public:
-    virtual ~ValueParameter() {}
+    virtual ~ValueParameter() = default;
 
     virtual V calculate(const FrameContext& frame) override;
 

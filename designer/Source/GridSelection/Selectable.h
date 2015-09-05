@@ -19,7 +19,7 @@ class Selectable {
 public:
     explicit Selectable(SelectionController* selectionController);
     explicit Selectable(SelectionContainer* selectionContainer);
-    virtual ~Selectable() {}
+    virtual ~Selectable() = default;
     
     Var<bool> selected;
     void setSelected(bool selected);

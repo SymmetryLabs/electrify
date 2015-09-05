@@ -9,7 +9,7 @@ class BasicNode : public Node {
 
 public:
     explicit BasicNode(const string& name);
-    virtual ~BasicNode() {}
+    virtual ~BasicNode() = default;
 
     virtual V calculate(const FrameContext& frame) const = 0;
 

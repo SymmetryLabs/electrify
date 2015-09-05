@@ -7,7 +7,7 @@ class ScalarTransform : public BasicNode<float> {
 
 public:
     explicit ScalarTransform(const string& name);
-    virtual ~ScalarTransform() {}
+    virtual ~ScalarTransform() = default;
 
     SignalFunction<float> input;
 

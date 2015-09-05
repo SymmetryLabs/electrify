@@ -6,7 +6,7 @@
 class BaseSignal {
 public:
     explicit BaseSignal(type_index type_) : type(type_) {}
-    virtual ~BaseSignal() {}
+    virtual ~BaseSignal() = default;
 
     const type_index type;
 };
@@ -15,7 +15,7 @@ template <typename V>
 class SignalX : public BaseSignal {
 public:
     SignalX() : BaseSignal(typeid(V)) {}
-    virtual ~SignalX() {}
+    virtual ~SignalX() = default;
 
     virtual V calculate(const FrameContext& frame) const = 0;
 };
@@ -31,7 +31,7 @@ public:
     FunctionSignal(V (C::* calculate_function_)(const FrameContext& frame) const, void* inst)
         :calculate_function(bind(mem_fn(calculate_function_), static_cast<C*>(inst), placeholders::_1))
     {}
-    virtual ~FunctionSignal() {}
+    virtual ~FunctionSignal() = default;
 
     virtual V calculate(const FrameContext& frame) const override;
     function<V (const FrameContext& frame)> calculate_function;
@@ -42,7 +42,7 @@ class ConstantSignal : public SignalX<V> {
 public:
     ConstantSignal() {}
     explicit ConstantSignal(const V value_) : value(value_) {}
-    virtual ~ConstantSignal() {}
+    virtual ~ConstantSignal() = default;
 
     virtual V calculate(const FrameContext& frame) const override;
 

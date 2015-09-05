@@ -8,7 +8,7 @@
 class Renderable {
 
 public:
-    virtual ~Renderable() {}
+    virtual ~Renderable() = default;
 
     virtual void initRenderable(const Model&) {}
     virtual void deinitRenderable() {}

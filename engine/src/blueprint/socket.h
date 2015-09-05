@@ -8,7 +8,7 @@ struct ContextModifierChain;
 class BaseSocket {
 public:
     explicit BaseSocket(type_index type_) : type(type_) {}
-    virtual ~BaseSocket() {}
+    virtual ~BaseSocket() = default;
 
     operator BaseSignal() const;
 
@@ -31,7 +31,7 @@ class Socket : public BaseSocket, public SignalX<V> {
 public:
     explicit Socket(V defaultValue_) : BaseSocket(typeid(V)), defaultValue(ConstantSignal<V>(defaultValue_)) {}
     Socket() : BaseSocket(typeid(V)) {}
-    virtual ~Socket() {}
+    virtual ~Socket() = default;
 
     virtual void setSignal(BaseSignal* signal) override;
     virtual void setSignal(SignalX<V>* signal);
@@ -54,7 +54,7 @@ public:
     ProxySocket(SignalFunction<V>* signalFunctionAddr_, V defaultValue)
         :Socket<V>(defaultValue)
         ,signalFunctionAddr(signalFunctionAddr_) { setSignal(nullptr); }
-    virtual ~ProxySocket() {}
+    virtual ~ProxySocket() = default;
 
     virtual void setSignal(SignalX<V>* signal) override;
 

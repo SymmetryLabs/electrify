@@ -25,7 +25,7 @@ protected:
 public:
     Observable();
     explicit Observable(const rxcpp::observable<T>& observable);
-    virtual ~Observable() {}
+    virtual ~Observable() = default;
 
     typedef T type;
 

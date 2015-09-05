@@ -15,7 +15,7 @@ class NodeSocket : public NodeSignal, public Proxyable {
 
 public:
     NodeSocket(Node& node, const string& name, unique_ptr<BaseSocket>&& socket);
-    virtual ~NodeSocket() {}
+    virtual ~NodeSocket() = default;
 
     virtual void wireInput(BaseSignal& sourceSignal);
     virtual void unwireInput(BaseSignal& sourceSignal);

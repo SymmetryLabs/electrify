@@ -6,7 +6,7 @@ class Observer {
 
 public:
     explicit Observer(rxcpp::subscription&& subscription);
-    virtual ~Observer() {}
+    virtual ~Observer() = default;
 
     void unsubscribe();
 

@@ -17,7 +17,7 @@ class SelectionContainer {
 
 public:
     SelectionContainer();
-    virtual ~SelectionContainer() {}
+    virtual ~SelectionContainer() = default;
     
     SelectionController selectionController;
     
