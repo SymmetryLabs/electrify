@@ -26,6 +26,10 @@ include(${CPM_DIR}/CPM.cmake)
 # CPM Modules
 #------------------------------------------------------------------------------
 
+CPM_AddModule("cxx_prettyprint"
+ SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs/cxx_prettyprint"
+ )
+
 CPM_AddModule("libnoise"
  SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs/libnoise"
  )

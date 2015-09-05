@@ -11,6 +11,8 @@
 #include <typeindex>
 #include <vector>
 
+#include <prettyprint.hpp>
+
 using namespace std;
 using namespace chrono;
 
