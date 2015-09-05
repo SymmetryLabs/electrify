@@ -37,3 +37,11 @@ void ProxyBridge::processUpstreamFlowingTransactions()
 {
     upstreamFlowingEventQueue.processTransactions();
 }
+
+void ProxyBridge::flushAll()
+{
+    commitDownstreamFlowingTransaction();
+    commitUpstreamFlowingTransaction();
+    processDownstreamFlowingTransactions();
+    processUpstreamFlowingTransactions();
+}

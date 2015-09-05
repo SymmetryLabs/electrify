@@ -21,6 +21,8 @@ public:
     void commitUpstreamFlowingTransaction();
     void processUpstreamFlowingTransactions();
 
+    void flushAll();
+
 private:
 
     EventQueue downstreamFlowingEventQueue;
