@@ -4,6 +4,7 @@
 #include "data_proxy.h"
 #include "proxyable.h"
 #include "signals.h"
+#include "var.h"
 
 class Node;
 class NodeProxy;

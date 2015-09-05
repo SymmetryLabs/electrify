@@ -16,7 +16,7 @@ SCENARIO("using ObservableMap") {
                 value = p.second;
             });
             WHEN("I add a value") {
-                m.insert(std::make_pair<std::string, int>("test", 10));
+                m.insert(std::make_pair("test", 10));
                 THEN("I receive a callback") {
                     REQUIRE(calls == 1);
                     REQUIRE(key == "test");
@@ -26,7 +26,7 @@ SCENARIO("using ObservableMap") {
             }
         }
         GIVEN("I've observed removing values") {
-            m.insert(std::make_pair<std::string, int>("first", 2));
+            m.insert(std::make_pair("first", 2));
             REQUIRE(m.size() == 1);
             int calls = 0;
             std::string key;
@@ -57,7 +57,7 @@ SCENARIO("proxying ObservableMaps") {
             ProxyBridge pb;
             m1.makeProxySlave(m2, pb);
             WHEN("I add to the master") {
-                m1.insert(std::make_pair<std::string, int>("test", 10));
+                m1.insert(std::make_pair("test", 10));
                 pb.flushAll();
                 REQUIRE(m1.size() == 1);
                 THEN("It adds to the slave") {
@@ -71,7 +71,7 @@ SCENARIO("proxying ObservableMaps") {
 
     GIVEN("2 ObservableMaps with starting values in master") {
         ObservableMap<std::string, int> m1;
-        m1.insert(std::make_pair<std::string, int>("first", 10));
+        m1.insert(std::make_pair("first", 10));
         REQUIRE(m1.size() == 1);
         ObservableMap<std::string, int> m2;
         WHEN("I set up the proxy") {
@@ -86,7 +86,7 @@ SCENARIO("proxying ObservableMaps") {
             }
 
             WHEN("I add to the master") {
-                m1.insert(std::make_pair<std::string, int>("second", 11));
+                m1.insert(std::make_pair("second", 11));
                 pb.flushAll();
                 REQUIRE(m2.size() == 2);
                 THEN("It adds to the slave") {

@@ -2,14 +2,14 @@ template<typename T>
 void ObservableVector<T>::push_back(const T& value)
 {
     v.push_back(value);
-    valueAdded(std::make_pair<size_t, std::reference_wrapper<const T>>(size() - 1, std::ref<const T>(back())));
+    valueAdded(std::make_pair(size() - 1, std::ref<const T>(back())));
 }
 
 template<typename T>
 void ObservableVector<T>::push_back(T&& value)
 {
     v.push_back(std::forward<T>(value));
-    valueAdded(std::make_pair<size_t, std::reference_wrapper<const T>>(size() - 1, std::ref<const T>(back())));
+    valueAdded(std::make_pair(size() - 1, std::ref<const T>(back())));
 }
 
 template<typename T>
@@ -24,7 +24,7 @@ typename std::vector<T>::iterator ObservableVector<T>::insert(const_iterator pos
 {
     auto i = pos - v.begin();
     auto rtn = v.insert(pos, value);
-    valueAdded(std::make_pair<size_t, std::reference_wrapper<const T>>(std::move(i), std::ref<const T>(v[i])));
+    valueAdded(std::make_pair(std::move(i), std::ref<const T>(v[i])));
     return rtn;
 }
 
@@ -33,7 +33,7 @@ typename std::vector<T>::iterator ObservableVector<T>::insert(const_iterator pos
 {
     auto i = pos - v.begin();
     auto rtn = v.insert(pos, std::forward<T>(value));
-    valueAdded(std::make_pair<size_t, std::reference_wrapper<const T>>(std::move(i), std::ref<const T>(v[i])));
+    valueAdded(std::make_pair(std::move(i), std::ref<const T>(v[i])));
     return rtn;
 }
 

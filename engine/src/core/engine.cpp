@@ -6,7 +6,7 @@ using namespace boost;
 
 Engine::Engine(std::shared_ptr<Renderable> renderable_, unique_ptr<Model> model_)
     : renderable(renderable_)
-    , model(move(model_))
+    , model(std::move(model_))
     , keepRunning(ATOMIC_FLAG_INIT)
     , isRunning(false)
     , internalEventQueue(10)
