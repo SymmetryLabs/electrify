@@ -3,38 +3,10 @@ void DataProxy::bind(Observable<T>& masterSignal, TokenSource<T>& slaveSignal)
 {
     observe(masterSignal, [&] (T object) {
         proxyBridge.queueDownstreamEvent([=, &slaveSignal] {
-            // cout << "ok8" << endl;
             slaveSignal << object;
         });
     });
 }
-
-// template<typename T>
-// void DataProxy::bindEvent(Event<shared_ptr<T>>& masterEvent, Event<shared_ptr<T>>& slaveEvent)
-// {
-//     cout << "test" << endl;
-//     // Events<MasterDomain, shared_ptr<T>> processedEvent = Process<shared_ptr<T>, string>(masterEvent,
-//     //     [](EventRange<shared_ptr<T>> range, EventEmitter<shared_ptr<T>> out) {
-//     //     for (shared_ptr<T>& object : range) {
-//     //         out.emit(makeProxy(object));
-//     //     }
-//     // });
-//     // MakeContinuation<MasterDomain, SlaveSyncDomain>(processedEvent,
-//     //     [&] (shared_ptr<T> object) {
-//     //     slaveEvent.emit(object);
-//     // });
-// }
-
-// template<typename T>
-// void DataProxy::bindEvent(Event<T> masterEvent, Event<T> slaveEvent)
-// {
-//     cout << "test2" << endl;
-//     // downstreamContinuations.push_back(MakeContinuation<MasterDomain, SlaveSyncDomain>(masterEvent,
-//     //     [&] (T object) {
-//     //     cout << "ok9" << endl;
-//     //     slaveEvent << object;
-//     // }));
-// }
 
 template<typename C>
 void DataProxy::sendCommand(std::function<void(std::shared_ptr<C>)> func)

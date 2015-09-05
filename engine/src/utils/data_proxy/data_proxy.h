@@ -20,11 +20,6 @@ protected:
     template<typename T>
     void bind(Observable<T>& masterSignal, TokenSource<T>& slaveSignal);
 
-    // template<typename T>
-    // void bindEvent(Event<std::shared_ptr<T>>& masterEvent, Event<std::shared_ptr<T>>& slaveEvent);
-    // template<typename T>
-    // void bindEvent(Event<T> masterEvent, Event<T> slaveEvent);
-
     template<typename C>
     void sendCommand(std::function<void(std::shared_ptr<C>)> func);
     template<typename C, typename S1, typename T1>
