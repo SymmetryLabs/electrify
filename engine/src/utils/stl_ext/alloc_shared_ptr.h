@@ -5,7 +5,8 @@
 
 #include "template_utils.h"
 
-// See: https://github.com/USCiLab/cereal/blob/v1.1.2/include/cereal/types/memory.hpp#L117
+// Reference implementation:
+//   https://github.com/USCiLab/cereal/blob/v1.1.2/include/cereal/types/memory.hpp#L117
 template<typename T, typename Enable = void>
 class EnabledSharedFromThisStatePreserver {
 public:
@@ -32,13 +33,27 @@ public:
     }
 
 private:
-    EnableSharedFromThisType* basePtr;
+    EnableSharedFromThisType* basePtr = nullptr;
     typename std::aligned_storage<sizeof(EnableSharedFromThisType)>::type state;
 };
 
-// See: https://github.com/USCiLab/cereal/blob/v1.1.2/include/cereal/types/memory.hpp#L250
+// Breaks the creation of shared_ptr into 2 phases.
+// (1) Accepts a callback that gives access to the initialized shared_ptr
+//   which points to the uninitialized but alloc'd object.
+// (2) The inner object is constructed/initialized.
+//
+// Useful for things like caching with circular references.
+// Handles inheriting from std::enable_shared_from_this<> by saving the
+//   state of the std::enable_shared_from_this<> base class and restoring
+//   after the object's constructor has returned.
+// Uses "placement new" to initialize the alloc'd memory.
+//
+// Reference implementation:
+//   https://github.com/USCiLab/cereal/blob/v1.1.2/include/cereal/types/memory.hpp#L250
+// See:
+//   https://github.com/USCiLab/cereal/issues/47
 template<typename T, typename... Args>
-std::shared_ptr<T> allocSharedPtr(std::function<void(std::shared_ptr<T>)> preConstruction, Args&&... args)
+std::shared_ptr<T> allocSharedPtr(std::function<void(std::shared_ptr<T>)> preConstruction, Args&&... ctorArgs)
 {
     using StorageType = typename std::aligned_storage<sizeof(T)>::type;
 
@@ -55,7 +70,7 @@ std::shared_ptr<T> allocSharedPtr(std::function<void(std::shared_ptr<T>)> preCon
     preConstruction(ptr);
     {
         auto statePreserver = EnabledSharedFromThisStatePreserver<T>(ptr.get());
-        new (ptr.get()) T(std::forward<Args>(args)...);
+        new (ptr.get()) T(std::forward<Args>(ctorArgs)...);
         (void)statePreserver; // suppress unused warning
     }
     *initialized = true;
