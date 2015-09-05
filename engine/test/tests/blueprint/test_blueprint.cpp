@@ -1,4 +1,4 @@
-#include "catch/catch.hpp"
+#include <catch/catch.hpp>
 
 #include "color.h"
 #include "constant_color_node.h"

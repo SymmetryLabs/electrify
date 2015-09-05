@@ -1,5 +1,5 @@
 #define DEBUG 1
-#include "catch/catch.hpp"
+#include <catch/catch.hpp>
 
 #include "var.h"
 

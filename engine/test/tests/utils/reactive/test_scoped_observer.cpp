@@ -1,4 +1,4 @@
-#include "catch/catch.hpp"
+#include <catch/catch.hpp>
 
 #include "var.h"
 #include "observer.h"
