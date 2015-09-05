@@ -5,14 +5,15 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden -fvisibility-inlines
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 if (NOT TARGET SymmetryEngine)
-  add_subdirectory(".." "${CMAKE_CURRENT_BINARY_DIR}/engine")
+    add_subdirectory(".." "${CMAKE_CURRENT_BINARY_DIR}/engine")
 endif()
 
 file(GLOB_RECURSE TEST_SOURCES
-  "tests/*.cpp"
-  "tests/*.h"
-  "tests/*.tpp"
-  "tests/*.hpp"
+    "test.cpp"
+    "tests/*.cpp"
+    "tests/*.h"
+    "tests/*.tpp"
+    "tests/*.hpp"
 )
 source_group("src" FILES ${TEST_SOURCES})
 
