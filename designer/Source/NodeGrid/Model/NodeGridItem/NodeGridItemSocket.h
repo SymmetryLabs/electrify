@@ -11,18 +11,17 @@
 #pragma once
 #include "BlueprintUiGlobals.h"
 
-#include <node_socket.h>
-
 #include "NodeGridItem.h"
 
+class NodeSocket;
 class NodeGrid;
 
 class NodeGridItemSocket : public NodeGridItem {
     
 public:
-    NodeGridItemSocket(NodeSocketProxy& nodeSocket, NodeGrid& nodeGrid);
+    NodeGridItemSocket(NodeSocket& nodeSocket, NodeGrid& nodeGrid);
     
-    NodeSocketProxy& nodeSocket;
+    NodeSocket& nodeSocket;
     
     string getName() const override;
     

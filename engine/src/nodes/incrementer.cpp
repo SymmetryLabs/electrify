@@ -1,9 +1,10 @@
 #include "incrementer.h"
 
-Incrementer::Incrementer()
-: BasicNode<Color>("Incrementer")
+Incrementer::Incrementer(NodeHandle& nodeHandle)
+: BasicNode<Color>(nodeHandle)
 {
-    registerInput("color", &colorInput);
+    nodeHandle.setName("Incrementer");
+    nodeHandle.registerInput("color", &colorInput);
 }
 
 void Incrementer::init()

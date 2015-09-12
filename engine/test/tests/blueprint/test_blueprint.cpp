@@ -15,38 +15,44 @@
 #include "translate_node.h"
 #include "blueprint.h"
 #include "node_registrar.h"
+#include "blueprint_project.h"
 
 SCENARIO("using blueprint") {
     FrameContext frame {nanoseconds(100)};
 
-    ConstantColorNode c;
-    REQUIRE(c.calculate(frame) == Color(0xff0000ff));
+    auto colorNodeHandle = makeNodeHandle<ConstantColorNode>();
+    auto& colorNode = colorNodeHandle->getNode<ConstantColorNode>();
+    REQUIRE(colorNode.calculate(frame) == Color(0xff0000ff));
 
-    ColorDoubler colorDoubler;
-    c.getOutput("output")->wireOutput(*colorDoubler.getInput("color"));
+    auto colorDoublerHandle = makeNodeHandle<ColorDoubler>();
+    auto& colorDoubler = colorDoublerHandle->getNode<ColorDoubler>();
+    colorNodeHandle->getOutput("output")->wireOutput(*colorDoublerHandle->getInput("color"));
     REQUIRE(colorDoubler.calculate(frame) == Color(0xfe0001fe));
 
-    SquareWave sq;
-    REQUIRE(sq.calculate(frame) == 0);
+    auto squareWaveHandle = makeNodeHandle<SquareWave>();
+    auto& squareWave = squareWaveHandle->getNode<SquareWave>();
+    REQUIRE(squareWave.calculate(frame) == 0);
 
-    Incrementer incr;
-    colorDoubler.getOutput("output")->wireOutput(*incr.getInput("color"));
-    REQUIRE(incr.calculate(frame) == Color(0xfe0001fe));
+    auto incrementerHandle = makeNodeHandle<Incrementer>();
+    auto& incrementer = incrementerHandle->getNode<Incrementer>();
+    colorDoublerHandle->getOutput("output")->wireOutput(*incrementerHandle->getInput("color"));
+    REQUIRE(incrementer.calculate(frame) == Color(0xfe0001fe));
 
-    incr.update(frame);
-    REQUIRE(incr.calculate(frame) == Color(0xfe0002fe));
+    incrementer.update(frame);
+    REQUIRE(incrementer.calculate(frame) == Color(0xfe0002fe));
 
-    incr.update(frame);
-    REQUIRE(incr.calculate(frame) == Color(0xfe0003fe));
+    incrementer.update(frame);
+    REQUIRE(incrementer.calculate(frame) == Color(0xfe0003fe));
 
 
     NodeRegistrar nodeRegistrar;
     nodeRegistrar.getAvailableNodeNames()[0];
 
 
-    auto blueprint = make_shared<Blueprint>();
     auto model = make_unique<Model>();
     model->pixels = {new Pixel()};
+
+    auto blueprint = makeBlueprint();
 
     auto compound = blueprint->makeSubnode<CompoundNode>();
     compound->registerWirableOutput<Color>("color");
@@ -54,11 +60,13 @@ SCENARIO("using blueprint") {
     auto constantColor = compound->makeSubnode<ConstantColorNode>();
     auto translateNode = compound->makeSubnode<TranslateNode>();
 
-    compound->wireSubnodes(*constantColor->getOutput("output"), *translateNode->getInput("Translate"));
-    compound->wireSubnodes(*translateNode->getOutput("Translate"), *compound->getWirableOutput("color"));
+    compound->wireSubnodes(*constantColor->getOutput("output"), *translateNode->getInput("ContextModifierNode"));
+    compound->wireSubnodes(*translateNode->getOutput("ContextModifierNode"), *compound->getWirableOutput("color"));
 
     compound->wireSubnodes(*compound->getOutput("color"), *blueprint->getWirableOutput("color"));
 
-    Engine engine(blueprint, move(model));
+    auto project = make_unique<BlueprintProject>(blueprint, move(model));
+    Engine engine;
+    engine.loadProject(move(project));
     engine.startAndWait();
 }

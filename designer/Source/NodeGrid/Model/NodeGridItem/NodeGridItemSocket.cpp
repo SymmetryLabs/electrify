@@ -10,10 +10,13 @@
 
 #include "NodeGridItemSocket.h"
 
-#include "NodeGrid.h"
+#include <node_socket.h>
 
-NodeGridItemSocket::NodeGridItemSocket(NodeSocketProxy& nodeSocket, NodeGrid& nodeGrid)
-: NodeGridItem(nodeGrid)
+#include "NodeGrid.h"
+#include "NodeGridSocket.h"
+
+NodeGridItemSocket::NodeGridItemSocket(NodeSocket& nodeSocket, NodeGrid& nodeGrid)
+: NodeGridItem(nodeSocket, nodeGrid)
 , nodeSocket(nodeSocket)
 {
     inputs.push_back(make_shared<NodeGridSocket>(nodeSocket, nodeGrid, NodeGridSocketDirection::INPUT));
@@ -21,7 +24,7 @@ NodeGridItemSocket::NodeGridItemSocket(NodeSocketProxy& nodeSocket, NodeGrid& no
 
 string NodeGridItemSocket::getName() const
 {
-    return nodeSocket.name.getValue();
+    return nodeSocket.getName();
 }
 
 void NodeGridItemSocket::deleteSelectable()

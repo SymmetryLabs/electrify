@@ -2,38 +2,50 @@
 #include "globals.h"
 
 #include "node.h"
+#include "node_handle.h"
 #include "socket.h"
 #include "observable_vector.h"
-#include "data_proxy.h"
 #include "node_wire.h"
 #include "node_socket.h"
 #include "node_signal.h"
 
-class CompoundNodeProxy;
+class CompoundNodeHandle;
 
 class CompoundNode : public Node {
 
 public:
-    explicit CompoundNode(const string& name = "Compound Node");
+    explicit CompoundNode(CompoundNodeHandle& nodeHandle);
     virtual ~CompoundNode() = default;
 
     virtual void init() override;
     virtual void deinit() override;
     virtual void update(const FrameContext& f) override;
 
-    template <typename Type, typename... Targs>
-    Type* makeSubnode(Targs&&... Fargs);
+    typedef CompoundNodeHandle handle_t;
+
+private:
+    ObservableVector<shared_ptr<Node>> subnodes;
+
+};
+
+class CompoundNodeHandle : public NodeHandle {
+
+public:
+    virtual ~CompoundNodeHandle() = default;
+
+    template <typename Type, typename HandleType = typename Type::handle_t, typename... Args>
+    HandleType* makeSubnode(Args&&... args);
     size_t createSubnode(const string& name);
 
-    size_t addSubnode(unique_ptr<Node> subnode);
-    void removeSubnode(Node* subnode);
+    size_t addSubnode(const shared_ptr<NodeHandle>& subnode);
+    void removeSubnode(NodeHandle& subnode);
 
-    Node* getSubnodeByUuid(boost::uuids::uuid uuid) const;
+    NodeHandle* getSubnodeByUuid(boost::uuids::uuid uuid) const;
 
     // bool canWireSubnodes(Node& emittingSubnode, const string& emittingOutputName,
     //     Node& receivingSubnode, const string& receivingInputName);
     void wireSubnodes(NodeSignal& emittingSignal, NodeSocket& receivingSocket);
-    void unwireSubnode(Node& subnode);
+    void unwireSubnode(NodeHandle& subnode);
     void removeWire(NodeWire& wire);
 
     template <typename V>
@@ -42,31 +54,32 @@ public:
     void registerWirableOutput(const string& name, const V defaultValue = V());
 
     NodeSocket* getWirableOutput(const string& name) const;
+    const ObservableVector<shared_ptr<NodeSocket>>& getWirableOutputs() const;
+
     void wireOutput(const string& name, NodeSignal& emittingSignal);
 
-    ObservableVector<shared_ptr<Node>> subnodes;
+    ObservableVector<shared_ptr<NodeHandle>> subnodes;
     ObservableVector<shared_ptr<NodeWire>> nodeWires;
+
+protected:
+    shared_ptr<Node> releaseNode(DataBridge& dataBridge) override;
+
+    void setBridge(DataBridge& bridge) override;
 
 private:
     ObservableVector<shared_ptr<NodeSocket>> wirableOutputs;
 
-    SYNTHESIZE_PROXYABLE(CompoundNodeProxy);
+    DataBridge* dataBridge = nullptr;
+
+    void setSubnodeSlave(ObservableVector<shared_ptr<Node>>& slave);
+
+    friend class CompoundNode;
 
 };
 
-class CompoundNodeProxy : public NodeProxy {
-
-public:
-    CompoundNodeProxy(shared_ptr<CompoundNode> master, ProxyBridge& proxyBridge);
-
-    ObservableVector<shared_ptr<NodeProxy>> subnodes;
-    ObservableVector<shared_ptr<NodeWireProxy>> nodeWires;
-    ObservableVector<shared_ptr<NodeSocketProxy>> wirableOutputs;
-
-    void addSubnode(const string& name, function<void(size_t)> response);
-    void removeSubnode(const NodeProxy& node);
-    void wireSubnodes(const NodeSignalProxy& emittingSignal, const NodeSocketProxy& receivingSocket);
-    void removeWire(const NodeWireProxy& nodeWire);
-};
+    // void addSubnode(const string& name, function<void(size_t)> response);
+    // void removeSubnode(const NodeProxy& node);
+    // void wireSubnodes(const NodeSignalProxy& emittingSignal, const NodeSocketProxy& receivingSocket);
+    // void removeWire(const NodeWireProxy& nodeWire);
 
 #include "compound_node.tpp"

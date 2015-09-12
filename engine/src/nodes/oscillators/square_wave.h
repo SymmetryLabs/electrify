@@ -6,7 +6,7 @@
 class SquareWave : public Waveform {
 
 public:
-    SquareWave();
+    explicit SquareWave(NodeHandle& nodeHandle);
     
     float calculate(const FrameContext& frame) const override;
 

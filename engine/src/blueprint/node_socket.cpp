@@ -1,37 +1,33 @@
 #include "node_socket.h"
 
-NodeSocket::NodeSocket(Node& node_, const string& name_, unique_ptr<BaseSocket>&& socket_)
-: NodeSignal(node_, name_, nullptr)
-, socket(move(socket_))
-{
-}
+#include "socket.h"
 
-BaseSignal* NodeSocket::getSignal() const
+NodeSocket::NodeSocket(NodeHandle& nodeHandle_, const string& name_, const shared_ptr<BaseSocket>& socket_)
+: NodeSignal(nodeHandle_, name_, dynamic_pointer_cast<BaseSignal>(socket_))
 {
-    return dynamic_cast<BaseSignal*>(socket.get());
 }
 
 void NodeSocket::wireInput(BaseSignal& sourceSignal)
 {
-    socket->setSignal(&sourceSignal);
+    getSocket()->setSignal(&sourceSignal);
 }
 
 void NodeSocket::unwireInput(BaseSignal& sourceSignal)
 {
-    socket->setSignal(nullptr);
+    getSocket()->setSignal(nullptr);
 }
 
 void NodeSocket::registerContextModifier(ContextModifierChain& contextModifier)
 {
-    socket->addContextModifier(contextModifier);
+    getSocket()->addContextModifier(contextModifier);
 }
 
 void NodeSocket::unregisterContextModifier(ContextModifierChain& contextModifier)
 {
-    socket->removeContextModifier(contextModifier);
+    getSocket()->removeContextModifier(contextModifier);
 }
 
-NodeSocketProxy::NodeSocketProxy(shared_ptr<NodeSocket> master, ProxyBridge& proxyBridge)
-: NodeSignalProxy(master, proxyBridge)
+BaseSocket* NodeSocket::getSocket() const
 {
+    return dynamic_cast<BaseSocket*>(getSignal());
 }

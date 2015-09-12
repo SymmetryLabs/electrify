@@ -2,11 +2,12 @@
 #include "globals.h"
 
 #include "basic_node.h"
+#include "color.h"
 
 class Incrementer : public BasicNode<Color> {
 
 public:
-    Incrementer();
+    explicit Incrementer(NodeHandle& nodeHandle);
     
     virtual void init();
     virtual void update(const FrameContext& frame) override;

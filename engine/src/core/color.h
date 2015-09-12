@@ -19,8 +19,7 @@ private:
 
 };
 
-static inline ostream& operator<<(ostream& os, const Color& color)
+static ostream& operator<<(ostream& os, const Color& color)
 {
-        os << hex << color.asRGBA();
-        return os;
+    return os << hex << color.asRGBA();
 }

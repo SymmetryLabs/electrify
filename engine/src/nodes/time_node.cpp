@@ -1,8 +1,9 @@
 #include "time_node.h"
 
-TimeNode::TimeNode()
-: BasicNode<float>("Time")
+TimeNode::TimeNode(NodeHandle& nodeHandle)
+: BasicNode<float>(nodeHandle)
 {
+    nodeHandle.setName("Time");
 }
 
 float TimeNode::calculate(const FrameContext& frame) const

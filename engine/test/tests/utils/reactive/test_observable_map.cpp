@@ -46,7 +46,7 @@ SCENARIO("using ObservableMap") {
     }
 }
 
-#include "proxy_bridge.h"
+#include "data_bridge.h"
 
 SCENARIO("proxying ObservableMaps") {
 
@@ -54,11 +54,12 @@ SCENARIO("proxying ObservableMaps") {
         ObservableMap<std::string, int> m1;
         ObservableMap<std::string, int> m2;
         GIVEN("they are in master/slave configuration") {
-            ProxyBridge pb;
-            m1.makeProxySlave(m2, pb);
+            DataBridge db;
+            DataRelay& dr = db.getMasterRelay();
+            m1.makeProxySlave(m2, dr);
             WHEN("I add to the master") {
                 m1.insert(std::make_pair("test", 10));
-                pb.flushAll();
+                db.flushAll();
                 REQUIRE(m1.size() == 1);
                 THEN("It adds to the slave") {
                     REQUIRE(m2.size() == 1);
@@ -75,8 +76,9 @@ SCENARIO("proxying ObservableMaps") {
         REQUIRE(m1.size() == 1);
         ObservableMap<std::string, int> m2;
         WHEN("I set up the proxy") {
-            ProxyBridge pb;
-            m1.makeProxySlave(m2, pb);
+            DataBridge db;
+            DataRelay& dr = db.getMasterRelay();
+            m1.makeProxySlave(m2, dr);
             THEN("The slave gets the starting values") {
                 REQUIRE(m2.size() == 1);
                 REQUIRE(m2.count("first"));
@@ -87,7 +89,7 @@ SCENARIO("proxying ObservableMaps") {
 
             WHEN("I add to the master") {
                 m1.insert(std::make_pair("second", 11));
-                pb.flushAll();
+                db.flushAll();
                 REQUIRE(m2.size() == 2);
                 THEN("It adds to the slave") {
                     REQUIRE(m2.size() == 2);
@@ -102,7 +104,7 @@ SCENARIO("proxying ObservableMaps") {
 
             WHEN("I remove from the master") {
                 m1.erase(m1.begin());
-                pb.flushAll();
+                db.flushAll();
                 REQUIRE(m2.empty());
                 THEN("It removes from the slave") {
                     REQUIRE(m2.empty());

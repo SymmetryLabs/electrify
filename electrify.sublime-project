@@ -4,7 +4,8 @@
 		{
 			"path": ".",
 			"folder_exclude_patterns": ["lib", "*.xcodeproj", "build",
-				"documentation", "build-*", "3rdParty"],
+				"documentation", "build-*", "3rdParty", "Builds",
+				"JuceLibraryCode", "catch"],
 			"file_exclude_patterns": ["*.*.swp","*.swp","*.d", "*.o", "*.user"]
 		}
 	],

@@ -4,21 +4,39 @@
 #include "compound_node.h"
 #include "renderable.h"
 #include "socket.h"
-#include "proxyable.h"
 
-class Blueprint : public CompoundNode, public Renderable {
+class Blueprint : public CompoundNodeHandle {
 
 public:
-    explicit Blueprint(const string& name = "Blueprint");
-    virtual ~Blueprint() = default;
+    unique_ptr<Renderable> releaseRenderable(DataBridge& dataBridge);
 
-    virtual void initRenderable(const Model& model_) override;
-    virtual void deinitRenderable() override;
-    virtual void updateRenderable(const FrameContext& frame) override;
-    virtual void renderRenderable(const FrameContext& frame, vector<Color>& colorBuffer) override;
+};
+
+shared_ptr<Blueprint> makeBlueprint();
+
+class BlueprintNode : public CompoundNode {
+
+public:
+    explicit BlueprintNode(Blueprint& nodeHandle);
+
+    SignalFunction<Color> output;
+
+    typedef Blueprint handle_t;
+
+};
+
+class BlueprintRenderable : public Renderable {
+
+public:
+    explicit BlueprintRenderable(const shared_ptr<BlueprintNode>& blueprintNode);
+
+    void initRenderable(const Model& model_) override;
+    void deinitRenderable() override;
+    void updateRenderable(const FrameContext& frame) override;
+    void renderRenderable(const FrameContext& frame, vector<Color>& colorBuffer) override;
 
 private:
-    SignalFunction<Color> output;
+    shared_ptr<BlueprintNode> blueprintNode;
     const Model* model = nullptr;
 
 };

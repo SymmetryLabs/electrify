@@ -8,16 +8,16 @@
 class ContextModifierNode : public Node {
 
 public:
-    explicit ContextModifierNode(const string& name);
+    explicit ContextModifierNode(NodeHandle& nodeHandle);
     virtual ~ContextModifierNode() = default;
 
     virtual FrameContext modifyContext(const FrameContext& original) const = 0;
 
 private:
 
-    struct ContextModifierNodeSocket : public NodeSocket {
+    struct ContextModifierNodeSocket : NodeSocket {
 
-        ContextModifierNodeSocket(ContextModifierNode& node, const string& name);
+        ContextModifierNodeSocket(ContextModifierNode& node, NodeHandle& nodeHandle, const string& name);
 
         void wireInput(BaseSignal& sourceSignal) override;
         void unwireInput(BaseSignal& sourceSignal) override;

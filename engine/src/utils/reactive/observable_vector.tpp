@@ -65,24 +65,23 @@ void ObservableVector<T>::clear()
 
 template<typename T>
 void ObservableVector<T>
-    ::makeProxySlave(ObservableVector<T>& slave, ProxyBridge& proxyBridge) const
+    ::makeProxySlave(ObservableVector<T>& slave, DataRelay& dataRelay) const
 {
     for (const auto& obj : v) {
         slave.push_back(obj);
     }
 
-    auto masterAddedValueEvent = valueAdded.map(
-        [&](const std::pair<size_t, std::reference_wrapper<const T>>& object) {
-        return std::make_pair(object.first, object.second.get());
-    });
-    slave.observe(masterAddedValueEvent, [&] (std::pair<size_t, T> p) {
-        proxyBridge.queueDownstreamEvent([=, &slave] {
-            slave.insert(slave.begin() + p.first, p.second);
+    slave.observe(valueAdded,
+        [&] (const std::pair<size_t, std::reference_wrapper<const T>>& p) {
+        const size_t& pos = p.first;
+        const T& obj = p.second.get();
+        dataRelay.queueEvent([=, &slave] {
+            slave.insert(slave.begin() + pos, obj);
         });
     });
 
     slave.observe(valueRemoved, [&] (size_t pos) {
-        proxyBridge.queueDownstreamEvent([=, &slave] {
+        dataRelay.queueEvent([=, &slave] {
             slave.erase(slave.begin() + pos);
         });
     });
@@ -91,26 +90,24 @@ void ObservableVector<T>
 template<typename T>
 template<typename SlaveType>
 void ObservableVector<T>
-    ::makeProxySlave(ObservableVector<std::shared_ptr<SlaveType>>& slave, ProxyBridge& proxyBridge) const
+    ::makeProxySlave(ObservableVector<std::shared_ptr<SlaveType>>& slave, DataRelay& dataRelay) const
 {
     for (const auto& obj : v) {
-        slave.push_back(obj->template getProxy<SlaveType>(proxyBridge));
+        slave.push_back(obj->template getProxy<SlaveType>(dataRelay));
     }
 
-    auto masterAddedValueEvent = valueAdded.map(
-        [&](const std::pair<size_t, std::reference_wrapper<const T>>& object) {
-        return std::make_pair(object.first,
-            object.second.get()->template getProxy<SlaveType>(proxyBridge));
-    });
-    slave.observe(masterAddedValueEvent,
-        [&] (std::pair<size_t, std::shared_ptr<SlaveType>> p) {
-        proxyBridge.queueDownstreamEvent([=, &slave] {
-            slave.insert(slave.begin() + p.first, p.second);
+    slave.observe(valueAdded,
+        [&] (const std::pair<size_t, std::reference_wrapper<const T>>& p) {
+        const size_t& pos = p.first;
+        std::shared_ptr<SlaveType> obj =
+            p.second.get()->template getProxy<SlaveType>(dataRelay);
+        dataRelay.queueEvent([=, &slave] {
+            slave.insert(slave.begin() + pos, obj);
         });
     });
 
     slave.observe(valueRemoved, [&] (size_t pos) {
-        proxyBridge.queueDownstreamEvent([=, &slave] {
+        dataRelay.queueEvent([=, &slave] {
             slave.erase(slave.begin() + pos);
         });
     });
@@ -120,7 +117,7 @@ template<typename T>
 template<typename SlaveType, typename... ArgN>
 auto ObservableVector<T>
     ::makeSlave(ObservableVector<std::shared_ptr<SlaveType>>& slave, ArgN&&... args) const
-        -> typename std::enable_if<!std::is_convertible<typename std::tuple_element<0, std::tuple<ArgN...> >::type, std::function<std::shared_ptr<SlaveType>(T)>>::value>::type
+        -> typename std::enable_if<!is_callable<typename std::tuple_element<0, std::tuple<ArgN...> >::type, T>::value>::type
 {
     for (const auto& obj : v) {
         slave.push_back(std::make_shared<SlaveType>(*obj.get(), std::forward<ArgN>(args)...));
@@ -141,9 +138,9 @@ auto ObservableVector<T>
 template<typename T>
 template<typename SlaveType, typename FCreate, typename FDestr>
 auto ObservableVector<T>
-    ::makeSlave(ObservableVector<std::shared_ptr<SlaveType>>& slave, FCreate&& createFunc, FDestr&& destructFunc) const
-        -> typename std::enable_if<std::is_convertible<FCreate, std::function<std::shared_ptr<SlaveType>(T)>>::value
-                                    && std::is_convertible<FDestr, std::function<void(std::shared_ptr<SlaveType>)>>::value>::type
+    ::makeSlave(ObservableVector<std::shared_ptr<SlaveType>>& slave,
+        FCreate&& createFunc, FDestr&& destructFunc) const
+        -> typename std::enable_if<is_callable<FCreate, T>::value && is_callable<FDestr, std::shared_ptr<SlaveType>>::value>::type
 {
     for (const auto& obj : v) {
         slave.push_back(createFunc(obj));

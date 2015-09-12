@@ -3,18 +3,20 @@
 #include <functional>
 #include <memory>
 
-#include "proxy_bridge.h"
+#include "data_relay.h"
 #include "observes.h"
 #include "observable.h"
 #include "token_source.h"
 
-class DataProxy : public Observes {
+class DataTransmitter : public std::enable_shared_from_this<DataTransmitter>, public Observes {
 
 public:
-    DataProxy(std::weak_ptr<void> master, ProxyBridge& proxyBridge);
-    
-    std::weak_ptr<void> getMaster() const;
+    DataTransmitter() = default;
+    explicit DataTransmitter(const std::weak_ptr<void>& destination);
 
+    void setDestination(const std::weak_ptr<void>& destination);
+    void setDataRelays(DataRelay& masterDataRelay, DataRelay& slaveDataRelay);
+    
 protected:
     template<typename T>
     void bind(Observable<T>& masterSignal, TokenSource<T>& slaveSignal);
@@ -29,10 +31,13 @@ protected:
     void sendCommand(std::function<R(std::shared_ptr<C>)> func, std::function<void(R)> response);
 
 private:
-    std::weak_ptr<void> master;
+    std::weak_ptr<void> destination;
 
-    ProxyBridge& proxyBridge;
+    DataRelay* masterDataRelay = nullptr;
+    DataRelay* slaveDataRelay = nullptr;
+
+    void sendFunction(const std::function<void()>& fn);
 
 };
 
-#include "data_proxy.tpp"
+#include "data_transmitter.tpp"

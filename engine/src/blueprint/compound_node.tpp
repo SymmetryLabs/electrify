@@ -1,16 +1,16 @@
 #include "node_registrar.h"
 
-template <typename Type, typename... Targs>
-Type* CompoundNode::makeSubnode(Targs&&... Fargs)
+template <typename Type, typename HandleType, typename... Args>
+HandleType* CompoundNodeHandle::makeSubnode(Args&&... args)
 {
-    auto subnode = unique_ptr<Type>(Node::createNode<Type>(forward<Targs>(Fargs)...));
-    auto subnodePtr = subnode.get();
-    addSubnode(move(subnode));
-    return subnodePtr;
+    auto subnodeHandle = makeNodeHandle<Type, HandleType>(forward<Args>(args)...);
+    auto subnodeHandlePtr = subnodeHandle.get();
+    addSubnode(subnodeHandle);
+    return subnodeHandlePtr;
 }
 
 template <typename V>
-void CompoundNode::registerWirableOutput(const string& name, SignalFunction<V>* inputAddr, const V defaultValue)
+void CompoundNodeHandle::registerWirableOutput(const string& name, SignalFunction<V>* inputAddr, const V defaultValue)
 {
     auto socket = make_unique<ProxySocket<V>>(inputAddr, defaultValue);
     auto nodeSocket = make_shared<NodeSocket>(*this, name, move(socket));
@@ -19,7 +19,7 @@ void CompoundNode::registerWirableOutput(const string& name, SignalFunction<V>* 
 }
 
 template <typename V>
-void CompoundNode::registerWirableOutput(const string& name, const V defaultValue)
+void CompoundNodeHandle::registerWirableOutput(const string& name, const V defaultValue)
 {
     auto socket = make_unique<Socket<V>>(defaultValue);
     auto nodeSocket = make_shared<NodeSocket>(*this, name, move(socket));

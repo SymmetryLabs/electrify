@@ -1,23 +1,26 @@
 #pragma once
 #include "BlueprintUiGlobals.h"
 
-#include <compound_node.h>
 #include <observable_vector.h>
-#include <node.h>
 #include <observes.h>
+#include <var.h>
 
-#include "NodeGridItem.h"
-#include "NodeGridWire.h"
 #include "SelectionContainer.h"
-#include "NodeGridItemNode.h"
-#include "NodeGridItemSocket.h"
+
+class NodeSignal;
+class CompoundNodeHandle;
+class NodeGridWire;
+class NodeGridSocket;
+class NodeGridItem;
+class NodeGridItemSocket;
+class NodeGridItemNode;
 
 class NodeGrid : Observes, public SelectionContainer {
 
 public:
-    explicit NodeGrid(CompoundNodeProxy* compoundNode);
+    explicit NodeGrid(CompoundNodeHandle& compoundNode);
 
-    CompoundNodeProxy* compoundNode;
+    CompoundNodeHandle& compoundNode;
 
     void addNode(string name, float x, float y);
     void removeNode(NodeGridItemNode& gridItem);
@@ -28,7 +31,7 @@ public:
     ObservableVector<shared_ptr<NodeGridWire>> gridWires;
     ObservableVector<shared_ptr<NodeGridItemSocket>> gridOutputs;
     
-    NodeGridSocket* gridSocketForNodeSignal(NodeSignalProxy& nodeSignal);
+    NodeGridSocket* gridSocketForNodeSignal(NodeSignal& nodeSignal);
     
     Var<shared_ptr<NodeGridWire>> draggingWire;
     void draggingWireStarted(NodeGridSocket& socket);

@@ -34,6 +34,8 @@
 #include <perlin_noise_node.h>
 #include <time_node.h>
 #include <scale_transform.h>
+#include <blueprint_project.h>
+#include <data_relay.h>
 
 #include "EngineUi.h"
 
@@ -53,18 +55,10 @@ public:
     {
         // This method is where you should put your application's initialisation code..
         
-        auto blueprint = make_shared<Blueprint>();
+        engine = make_unique<Engine>();
+        dataRelay = &engine->getDataRelay();
         
-        /* file loading */
-        Loader loader = Loader();
-        unique_ptr<Model> model = loader.loadJSON("../../../../../data/cubesExport2.json");
-        cout << "file loaded" << endl;
-        
-        output = make_unique<Output>();
-        for (auto pixel : model->pixels) {
-            (void)pixel;
-            output->colorBuffer.push_back(Color(0xFFFFFFFF));
-        }
+        auto blueprint = makeBlueprint();
         
         auto compound = blueprint->makeSubnode<CompoundNode>();
         compound->registerWirableOutput<Color>("color");
@@ -91,32 +85,51 @@ public:
         
         blueprint->wireSubnodes(*hsvNode->getOutput("output"), *blueprint->getWirableOutput("color"));
         
-        engine = make_unique<Engine>(blueprint, std::move(model));
-        engineUi = make_unique<EngineUi>(*engine);
+        /* file loading */
+        Loader loader = Loader();
+        auto model = loader.loadJSON("../../../../../data/cubesExport2.json");
+        auto& modelRef = *model;
+        cout << "file loaded" << endl;
+        
+        auto project = make_unique<BlueprintProject>(blueprint, move(model));
+        auto& projectRef = *project;
+        engine->loadProject(move(project));
+        
+        output = make_unique<Output>(modelRef.pixels.size());
+        engine->registerOutput(*output);
+        
+        engineUi = make_unique<EngineUi>(projectRef);
+        
         // engine->setProfilerEnabled(true);
         engine->start();
         
-        designerWindow = new DesignerWindow (getApplicationName(), engine.get(), engineUi.get(), output.get());
+        designerWindow = new DesignerWindow (getApplicationName(), projectRef, *engineUi, *output);
     }
 
     void shutdown() override
     {
         engine->wait();
         designerWindow = nullptr; // (deletes our window)
-        engine = nullptr;
+        dataRelay = nullptr;
         engineUi = nullptr;
+        engine->unregisterOutput(*output);
         output = nullptr;
+        engine = nullptr;
     }
     
     //==============================================================================
     void preMainRunLoop() override
     {
-        engineUi->processDownstreamFlowingTransactions();
+        if (dataRelay) {
+            dataRelay->processIncomingTransactions();
+        }
     }
     
     void postMainRunLoop() override
     {
-        engineUi->commitUpstreamFlowingTransaction();
+        if (dataRelay) {
+            dataRelay->commitOutgoingTransaction();
+        }
     }
 
     //==============================================================================
@@ -146,15 +159,15 @@ public:
     {
     public:
         DesignerWindow (String name,
-                        Engine* engine,
-                        EngineUi* engineUi,
-                        Output* output)
+                        Project& project,
+                        EngineUi& engineUi,
+                        Output& output)
             : DocumentWindow (name,
                               Colours::lightgrey,
                               DocumentWindow::allButtons)
         {
             setUsingNativeTitleBar (true);
-            setContentOwned (new DesignerWindowComponent(engine, engineUi, output), true);
+            setContentOwned (new DesignerWindowComponent(project, engineUi, output), true);
             setResizable (true, true);
 
             centreWithSize (getWidth(), getHeight());
@@ -187,6 +200,7 @@ private:
     unique_ptr<Engine> engine;
     unique_ptr<EngineUi> engineUi;
     unique_ptr<Output> output;
+    DataRelay* dataRelay = nullptr;
 };
 
 //==============================================================================

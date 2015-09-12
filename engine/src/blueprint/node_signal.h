@@ -1,48 +1,31 @@
 #pragma once
 #include "globals.h"
 
-#include "data_proxy.h"
-#include "proxyable.h"
-#include "signals.h"
 #include "var.h"
+#include "data_transmitter.h"
 
-class Node;
-class NodeProxy;
-class NodeSignalProxy;
+class NodeHandle;
 class NodeSocket;
+class BaseSignal;
 
-class NodeSignal : public Proxyable {
+class NodeSignal : public DataTransmitter {
 
 public:
-    NodeSignal(Node& node, const string& name, unique_ptr<BaseSignal>&& signal);
-    virtual ~NodeSignal() = default;
+    NodeSignal(NodeHandle& nodeHandle, const string& name, const shared_ptr<BaseSignal>& signal);
+    virtual ~NodeSignal();
 
     string getName() const;
 
     virtual void wireOutput(NodeSocket& destinationNodeSocket);
     virtual void unwireOutput(NodeSocket& destinationNodeSocket);
  
-    Node& node;
+    NodeHandle& nodeHandle;
     Var<string> name;
-
-    unique_ptr<BaseSignal> signal;
 
 protected:
-    virtual BaseSignal* getSignal() const;
+    BaseSignal* getSignal() const;
 
 private:
+    shared_ptr<BaseSignal> signal;
 
-    SYNTHESIZE_PROXYABLE(NodeSignalProxy);
-
-};
-
-class NodeSignalProxy : public DataProxy {
-
-public:
-    NodeSignalProxy(shared_ptr<NodeSignal> master, ProxyBridge& proxyBridge);
-    virtual ~NodeSignalProxy() = default;
-    
-    shared_ptr<NodeProxy> node;
-    Var<string> name;
-    
 };

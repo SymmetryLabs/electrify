@@ -16,10 +16,8 @@
 using namespace std;
 using namespace chrono;
 
-#include "container_utils.h"
-#include "smart_ptr_utils.h"
-#include "template_utils.h"
-
+#include "cpp_ext.h"
+#include "stl_ext.h"
 #include "reactive.h"
 
 #define printFunction std::cout << __PRETTY_FUNCTION__ << std::endl;

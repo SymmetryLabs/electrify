@@ -20,9 +20,9 @@ class NodeGrid;
 class NodeGridItemNode : public NodeGridItem {
 
 public:
-    NodeGridItemNode(NodeProxy& node, NodeGrid& NodeGrid);
+    NodeGridItemNode(NodeHandle& node, NodeGrid& NodeGrid);
     
-    NodeProxy& node;
+    NodeHandle& node;
     
     string getName() const override;
     

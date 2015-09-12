@@ -12,9 +12,25 @@ Observable<T>::Observable(const rxcpp::observable<T>& observable)
 
 template<typename T>
 template<typename... ArgN>
-Observer Observable<T>::observe(ArgN&&... an) const
+typename std::enable_if<!std::is_convertible<
+        typename std::tuple_element<0, std::tuple<ArgN...> >::type,
+        std::function<void()>>::value,
+    Observer>::type
+Observable<T>::observe(ArgN&&... an) const
 {
     return Observer(observable.subscribe(std::forward<ArgN>(an)...));
+}
+
+template<typename T>
+template<typename Fn>
+typename std::enable_if<
+    std::is_convertible<Fn, std::function<void()>>::value,
+    Observer>::type
+Observable<T>::observe(const Fn& fn) const
+{
+    return Observer(observable.subscribe([fn] (T) {
+        fn();
+    }));
 }
 
 template<typename T>

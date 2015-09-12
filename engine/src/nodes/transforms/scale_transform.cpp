@@ -1,9 +1,10 @@
 #include "scale_transform.h"
 
-ScaleTransform::ScaleTransform()
-: ScalarTransform("Scale")
+ScaleTransform::ScaleTransform(NodeHandle& nodeHandle)
+: ScalarTransform(nodeHandle)
 {
-    registerInput("multiplier", &multiplier, 1.0f);
+    nodeHandle.setName("Scale");
+    nodeHandle.registerInput("multiplier", &multiplier, 1.0f);
 }
 
 float ScaleTransform::calculate(const FrameContext& frame) const

@@ -7,8 +7,7 @@ template <typename V>
 class ConstantNode : public BasicNode<V> {
 
 public:
-    ConstantNode();
-    explicit ConstantNode(V value);
+    explicit ConstantNode(NodeHandle& nodeHandle, V value = V());
 
     V calculate(const FrameContext&) const override { return value; }
 

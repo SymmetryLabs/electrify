@@ -6,7 +6,7 @@
 class PixelXNode : public BasicNode<float> {
 
 public:
-    PixelXNode();
+    explicit PixelXNode(NodeHandle& nodeHandle);
 
     float calculate(const FrameContext& frame) const override;
 

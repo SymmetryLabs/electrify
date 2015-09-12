@@ -45,8 +45,7 @@ endif()
 set(REPO_SOURCE_DIR "${CMAKE_BINARY_DIR}/${__CPM_FULL_UNID}/repo")
 CPM_EnsureRepoIsCurrent(
   TARGET_DIR ${REPO_SOURCE_DIR}
-  GIT_REPOSITORY "https://github.com/USCiLab/cereal.git"
-  GIT_TAG "v1.1.2"
+  GIT_REPOSITORY "https://github.com/kylefleming/cereal.git"
   USE_CACHING TRUE
   )
 

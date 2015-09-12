@@ -1,9 +1,10 @@
 #include "color_doubler.h"
 
-ColorDoubler::ColorDoubler()
-: BasicNode<Color>("Color doubler")
+ColorDoubler::ColorDoubler(NodeHandle& nodeHandle)
+: BasicNode<Color>(nodeHandle)
 {
-    registerInput("color", &colorInput);
+    nodeHandle.setName("Color doubler");
+    nodeHandle.registerInput("color", &colorInput);
 }
 
 Color ColorDoubler::calculate(const FrameContext& frame) const

@@ -6,7 +6,7 @@
 class SawWave : public Waveform {
 
 public:
-    SawWave();
+    explicit SawWave(NodeHandle& nodeHandle);
     
     float calculate(const FrameContext& frame) const override;
 

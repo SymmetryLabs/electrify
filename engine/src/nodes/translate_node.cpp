@@ -1,11 +1,12 @@
 #include "translate_node.h"
 
-TranslateNode::TranslateNode()
-: ContextModifierNode("Translate")
+TranslateNode::TranslateNode(NodeHandle& nodeHandle)
+: ContextModifierNode(nodeHandle)
 {
-    registerInput("translateX", &translateX);
-    registerInput("translateY", &translateY);
-    registerInput("translateZ", &translateZ);
+    nodeHandle.setName("Translate");
+    nodeHandle.registerInput("translateX", &translateX);
+    nodeHandle.registerInput("translateY", &translateY);
+    nodeHandle.registerInput("translateZ", &translateZ);
 }
 
 FrameContext TranslateNode::modifyContext(const FrameContext& original) const

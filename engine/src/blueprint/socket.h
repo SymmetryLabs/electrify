@@ -4,6 +4,8 @@
 #include "signals.h"
 
 struct ContextModifierChain;
+template <typename V>
+struct SignalFunction;
 
 class BaseSocket {
 public:
@@ -62,6 +64,15 @@ private:
     SignalX<V>** signalAddr = nullptr;
     SignalFunction<V>* signalFunctionAddr = nullptr;
 
+};
+
+template <typename V>
+struct SignalFunction {
+    SignalFunction() = default;
+    explicit SignalFunction(SignalX<V>* signal_) : signal(signal_) {}
+    const V operator()(const FrameContext& frame) const { return signal->calculate(frame); }
+private:
+    SignalX<V>* signal = nullptr;
 };
 
 struct ContextModifierChain {

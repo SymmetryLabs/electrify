@@ -12,17 +12,16 @@
 #include "OutputSimulationView.h"
 
 //==============================================================================
-OutputSimulationView::OutputSimulationView(Engine* engine, EngineUi* engineUi, Output* output)
-: engine(engine)
-, engineUi(engineUi)
+OutputSimulationView::OutputSimulationView(Project& project, EngineUi& engineUi, Output& output)
+: engineUi(engineUi)
+, model(project.getModel())
 , output(output)
 {
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
     
-    model = engine->getModel();
-    vtx = new GLfloat[model->pixels.size() * 3];
-    col = new GLfloat[output->colorBuffer.size() * 4];
+    vtx = new GLfloat[model.pixels.size() * 3];
+    col = new GLfloat[output.getColorBuffer().size() * 4];
     
     setOpaque (true);
     openGLContext.setRenderer (this);
@@ -40,7 +39,7 @@ OutputSimulationView::~OutputSimulationView()
 void OutputSimulationView::populateModel()
 {
     int i = 0;
-    for(auto p : model->pixels) {
+    for(auto p : model.pixels) {
         vtx[i++] = (float) p->x;
         vtx[i++] = (float) p->y;
         vtx[i++] = (float) p->z;
@@ -49,10 +48,10 @@ void OutputSimulationView::populateModel()
 
 void OutputSimulationView::populateColors()
 {
-    engine->copyColorBuffer(output->colorBuffer);
+    output.populateFrame();
     
     int i = 0;
-    for(auto c : output->colorBuffer) {
+    for(auto c : output.getColorBuffer()) {
         col[i++] = (float) (((c.asRGBA() >> 24) & 255) / 255.0);
         col[i++] = (float) (((c.asRGBA() >> 16) & 255) / 255.0);
         col[i++] = (float) (((c.asRGBA() >> 8) & 255) / 255.0);
@@ -150,7 +149,7 @@ void OutputSimulationView::renderOpenGL()
     openGLContext.extensions.glEnableVertexAttribArray (colors->attributeID);
     
     glPointSize(5);
-    glDrawArrays(GL_POINTS, 0, model->pixels.size());
+    glDrawArrays(GL_POINTS, 0, model.pixels.size());
     
     openGLContext.extensions.glDisableVertexAttribArray (vertices->attributeID);
     openGLContext.extensions.glDisableVertexAttribArray (colors->attributeID);

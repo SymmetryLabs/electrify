@@ -19,6 +19,3 @@ struct VoidNoOp {
         operator()(parameters...);
     }
 };
-
-// See: http://en.cppreference.com/w/cpp/types/void_t
-template<typename> using void_t = void;

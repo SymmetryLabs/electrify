@@ -1,7 +1,7 @@
 #include "scalar_transform.h"
 
-ScalarTransform::ScalarTransform(const string& name)
-: BasicNode<float>(name)
+ScalarTransform::ScalarTransform(NodeHandle& nodeHandle)
+: BasicNode<float>(nodeHandle)
 {
-    registerInput("input", &input);
+    nodeHandle.registerInput("input", &input);
 }

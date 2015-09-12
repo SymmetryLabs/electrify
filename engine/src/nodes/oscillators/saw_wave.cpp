@@ -1,8 +1,9 @@
 #include "saw_wave.h"
 
-SawWave::SawWave()
-: Waveform("Sawtooth wave")
+SawWave::SawWave(NodeHandle& nodeHandle)
+: Waveform(nodeHandle)
 {
+    nodeHandle.setName("Sawtooth wave");
 }
 
 float SawWave::calculate(const FrameContext& frame) const

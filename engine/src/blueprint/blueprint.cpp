@@ -1,35 +1,57 @@
 #include "blueprint.h"
 
-Blueprint::Blueprint(const string& name)
-: CompoundNode(name)
+#include "color.h"
+#include "model.h"
+
+unique_ptr<Renderable> Blueprint::releaseRenderable(DataBridge& dataBridge)
 {
-    registerWirableOutput("color", &output);
+    auto node = releaseNode(dataBridge);
+    auto blueprintNode = dynamic_pointer_cast<BlueprintNode>(node);
+    auto renderable = make_unique<BlueprintRenderable>(blueprintNode);
+    return move(renderable);
 }
 
-void Blueprint::initRenderable(const Model& model_)
+shared_ptr<Blueprint> makeBlueprint()
 {
-    init();
+    return makeNodeHandle<BlueprintNode>();
+}
+
+BlueprintNode::BlueprintNode(Blueprint& nodeHandle)
+: CompoundNode(nodeHandle)
+{
+    nodeHandle.setName("Blueprint");
+    nodeHandle.registerWirableOutput("color", &output);
+}
+
+BlueprintRenderable::BlueprintRenderable(const shared_ptr<BlueprintNode>& blueprintNode_)
+: blueprintNode(blueprintNode_)
+{
+}
+
+void BlueprintRenderable::initRenderable(const Model& model_)
+{
+    blueprintNode->init();
     model = &model_;
 }
 
-void Blueprint::deinitRenderable()
+void BlueprintRenderable::deinitRenderable()
 {
-    deinit();
+    blueprintNode->deinit();
     model = nullptr;
 }
 
-void Blueprint::updateRenderable(const FrameContext& frame)
+void BlueprintRenderable::updateRenderable(const FrameContext& frame)
 {
-    update(frame);
+    blueprintNode->update(frame);
 }
 
-void Blueprint::renderRenderable(const FrameContext& frame, vector<Color>& colorBuffer)
+void BlueprintRenderable::renderRenderable(const FrameContext& frame, vector<Color>& colorBuffer)
 {
     // rasterize to color buffer
     int i = 0;
     for (const auto& pixel : model->pixels) {
         FragmentContext frag(*pixel);
         FrameContext childFrame(frame, &frag);
-        colorBuffer[i++] = output(childFrame);
+        colorBuffer[i++] = blueprintNode->output(childFrame);
     }
 }

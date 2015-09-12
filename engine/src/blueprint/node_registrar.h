@@ -1,24 +1,27 @@
 #pragma once
 #include "globals.h"
 
-#include "node.h"
+#include <unordered_map>
+
+#include "node_handle.h"
+
+class Node;
 
 class NodeRegistrar {
 
 public:
     NodeRegistrar();
 
-    template<typename ClassType>
+    template<typename NodeType, typename HandleType = typename NodeType::handle_t>
     void registerNode(const string& name);
 
     vector<string> getAvailableNodeNames() const;
     size_t getAvailableNodeCount() const;
 
-    template<typename ClassType = Node>
-    unique_ptr<ClassType> getNode(const string& name) const;
+    shared_ptr<NodeHandle> getNode(const string& name) const;
 
 private:
-    unordered_map<string, function<Node* ()>> nodeFactories;
+    unordered_map<string, function<shared_ptr<NodeHandle>()>> nodeFactories;
 
 };
 

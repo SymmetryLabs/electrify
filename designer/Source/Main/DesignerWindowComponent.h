@@ -25,6 +25,7 @@
 #include "OutputSimulationView.h"
 #include "NodeListView.h"
 #include "NodeGridView.h"
+#include "PropertiesPanel.h"
 //[/Headers]
 
 
@@ -41,7 +42,7 @@ class DesignerWindowComponent  : public Component
 {
 public:
     //==============================================================================
-    DesignerWindowComponent (Engine* engine, EngineUi* engineUi, Output* output);
+    DesignerWindowComponent (Project& project, EngineUi& engineUi, Output& output);
     ~DesignerWindowComponent();
 
     //==============================================================================
@@ -55,15 +56,13 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-
-    EngineUi* engineUi;
-
     //[/UserVariables]
 
     //==============================================================================
     ScopedPointer<OutputSimulationView> component;
     ScopedPointer<NodeListView> component2;
     ScopedPointer<NodeGridView> component3;
+    ScopedPointer<PropertiesPanel> component4;
 
 
     //==============================================================================

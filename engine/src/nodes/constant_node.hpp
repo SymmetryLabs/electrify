@@ -1,12 +1,7 @@
 template <typename V>
-ConstantNode<V>::ConstantNode()
-: BasicNode<V>("Constant float")
-{
-}
-
-template <typename V>
-ConstantNode<V>::ConstantNode(V value_)
-: BasicNode<V>("Constant float")
+ConstantNode<V>::ConstantNode(NodeHandle& nodeHandle, V value_)
+: BasicNode<V>(nodeHandle)
 , value(value_)
 {
+    nodeHandle.setName("Constant float");
 }

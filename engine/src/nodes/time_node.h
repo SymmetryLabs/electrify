@@ -6,7 +6,7 @@
 class TimeNode : public BasicNode<float> {
 
 public:
-    TimeNode();
+    explicit TimeNode(NodeHandle& nodeHandle);
 
     float calculate(const FrameContext& frame) const override;
 

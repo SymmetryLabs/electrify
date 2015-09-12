@@ -8,7 +8,7 @@
 class PerlinNoiseNode : public BasicNode<float> {
 
 public:
-    PerlinNoiseNode();
+    explicit PerlinNoiseNode(NodeHandle& nodeHandle);
 
     float calculate(const FrameContext& frame) const override;
 

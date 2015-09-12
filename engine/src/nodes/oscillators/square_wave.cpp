@@ -1,8 +1,9 @@
 #include "square_wave.h"
 
-SquareWave::SquareWave()
-: Waveform("Square wave")
+SquareWave::SquareWave(NodeHandle& nodeHandle)
+: Waveform(nodeHandle)
 {
+    nodeHandle.setName("Square wave");
 }
 
 float SquareWave::calculate(const FrameContext& frame) const

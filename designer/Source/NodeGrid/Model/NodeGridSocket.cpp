@@ -10,7 +10,7 @@
 
 #include "NodeGridSocket.h"
 
-NodeGridSocket::NodeGridSocket(NodeSignalProxy& nodeSignal, NodeGrid& nodeGrid, const NodeGridSocketDirection& direction)
+NodeGridSocket::NodeGridSocket(NodeSignal& nodeSignal, NodeGrid& nodeGrid, const NodeGridSocketDirection& direction)
 : nodeSignal(nodeSignal)
 , nodeGrid(nodeGrid)
 , direction(direction)

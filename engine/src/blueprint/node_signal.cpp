@@ -1,14 +1,17 @@
 #include "node_signal.h"
 
 #include "node_socket.h"
-#include "node.h"
+#include "node_handle.h"
 
-NodeSignal::NodeSignal(Node& node_, const string& name_, unique_ptr<BaseSignal>&& signal_)
-: node(node_)
+NodeSignal::NodeSignal(NodeHandle& nodeHandle_, const string& name_, const shared_ptr<BaseSignal>& signal_)
+: DataTransmitter(signal_)
+, nodeHandle(nodeHandle_)
 , name(name_)
-, signal(move(signal_))
+, signal(signal_)
 {
 }
+
+NodeSignal::~NodeSignal() = default;
 
 string NodeSignal::getName() const
 {
@@ -28,11 +31,4 @@ void NodeSignal::wireOutput(NodeSocket& destinationNodeSocket)
 void NodeSignal::unwireOutput(NodeSocket& destinationNodeSocket)
 {
     destinationNodeSocket.unwireInput(*getSignal());
-}
-
-NodeSignalProxy::NodeSignalProxy(shared_ptr<NodeSignal> master, ProxyBridge& proxyBridge)
-: DataProxy(master, proxyBridge)
-{
-    this->node = master->node.getProxy<NodeProxy>(proxyBridge);
-    this->bind(master->name, this->name);
 }

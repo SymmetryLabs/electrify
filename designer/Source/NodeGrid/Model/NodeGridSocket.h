@@ -11,8 +11,7 @@
 #pragma once
 #include "BlueprintUiGlobals.h"
 
-#include <node_signal.h>
-
+class NodeSignal;
 class NodeGrid;
 
 enum struct NodeGridSocketDirection { INPUT, OUTPUT };
@@ -20,9 +19,9 @@ enum struct NodeGridSocketDirection { INPUT, OUTPUT };
 class NodeGridSocket {
     
 public:
-    NodeGridSocket(NodeSignalProxy& nodeSignal, NodeGrid& nodeGrid, const NodeGridSocketDirection& direction);
+    NodeGridSocket(NodeSignal& nodeSignal, NodeGrid& nodeGrid, const NodeGridSocketDirection& direction);
     
-    NodeSignalProxy& nodeSignal;
+    NodeSignal& nodeSignal;
     
     NodeGrid& nodeGrid;
     

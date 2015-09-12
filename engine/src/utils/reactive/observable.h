@@ -7,16 +7,7 @@
 #include "template_utils.h"
 #include "observer.h"
 
-template<typename T, typename S>
-struct has_return_type {
-    typedef S type;
-};
-
-template<typename T>
-struct has_return_type<T, typename T::return_type> {
-};
-
-template<typename T>
+template<typename T = void*>
 class Observable {
 
 protected:
@@ -30,7 +21,17 @@ public:
     typedef T type;
 
     template<typename... ArgN>
-    Observer observe(ArgN&&... an) const;
+    typename std::enable_if<!std::is_convertible<
+            typename std::tuple_element<0, std::tuple<ArgN...> >::type,
+            std::function<void()>>::value,
+        Observer>::type
+    observe(ArgN&&... an) const;
+
+    template<typename Fn>
+    typename std::enable_if<
+        std::is_convertible<Fn, std::function<void()>>::value,
+        Observer>::type
+    observe(const Fn& fn) const;
 
     template<typename Selector, typename R = decltype(std::declval<Selector>()(std::declval<T>()))>
     auto map(Selector&& p) const

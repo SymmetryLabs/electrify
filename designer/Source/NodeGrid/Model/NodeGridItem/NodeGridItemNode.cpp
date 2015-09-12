@@ -11,18 +11,19 @@
 #include "NodeGridItemNode.h"
 
 #include "NodeGrid.h"
+#include "NodeGridSocket.h"
 
-NodeGridItemNode::NodeGridItemNode(NodeProxy& node, NodeGrid& nodeGrid)
-: NodeGridItem(nodeGrid)
+NodeGridItemNode::NodeGridItemNode(NodeHandle& node, NodeGrid& nodeGrid)
+: NodeGridItem(node, nodeGrid)
 , node(node)
 {
-    node.inputs.makeSlave(inputs, nodeGrid, NodeGridSocketDirection::INPUT);
-    node.outputs.makeSlave(outputs, nodeGrid, NodeGridSocketDirection::OUTPUT);
+    node.getInputs().makeSlave(inputs, nodeGrid, NodeGridSocketDirection::INPUT);
+    node.getOutputs().makeSlave(outputs, nodeGrid, NodeGridSocketDirection::OUTPUT);
 }
 
 string NodeGridItemNode::getName() const
 {
-    return node.name.getValue();
+    return node.getName();
 }
 
 void NodeGridItemNode::deleteSelectable()

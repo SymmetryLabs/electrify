@@ -1,5 +1,8 @@
 #include "node_registrar.h"
 
+#include "node.h"
+#include "node_handle.h"
+
 #include "saw_wave.h"
 #include "sin_wave.h"
 #include "square_wave.h"
@@ -36,7 +39,7 @@ vector<string> NodeRegistrar::getAvailableNodeNames() const
     vector<string> keys;
     keys.reserve(nodeFactories.size());
     for(auto kv : nodeFactories) {
-            keys.push_back(kv.first);
+        keys.push_back(kv.first);
     }
     return keys;
 }
@@ -44,4 +47,9 @@ vector<string> NodeRegistrar::getAvailableNodeNames() const
 size_t NodeRegistrar::getAvailableNodeCount() const
 {
     return nodeFactories.size();
+}
+
+shared_ptr<NodeHandle> NodeRegistrar::getNode(const string& name) const
+{
+    return nodeFactories.at(name)();
 }

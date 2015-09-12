@@ -1,11 +1,12 @@
 #include "perlin_noise_node.h"
 
-PerlinNoiseNode::PerlinNoiseNode()
-: BasicNode<float>("Perlin noise")
+PerlinNoiseNode::PerlinNoiseNode(NodeHandle& nodeHandle)
+: BasicNode<float>(nodeHandle)
 {
-    registerInput("xInput", &xInput);
-    registerInput("yInput", &yInput);
-    registerInput("zInput", &zInput);
+    nodeHandle.setName("Perlin noise");
+    nodeHandle.registerInput("xInput", &xInput);
+    nodeHandle.registerInput("yInput", &yInput);
+    nodeHandle.registerInput("zInput", &zInput);
 }
 
 float PerlinNoiseNode::calculate(const FrameContext& frame) const

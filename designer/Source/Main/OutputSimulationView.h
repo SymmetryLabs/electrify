@@ -26,13 +26,12 @@ class OutputSimulationView    : public Component,
                              public OpenGLRenderer
 {
 public:
-    OutputSimulationView(Engine* engine, EngineUi* engineUi, Output* output);
+    OutputSimulationView(Project& project, EngineUi& engineUi, Output& output);
     ~OutputSimulationView();
     
-    Engine* engine;
-    EngineUi* engineUi;
-    Model* model;
-    Output* output;
+    EngineUi& engineUi;
+    Model& model;
+    Output& output;
 
 private:
     

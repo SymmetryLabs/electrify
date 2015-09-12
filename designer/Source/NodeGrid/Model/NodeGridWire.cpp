@@ -2,7 +2,7 @@
 
 #include "NodeGrid.h"
 
-NodeGridWire::NodeGridWire(NodeWireProxy& nodeWire, NodeGrid& nodeGrid,
+NodeGridWire::NodeGridWire(NodeWire& nodeWire, NodeGrid& nodeGrid,
                            NodeGridSocket* emittingGridSocket, NodeGridSocket* receivingGridSocket)
 : Selectable(&nodeGrid)
 , nodeWire(&nodeWire)

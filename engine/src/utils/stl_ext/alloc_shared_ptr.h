@@ -3,7 +3,7 @@
 #include <memory>
 #include <utility>
 
-#include "template_utils.h"
+#include "type_traits_ext.h"
 
 // Reference implementation:
 //   https://github.com/USCiLab/cereal/blob/v1.1.2/include/cereal/types/memory.hpp#L117

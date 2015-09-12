@@ -6,7 +6,7 @@
 class ScaleTransform : public ScalarTransform {
 
 public:
-    ScaleTransform();
+    explicit ScaleTransform(NodeHandle& nodeHandle);
 
     float calculate(const FrameContext& frame) const override;
 

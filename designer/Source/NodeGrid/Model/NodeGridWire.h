@@ -1,22 +1,22 @@
 #pragma once
 #include "BlueprintUiGlobals.h"
 
-#include <node_wire.h>
-#include <node_socket.h>
+#include <var.h>
 
 #include "Selectable.h"
-#include "NodeGridItem.h"
-#include "NodeGridSocket.h"
 
+class NodeWire;
 class NodeGrid;
+class NodeGridSocket;
 
 class NodeGridWire : public Selectable {
 
 public:
-    NodeGridWire(NodeWireProxy& nodeWire, NodeGrid& nodeGrid, NodeGridSocket* emittingGridSocket, NodeGridSocket* receivingGridSocket);
+    NodeGridWire(NodeWire& nodeWire, NodeGrid& nodeGrid, NodeGridSocket* emittingGridSocket, NodeGridSocket* receivingGridSocket);
     NodeGridWire(NodeGrid& nodeGrid, NodeGridSocket* emittingGridSocket, NodeGridSocket* receivingGridSocket = nullptr);
+    virtual ~NodeGridWire() = default;
 
-    NodeWireProxy* nodeWire;
+    NodeWire* nodeWire;
 
     NodeGridSocket* emittingGridSocket;
     NodeGridSocket* receivingGridSocket;

@@ -1,16 +1,16 @@
 #include "context_modifier_node.h"
 
-ContextModifierNode::ContextModifierNode(const string& name)
-: Node(name)
-, nodeSocket(make_shared<ContextModifierNodeSocket>(*this, name))
+ContextModifierNode::ContextModifierNode(NodeHandle& nodeHandle)
+: Node(nodeHandle)
+, nodeSocket(make_shared<ContextModifierNodeSocket>(*this, nodeHandle, "ContextModifierNode"))
 {
-    registerInput(name, nodeSocket);
-    registerOutput(name, nodeSocket);
+    nodeHandle.registerInput("ContextModifierNode", nodeSocket);
+    nodeHandle.registerOutput("ContextModifierNode", nodeSocket);
 }
 
-ContextModifierNode::ContextModifierNodeSocket::ContextModifierNodeSocket(ContextModifierNode& node, const string& name)
-: NodeSocket(node, name, nullptr)
-, contextModifierNode(bind(
+ContextModifierNode::ContextModifierNodeSocket::ContextModifierNodeSocket(ContextModifierNode& node, NodeHandle& nodeHandle, const string& name)
+: NodeSocket(nodeHandle, name, nullptr)
+, contextModifierNode(std::bind(
     mem_fn(&ContextModifierNode::modifyContext), &node, placeholders::_1))
 {
 }

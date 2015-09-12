@@ -6,7 +6,7 @@
 class TranslateNode : public ContextModifierNode {
 
 public:
-    TranslateNode();
+    explicit TranslateNode(NodeHandle& nodeHandle);
 
     FrameContext modifyContext(const FrameContext& original) const override;
 

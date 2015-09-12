@@ -71,9 +71,13 @@ file(GLOB HEADER_DIRS
   "src/nodes/oscillators"
   "src/nodes/transforms"
   "src/utils"
-  "src/utils/data_proxy"
+  "src/utils/cpp_ext"
+  "src/utils/data_bridge"
+  "src/utils/double_buffer"
   "src/utils/event_queue"
   "src/utils/reactive"
+  "src/utils/serialization"
+  "src/utils/serialization/serializers"
   "src/utils/stl_ext"
 )
 

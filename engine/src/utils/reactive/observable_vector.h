@@ -6,11 +6,11 @@
 #include <utility>
 #include <vector>
 
-#include "data_proxy.h"
 #include "observes.h"
 #include "template_utils.h"
+#include "type_traits_ext.h"
 #include "event.h"
-#include "proxy_bridge.h"
+#include "data_relay.h"
 
 template<typename T>
 class ObservableVector : public Observes {
@@ -70,18 +70,16 @@ public:
     // Allocator
     allocator_type get_allocator() const noexcept { return v.get_allocator(); }
 
-    void makeProxySlave(ObservableVector<T>& slave, ProxyBridge& proxyBridge) const;
-
+    void makeProxySlave(ObservableVector<T>& slave, DataRelay& dataRelay) const;
     template<typename SlaveType>
-    void makeProxySlave(ObservableVector<std::shared_ptr<SlaveType>>& slave, ProxyBridge& proxyBridge) const;
+    void makeProxySlave(ObservableVector<std::shared_ptr<SlaveType>>& slave, DataRelay& dataRelay) const;
 
     template<typename SlaveType, typename... ArgN>
     auto makeSlave(ObservableVector<std::shared_ptr<SlaveType>>& slave, ArgN&&... args) const
-        -> typename std::enable_if<!std::is_convertible<typename std::tuple_element<0, std::tuple<ArgN...> >::type, std::function<std::shared_ptr<SlaveType>(T)>>::value>::type;
+        -> typename std::enable_if<!is_callable<typename std::tuple_element<0, std::tuple<ArgN...> >::type, T>::value>::type;
     template<typename SlaveType, typename FCreate, typename FDestr = VoidNoOp>
     auto makeSlave(ObservableVector<std::shared_ptr<SlaveType>>& slave, FCreate&& createFunc, FDestr&& destructFunc = VoidNoOp()) const
-        -> typename std::enable_if<std::is_convertible<FCreate, std::function<std::shared_ptr<SlaveType>(T)>>::value
-                                    && std::is_convertible<FDestr, std::function<void(std::shared_ptr<SlaveType>)>>::value>::type;
+        -> typename std::enable_if<is_callable<FCreate, T>::value && is_callable<FDestr, std::shared_ptr<SlaveType>>::value>::type;
 
 private:
     std::vector<T> v;

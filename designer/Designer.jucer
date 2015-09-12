@@ -60,6 +60,12 @@
                 file="Source/NodeGrid/ControllerView/NodeGridWireView.h"/>
         </GROUP>
       </GROUP>
+      <GROUP id="{C066B9CD-374C-3AE3-8526-DF56487E3967}" name="PropertiesPanel">
+        <FILE id="LO7B02" name="PropertiesPanel.cpp" compile="1" resource="0"
+              file="Source/PropertiesPanel/PropertiesPanel.cpp"/>
+        <FILE id="uXqrUU" name="PropertiesPanel.h" compile="0" resource="0"
+              file="Source/PropertiesPanel/PropertiesPanel.h"/>
+      </GROUP>
       <GROUP id="{6519E95B-19B8-0171-FEAE-5A6675698775}" name="GridSelection">
         <FILE id="cxzww6" name="SelectionController.cpp" compile="1" resource="0"
               file="Source/GridSelection/SelectionController.cpp"/>
@@ -93,7 +99,7 @@
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
                        isDebug="1" optimisation="1" targetName="Designer" libraryPath="${BUILD_DIR}/engine&#10;${BUILD_DIR}/engine/lib&#10;/usr/local/lib"
-                       headerPath="../../../engine/src&#10;../../../engine/src/core&#10;../../../engine/src/blueprint&#10;../../../engine/src/blueprint_ui&#10;../../../engine/src/nodes&#10;../../../engine/src/nodes/oscillators&#10;../../../engine/src/nodes/transforms&#10;../../../engine/src/utils&#10;../../../engine/src/utils/data_proxy&#10;../../../engine/src/utils/event_queue&#10;../../../engine/src/utils/reactive"
+                       headerPath="../../../engine/src&#10;../../../engine/src/core&#10;../../../engine/src/blueprint&#10;../../../engine/src/blueprint_ui&#10;../../../engine/src/nodes&#10;../../../engine/src/nodes/oscillators&#10;../../../engine/src/nodes/transforms&#10;../../../engine/src/utils&#10;../../../engine/src/utils/cpp_ext&#10;../../../engine/src/utils/data_bridge&#10;../../../engine/src/utils/double_buffer&#10;../../../engine/src/utils/event_queue&#10;../../../engine/src/utils/reactive&#10;../../../engine/src/utils/serialization&#10;../../../engine/src/utils/serialization/serializers&#10;../../../engine/src/utils/stl_ext"
                        cppLanguageStandard="c++11"/>
         <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
                        isDebug="0" optimisation="3" targetName="Designer" cppLanguageStandard="c++11"/>

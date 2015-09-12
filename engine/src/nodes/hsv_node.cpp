@@ -1,11 +1,12 @@
 #include "hsv_node.h"
 
-HsvNode::HsvNode()
-: BasicNode<Color>("HSV")
+HsvNode::HsvNode(NodeHandle& nodeHandle)
+: BasicNode<Color>(nodeHandle)
 {
-    registerInput("hue", &hue);
-    registerInput("saturation", &saturation, 1.0f);
-    registerInput("value", &value, 1.0f);
+    nodeHandle.setName("HSV");
+    nodeHandle.registerInput("hue", &hue);
+    nodeHandle.registerInput("saturation", &saturation, 1.0f);
+    nodeHandle.registerInput("value", &value, 1.0f);
 }
 
 Color HsvNode::calculate(const FrameContext& frame) const

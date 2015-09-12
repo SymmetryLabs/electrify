@@ -1,19 +1,18 @@
 #pragma once
 #include "globals.h"
 
-#include <boost/uuid/uuid.hpp>
-
-#include "data_proxy.h"
-#include "signals.h"
-#include "socket.h"
 #include "node_signal.h"
 
-class NodeSocketProxy;
+class NodeHandle;
+class NodeSocket;
+class BaseSocket;
+class BaseSignal;
+class ContextModifierChain;
 
 class NodeSocket : public NodeSignal {
 
 public:
-    NodeSocket(Node& node, const string& name, unique_ptr<BaseSocket>&& socket);
+    NodeSocket(NodeHandle& nodeHandle, const string& name, const shared_ptr<BaseSocket>& socket);
     virtual ~NodeSocket() = default;
 
     virtual void wireInput(BaseSignal& sourceSignal);
@@ -23,18 +22,6 @@ public:
     virtual void unregisterContextModifier(ContextModifierChain& contextModifier);
 
 protected:
-    virtual BaseSignal* getSignal() const override;
+    BaseSocket* getSocket() const;
 
-private:
-
-    unique_ptr<BaseSocket> socket;
-
-    SYNTHESIZE_PROXYABLE(NodeSocketProxy);
-
-};
-
-class NodeSocketProxy : public NodeSignalProxy {
-
-public:
-    NodeSocketProxy(shared_ptr<NodeSocket> master, ProxyBridge& proxyBridge);
 };

@@ -1,27 +1,18 @@
 #pragma once
 #include "BlueprintUiGlobals.h"
 
-#include "engine.h"
-#include "NodeGrid.h"
-#include "blueprint.h"
-#include "proxy_bridge.h"
-#include "observes.h"
+#include <blueprint_project.h>
 
-class EngineUi : public Observes {
+#include "NodeGrid.h"
+
+class EngineUi {
 
 public:
-    explicit EngineUi(Engine& engine);
-
-    shared_ptr<CompoundNodeProxy> blueprint;
+    explicit EngineUi(BlueprintProject& project);
 
     unique_ptr<NodeGrid> nodeGrid;
 
-    void commitUpstreamFlowingTransaction();
-    void processDownstreamFlowingTransactions();
-
-    ProxyBridge proxyBridge;
-
 private:
-    Engine& engine;
+    BlueprintProject& project;
 
 };

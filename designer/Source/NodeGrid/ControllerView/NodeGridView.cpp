@@ -11,6 +11,8 @@
 #include "NodeGridView.h"
 
 #include "NodeListView.h"
+#include "NodeGridItemNode.h"
+#include "NodeGridItemSocket.h"
 
 //==============================================================================
 NodeGridView::NodeGridView(NodeGrid& nodeGrid_)

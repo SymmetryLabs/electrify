@@ -1,6 +1,6 @@
 template <typename V>
-BasicNode<V>::BasicNode(const string& name)
-: Node(name)
+BasicNode<V>::BasicNode(NodeHandle& nodeHandle)
+: Node(nodeHandle)
 {
-    registerOutput("output", &BasicNode::calculate);
+    nodeHandle.registerOutput("output", &BasicNode::calculate, *this);
 }

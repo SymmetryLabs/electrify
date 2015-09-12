@@ -1,9 +1,9 @@
 #pragma once
 #include "globals.h"
 
-#include "model.h"
-#include "frame_context.h"
-#include "color.h"
+class Model;
+class FrameContext;
+class Color;
 
 class Renderable {
 

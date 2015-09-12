@@ -2,11 +2,12 @@
 #include "globals.h"
 
 #include "basic_node.h"
+#include "color.h"
 
 class HsvNode : public BasicNode<Color> {
 
 public:
-    HsvNode();
+    explicit HsvNode(NodeHandle& nodeHandle);
 
     Color calculate(const FrameContext& frame) const override;
     
