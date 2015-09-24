@@ -12,7 +12,7 @@ class NodeRegistrar {
 public:
     NodeRegistrar();
 
-    template<typename NodeType, typename HandleType = typename NodeType::handle_t>
+    template<template<typename> class NodeType, typename HandleType = typename NodeType<FunctionContainer>::handle_t>
     void registerNode(const string& name);
 
     vector<string> getAvailableNodeNames() const;
@@ -25,4 +25,4 @@ private:
 
 };
 
-#include "node_registrar.tpp"
+#include "node_registrar.hpp"

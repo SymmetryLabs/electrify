@@ -3,13 +3,16 @@
 
 #include "scalar_transform.h"
 
-class ScaleTransform : public ScalarTransform {
+template<typename Input>
+class ScaleTransform : public ScalarTransform<Skip<Input, 1>> {
 
 public:
     explicit ScaleTransform(NodeHandle& nodeHandle);
 
     float calculate(const FrameContext& frame) const override;
 
-    SignalFunction<float> multiplier;
+    Def<Input, 0, float> multiplier;
 
 };
+
+#include "scale_transform.hpp"

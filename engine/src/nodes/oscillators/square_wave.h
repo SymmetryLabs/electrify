@@ -3,7 +3,8 @@
 
 #include "waveform.h"
 
-class SquareWave : public Waveform {
+template<typename Input>
+class SquareWave : public Waveform<Input> {
 
 public:
     explicit SquareWave(NodeHandle& nodeHandle);
@@ -11,3 +12,5 @@ public:
     float calculate(const FrameContext& frame) const override;
 
 };
+
+#include "square_wave.hpp"

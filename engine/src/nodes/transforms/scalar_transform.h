@@ -3,12 +3,15 @@
 
 #include "basic_node.h"
 
-class ScalarTransform : public BasicNode<float> {
+template<typename Input>
+class ScalarTransform : public BasicNode<Skip<Input, 1>, float> {
 
 public:
     explicit ScalarTransform(NodeHandle& nodeHandle);
     virtual ~ScalarTransform() = default;
 
-    SignalFunction<float> input;
+    Def<Input, 0, float> input;
 
 };
+
+#include "scalar_transform.hpp"

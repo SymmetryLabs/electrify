@@ -3,7 +3,8 @@
 
 #include "basic_node.h"
 
-class PixelXNode : public BasicNode<float> {
+template<typename Input>
+class PixelXNode : public BasicNode<Input, float> {
 
 public:
     explicit PixelXNode(NodeHandle& nodeHandle);
@@ -11,3 +12,5 @@ public:
     float calculate(const FrameContext& frame) const override;
 
 };
+
+#include "pixel_x_node.hpp"

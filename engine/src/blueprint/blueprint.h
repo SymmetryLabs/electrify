@@ -14,7 +14,8 @@ public:
 
 shared_ptr<Blueprint> makeBlueprint();
 
-class BlueprintNode : public CompoundNode {
+template<typename Input>
+class BlueprintNode : public CompoundNode<Input> {
 
 public:
     explicit BlueprintNode(Blueprint& nodeHandle);
@@ -28,7 +29,7 @@ public:
 class BlueprintRenderable : public Renderable {
 
 public:
-    explicit BlueprintRenderable(const shared_ptr<BlueprintNode>& blueprintNode);
+    explicit BlueprintRenderable(const shared_ptr<BlueprintNode<FunctionContainer>>& blueprintNode);
 
     void initRenderable(const Model& model_) override;
     void deinitRenderable() override;
@@ -36,7 +37,9 @@ public:
     void renderRenderable(const FrameContext& frame, vector<Color>& colorBuffer) override;
 
 private:
-    shared_ptr<BlueprintNode> blueprintNode;
+    shared_ptr<BlueprintNode<FunctionContainer>> blueprintNode;
     const Model* model = nullptr;
 
 };
+
+#include "blueprint.hpp"

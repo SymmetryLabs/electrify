@@ -3,7 +3,8 @@
 
 #include "waveform.h"
 
-class SawWave : public Waveform {
+template<typename Input>
+class SawWave : public Waveform<Input> {
 
 public:
     explicit SawWave(NodeHandle& nodeHandle);
@@ -11,3 +12,5 @@ public:
     float calculate(const FrameContext& frame) const override;
 
 };
+
+#include "saw_wave.hpp"

@@ -19,3 +19,13 @@ struct VoidNoOp {
         operator()(parameters...);
     }
 };
+
+template<typename In, int N>
+struct GetNum {
+    typedef typename GetNum<typename In::tail, N-1>::type type;
+};
+
+template<typename In>
+struct GetNum<In, 0> {
+    typedef In type;
+};

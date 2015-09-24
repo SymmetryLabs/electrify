@@ -3,7 +3,8 @@
 
 #include "context_modifier_node.h"
 
-class TranslateNode : public ContextModifierNode {
+template<typename Input>
+class TranslateNode : public ContextModifierNode<Skip<Input, 3>> {
 
 public:
     explicit TranslateNode(NodeHandle& nodeHandle);
@@ -11,8 +12,10 @@ public:
     FrameContext modifyContext(const FrameContext& original) const override;
 
 private:
-    SignalFunction<float> translateX;
-    SignalFunction<float> translateY;
-    SignalFunction<float> translateZ;
+    Def<Input, 0, float> translateX;
+    Def<Input, 1, float> translateY;
+    Def<Input, 2, float> translateZ;
 
 };
+
+#include "translate_node.hpp"

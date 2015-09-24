@@ -1,7 +1,6 @@
-#include "hsv_node.h"
-
-HsvNode::HsvNode(NodeHandle& nodeHandle)
-: BasicNode<Color>(nodeHandle)
+template<typename Input>
+HsvNode<Input>::HsvNode(NodeHandle& nodeHandle)
+: BasicNode<Input, Color>(nodeHandle)
 {
     nodeHandle.setName("HSV");
     nodeHandle.registerInput("hue", &hue);
@@ -9,7 +8,8 @@ HsvNode::HsvNode(NodeHandle& nodeHandle)
     nodeHandle.registerInput("value", &value, 1.0f);
 }
 
-Color HsvNode::calculate(const FrameContext& frame) const
+template<typename Input>
+Color HsvNode<Input>::calculate(const FrameContext& frame) const
 {
     Color in;
     in.fromHSV(hue(frame), saturation(frame), value(frame));

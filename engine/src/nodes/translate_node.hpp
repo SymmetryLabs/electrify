@@ -1,7 +1,6 @@
-#include "translate_node.h"
-
-TranslateNode::TranslateNode(NodeHandle& nodeHandle)
-: ContextModifierNode(nodeHandle)
+template<typename Input>
+TranslateNode<Input>::TranslateNode(NodeHandle& nodeHandle)
+: ContextModifierNode<Input>(nodeHandle)
 {
     nodeHandle.setName("Translate");
     nodeHandle.registerInput("translateX", &translateX);
@@ -9,7 +8,8 @@ TranslateNode::TranslateNode(NodeHandle& nodeHandle)
     nodeHandle.registerInput("translateZ", &translateZ);
 }
 
-FrameContext TranslateNode::modifyContext(const FrameContext& original) const
+template<typename Input>
+FrameContext TranslateNode<Input>::modifyContext(const FrameContext& original) const
 {
     Pixel pixel {original.frag->pixel};
     pixel.x += translateX(original);

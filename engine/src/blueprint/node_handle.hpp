@@ -22,10 +22,10 @@ NodeType& NodeHandle::getNode()
     return dynamic_cast<NodeType&>(*node);
 }
 
-template<typename NodeType, typename HandleType, typename... Args>
+template<template <typename> class NodeType, typename HandleType, typename... Args>
 shared_ptr<HandleType> makeNodeHandle(Args&&... args)
 {
     auto handle = make_shared<HandleType>();
-    handle->setNode(make_shared<NodeType>(*handle, forward<Args>(args)...));
+    handle->setNode(make_shared<NodeType<FunctionContainer>>(*handle, forward<Args>(args)...));
     return handle;
 }

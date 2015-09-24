@@ -3,8 +3,8 @@
 
 #include "basic_node.h"
 
-template <typename V>
-class ConstantNode : public BasicNode<V> {
+template<typename Input, typename V>
+class ConstantNode : public BasicNode<Input, V> {
 
 public:
     explicit ConstantNode(NodeHandle& nodeHandle, V value = V());
@@ -16,6 +16,7 @@ private:
 
 };
 
-typedef ConstantNode<float> ConstantFloatNode;
+template<typename Input>
+using ConstantFloatNode = ConstantNode<Input, float>;
 
 #include "constant_node.hpp"

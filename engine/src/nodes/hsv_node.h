@@ -4,15 +4,18 @@
 #include "basic_node.h"
 #include "color.h"
 
-class HsvNode : public BasicNode<Color> {
+template<typename Input>
+class HsvNode : public BasicNode<Skip<Input, 3>, Color> {
 
 public:
     explicit HsvNode(NodeHandle& nodeHandle);
 
     Color calculate(const FrameContext& frame) const override;
     
-    SignalFunction<float> hue;
-    SignalFunction<float> saturation;
-    SignalFunction<float> value;
+    Def<Input, 0, float> hue;
+    Def<Input, 1, float> saturation;
+    Def<Input, 2, float> value;
 
 };
+
+#include "hsv_node.hpp"

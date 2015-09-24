@@ -27,3 +27,9 @@ public:
     typedef NodeHandle handle_t;
 
 };
+
+template<typename In, int N, typename Type>
+using Def = typename GetNum<In, N>::type::template type<Type>;
+
+template<typename In, int N>
+using Skip = typename GetNum<In, N>::type;

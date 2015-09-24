@@ -1,5 +1,5 @@
-template <typename V>
-BasicNode<V>::BasicNode(NodeHandle& nodeHandle)
+template<typename Input, typename V>
+BasicNode<Input, V>::BasicNode(NodeHandle& nodeHandle)
 : Node(nodeHandle)
 {
     nodeHandle.registerOutput("output", &BasicNode::calculate, *this);

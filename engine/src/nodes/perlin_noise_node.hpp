@@ -1,7 +1,6 @@
-#include "perlin_noise_node.h"
-
-PerlinNoiseNode::PerlinNoiseNode(NodeHandle& nodeHandle)
-: BasicNode<float>(nodeHandle)
+template<typename Input>
+PerlinNoiseNode<Input>::PerlinNoiseNode(NodeHandle& nodeHandle)
+: BasicNode<Input, float>(nodeHandle)
 {
     nodeHandle.setName("Perlin noise");
     nodeHandle.registerInput("xInput", &xInput);
@@ -9,7 +8,8 @@ PerlinNoiseNode::PerlinNoiseNode(NodeHandle& nodeHandle)
     nodeHandle.registerInput("zInput", &zInput);
 }
 
-float PerlinNoiseNode::calculate(const FrameContext& frame) const
+template<typename Input>
+float PerlinNoiseNode<Input>::calculate(const FrameContext& frame) const
 {
     return noiseGenerator.GetValue(xInput(frame), yInput(frame), zInput(frame));
 }

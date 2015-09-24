@@ -5,6 +5,7 @@
 #include "frame_context.h"
 #include "node_socket.h"
 
+template<typename Input>
 class ContextModifierNode : public Node {
 
 public:
@@ -40,3 +41,5 @@ private:
     shared_ptr<ContextModifierNodeSocket> nodeSocket;
 
 };
+
+#include "context_modifier_node.hpp"

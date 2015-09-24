@@ -1,6 +1,6 @@
-template <typename V>
-ConstantNode<V>::ConstantNode(NodeHandle& nodeHandle, V value_)
-: BasicNode<V>(nodeHandle)
+template<typename Input, typename V>
+ConstantNode<Input, V>::ConstantNode(NodeHandle& nodeHandle, V value_)
+: BasicNode<Input, V>(nodeHandle)
 , value(value_)
 {
     nodeHandle.setName("Constant float");

@@ -3,7 +3,8 @@
 
 #include "basic_node.h"
 
-class TimeNode : public BasicNode<float> {
+template<typename Input>
+class TimeNode : public BasicNode<Input, float> {
 
 public:
     explicit TimeNode(NodeHandle& nodeHandle);
@@ -11,3 +12,5 @@ public:
     float calculate(const FrameContext& frame) const override;
 
 };
+
+#include "time_node.hpp"

@@ -11,6 +11,7 @@
 
 class CompoundNodeHandle;
 
+template<typename Input>
 class CompoundNode : public Node {
 
 public:
@@ -33,7 +34,7 @@ class CompoundNodeHandle : public NodeHandle {
 public:
     virtual ~CompoundNodeHandle() = default;
 
-    template <typename Type, typename HandleType = typename Type::handle_t, typename... Args>
+    template<template<typename> class Type, typename HandleType = typename Type<FunctionContainer>::handle_t, typename... Args>
     HandleType* makeSubnode(Args&&... args);
     size_t createSubnode(const string& name);
 
@@ -73,6 +74,7 @@ private:
 
     void setSubnodeSlave(ObservableVector<shared_ptr<Node>>& slave);
 
+    template<typename>
     friend class CompoundNode;
 
 };
@@ -82,4 +84,4 @@ private:
     // void wireSubnodes(const NodeSignalProxy& emittingSignal, const NodeSocketProxy& receivingSocket);
     // void removeWire(const NodeWireProxy& nodeWire);
 
-#include "compound_node.tpp"
+#include "compound_node.hpp"

@@ -4,7 +4,8 @@
 #include "basic_node.h"
 #include "color.h"
 
-class ColorDoubler : public BasicNode<Color> {
+template<typename Input>
+class ColorDoubler : public BasicNode<Skip<Input, 1>, Color> {
 
 public:
     explicit ColorDoubler(NodeHandle& nodeHandle);
@@ -12,6 +13,8 @@ public:
     Color calculate(const FrameContext& frame) const override;
 
 private:
-    SignalFunction<Color> colorInput;
+    Def<Input, 0, Color> colorInput;
 
 };
+
+#include "color_doubler.hpp"

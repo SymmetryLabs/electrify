@@ -6,7 +6,7 @@
 unique_ptr<Renderable> Blueprint::releaseRenderable(DataBridge& dataBridge)
 {
     auto node = releaseNode(dataBridge);
-    auto blueprintNode = dynamic_pointer_cast<BlueprintNode>(node);
+    auto blueprintNode = dynamic_pointer_cast<BlueprintNode<FunctionContainer>>(node);
     auto renderable = make_unique<BlueprintRenderable>(blueprintNode);
     return move(renderable);
 }
@@ -16,14 +16,7 @@ shared_ptr<Blueprint> makeBlueprint()
     return makeNodeHandle<BlueprintNode>();
 }
 
-BlueprintNode::BlueprintNode(Blueprint& nodeHandle)
-: CompoundNode(nodeHandle)
-{
-    nodeHandle.setName("Blueprint");
-    nodeHandle.registerWirableOutput("color", &output);
-}
-
-BlueprintRenderable::BlueprintRenderable(const shared_ptr<BlueprintNode>& blueprintNode_)
+BlueprintRenderable::BlueprintRenderable(const shared_ptr<BlueprintNode<FunctionContainer>>& blueprintNode_)
 : blueprintNode(blueprintNode_)
 {
 }

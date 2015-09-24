@@ -4,7 +4,8 @@
 #include "basic_node.h"
 #include "color.h"
 
-class ConstantColorNode : public BasicNode<Color> {
+template<typename Input>
+class ConstantColorNode : public BasicNode<Input, Color> {
 
 public:
     explicit ConstantColorNode(NodeHandle& nodeHandle);
@@ -13,3 +14,5 @@ public:
     Color color = Color(0xFF0000FF);
 
 };
+
+#include "constant_color_node.hpp"

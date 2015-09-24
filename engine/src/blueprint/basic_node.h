@@ -4,7 +4,7 @@
 #include "node.h"
 #include "frame_context.h"
 
-template <typename V>
+template<typename Input, typename V>
 class BasicNode : public Node {
 
 public:
@@ -15,4 +15,4 @@ public:
 
 };
 
-#include "basic_node.tpp"
+#include "basic_node.hpp"

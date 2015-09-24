@@ -76,13 +76,19 @@ private:
     shared_ptr<Node> node;
     void setNode(const shared_ptr<Node>& node);
 
-    template<typename NodeType, typename HandleType, typename... Args>
+    template<template <typename> class NodeType, typename HandleType, typename... Args>
     friend shared_ptr<HandleType> makeNodeHandle(Args&&... args);
     friend class CompoundNodeHandle;
 
 };
 
-template<typename NodeType, typename HandleType = typename NodeType::handle_t, typename... Args>
+struct FunctionContainer {
+    template<typename ReturnType>
+    using type = SignalFunction<ReturnType>;
+    typedef FunctionContainer tail;
+};
+
+template<template <typename> class NodeType, typename HandleType = typename NodeType<FunctionContainer>::handle_t, typename... Args>
 shared_ptr<HandleType> makeNodeHandle(Args&&... args);
 
 #include "node_handle.hpp"

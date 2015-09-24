@@ -21,20 +21,20 @@ SCENARIO("using blueprint") {
     FrameContext frame {nanoseconds(100)};
 
     auto colorNodeHandle = makeNodeHandle<ConstantColorNode>();
-    auto& colorNode = colorNodeHandle->getNode<ConstantColorNode>();
+    auto& colorNode = colorNodeHandle->getNode<ConstantColorNode<FunctionContainer>>();
     REQUIRE(colorNode.calculate(frame) == Color(0xff0000ff));
 
     auto colorDoublerHandle = makeNodeHandle<ColorDoubler>();
-    auto& colorDoubler = colorDoublerHandle->getNode<ColorDoubler>();
+    auto& colorDoubler = colorDoublerHandle->getNode<ColorDoubler<FunctionContainer>>();
     colorNodeHandle->getOutput("output")->wireOutput(*colorDoublerHandle->getInput("color"));
     REQUIRE(colorDoubler.calculate(frame) == Color(0xfe0001fe));
 
     auto squareWaveHandle = makeNodeHandle<SquareWave>();
-    auto& squareWave = squareWaveHandle->getNode<SquareWave>();
+    auto& squareWave = squareWaveHandle->getNode<SquareWave<FunctionContainer>>();
     REQUIRE(squareWave.calculate(frame) == 0);
 
     auto incrementerHandle = makeNodeHandle<Incrementer>();
-    auto& incrementer = incrementerHandle->getNode<Incrementer>();
+    auto& incrementer = incrementerHandle->getNode<Incrementer<FunctionContainer>>();
     colorDoublerHandle->getOutput("output")->wireOutput(*incrementerHandle->getInput("color"));
     REQUIRE(incrementer.calculate(frame) == Color(0xfe0001fe));
 

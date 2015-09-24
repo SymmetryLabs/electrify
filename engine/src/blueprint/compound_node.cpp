@@ -1,33 +1,5 @@
 #include "compound_node.h"
 
-CompoundNode::CompoundNode(CompoundNodeHandle& nodeHandle)
-: Node(nodeHandle)
-{
-    nodeHandle.setName("Compound node");
-    nodeHandle.setSubnodeSlave(subnodes);
-}
-
-void CompoundNode::init()
-{
-    for (const auto& subnode : subnodes) {
-        subnode->init();
-    }
-}
-
-void CompoundNode::deinit()
-{
-    for (const auto& subnode : subnodes) {
-        subnode->deinit();
-    }
-}
-
-void CompoundNode::update(const FrameContext& frame)
-{
-    for (const auto& subnode : subnodes) {
-        subnode->update(frame);
-    }
-}
-
 size_t CompoundNodeHandle::createSubnode(const string& name)
 {
     NodeRegistrar registrar;
