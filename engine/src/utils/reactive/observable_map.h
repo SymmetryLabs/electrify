@@ -56,7 +56,7 @@ public:
 
     // Modifiers
     std::pair<iterator,bool> insert (const value_type& val);
-    template <class P> std::pair<iterator,bool> insert (P&& val);
+    template<class P> std::pair<iterator,bool> insert (P&& val);
     iterator erase (const_iterator position);
     size_type erase (const key_type& k);
     void clear() noexcept;

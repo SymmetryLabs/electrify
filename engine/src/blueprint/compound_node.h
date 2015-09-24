@@ -49,9 +49,9 @@ public:
     void unwireSubnode(NodeHandle& subnode);
     void removeWire(NodeWire& wire);
 
-    template <typename V>
+    template<typename V>
     void registerWirableOutput(const string& name, SignalFunction<V>* inputAddr, const V defaultValue = V());
-    template <typename V>
+    template<typename V>
     void registerWirableOutput(const string& name, const V defaultValue = V());
 
     NodeSocket* getWirableOutput(const string& name) const;

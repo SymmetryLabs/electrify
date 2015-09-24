@@ -9,7 +9,7 @@ std::pair<typename std::map<KeyT, ValueT>::iterator,bool> ObservableMap<KeyT, Va
 }
 
 template<typename KeyT, typename ValueT>
-template <class P>
+template<class P>
 std::pair<typename std::map<KeyT, ValueT>::iterator,bool> ObservableMap<KeyT, ValueT>::insert (P&& val)
 {
     auto rtn = m.insert(std::forward<P>(val));

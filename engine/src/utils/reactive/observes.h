@@ -13,7 +13,7 @@ public:
 
     void addObserver(Observer&& observer);
 
-    template <typename FIn, typename T>
+    template<typename FIn, typename T>
     void observe(const Observable<T>& subject, FIn&& func);
 
 private:

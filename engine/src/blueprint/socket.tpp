@@ -1,22 +1,22 @@
-template <typename V>
+template<typename V>
 void Socket<V>::setSignal(BaseSignal* signal)
 {
     setSignal((SignalX<V>*)signal);
 }
 
-template <typename V>
+template<typename V>
 void Socket<V>::setSignal(SignalX<V>* signal_)
 {
     signal = signal_;
 }
 
-template <typename V>
+template<typename V>
 bool Socket<V>::hasSignal() const
 {
     return signal;
 }
 
-template <typename V>
+template<typename V>
 V Socket<V>::calculate(const FrameContext& frame) const
 {
     if (contextModifierChain) {
@@ -27,7 +27,7 @@ V Socket<V>::calculate(const FrameContext& frame) const
     }
 }
 
-template <typename V>
+template<typename V>
 void ProxySocket<V>::setSignal(SignalX<V>* signal)
 {
     Socket<V>::setSignal(signal);

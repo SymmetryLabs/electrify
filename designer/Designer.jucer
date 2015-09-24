@@ -92,7 +92,7 @@
   </MAINGROUP>
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="Builds/MacOSX" prebuildCommand="mkdir -p ${BUILD_DIR}/engine&#10;cd ${BUILD_DIR}/engine&#10;/usr/local/bin/cmake ${SRCROOT}/../../../engine&#10;/usr/bin/make -j 5"
-               externalLibraries="SymmetryEngine&#10;tbb&#10;CppReact&#10;noise&#10;jsoncpp"
+               externalLibraries="SymmetryEngine&#10;tbb&#10;noise&#10;jsoncpp"
                extraCompilerFlags="-isystem ${BUILD_DIR}/engine/ext_include&#10;-isystem /usr/local/include"
                postbuildCommand="#export DYLIB=SymmetryEngine&#10;#mkdir -p &quot;$TARGET_BUILD_DIR/$TARGET_NAME.app/Contents/Frameworks&quot;&#10;#cp -f &quot;${BUILD_DIR}/engine/lib$DYLIB.dylib&quot; &quot;$TARGET_BUILD_DIR/$TARGET_NAME.app/Contents/Frameworks&quot;"
                extraLinkerFlags="">

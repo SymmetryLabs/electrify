@@ -17,21 +17,23 @@
 #include "time_node.h"
 #include "translate_node.h"
 
+#define REGISTER(nodeName) registerNode<nodeName>("nodeName");
+
 NodeRegistrar::NodeRegistrar()
 {
-    registerNode<SawWave>("SawWave");
-    registerNode<SinWave>("SinWave");
-    registerNode<SquareWave>("SquareWave");
-    registerNode<ScaleTransform>("ScaleTransform");
-    registerNode<ColorDoubler>("ColorDoubler");
-    registerNode<ConstantColorNode>("ConstantColorNode");
-    registerNode<ConstantFloatNode>("ConstantFloatNode");
-    registerNode<HsvNode>("HsvNode");
-    registerNode<Incrementer>("Incrementer");
-    registerNode<PerlinNoiseNode>("PerlinNoiseNode");
-    registerNode<PixelXNode>("PixelXNode");
-    registerNode<TimeNode>("TimeNode");
-    registerNode<TranslateNode>("TranslateNode");
+    REGISTER(SawWave)
+    REGISTER(SinWave)
+    REGISTER(SquareWave)
+    REGISTER(ScaleTransform)
+    REGISTER(ColorDoubler)
+    REGISTER(ConstantColorNode)
+    REGISTER(ConstantFloatNode)
+    REGISTER(HsvNode)
+    REGISTER(Incrementer)
+    REGISTER(PerlinNoiseNode)
+    REGISTER(PixelXNode)
+    REGISTER(TimeNode)
+    REGISTER(TranslateNode)
 }
 
 vector<string> NodeRegistrar::getAvailableNodeNames() const

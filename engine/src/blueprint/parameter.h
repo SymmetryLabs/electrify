@@ -11,7 +11,7 @@ public:
     const type_index type;
 };
 
-template <typename V>
+template<typename V>
 class Parameter : public BaseParameter, public SignalX<V> {
 
 public:
@@ -20,7 +20,7 @@ public:
 
 };
 
-template <typename V>
+template<typename V>
 class ValueParameter : public Parameter<V> {
 
 public:
