@@ -86,4 +86,4 @@ private:
 
 };
 
-#include "observable_vector.tpp"
+#include "observable_vector.hpp"

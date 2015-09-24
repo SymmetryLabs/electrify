@@ -33,4 +33,4 @@ private:
 
 };
 
-#include "parameter.tpp"
+#include "parameter.hpp"

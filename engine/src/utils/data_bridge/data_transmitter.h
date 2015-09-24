@@ -40,4 +40,4 @@ private:
 
 };
 
-#include "data_transmitter.tpp"
+#include "data_transmitter.hpp"

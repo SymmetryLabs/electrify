@@ -51,4 +51,4 @@ private:
 
 };
 
-#include "signals.tpp"
+#include "signals.hpp"

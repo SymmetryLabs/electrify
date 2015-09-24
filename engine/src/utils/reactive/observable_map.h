@@ -89,4 +89,4 @@ std::ostream& operator<<(std::ostream& os, const ObservableMap<KeyT, ValueT>& m)
     return os << m.m;
 }
 
-#include "observable_map.tpp"
+#include "observable_map.hpp"
