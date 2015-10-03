@@ -15,4 +15,6 @@ public:
 
 };
 
+REGISTER_NODE(ConstantColorNode);
+
 #include "constant_color_node.hpp"

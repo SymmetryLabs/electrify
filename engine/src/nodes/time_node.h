@@ -13,4 +13,6 @@ public:
 
 };
 
+REGISTER_NODE(TimeNode);
+
 #include "time_node.hpp"

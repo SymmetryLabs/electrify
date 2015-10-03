@@ -13,4 +13,6 @@ public:
 
 };
 
+REGISTER_NODE(PixelXNode);
+
 #include "pixel_x_node.hpp"

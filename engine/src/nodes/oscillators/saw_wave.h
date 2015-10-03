@@ -13,4 +13,6 @@ public:
 
 };
 
+REGISTER_NODE(SawWave);
+
 #include "saw_wave.hpp"

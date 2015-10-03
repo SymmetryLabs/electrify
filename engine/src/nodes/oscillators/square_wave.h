@@ -13,4 +13,6 @@ public:
 
 };
 
+REGISTER_NODE(SquareWave);
+
 #include "square_wave.hpp"

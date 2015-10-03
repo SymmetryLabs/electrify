@@ -3,6 +3,8 @@
 #include "color.h"
 #include "model.h"
 
+CEREAL_REGISTER_TYPE(Blueprint);
+
 unique_ptr<Renderable> Blueprint::releaseRenderable(DataBridge& dataBridge)
 {
     auto node = releaseNode(dataBridge);

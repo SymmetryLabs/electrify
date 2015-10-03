@@ -15,4 +15,6 @@ public:
 
 };
 
+REGISTER_NODE(ScaleTransform);
+
 #include "scale_transform.hpp"

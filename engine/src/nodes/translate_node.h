@@ -18,4 +18,6 @@ private:
 
 };
 
+REGISTER_NODE(TranslateNode);
+
 #include "translate_node.hpp"

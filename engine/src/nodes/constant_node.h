@@ -21,4 +21,6 @@ private:
 template<typename Input>
 using ConstantFloatNode = ConstantNode<Input, float>;
 
+REGISTER_NODE(ConstantFloatNode);
+
 #include "constant_node.hpp"

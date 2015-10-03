@@ -2,6 +2,8 @@
 
 #include "node_registrar.h"
 
+REGISTER_NODE(CompoundNode);
+
 size_t CompoundNodeHandle::createSubnode(const string& name)
 {
     return addSubnode(NodeRegistrar::getInstance().getNodeHandle(name));

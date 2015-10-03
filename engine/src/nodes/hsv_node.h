@@ -18,4 +18,6 @@ public:
 
 };
 
+REGISTER_NODE(HsvNode);
+
 #include "hsv_node.hpp"

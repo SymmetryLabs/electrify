@@ -13,4 +13,6 @@ public:
 
 };
 
+REGISTER_NODE(SinWave);
+
 #include "sin_wave.hpp"

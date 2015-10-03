@@ -17,4 +17,6 @@ private:
 
 };
 
+REGISTER_NODE(ColorDoubler);
+
 #include "color_doubler.hpp"

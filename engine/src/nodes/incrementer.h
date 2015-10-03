@@ -22,4 +22,6 @@ private:
 
 };
 
+REGISTER_NODE(Incrementer);
+
 #include "incrementer.hpp"

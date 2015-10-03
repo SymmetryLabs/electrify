@@ -21,4 +21,6 @@ public:
 
 };
 
+REGISTER_NODE(PerlinNoiseNode);
+
 #include "perlin_noise_node.hpp"
