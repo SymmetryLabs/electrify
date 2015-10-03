@@ -32,4 +32,7 @@ private:
 
     NodeHandle& getNodeHandle() const;
 
+    template <typename Archive>
+    friend void serialize(Archive& archive, NodeSignal& nodeSignal);
+
 };

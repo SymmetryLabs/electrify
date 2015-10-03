@@ -65,7 +65,9 @@ endif()
 file(GLOB HEADER_DIRS
   "src"
   "src/core"
+  "src/core/serializers"
   "src/blueprint"
+  "src/blueprint/serializers"
   "src/blueprint_ui"
   "src/nodes"
   "src/nodes/oscillators"
@@ -77,6 +79,7 @@ file(GLOB HEADER_DIRS
   "src/utils/event_queue"
   "src/utils/misc_helpers"
   "src/utils/reactive"
+  "src/utils/reactive/serializers"
   "src/utils/serialization"
   "src/utils/serialization/serializers"
   "src/utils/stl_ext"

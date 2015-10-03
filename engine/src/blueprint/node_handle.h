@@ -54,9 +54,6 @@ public:
 
     // void registerParameter(const string& name, unique_ptr<BaseParameter> parameter)
 
-    // template<typename Archive>
-    // void serialize(Archive& archive);
-
     template<typename NodeType>
     NodeType& getNode();
 

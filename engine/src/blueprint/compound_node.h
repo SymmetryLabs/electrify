@@ -78,6 +78,9 @@ private:
     template<typename>
     friend class CompoundNode;
 
+    template<typename Archive>
+    friend void serialize(Archive& archive, CompoundNodeHandle& handle);
+
 };
 
     // void addSubnode(const string& name, function<void(size_t)> response);

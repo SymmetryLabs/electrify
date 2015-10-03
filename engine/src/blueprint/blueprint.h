@@ -13,6 +13,10 @@ public:
 protected:
     void generateNode() override;
 
+private:
+    template <typename Archive>
+    friend void serialize(Archive& archive, Blueprint& blueprint);
+
 };
 
 shared_ptr<Blueprint> makeBlueprint();

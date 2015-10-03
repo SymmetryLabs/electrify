@@ -1,8 +1,13 @@
 #include "compound_node.h"
 
+#include <cereal/archives/json.hpp>
+#include <cereal/types/polymorphic.hpp>
+
 #include "node_registrar.h"
+#include "compound_node_handle_serializer.h"
 
 REGISTER_NODE(CompoundNode);
+CEREAL_REGISTER_TYPE(CompoundNodeHandle);
 
 size_t CompoundNodeHandle::createSubnode(const string& name)
 {

@@ -8,6 +8,7 @@ class NodeHandle;
 class NodeWire {
 
 public:
+    NodeWire() = default;
     NodeWire(NodeSignal& source, NodeSocket& destination);
     ~NodeWire();
 
@@ -25,5 +26,8 @@ private:
     weak_ptr<NodeSocket> destination;
 
     bool connected = false;
+
+    template <typename Archive>
+    friend void serialize(Archive& archive, NodeWire& nodeWire);
 
 };

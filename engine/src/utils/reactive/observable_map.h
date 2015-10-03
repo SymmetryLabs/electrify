@@ -81,12 +81,15 @@ private:
     std::map<KeyT, ValueT> m;
 
     template<typename t1, typename t2>
-    friend std::ostream &operator<<(std::ostream& os, const ObservableMap<t1, t2>& m);
+    friend std::ostream &operator<<(std::ostream& os, const ObservableMap<t1, t2>& om);
+
+    template<typename Archive, typename t1, typename t2>
+    friend void serialize(Archive& archive, ObservableMap<t1, t2>& om);
 };
 
 template<typename KeyT, typename ValueT>
-std::ostream& operator<<(std::ostream& os, const ObservableMap<KeyT, ValueT>& m) { 
-    return os << m.m;
+std::ostream& operator<<(std::ostream& os, const ObservableMap<KeyT, ValueT>& om) { 
+    return os << om.m;
 }
 
 #include "observable_map.hpp"

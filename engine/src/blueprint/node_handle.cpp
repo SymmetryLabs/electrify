@@ -1,9 +1,14 @@
 #include "node_handle.h"
 
 #include <boost/uuid/random_generator.hpp>
+#include <cereal/archives/json.hpp>
+#include <cereal/types/polymorphic.hpp>
 
 #include "node.h"
 #include "node_registrar.h"
+#include "node_handle_serializer.h"
+
+CEREAL_REGISTER_TYPE(NodeHandle);
 
 NodeHandle::NodeHandle()
 {

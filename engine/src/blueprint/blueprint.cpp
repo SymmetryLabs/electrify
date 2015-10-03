@@ -1,7 +1,11 @@
 #include "blueprint.h"
 
+#include <cereal/archives/json.hpp>
+#include <cereal/types/polymorphic.hpp>
+
 #include "color.h"
 #include "model.h"
+#include "blueprint_serializer.h"
 
 CEREAL_REGISTER_TYPE(Blueprint);
 

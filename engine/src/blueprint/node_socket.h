@@ -24,4 +24,8 @@ public:
 protected:
     BaseSocket* getSocket() const;
 
+private:
+    template <typename Archive>
+    friend void serialize(Archive& archive, NodeSocket& nodeSocket);
+
 };

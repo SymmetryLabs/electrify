@@ -84,6 +84,17 @@ public:
 private:
     std::vector<T> v;
 
+    template<typename t>
+    friend std::ostream &operator<<(std::ostream& os, const ObservableVector<t>& ov);
+
+    template<typename Archive, typename t>
+    friend void serialize(Archive& archive, ObservableVector<t>& ov);
+
 };
+
+template<typename T>
+std::ostream& operator<<(std::ostream& os, const ObservableVector<T>& ov) { 
+    return os << ov.v;
+}
 
 #include "observable_vector.hpp"
