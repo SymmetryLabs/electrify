@@ -7,7 +7,7 @@ template<typename Input>
 class TimeNode : public BasicNode<Input, float> {
 
 public:
-    explicit TimeNode(NodeHandle& nodeHandle);
+    static void configure(TimeNode<Input>& node, NodeHandle& handle);
 
     float calculate(const FrameContext& frame) const override;
 

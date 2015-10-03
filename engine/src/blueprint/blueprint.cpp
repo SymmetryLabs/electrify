@@ -11,9 +11,14 @@ unique_ptr<Renderable> Blueprint::releaseRenderable(DataBridge& dataBridge)
     return move(renderable);
 }
 
+void Blueprint::generateNode()
+{
+    generateNodeForHandle<BlueprintNode>(*this);
+}
+
 shared_ptr<Blueprint> makeBlueprint()
 {
-    return makeNodeHandle<BlueprintNode>();
+    return makeNodeHandle<BlueprintNode>("BlueprintNode");
 }
 
 BlueprintRenderable::BlueprintRenderable(const shared_ptr<BlueprintNode<FunctionContainer>>& blueprintNode_)

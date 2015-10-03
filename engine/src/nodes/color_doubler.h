@@ -8,7 +8,7 @@ template<typename Input>
 class ColorDoubler : public BasicNode<Skip<Input, 1>, Color> {
 
 public:
-    explicit ColorDoubler(NodeHandle& nodeHandle);
+    static void configure(ColorDoubler<Input>& node, NodeHandle& handle);
 
     Color calculate(const FrameContext& frame) const override;
 

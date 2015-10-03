@@ -1,6 +1,6 @@
 template<typename Input, typename V>
-BasicNode<Input, V>::BasicNode(NodeHandle& nodeHandle)
-: Node(nodeHandle)
+void BasicNode<Input, V>::configure(BasicNode<Input, V>& node, NodeHandle& handle)
 {
-    nodeHandle.registerOutput("output", &BasicNode::calculate, *this);
+    Node::configure(node, handle);
+    handle.registerOutput("output", &BasicNode::calculate, node);
 }

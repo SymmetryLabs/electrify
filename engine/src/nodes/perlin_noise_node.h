@@ -9,7 +9,7 @@ template<typename Input>
 class PerlinNoiseNode : public BasicNode<Skip<Input, 3>, float> {
 
 public:
-    explicit PerlinNoiseNode(NodeHandle& nodeHandle);
+    static void configure(PerlinNoiseNode<Input>& node, NodeHandle& handle);
 
     float calculate(const FrameContext& frame) const override;
 

@@ -3,6 +3,7 @@
 #include <boost/uuid/random_generator.hpp>
 
 #include "node.h"
+#include "node_registrar.h"
 
 NodeHandle::NodeHandle()
 {
@@ -75,6 +76,26 @@ const ObservableVector<shared_ptr<NodeSignal>>& NodeHandle::getOutputs() const
 //     parameters[name] = move(parameter);
 // }
 
+const string& NodeHandle::getNodeName() const
+{
+    return nodeName;
+}
+
+void NodeHandle::postCtor()
+{
+    generateNode();
+}
+
+void NodeHandle::postSharedPtrConstruction()
+{
+    setupNodeDestination();
+}
+
+void NodeHandle::generateNode()
+{
+    NodeRegistrar::getInstance().generateNode(*this);
+}
+
 shared_ptr<Node> NodeHandle::releaseNode(DataBridge& dataBridge)
 {
     setBridge(dataBridge);
@@ -91,4 +112,9 @@ void NodeHandle::setNode(const shared_ptr<Node>& node_)
 {
     node = node_;
     setDestination(node);
+}
+
+void NodeHandle::setupNodeDestination()
+{
+    node->setDestination(shared_from_this());
 }

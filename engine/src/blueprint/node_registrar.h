@@ -18,10 +18,12 @@ public:
     vector<string> getAvailableNodeNames() const;
     size_t getAvailableNodeCount() const;
 
-    shared_ptr<NodeHandle> getNode(const string& name) const;
+    shared_ptr<NodeHandle> getNodeHandle(const string& name) const;
+    void generateNode(NodeHandle& handle) const;
 
 private:
-    unordered_map<string, function<shared_ptr<NodeHandle>()>> nodeFactories;
+    unordered_map<string, function<shared_ptr<NodeHandle>()>> nodeHandleFactories;
+    unordered_map<string, function<void(NodeHandle& handle)>> nodeFactories;
 
 };
 

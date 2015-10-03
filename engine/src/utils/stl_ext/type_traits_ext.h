@@ -5,6 +5,11 @@
 // See: http://en.cppreference.com/w/cpp/types/void_t
 template<typename> using void_t = void;
 
+// See: http://en.cppreference.com/w/cpp/language/type_alias
+template<typename T> using Invoke = typename T::type;
+template<typename Condition> using EnableIf =
+    Invoke<std::enable_if<Condition::value>>;
+
 template<typename T, typename S>
 struct has_return_type {
     typedef S type;

@@ -1,6 +1,6 @@
 template<typename Input>
-ScalarTransform<Input>::ScalarTransform(NodeHandle& nodeHandle)
-: BasicNode<Input, float>(nodeHandle)
+void ScalarTransform<Input>::configure(ScalarTransform<Input>& node, NodeHandle& handle)
 {
-    nodeHandle.registerInput("input", &input);
+    BasicNode<Skip<Input, 1>, float>::configure(node, handle);
+    handle.registerInput("input", &node.input);
 }

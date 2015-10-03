@@ -9,8 +9,9 @@ template<typename Input>
 class ContextModifierNode : public Node {
 
 public:
-    explicit ContextModifierNode(NodeHandle& nodeHandle);
     virtual ~ContextModifierNode() = default;
+
+    static void configure(ContextModifierNode<Input>& node, NodeHandle& handle);
 
     virtual FrameContext modifyContext(const FrameContext& original) const = 0;
 

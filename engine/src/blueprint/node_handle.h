@@ -60,7 +60,14 @@ public:
     template<typename NodeType>
     NodeType& getNode();
 
+    const string& getNodeName() const;
+
+    virtual void postCtor();
+    virtual void postSharedPtrConstruction();
+
 protected:
+    virtual void generateNode();
+
     virtual shared_ptr<Node> releaseNode(DataBridge& dataBridge);
 
     virtual void setBridge(DataBridge& bridge);
@@ -73,12 +80,22 @@ private:
     ObservableVector<shared_ptr<NodeSignal>> outputs;
     // unordered_map<string, unique_ptr<BaseParameter>> parameters;
 
+    string nodeName;
+
     shared_ptr<Node> node;
     void setNode(const shared_ptr<Node>& node);
+    void setupNodeDestination();
 
-    template<template <typename> class NodeType, typename HandleType, typename... Args>
-    friend shared_ptr<HandleType> makeNodeHandle(Args&&... args);
+    template<template <typename> class NodeType, typename HandleType>
+    friend shared_ptr<HandleType> makeNodeHandle(const string& nodeName);
+    template<template <typename> class NodeType, typename HandleType>
+    friend void generateNodeForHandle(HandleType& handle);
     friend class CompoundNodeHandle;
+
+    template <typename Archive>
+    friend void save(Archive& archive, const NodeHandle& handle);
+    template <typename Archive>
+    friend void load(Archive& archive, NodeHandle& handle);
 
 };
 
@@ -88,7 +105,10 @@ struct FunctionContainer {
     typedef FunctionContainer tail;
 };
 
-template<template <typename> class NodeType, typename HandleType = typename NodeType<FunctionContainer>::handle_t, typename... Args>
-shared_ptr<HandleType> makeNodeHandle(Args&&... args);
+template<template <typename> class NodeType, typename HandleType = typename NodeType<FunctionContainer>::handle_t>
+shared_ptr<HandleType> makeNodeHandle(const string& nodeName);
+
+template<template<typename> class NodeType, typename HandleType>
+void generateNodeForHandle(HandleType& handle);
 
 #include "node_handle.hpp"

@@ -1,8 +1,8 @@
 template<typename Input>
-PixelXNode<Input>::PixelXNode(NodeHandle& nodeHandle)
-: BasicNode<Input, float>(nodeHandle)
+void PixelXNode<Input>::configure(PixelXNode<Input>& node, NodeHandle& handle)
 {
-    nodeHandle.setName("Pixel.x");
+    BasicNode<Input, float>::configure(node, handle);
+    handle.setName("Pixel.x");
 }
 
 template<typename Input>

@@ -1,11 +1,11 @@
 template<typename Input>
-PerlinNoiseNode<Input>::PerlinNoiseNode(NodeHandle& nodeHandle)
-: BasicNode<Input, float>(nodeHandle)
+void PerlinNoiseNode<Input>::configure(PerlinNoiseNode<Input>& node, NodeHandle& handle)
 {
-    nodeHandle.setName("Perlin noise");
-    nodeHandle.registerInput("xInput", &xInput);
-    nodeHandle.registerInput("yInput", &yInput);
-    nodeHandle.registerInput("zInput", &zInput);
+    BasicNode<Skip<Input, 3>, float>::configure(node, handle);
+    handle.setName("Perlin noise");
+    handle.registerInput("xInput", &node.xInput);
+    handle.registerInput("yInput", &node.yInput);
+    handle.registerInput("zInput", &node.zInput);
 }
 
 template<typename Input>

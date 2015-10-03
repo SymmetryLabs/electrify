@@ -1,8 +1,8 @@
 template<typename Input>
-SawWave<Input>::SawWave(NodeHandle& nodeHandle)
-: Waveform<Input>(nodeHandle)
+void SawWave<Input>::configure(SawWave<Input>& node, NodeHandle& handle)
 {
-    nodeHandle.setName("Sawtooth wave");
+    Waveform<Input>::configure(node, handle);
+    handle.setName("Sawtooth wave");
 }
 
 template<typename Input>

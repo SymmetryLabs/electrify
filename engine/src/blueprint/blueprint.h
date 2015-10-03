@@ -10,6 +10,9 @@ class Blueprint : public CompoundNodeHandle {
 public:
     unique_ptr<Renderable> releaseRenderable(DataBridge& dataBridge);
 
+protected:
+    void generateNode() override;
+
 };
 
 shared_ptr<Blueprint> makeBlueprint();
@@ -18,7 +21,7 @@ template<typename Input>
 class BlueprintNode : public CompoundNode<Input> {
 
 public:
-    explicit BlueprintNode(Blueprint& nodeHandle);
+    static void configure(BlueprintNode<Input>& node, CompoundNodeHandle& handle);
 
     SignalFunction<Color> output;
 

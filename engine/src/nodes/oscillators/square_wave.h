@@ -7,7 +7,7 @@ template<typename Input>
 class SquareWave : public Waveform<Input> {
 
 public:
-    explicit SquareWave(NodeHandle& nodeHandle);
+    static void configure(SquareWave<Input>& node, NodeHandle& handle);
     
     float calculate(const FrameContext& frame) const override;
 

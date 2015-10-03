@@ -1,8 +1,8 @@
 template<typename Input>
-TimeNode<Input>::TimeNode(NodeHandle& nodeHandle)
-: BasicNode<Input, float>(nodeHandle)
+void TimeNode<Input>::configure(TimeNode<Input>& node, NodeHandle& handle)
 {
-    nodeHandle.setName("Time");
+    BasicNode<Input, float>::configure(node, handle);
+    handle.setName("Time");
 }
 
 template<typename Input>

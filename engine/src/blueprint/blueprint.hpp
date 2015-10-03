@@ -1,7 +1,7 @@
 template<typename Input>
-BlueprintNode<Input>::BlueprintNode(Blueprint& nodeHandle)
-: CompoundNode<Input>(nodeHandle)
+void BlueprintNode<Input>::configure(BlueprintNode<Input>& node, CompoundNodeHandle& handle)
 {
-    nodeHandle.setName("Blueprint");
-    nodeHandle.registerWirableOutput("color", &output);
+    CompoundNode<Input>::configure(node, handle);
+    handle.setName("Blueprint");
+    handle.registerWirableOutput("color", &node.output);
 }

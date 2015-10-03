@@ -1,6 +1,5 @@
 #include "node.h"
 
-Node::Node(NodeHandle& nodeHandle)
-: DataTransmitter(nodeHandle.shared_from_this())
+void Node::configure(Node& node, NodeHandle& handle)
 {
 }

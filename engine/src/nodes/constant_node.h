@@ -7,7 +7,9 @@ template<typename Input, typename V>
 class ConstantNode : public BasicNode<Input, V> {
 
 public:
-    explicit ConstantNode(NodeHandle& nodeHandle, V value = V());
+    explicit ConstantNode(V value = V());
+
+    static void configure(ConstantNode<Input, V>& node, NodeHandle& handle);
 
     V calculate(const FrameContext&) const override { return value; }
 

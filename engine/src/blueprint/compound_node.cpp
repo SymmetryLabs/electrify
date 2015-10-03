@@ -1,9 +1,10 @@
 #include "compound_node.h"
 
+#include "node_registrar.h"
+
 size_t CompoundNodeHandle::createSubnode(const string& name)
 {
-    NodeRegistrar registrar;
-    return addSubnode(registrar.getNode(name));
+    return addSubnode(NodeRegistrar::getInstance().getNodeHandle(name));
 }
 
 size_t CompoundNodeHandle::addSubnode(const shared_ptr<NodeHandle>& subnode)
@@ -43,8 +44,7 @@ void CompoundNodeHandle::unwireSubnode(NodeHandle& subnode)
 {
     for (auto iter = nodeWires.begin(); iter != nodeWires.end(); ) {
         const shared_ptr<NodeWire>& wire = *iter;
-        if (&wire->source.nodeHandle == &subnode
-                || &wire->destination.nodeHandle == &subnode) {
+        if (wire->isAssignedTo(subnode)) {
             wire->disconnect();
             iter = nodeWires.erase(iter);
         } else {

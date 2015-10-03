@@ -1,8 +1,8 @@
 template<typename Input>
-Waveform<Input>::Waveform(NodeHandle& nodeHandle)
-: BasicNode<Input, float>(nodeHandle)
+void Waveform<Input>::configure(Waveform<Input>& node, NodeHandle& handle)
 {
-    nodeHandle.registerInput("amplitude", &amplitude, 1.0f);
-    nodeHandle.registerInput("frequency", &frequency, 1.0f);
-    nodeHandle.registerInput("phase", &phase);
+    BasicNode<Skip<Input, 3>, float>::configure(node, handle);
+    handle.registerInput("amplitude", &node.amplitude, 1.0f);
+    handle.registerInput("frequency", &node.frequency, 1.0f);
+    handle.registerInput("phase", &node.phase);
 }

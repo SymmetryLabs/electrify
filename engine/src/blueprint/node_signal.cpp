@@ -5,7 +5,7 @@
 
 NodeSignal::NodeSignal(NodeHandle& nodeHandle_, const string& name_, const shared_ptr<BaseSignal>& signal_)
 : DataTransmitter(signal_)
-, nodeHandle(nodeHandle_)
+, nodeHandle(::shared_from_this<NodeHandle>(nodeHandle_))
 , name(name_)
 , signal(signal_)
 {
@@ -31,4 +31,14 @@ void NodeSignal::wireOutput(NodeSocket& destinationNodeSocket)
 void NodeSignal::unwireOutput(NodeSocket& destinationNodeSocket)
 {
     destinationNodeSocket.unwireInput(*getSignal());
+}
+
+bool NodeSignal::belongsTo(const NodeHandle& nodeHandle_) const
+{
+    return &this->getNodeHandle() == &nodeHandle_;
+}
+
+NodeHandle& NodeSignal::getNodeHandle() const
+{
+    return *nodeHandle.lock();
 }

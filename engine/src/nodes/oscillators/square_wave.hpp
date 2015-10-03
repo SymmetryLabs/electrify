@@ -1,8 +1,8 @@
 template<typename Input>
-SquareWave<Input>::SquareWave(NodeHandle& nodeHandle)
-: Waveform<Input>(nodeHandle)
+void SquareWave<Input>::configure(SquareWave<Input>& node, NodeHandle& handle)
 {
-    nodeHandle.setName("Square wave");
+    Waveform<Input>::configure(node, handle);
+    handle.setName("Square wave");
 }
 
 template<typename Input>

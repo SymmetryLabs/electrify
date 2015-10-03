@@ -7,7 +7,7 @@ template<typename Input>
 class SawWave : public Waveform<Input> {
 
 public:
-    explicit SawWave(NodeHandle& nodeHandle);
+    static void configure(SawWave<Input>& node, NodeHandle& handle);
     
     float calculate(const FrameContext& frame) const override;
 

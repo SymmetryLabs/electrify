@@ -7,7 +7,7 @@ template<typename Input>
 class SinWave : public Waveform<Input> {
 
 public:
-    explicit SinWave(NodeHandle& nodeHandle);
+    static void configure(SinWave<Input>& node, NodeHandle& handle);
     
     float calculate(const FrameContext& frame) const override;
 

@@ -4,6 +4,7 @@
 #include "frame_context.h"
 #include "data_transmitter.h"
 #include "node_handle.h"
+#include "node_registrar.h"
 
 /**
  * Nodes are the building blocks of the Symmetry Engine. They receive inputs, and provide 
@@ -13,8 +14,9 @@
 class Node : public DataTransmitter {
 
 public:
-    explicit Node(NodeHandle& nodeHandle);
     virtual ~Node() = default;
+
+    static void configure(Node& node, NodeHandle& nodeHandle);
 
     virtual void init() {}
     virtual void deinit() {}

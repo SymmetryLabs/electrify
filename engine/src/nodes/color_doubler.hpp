@@ -1,9 +1,9 @@
 template<typename Input>
-ColorDoubler<Input>::ColorDoubler(NodeHandle& nodeHandle)
-: BasicNode<Input, Color>(nodeHandle)
+void ColorDoubler<Input>::configure(ColorDoubler<Input>& node, NodeHandle& handle)
 {
-    nodeHandle.setName("Color doubler");
-    nodeHandle.registerInput("color", &colorInput);
+    BasicNode<Skip<Input, 1>, Color>::configure(node, handle);
+    handle.setName("Color doubler");
+    handle.registerInput("color", &node.colorInput);
 }
 
 template<typename Input>

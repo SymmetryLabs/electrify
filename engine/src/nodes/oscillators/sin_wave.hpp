@@ -1,8 +1,8 @@
 template<typename Input>
-SinWave<Input>::SinWave(NodeHandle& nodeHandle)
-: Waveform<Input>(nodeHandle)
+void SinWave<Input>::configure(SinWave<Input>& node, NodeHandle& handle)
 {
-    nodeHandle.setName("Sin wave");
+    Waveform<Input>::configure(node, handle);
+    handle.setName("Sin wave");
 }
 
 template<typename Input>

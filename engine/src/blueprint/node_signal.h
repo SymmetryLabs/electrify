@@ -18,8 +18,9 @@ public:
 
     virtual void wireOutput(NodeSocket& destinationNodeSocket);
     virtual void unwireOutput(NodeSocket& destinationNodeSocket);
+
+    bool belongsTo(const NodeHandle& nodeHandle) const;
  
-    NodeHandle& nodeHandle;
     Var<string> name;
 
 protected:
@@ -27,5 +28,8 @@ protected:
 
 private:
     shared_ptr<BaseSignal> signal;
+    weak_ptr<NodeHandle> nodeHandle;
+
+    NodeHandle& getNodeHandle() const;
 
 };

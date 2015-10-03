@@ -1,8 +1,8 @@
 template<typename Input>
-ConstantColorNode<Input>::ConstantColorNode(NodeHandle& nodeHandle)
-: BasicNode<Input, Color>(nodeHandle)
+void ConstantColorNode<Input>::configure(ConstantColorNode<Input>& node, NodeHandle& handle)
 {
-    nodeHandle.setName("Constant color");
+    BasicNode<Input, Color>::configure(node, handle);
+    handle.setName("Constant color");
 }
 
 template<typename Input>

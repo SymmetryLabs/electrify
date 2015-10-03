@@ -1,11 +1,11 @@
 template<typename Input>
-HsvNode<Input>::HsvNode(NodeHandle& nodeHandle)
-: BasicNode<Input, Color>(nodeHandle)
+void HsvNode<Input>::configure(HsvNode<Input>& node, NodeHandle& handle)
 {
-    nodeHandle.setName("HSV");
-    nodeHandle.registerInput("hue", &hue);
-    nodeHandle.registerInput("saturation", &saturation, 1.0f);
-    nodeHandle.registerInput("value", &value, 1.0f);
+    BasicNode<Skip<Input, 3>, Color>::configure(node, handle);
+    handle.setName("HSV");
+    handle.registerInput("hue", &node.hue);
+    handle.registerInput("saturation", &node.saturation, 1.0f);
+    handle.registerInput("value", &node.value, 1.0f);
 }
 
 template<typename Input>

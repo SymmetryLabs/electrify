@@ -1,11 +1,9 @@
-#include "node_registrar.h"
-
 template<typename Input>
-CompoundNode<Input>::CompoundNode(CompoundNodeHandle& nodeHandle)
-: Node(nodeHandle)
+void CompoundNode<Input>::configure(CompoundNode<Input>& node, CompoundNodeHandle& handle)
 {
-    nodeHandle.setName("Compound node");
-    nodeHandle.setSubnodeSlave(subnodes);
+    Node::configure(node, handle);
+    handle.setName("Compound node");
+    handle.setSubnodeSlave(node.subnodes);
 }
 
 template<typename Input>
@@ -32,10 +30,10 @@ void CompoundNode<Input>::update(const FrameContext& frame)
     }
 }
 
-template<template<typename> class Type, typename HandleType, typename... Args>
-HandleType* CompoundNodeHandle::makeSubnode(Args&&... args)
+template<template<typename> class Type, typename HandleType>
+HandleType* CompoundNodeHandle::makeSubnode(const string& name)
 {
-    auto subnodeHandle = makeNodeHandle<Type, HandleType>(forward<Args>(args)...);
+    auto subnodeHandle = makeNodeHandle<Type, HandleType>(name);
     auto subnodeHandlePtr = subnodeHandle.get();
     addSubnode(subnodeHandle);
     return subnodeHandlePtr;

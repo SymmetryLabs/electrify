@@ -60,22 +60,22 @@ public:
         
         auto blueprint = makeBlueprint();
         
-        auto compound = blueprint->makeSubnode<CompoundNode>();
+        auto compound = blueprint->makeSubnode<CompoundNode>("CompoundNode");
         compound->registerWirableOutput<Color>("color");
         
-        auto constantColor = compound->makeSubnode<ConstantColorNode>();
-        auto incrementer = compound->makeSubnode<Incrementer>();
+        auto constantColor = compound->makeSubnode<ConstantColorNode>("ConstantColorNode");
+        auto incrementer = compound->makeSubnode<Incrementer>("Incrementer");
         
         compound->wireSubnodes(*constantColor->getOutput("output"), *incrementer->getInput("color"));
         compound->wireSubnodes(*incrementer->getOutput("output"), *compound->getWirableOutput("color"));
         
-        auto hsvNode = blueprint->makeSubnode<HsvNode>();
-        auto sawWaveNode = blueprint->makeSubnode<SawWave>();
-        auto timeNode = blueprint->makeSubnode<TimeNode>();
-        auto scaleTransform = blueprint->makeSubnode<ScaleTransform>();
-        auto multiplyAmountNode = blueprint->makeSubnode<ConstantNode<float>>(1.0 / 10);
-        auto perlinNoiseNode = blueprint->makeSubnode<PerlinNoiseNode>();
-        auto frequency = blueprint->makeSubnode<ConstantNode<float>>(1.0 / 10);
+        auto hsvNode = blueprint->makeSubnode<HsvNode>("HsvNode");
+        auto sawWaveNode = blueprint->makeSubnode<SawWave>("SawWave");
+        auto timeNode = blueprint->makeSubnode<TimeNode>("TimeNode");
+        auto scaleTransform = blueprint->makeSubnode<ScaleTransform>("ScaleTransform");
+        auto multiplyAmountNode = blueprint->makeSubnode<ConstantFloatNode>("ConstantFloatNode");
+        auto perlinNoiseNode = blueprint->makeSubnode<PerlinNoiseNode>("PerlinNoiseNode");
+        auto frequency = blueprint->makeSubnode<ConstantFloatNode>("ConstantFloatNode");
         
         blueprint->wireSubnodes(*frequency->getOutput("output"), *sawWaveNode->getInput("frequency"));
         blueprint->wireSubnodes(*multiplyAmountNode->getOutput("output"), *scaleTransform->getInput("multiplier"));

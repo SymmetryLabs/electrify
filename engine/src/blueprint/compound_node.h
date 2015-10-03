@@ -15,8 +15,9 @@ template<typename Input>
 class CompoundNode : public Node {
 
 public:
-    explicit CompoundNode(CompoundNodeHandle& nodeHandle);
     virtual ~CompoundNode() = default;
+
+    static void configure(CompoundNode<Input>& node, CompoundNodeHandle& handle);
 
     virtual void init() override;
     virtual void deinit() override;
@@ -34,8 +35,8 @@ class CompoundNodeHandle : public NodeHandle {
 public:
     virtual ~CompoundNodeHandle() = default;
 
-    template<template<typename> class Type, typename HandleType = typename Type<FunctionContainer>::handle_t, typename... Args>
-    HandleType* makeSubnode(Args&&... args);
+    template<template<typename> class Type, typename HandleType = typename Type<FunctionContainer>::handle_t>
+    HandleType* makeSubnode(const string& name);
     size_t createSubnode(const string& name);
 
     size_t addSubnode(const shared_ptr<NodeHandle>& subnode);

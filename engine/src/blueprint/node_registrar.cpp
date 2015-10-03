@@ -39,8 +39,8 @@ NodeRegistrar::NodeRegistrar()
 vector<string> NodeRegistrar::getAvailableNodeNames() const
 {
     vector<string> keys;
-    keys.reserve(nodeFactories.size());
-    for(auto kv : nodeFactories) {
+    keys.reserve(nodeHandleFactories.size());
+    for(auto kv : nodeHandleFactories) {
         keys.push_back(kv.first);
     }
     return keys;
@@ -48,10 +48,15 @@ vector<string> NodeRegistrar::getAvailableNodeNames() const
 
 size_t NodeRegistrar::getAvailableNodeCount() const
 {
-    return nodeFactories.size();
+    return nodeHandleFactories.size();
 }
 
-shared_ptr<NodeHandle> NodeRegistrar::getNode(const string& name) const
+shared_ptr<NodeHandle> NodeRegistrar::getNodeHandle(const string& name) const
 {
-    return nodeFactories.at(name)();
+    return nodeHandleFactories.at(name)();
+}
+
+void NodeRegistrar::generateNode(NodeHandle& handle) const
+{
+    nodeFactories.at(handle.getNodeName())(handle);
 }

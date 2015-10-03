@@ -1,11 +1,11 @@
 template<typename Input>
-TranslateNode<Input>::TranslateNode(NodeHandle& nodeHandle)
-: ContextModifierNode<Input>(nodeHandle)
+void TranslateNode<Input>::configure(TranslateNode<Input>& node, NodeHandle& handle)
 {
-    nodeHandle.setName("Translate");
-    nodeHandle.registerInput("translateX", &translateX);
-    nodeHandle.registerInput("translateY", &translateY);
-    nodeHandle.registerInput("translateZ", &translateZ);
+    ContextModifierNode<Skip<Input, 3>>::configure(node, handle);
+    handle.setName("Translate");
+    handle.registerInput("translateX", &node.translateX);
+    handle.registerInput("translateY", &node.translateY);
+    handle.registerInput("translateZ", &node.translateZ);
 }
 
 template<typename Input>

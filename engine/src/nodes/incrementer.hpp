@@ -1,9 +1,9 @@
 template<typename Input>
-Incrementer<Input>::Incrementer(NodeHandle& nodeHandle)
-: BasicNode<Input, Color>(nodeHandle)
+void Incrementer<Input>::configure(Incrementer<Input>& node, NodeHandle& handle)
 {
-    nodeHandle.setName("Incrementer");
-    nodeHandle.registerInput("color", &colorInput);
+    BasicNode<Skip<Input, 1>, Color>::configure(node, handle);
+    handle.setName("Incrementer");
+    handle.registerInput("color", &node.colorInput);
 }
 
 template<typename Input>

@@ -7,8 +7,9 @@ template<typename Input>
 class ScalarTransform : public BasicNode<Skip<Input, 1>, float> {
 
 public:
-    explicit ScalarTransform(NodeHandle& nodeHandle);
     virtual ~ScalarTransform() = default;
+
+    static void configure(ScalarTransform<Input>& node, NodeHandle& handle);
 
     Def<Input, 0, float> input;
 

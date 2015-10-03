@@ -13,7 +13,7 @@ NodeGrid::NodeGrid(CompoundNodeHandle& compoundNode_)
     compoundNode.subnodes.makeSlave(gridItems, *this);
     compoundNode.getWirableOutputs().makeSlave(gridOutputs, *this);
     compoundNode.nodeWires.makeSlave(gridWires, [this] (const shared_ptr<NodeWire>& nodeWire) {
-        return make_shared<NodeGridWire>(*nodeWire.get(), *this, gridSocketForNodeSignal(nodeWire->source), gridSocketForNodeSignal(nodeWire->destination));
+        return make_shared<NodeGridWire>(*nodeWire.get(), *this, gridSocketForNodeSignal(*nodeWire->getSource()), gridSocketForNodeSignal(*nodeWire->getDestination()));
     });
 }
 

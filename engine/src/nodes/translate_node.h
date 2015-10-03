@@ -7,7 +7,7 @@ template<typename Input>
 class TranslateNode : public ContextModifierNode<Skip<Input, 3>> {
 
 public:
-    explicit TranslateNode(NodeHandle& nodeHandle);
+    static void configure(TranslateNode<Input>& node, NodeHandle& handle);
 
     FrameContext modifyContext(const FrameContext& original) const override;
 

@@ -5,7 +5,7 @@
 
 class BaseParameter {
 public:
-    BaseParameter(type_index type_) : type(type_) {}
+    explicit BaseParameter(type_index type_) : type(type_) {}
     virtual ~BaseParameter() = default;
 
     const type_index type;

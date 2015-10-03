@@ -1,7 +1,9 @@
 #pragma once
 #include "globals.h"
 
-#include "node_socket.h"
+class NodeSignal;
+class NodeSocket;
+class NodeHandle;
 
 class NodeWire {
 
@@ -13,10 +15,14 @@ public:
     void connect();
     void disconnect();
 
-    NodeSignal& source;
-    NodeSocket& destination;
+    NodeSignal* getSource() const;
+    NodeSocket* getDestination() const;
+
+    bool isAssignedTo(const NodeHandle& nodeHandle) const;
 
 private:
+    weak_ptr<NodeSignal> source;
+    weak_ptr<NodeSocket> destination;
 
     bool connected = false;
 

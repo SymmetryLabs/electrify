@@ -7,7 +7,7 @@ template<typename Input>
 class PixelXNode : public BasicNode<Input, float> {
 
 public:
-    explicit PixelXNode(NodeHandle& nodeHandle);
+    static void configure(PixelXNode<Input>& node, NodeHandle& handle);
 
     float calculate(const FrameContext& frame) const override;
 

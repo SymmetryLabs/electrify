@@ -7,8 +7,9 @@ template<typename Input>
 class Waveform : public BasicNode<Skip<Input, 3>, float> {
 
 public:
-    explicit Waveform(NodeHandle& nodeHandle);
     virtual ~Waveform() = default;
+
+    static void configure(Waveform<Input>& node, NodeHandle& handle);
 
     Def<Input, 0, float> amplitude;
     Def<Input, 1, float> frequency;

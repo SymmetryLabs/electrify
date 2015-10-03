@@ -8,7 +8,7 @@ template<typename Input>
 class ConstantColorNode : public BasicNode<Input, Color> {
 
 public:
-    explicit ConstantColorNode(NodeHandle& nodeHandle);
+    static void configure(ConstantColorNode<Input>& node, NodeHandle& handle);
 
     Color calculate(const FrameContext& frame) const override;
     Color color = Color(0xFF0000FF);

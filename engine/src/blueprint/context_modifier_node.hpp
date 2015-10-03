@@ -1,15 +1,15 @@
 template<typename Input>
-ContextModifierNode<Input>::ContextModifierNode(NodeHandle& nodeHandle)
-: Node(nodeHandle)
-, nodeSocket(make_shared<ContextModifierNodeSocket>(*this, nodeHandle, "ContextModifierNode"))
+void ContextModifierNode<Input>::configure(ContextModifierNode<Input>& node, NodeHandle& handle)
 {
-    nodeHandle.registerInput("ContextModifierNode", nodeSocket);
-    nodeHandle.registerOutput("ContextModifierNode", nodeSocket);
+    Node::configure(node, handle);
+    node.nodeSocket = make_shared<ContextModifierNodeSocket>(node, handle, "ContextModifierNode");
+    handle.registerInput("ContextModifierNode", node.nodeSocket);
+    handle.registerOutput("ContextModifierNode", node.nodeSocket);
 }
 
 template<typename Input>
-ContextModifierNode<Input>::ContextModifierNodeSocket::ContextModifierNodeSocket(ContextModifierNode& node, NodeHandle& nodeHandle, const string& name)
-: NodeSocket(nodeHandle, name, nullptr)
+ContextModifierNode<Input>::ContextModifierNodeSocket::ContextModifierNodeSocket(ContextModifierNode& node, NodeHandle& handle, const string& name)
+: NodeSocket(handle, name, nullptr)
 , contextModifierNode(std::bind(
     mem_fn(&ContextModifierNode<Input>::modifyContext), &node, placeholders::_1))
 {

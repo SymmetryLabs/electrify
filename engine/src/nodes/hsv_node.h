@@ -8,7 +8,7 @@ template<typename Input>
 class HsvNode : public BasicNode<Skip<Input, 3>, Color> {
 
 public:
-    explicit HsvNode(NodeHandle& nodeHandle);
+    static void configure(HsvNode<Input>& node, NodeHandle& handle);
 
     Color calculate(const FrameContext& frame) const override;
     
