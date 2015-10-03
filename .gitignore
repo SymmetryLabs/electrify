@@ -66,7 +66,7 @@ xcuserdata
 moc_*.cpp
 qrc_*.cpp
 ui_*.h
-Makefile*
+# Makefile*
 *-build-*
 
 # QtCreator
@@ -81,7 +81,7 @@ Makefile*
 ##### CMake
 CMakeCache.txt
 CMakeFiles
-Makefile
+# Makefile
 cmake_install.cmake
 install_manifest.txt
 
