@@ -46,6 +46,7 @@ set(REPO_SOURCE_DIR "${CMAKE_BINARY_DIR}/${__CPM_FULL_UNID}/repo")
 CPM_EnsureRepoIsCurrent(
   TARGET_DIR ${REPO_SOURCE_DIR}
   GIT_REPOSITORY "https://github.com/louisdx/cxx-prettyprint.git"
+  GIT_TAG "334db032471126dd5c47e5ed27a5d0af5d46d068"
   USE_CACHING TRUE
   )
 

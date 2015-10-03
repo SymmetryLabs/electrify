@@ -49,6 +49,7 @@ set(REPO_SOURCE_DIR "${CMAKE_BINARY_DIR}/${__CPM_FULL_UNID}/repo")
 CPM_EnsureRepoIsCurrent(
   TARGET_DIR ${REPO_SOURCE_DIR}
   GIT_REPOSITORY "https://github.com/qknight/libnoise.git"
+  GIT_TAG "ea2e5174ccbc4b30ccdb23e9685a18f3fff66596"
   USE_CACHING TRUE
   )
 
