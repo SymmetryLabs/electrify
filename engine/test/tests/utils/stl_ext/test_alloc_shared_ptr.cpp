@@ -2,7 +2,7 @@
 
 #include "alloc_shared_ptr.h"
 
-SCENARIO("using allocSharedPtr") {
+SCENARIO("using allocSharedPtr", "[!throws]") {
     WHEN("I alloc a shared_ptr") {
         THEN("The ptr is correct") {
             void* addr = nullptr;
@@ -177,7 +177,7 @@ SCENARIO("using allocSharedPtr") {
         THEN("The constructor gets called") {
             static int calls = 0;
             struct Test {
-                int i;
+                int i = 0;
                 Test() {
                     calls++;
                 }
@@ -188,7 +188,7 @@ SCENARIO("using allocSharedPtr") {
         THEN("The destructor gets called") {
             static int calls = 0;
             struct Test {
-                int i;
+                int i = 0;
                 ~Test() {
                     calls++;
                 }
