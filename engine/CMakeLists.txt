@@ -83,6 +83,7 @@ file(GLOB HEADER_DIRS
   "src/utils/serialization"
   "src/utils/serialization/serializers"
   "src/utils/stl_ext"
+  "src/utils/type_erasure"
 )
 
 file(GLOB LIB_HEADER_DIRS

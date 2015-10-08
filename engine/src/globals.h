@@ -20,5 +20,6 @@ using namespace chrono;
 #include "stl_ext.h"
 #include "reactive.h"
 #include "misc_utils.h"
+#include "type_erasure.h"
 
 #define printFunction std::cout << __PRETTY_FUNCTION__ << std::endl;
