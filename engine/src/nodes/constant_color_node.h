@@ -11,7 +11,11 @@ public:
     static void configure(ConstantColorNode<Input>& node, NodeHandle& handle);
 
     Color calculate(const FrameContext& frame) const override;
+
+private:
     Color color = Color(0xFF0000FF);
+
+    NODE_IMPL();
 
 };
 

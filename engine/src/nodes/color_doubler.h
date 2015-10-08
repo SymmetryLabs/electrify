@@ -15,6 +15,8 @@ public:
 private:
     Def<Input, 0, Color> colorInput;
 
+    NODE_IMPL();
+
 };
 
 REGISTER_NODE(ColorDoubler);

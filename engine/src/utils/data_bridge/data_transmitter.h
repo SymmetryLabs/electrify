@@ -7,6 +7,7 @@
 #include "observes.h"
 #include "observable.h"
 #include "token_source.h"
+#include "enable_type_erasure.h"
 
 class DataTransmitter : public std::enable_shared_from_this<DataTransmitter>, public Observes {
 
@@ -37,6 +38,7 @@ private:
     DataRelay* slaveDataRelay = nullptr;
 
     void sendFunction(const std::function<void()>& fn);
+    ENABLE_TYPE_ERASURE_BASE();
 
 };
 

@@ -11,10 +11,13 @@ public:
     static void configure(HsvNode<Input>& node, NodeHandle& handle);
 
     Color calculate(const FrameContext& frame) const override;
-    
+
+private:
     Def<Input, 0, float> hue;
     Def<Input, 1, float> saturation;
     Def<Input, 2, float> value;
+
+    NODE_IMPL();
 
 };
 

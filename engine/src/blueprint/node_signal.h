@@ -35,4 +35,6 @@ private:
     template <typename Archive>
     friend void serialize(Archive& archive, NodeSignal& nodeSignal);
 
+    ENABLE_TYPE_ERASURE();
+
 };

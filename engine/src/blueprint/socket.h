@@ -25,6 +25,9 @@ public:
 protected:
     ContextModifierChain* contextModifierChain = nullptr;
 
+private:
+    ENABLE_TYPE_ERASURE_ABSTRACT();
+
 };
 
 template<typename V>
@@ -46,6 +49,8 @@ protected:
 private:
     SignalX<V>* signal = nullptr;
 
+    ENABLE_TYPE_ERASURE();
+
 };
 
 template<typename V>
@@ -64,6 +69,8 @@ private:
     SignalX<V>** signalAddr = nullptr;
     SignalFunction<V>* signalFunctionAddr = nullptr;
 
+    ENABLE_TYPE_ERASURE();
+
 };
 
 template<typename V>
@@ -73,6 +80,7 @@ struct SignalFunction {
     const V operator()(const FrameContext& frame) const { return signal->calculate(frame); }
 private:
     SignalX<V>* signal = nullptr;
+
 };
 
 struct ContextModifierChain {
@@ -84,6 +92,7 @@ struct ContextModifierChain {
     ContextModifierChain* nextModifierNode = nullptr;
 
     FrameContext modifyContext(const FrameContext& frame);
+
 };
 
 #include "socket.hpp"

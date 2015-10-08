@@ -16,6 +16,8 @@ public:
 private:
     V value;
 
+    NODE_IMPL();
+
 };
 
 template<typename Input>

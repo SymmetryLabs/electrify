@@ -11,7 +11,10 @@ public:
 
     float calculate(const FrameContext& frame) const override;
 
+private:
     Def<Input, 0, float> multiplier;
+
+    NODE_IMPL();
 
 };
 

@@ -11,6 +11,9 @@ public:
     
     float calculate(const FrameContext& frame) const override;
 
+private:
+    NODE_IMPL();
+
 };
 
 REGISTER_NODE(SquareWave);

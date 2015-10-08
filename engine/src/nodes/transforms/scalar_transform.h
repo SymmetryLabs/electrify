@@ -11,7 +11,11 @@ public:
 
     static void configure(ScalarTransform<Input>& node, NodeHandle& handle);
 
+protected:
     Def<Input, 0, float> input;
+
+private:
+    NODE_IMPL();
 
 };
 

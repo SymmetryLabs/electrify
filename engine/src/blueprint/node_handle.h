@@ -94,7 +94,12 @@ private:
     template <typename Archive>
     friend void load(Archive& archive, NodeHandle& handle);
 
+    ENABLE_TYPE_ERASURE();
+
 };
+
+#define NODE_HANDLE_IMPL()              \
+        ENABLE_TYPE_ERASURE();
 
 struct FunctionContainer {
     template<typename ReturnType>

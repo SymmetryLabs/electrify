@@ -28,6 +28,8 @@ public:
 private:
     ObservableVector<shared_ptr<Node>> subnodes;
 
+    NODE_IMPL();
+
 };
 
 class CompoundNodeHandle : public NodeHandle {
@@ -80,6 +82,8 @@ private:
 
     template<typename Archive>
     friend void serialize(Archive& archive, CompoundNodeHandle& handle);
+
+    NODE_HANDLE_IMPL();
 
 };
 

@@ -16,6 +16,8 @@ private:
     Def<Input, 1, float> translateY;
     Def<Input, 2, float> translateZ;
 
+    NODE_IMPL();
+
 };
 
 REGISTER_NODE(TranslateNode);

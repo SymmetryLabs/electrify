@@ -5,6 +5,7 @@
 #include "data_transmitter.h"
 #include "node_handle.h"
 #include "node_registrar.h"
+#include "enable_type_erasure.h"
 
 /**
  * Nodes are the building blocks of the Symmetry Engine. They receive inputs, and provide 
@@ -28,7 +29,16 @@ public:
 
     typedef NodeHandle handle_t;
 
+private:
+    ENABLE_TYPE_ERASURE();
+
 };
+
+#define NODE_IMPL()                     \
+        ENABLE_TYPE_ERASURE();
+
+#define NODE_IMPL_ABSTRACT()            \
+        ENABLE_TYPE_ERASURE_ABSTRACT();
 
 template<typename In, int N, typename Type>
 using Def = typename GetNum<In, N>::type::template type<Type>;

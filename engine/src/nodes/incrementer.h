@@ -20,6 +20,8 @@ private:
     
     int increment = 0;
 
+    NODE_IMPL();
+
 };
 
 REGISTER_NODE(Incrementer);

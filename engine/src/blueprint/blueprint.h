@@ -17,6 +17,8 @@ private:
     template <typename Archive>
     friend void serialize(Archive& archive, Blueprint& blueprint);
 
+    NODE_HANDLE_IMPL();
+
 };
 
 shared_ptr<Blueprint> makeBlueprint();
@@ -30,6 +32,9 @@ public:
     SignalFunction<Color> output;
 
     typedef Blueprint handle_t;
+
+private:
+    NODE_IMPL();
 
 };
 

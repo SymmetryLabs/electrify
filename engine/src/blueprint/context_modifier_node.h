@@ -41,6 +41,8 @@ private:
 
     shared_ptr<ContextModifierNodeSocket> nodeSocket;
 
+    NODE_IMPL_ABSTRACT();
+
 };
 
 #include "context_modifier_node.hpp"

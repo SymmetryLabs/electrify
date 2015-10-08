@@ -28,4 +28,6 @@ private:
     template <typename Archive>
     friend void serialize(Archive& archive, NodeSocket& nodeSocket);
 
+    ENABLE_TYPE_ERASURE();
+
 };

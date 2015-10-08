@@ -13,11 +13,14 @@ public:
 
     float calculate(const FrameContext& frame) const override;
 
+private:
     Def<Input, 0, float> xInput;
     Def<Input, 1, float> yInput;
     Def<Input, 2, float> zInput;
 
     noise::module::Perlin noiseGenerator;
+
+    NODE_IMPL();
 
 };
 

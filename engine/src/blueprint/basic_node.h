@@ -14,6 +14,9 @@ public:
 
     virtual V calculate(const FrameContext& frame) const = 0;
 
+private:
+    NODE_IMPL_ABSTRACT();
+
 };
 
 #include "basic_node.hpp"

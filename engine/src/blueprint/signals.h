@@ -9,6 +9,9 @@ public:
     virtual ~BaseSignal() = default;
 
     const type_index type;
+
+private:
+    ENABLE_TYPE_ERASURE_BASE();
 };
 
 template<typename V>
@@ -18,6 +21,10 @@ public:
     virtual ~SignalX() = default;
 
     virtual V calculate(const FrameContext& frame) const = 0;
+
+private:
+    ENABLE_TYPE_ERASURE_ABSTRACT();
+
 };
 
 template<typename V>
@@ -35,6 +42,10 @@ public:
 
     virtual V calculate(const FrameContext& frame) const override;
     function<V(const FrameContext& frame)> calculate_function;
+
+private:
+    ENABLE_TYPE_ERASURE();
+
 };
 
 template<typename V>
@@ -48,6 +59,8 @@ public:
 
 private:
     const V value;
+
+    ENABLE_TYPE_ERASURE();
 
 };
 
