@@ -1,7 +1,7 @@
 template<typename V>
 void Socket<V>::setSignal(BaseSignal* signal)
 {
-    setSignal((SignalX<V>*)signal);
+    setSignal(dynamic_cast<SignalX<V>*>(signal));
 }
 
 template<typename V>

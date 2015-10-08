@@ -2,7 +2,7 @@
 
 BaseSocket::operator BaseSignal() const
 {
-    return static_cast<BaseSignal>(*this);
+    return dynamic_cast<const BaseSignal&>(*this);
 }
 
 bool BaseSocket::acceptsSignal(const BaseSignal& signal) const
