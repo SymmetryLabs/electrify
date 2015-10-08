@@ -101,16 +101,10 @@ void NodeHandle::generateNode()
     NodeRegistrar::getInstance().generateNode(*this);
 }
 
-shared_ptr<Node> NodeHandle::releaseNode(DataBridge& dataBridge)
-{
-    setBridge(dataBridge);
-    return move(node);
-}
-
 void NodeHandle::setBridge(DataBridge& bridge)
 {
-    setDataRelays(bridge.getMasterRelay(), bridge.getSlaveRelay());
-    node->setDataRelays(bridge.getSlaveRelay(), bridge.getMasterRelay());
+    setDataProxies(bridge.getMasterProxy(), bridge.getSlaveProxy());
+    node->setDataProxies(bridge.getSlaveProxy(), bridge.getMasterProxy());
 }
 
 void NodeHandle::setNode(const shared_ptr<Node>& node_)

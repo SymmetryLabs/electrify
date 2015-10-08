@@ -65,8 +65,6 @@ public:
 protected:
     virtual void generateNode();
 
-    virtual shared_ptr<Node> releaseNode(DataBridge& dataBridge);
-
     virtual void setBridge(DataBridge& bridge);
 
 private:
@@ -88,6 +86,7 @@ private:
     template<template <typename> class NodeType, typename HandleType>
     friend void generateNodeForHandle(HandleType& handle);
     friend class CompoundNodeHandle;
+    friend class Blueprint;
 
     template <typename Archive>
     friend void save(Archive& archive, const NodeHandle& handle);

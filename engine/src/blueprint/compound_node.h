@@ -66,8 +66,6 @@ public:
     ObservableVector<shared_ptr<NodeWire>> nodeWires;
 
 protected:
-    shared_ptr<Node> releaseNode(DataBridge& dataBridge) override;
-
     void setBridge(DataBridge& bridge) override;
 
 private:

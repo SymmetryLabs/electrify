@@ -86,18 +86,13 @@ void CompoundNodeHandle::wireOutput(const string& name, NodeSignal& emittingSign
     // emittingSubnode.wireOutputTo(emittingOutputName, *getWirableOutput(name));
 }
 
-shared_ptr<Node> CompoundNodeHandle::releaseNode(DataBridge& dataBridge)
-{
-    for (const auto& node : subnodes) {
-        node->releaseNode(dataBridge);
-    }
-    return NodeHandle::releaseNode(dataBridge);
-}
-
 void CompoundNodeHandle::setBridge(DataBridge& bridge)
 {
     NodeHandle::setBridge(bridge);
     dataBridge = &bridge;
+    for (const auto& node : subnodes) {
+        node->setBridge(bridge);
+    }
 }
 
 void CompoundNodeHandle::setSubnodeSlave(ObservableVector<shared_ptr<Node>>& slave)
