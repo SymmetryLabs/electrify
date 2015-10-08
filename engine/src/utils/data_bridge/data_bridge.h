@@ -4,6 +4,7 @@
 
 #include "event_queue.h"
 #include "data_relay.h"
+#include "data_proxy.h"
 
 class DataBridge {
 
@@ -15,6 +16,9 @@ public:
     DataRelay& getMasterRelay();
     DataRelay& getSlaveRelay();
 
+    DataProxy& getMasterProxy();
+    DataProxy& getSlaveProxy();
+
     void flushAll();
 
 private:
@@ -24,5 +28,8 @@ private:
 
     DataRelay masterRelay;
     DataRelay slaveRelay;
+
+    DataProxy masterProxy;
+    DataProxy slaveProxy;
 
 };

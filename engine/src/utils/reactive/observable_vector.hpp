@@ -65,7 +65,7 @@ void ObservableVector<T>::clear()
 
 template<typename T>
 void ObservableVector<T>
-    ::makeProxySlave(ObservableVector<T>& slave, DataRelay& dataRelay) const
+    ::makeProxySlave(ObservableVector<T>& slave, DataProxy& dataProxy) const
 {
     for (const auto& obj : v) {
         slave.push_back(obj);
@@ -75,13 +75,13 @@ void ObservableVector<T>
         [&] (const std::pair<size_t, std::reference_wrapper<const T>>& p) {
         const size_t& pos = p.first;
         const T& obj = p.second.get();
-        dataRelay.queueEvent([=, &slave] {
+        dataProxy.sendEvent([=, &slave] {
             slave.insert(slave.begin() + pos, obj);
         });
     });
 
     slave.observe(valueRemoved, [&] (size_t pos) {
-        dataRelay.queueEvent([=, &slave] {
+        dataProxy.sendEvent([=, &slave] {
             slave.erase(slave.begin() + pos);
         });
     });
@@ -90,24 +90,24 @@ void ObservableVector<T>
 template<typename T>
 template<typename SlaveType>
 void ObservableVector<T>
-    ::makeProxySlave(ObservableVector<std::shared_ptr<SlaveType>>& slave, DataRelay& dataRelay) const
+    ::makeProxySlave(ObservableVector<std::shared_ptr<SlaveType>>& slave, DataProxy& dataProxy) const
 {
     for (const auto& obj : v) {
-        slave.push_back(obj->template getProxy<SlaveType>(dataRelay));
+        slave.push_back(obj->template getSlave<SlaveType>());
     }
 
     slave.observe(valueAdded,
         [&] (const std::pair<size_t, std::reference_wrapper<const T>>& p) {
         const size_t& pos = p.first;
         std::shared_ptr<SlaveType> obj =
-            p.second.get()->template getProxy<SlaveType>(dataRelay);
-        dataRelay.queueEvent([=, &slave] {
+            p.second.get()->template getSlave<SlaveType>();
+        dataProxy.sendEvent([=, &slave] {
             slave.insert(slave.begin() + pos, obj);
         });
     });
 
     slave.observe(valueRemoved, [&] (size_t pos) {
-        dataRelay.queueEvent([=, &slave] {
+        dataProxy.sendEvent([=, &slave] {
             slave.erase(slave.begin() + pos);
         });
     });

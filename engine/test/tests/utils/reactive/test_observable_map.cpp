@@ -55,8 +55,8 @@ SCENARIO("proxying ObservableMaps") {
         ObservableMap<std::string, int> m2;
         GIVEN("they are in master/slave configuration") {
             DataBridge db;
-            DataRelay& dr = db.getMasterRelay();
-            m1.makeProxySlave(m2, dr);
+            DataProxy& dp = db.getMasterProxy();
+            m1.makeProxySlave(m2, dp);
             WHEN("I add to the master") {
                 m1.insert(std::make_pair("test", 10));
                 db.flushAll();
@@ -77,8 +77,8 @@ SCENARIO("proxying ObservableMaps") {
         ObservableMap<std::string, int> m2;
         WHEN("I set up the proxy") {
             DataBridge db;
-            DataRelay& dr = db.getMasterRelay();
-            m1.makeProxySlave(m2, dr);
+            DataProxy& dp = db.getMasterProxy();
+            m1.makeProxySlave(m2, dp);
             THEN("The slave gets the starting values") {
                 REQUIRE(m2.size() == 1);
                 REQUIRE(m2.count("first"));

@@ -8,7 +8,7 @@
 
 #include "observes.h"
 #include "event.h"
-#include "data_relay.h"
+#include "data_proxy.h"
 
 template<typename KeyT, typename ValueT>
 class ObservableMap : public Observes {
@@ -75,7 +75,7 @@ public:
     // Allocator
     allocator_type get_allocator() const noexcept { return m.get_allocator(); }
 
-    void makeProxySlave(ObservableMap<KeyT, ValueT>& slave, DataRelay& dataRelay) const;
+    void makeProxySlave(ObservableMap<KeyT, ValueT>& slave, DataProxy& dataProxy) const;
 
 private:
     std::map<KeyT, ValueT> m;

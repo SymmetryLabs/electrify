@@ -20,6 +20,16 @@ DataRelay& DataBridge::getSlaveRelay()
     return slaveRelay;
 }
 
+DataProxy& DataBridge::getMasterProxy()
+{
+    return masterProxy;
+}
+
+DataProxy& DataBridge::getSlaveProxy()
+{
+    return slaveProxy;
+}
+
 void DataBridge::flushAll()
 {
     masterRelay.commitOutgoingTransaction();

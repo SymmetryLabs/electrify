@@ -2,16 +2,10 @@
 
 #include "event_queue.h"
 
-DataRelay::DataRelay(EventQueue& outgoingQueue_,
-    EventQueue& incomingQueue_)
+DataRelay::DataRelay(EventQueue& outgoingQueue_, EventQueue& incomingQueue_)
 : outgoingQueue(outgoingQueue_)
 , incomingQueue(incomingQueue_)
 {
-}
-
-void DataRelay::queueEvent(const std::function<void()>& eventFunc)
-{
-    outgoingQueue.queueEvent(eventFunc);
 }
 
 void DataRelay::commitOutgoingTransaction()

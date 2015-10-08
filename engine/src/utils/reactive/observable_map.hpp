@@ -46,22 +46,22 @@ void ObservableMap<KeyT, ValueT>::clear() noexcept
 
 template<typename KeyT, typename ValueT>
 void ObservableMap<KeyT, ValueT>
-    ::makeProxySlave(ObservableMap<KeyT, ValueT>& slave, DataRelay& dataRelay) const
+    ::makeProxySlave(ObservableMap<KeyT, ValueT>& slave, DataProxy& dataProxy) const
 {
     for (const auto& obj : m) {
         slave.insert(obj);
     }
 
     slave.observe(valueAdded,
-        [&dataRelay, &slave] (const std::pair<const KeyT, ValueT>& object) {
-            dataRelay.queueEvent([=, &slave] {
+        [&dataProxy, &slave] (const std::pair<const KeyT, ValueT>& object) {
+            dataProxy.sendEvent([=, &slave] {
                 slave.insert(object);
             });
         }
     );
 
-    slave.observe(valueRemoved, [&dataRelay, &slave] (const KeyT& key) {
-        dataRelay.queueEvent([=, &slave] {
+    slave.observe(valueRemoved, [&dataProxy, &slave] (const KeyT& key) {
+        dataProxy.sendEvent([=, &slave] {
             slave.erase(key);
         });
     });

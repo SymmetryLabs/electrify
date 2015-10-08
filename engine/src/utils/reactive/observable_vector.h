@@ -10,7 +10,7 @@
 #include "template_utils.h"
 #include "type_traits_ext.h"
 #include "event.h"
-#include "data_relay.h"
+#include "data_proxy.h"
 
 template<typename T>
 class ObservableVector : public Observes {
@@ -70,9 +70,9 @@ public:
     // Allocator
     allocator_type get_allocator() const noexcept { return v.get_allocator(); }
 
-    void makeProxySlave(ObservableVector<T>& slave, DataRelay& dataRelay) const;
+    void makeProxySlave(ObservableVector<T>& slave, DataProxy& dataProxy) const;
     template<typename SlaveType>
-    void makeProxySlave(ObservableVector<std::shared_ptr<SlaveType>>& slave, DataRelay& dataRelay) const;
+    void makeProxySlave(ObservableVector<std::shared_ptr<SlaveType>>& slave, DataProxy& dataProxy) const;
 
     template<typename SlaveType, typename... ArgN>
     auto makeSlave(ObservableVector<std::shared_ptr<SlaveType>>& slave, ArgN&&... args) const
