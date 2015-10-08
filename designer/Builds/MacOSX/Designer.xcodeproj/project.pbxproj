@@ -1970,7 +1970,6 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = ("$(inherited)", "\"${BUILD_DIR}/engine\"", "\"${BUILD_DIR}/engine/lib\"", "\"/usr/local/lib\"");
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
 				OTHER_CPLUSPLUSFLAGS = "-isystem ${BUILD_DIR}/engine/ext_include -isystem /usr/local/include";
 				OTHER_LDFLAGS = "-lSymmetryEngine -ltbb -lnoise -ljsoncpp";
