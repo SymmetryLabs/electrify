@@ -1,10 +1,15 @@
 #include "data_bridge.h"
 
 #include <boost/uuid/random_generator.hpp>
+#include "event_queue.h"
 
 DataBridge::DataBridge()
-: masterRelay(masterQueue, slaveQueue)
-, slaveRelay(slaveQueue, masterQueue)
+: masterQueue(std::make_shared<EventQueue>())
+, slaveQueue(std::make_shared<EventQueue>())
+, masterRelay(*masterQueue, *slaveQueue)
+, slaveRelay(*slaveQueue, *masterQueue)
+, masterProxy(masterQueue)
+, slaveProxy(slaveQueue)
 {
     static boost::uuids::random_generator nodeUuidGenerator;
     uuid = nodeUuidGenerator();

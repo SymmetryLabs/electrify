@@ -1,5 +1,7 @@
 #include "rasterization_thread.h"
 
+#include <assert.h>
+
 #include "output.h"
 #include "renderable.h"
 #include "data_relay.h"

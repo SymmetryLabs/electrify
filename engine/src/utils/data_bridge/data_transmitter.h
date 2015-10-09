@@ -10,6 +10,7 @@
 #include "token_source.h"
 #include "weak_any_ptr.h"
 #include "enable_type_erasure.h"
+#include "enable_test_access.h"
 
 class DataTransmitter : public std::enable_shared_from_this<DataTransmitter>, public Observes {
 
@@ -53,6 +54,7 @@ private:
     void sendFunction(F&& fn);
 
     ENABLE_TYPE_ERASURE_BASE();
+    ENABLE_TEST_ACCESS();
 
 };
 

@@ -1,8 +1,9 @@
 #pragma once
 
+#include <memory>
+
 #include <boost/uuid/uuid.hpp>
 
-#include "event_queue.h"
 #include "data_relay.h"
 #include "data_proxy.h"
 
@@ -23,8 +24,8 @@ public:
 
 private:
 
-    EventQueue masterQueue;
-    EventQueue slaveQueue;
+    std::shared_ptr<EventQueue> masterQueue;
+    std::shared_ptr<EventQueue> slaveQueue;
 
     DataRelay masterRelay;
     DataRelay slaveRelay;
