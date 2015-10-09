@@ -25,6 +25,8 @@ public:
 
     typedef CompoundNodeHandle handle_t;
 
+    size_t getNumSubnodes() const;
+
 private:
     ObservableVector<shared_ptr<Node>> subnodes;
 

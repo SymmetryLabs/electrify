@@ -30,6 +30,12 @@ void CompoundNode<Input>::update(const FrameContext& frame)
     }
 }
 
+template<typename Input>
+size_t CompoundNode<Input>::getNumSubnodes() const
+{
+    return subnodes.size();
+}
+
 template<template<typename> class Type, typename HandleType>
 HandleType* CompoundNodeHandle::makeSubnode(const string& name)
 {
