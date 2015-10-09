@@ -10,10 +10,16 @@ void NodeHandle::registerOutput(const string& name, V(C::* calculate_function_)(
     registerOutput(name, make_shared<FunctionSignal<V>>(calculate_function_, inst));
 }
 
-template<typename NodeType>
-NodeType& NodeHandle::getNode()
+template<template <typename> class NodeType>
+NodeType<FunctionContainer>& NodeHandle::getNode()
 {
-    return dynamic_cast<NodeType&>(*node);
+    return dynamic_cast<NodeType<FunctionContainer>&>(*node);
+}
+
+template<typename T>
+shared_ptr<T> NodeHandle::getSlave() const
+{
+    return dynamic_pointer_cast<T>(node);
 }
 
 template<template <typename> class NodeType, typename HandleType>

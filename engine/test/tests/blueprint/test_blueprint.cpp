@@ -21,20 +21,20 @@ SCENARIO("using blueprint") {
     FrameContext frame {nanoseconds(100)};
 
     auto colorNodeHandle = makeNodeHandle<ConstantColorNode>("ConstantColorNode");
-    auto& colorNode = colorNodeHandle->getNode<ConstantColorNode<FunctionContainer>>();
+    auto& colorNode = colorNodeHandle->getNode<ConstantColorNode>();
     REQUIRE(colorNode.calculate(frame) == Color(0xff0000ff));
 
     auto colorDoublerHandle = makeNodeHandle<ColorDoubler>("ColorDoubler");
-    auto& colorDoubler = colorDoublerHandle->getNode<ColorDoubler<FunctionContainer>>();
+    auto& colorDoubler = colorDoublerHandle->getNode<ColorDoubler>();
     colorNodeHandle->getOutput("output")->wireOutput(*colorDoublerHandle->getInput("color"));
     REQUIRE(colorDoubler.calculate(frame) == Color(0xfe0001fe));
 
     auto squareWaveHandle = makeNodeHandle<SquareWave>("SquareWave");
-    auto& squareWave = squareWaveHandle->getNode<SquareWave<FunctionContainer>>();
+    auto& squareWave = squareWaveHandle->getNode<SquareWave>();
     REQUIRE(squareWave.calculate(frame) == 0);
 
     auto incrementerHandle = makeNodeHandle<Incrementer>("Incrementer");
-    auto& incrementer = incrementerHandle->getNode<Incrementer<FunctionContainer>>();
+    auto& incrementer = incrementerHandle->getNode<Incrementer>();
     colorDoublerHandle->getOutput("output")->wireOutput(*incrementerHandle->getInput("color"));
     REQUIRE(incrementer.calculate(frame) == Color(0xfe0001fe));
 

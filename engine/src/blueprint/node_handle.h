@@ -16,6 +16,7 @@
 #include "data_bridge.h"
 
 class Node;
+class FunctionContainer;
 
 class NodeHandle : public DataTransmitter {
 
@@ -54,8 +55,8 @@ public:
 
     // void registerParameter(const string& name, unique_ptr<BaseParameter> parameter)
 
-    template<typename NodeType>
-    NodeType& getNode();
+    template<template <typename> class NodeType>
+    NodeType<FunctionContainer>& getNode();
 
     const string& getNodeName() const;
 
