@@ -82,3 +82,38 @@ SCENARIO("Using type erasure with types with multiple inheritance improperly") {
         }
     }
 }
+
+struct TestNonPolymorphicWithoutEnable {
+};
+
+SCENARIO("Using type erasure without having to enable it") {
+    GIVEN("I have an arithmetic type") {
+        int i = 10;
+        WHEN("I erase it") {
+            auto erased = eraseType(i);
+            THEN("It doesn't throw") {
+            }
+            WHEN("I try to retrieve the original") {
+                auto returned = erased->get<int>();
+                THEN("It correctly retrieves it") {
+                    REQUIRE(returned != nullptr);
+                    REQUIRE(*returned == 10);
+                }
+            }
+        }
+    }
+    GIVEN("I have a non-polymorphic type") {
+        TestNonPolymorphicWithoutEnable a;
+        WHEN("I erase it") {
+            auto erased = eraseType(a);
+            THEN("It doesn't throw") {
+            }
+            WHEN("I try to retrieve the original") {
+                auto returned = erased->get<TestNonPolymorphicWithoutEnable>();
+                THEN("It correctly retrieves it") {
+                    REQUIRE(returned != nullptr);
+                }
+            }
+        }
+    }
+}

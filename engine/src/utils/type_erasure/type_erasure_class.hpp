@@ -8,6 +8,19 @@ T* TypeErasure::get() const
     return nullptr;
 }
 
+template <typename T, bool = std::is_polymorphic<T>::value>
+struct TypeErasureHelper;
+
+template <typename T>
+struct TypeErasureHelper<T, true> {
+    static void raise(T& t) { t.raise(); }
+};
+
+template <typename T>
+struct TypeErasureHelper<T, false> {
+    static void raise(T& t) { throw &t; }
+};
+
 template <typename T>
 class TypeErasureImpl : public TypeErasure {
 
@@ -15,7 +28,7 @@ public:
     explicit TypeErasureImpl(T& t_) : t(t_) {}
 
 private:
-    void raise() const { t.raise(); }
+    void raise() const { TypeErasureHelper<T>::raise(t); }
 
     T& t;
 

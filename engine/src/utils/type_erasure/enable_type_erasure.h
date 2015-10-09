@@ -1,30 +1,22 @@
 #pragma once
 
 #define ENABLE_TYPE_ERASURE_BASE()          \
-template <typename>                         \
-friend class TypeErasureImpl;               \
-virtual void raise()                        \
-{                                           \
-    throw this;                             \
-}
+template <typename, bool>                   \
+friend class TypeErasureHelper;             \
+virtual void raise() { throw this; }
 
 #define ENABLE_TYPE_ERASURE()               \
-template <typename>                         \
-friend class TypeErasureImpl;               \
+template <typename, bool>                   \
+friend class TypeErasureHelper;             \
 virtual void raise() override               \
-{                                           \
-    throw this;                             \
-}
+{ throw this; }
 
 #define ENABLE_TYPE_ERASURE_ABSTRACT()      \
-template <typename>                         \
-friend class TypeErasureImpl;               \
+template <typename, bool>                   \
+friend class TypeErasureHelper;             \
 virtual void raise() = 0;
 
 #define ENABLE_TYPE_ERASURE_NONVIRTUAL()    \
-template <typename>                         \
-friend class TypeErasureImpl;               \
-void raise()                                \
-{                                           \
-    throw this;                             \
-}
+template <typename, bool>                   \
+friend class TypeErasureHelper;             \
+void raise() { throw this; }

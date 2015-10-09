@@ -1,5 +1,8 @@
 #pragma once
 
+#include <memory>
+#include <type_traits>
+
 class TypeErasure {
 
 public:
