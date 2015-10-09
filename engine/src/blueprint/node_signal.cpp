@@ -13,6 +13,11 @@ NodeSignal::NodeSignal(NodeHandle& nodeHandle_, const string& name_, const share
 
 NodeSignal::~NodeSignal() = default;
 
+NodeHandle& NodeSignal::getNodeHandle() const
+{
+    return *nodeHandle.lock();
+}
+
 string NodeSignal::getName() const
 {
     return name.getValue();
@@ -25,20 +30,15 @@ BaseSignal* NodeSignal::getSignal() const
 
 void NodeSignal::wireOutput(NodeSocket& destinationNodeSocket)
 {
-    destinationNodeSocket.wireInput(*getSignal());
+    destinationNodeSocket.wireInput(signal);
 }
 
 void NodeSignal::unwireOutput(NodeSocket& destinationNodeSocket)
 {
-    destinationNodeSocket.unwireInput(*getSignal());
+    destinationNodeSocket.unwireInput(signal);
 }
 
 bool NodeSignal::belongsTo(const NodeHandle& nodeHandle_) const
 {
     return &this->getNodeHandle() == &nodeHandle_;
-}
-
-NodeHandle& NodeSignal::getNodeHandle() const
-{
-    return *nodeHandle.lock();
 }

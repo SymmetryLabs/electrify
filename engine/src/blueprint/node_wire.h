@@ -12,7 +12,7 @@ public:
     NodeWire(NodeSignal& source, NodeSocket& destination);
     ~NodeWire();
 
-    bool isConnected();
+    bool isConnected() const;
     void connect();
     void disconnect();
 
@@ -25,9 +25,18 @@ private:
     weak_ptr<NodeSignal> source;
     weak_ptr<NodeSocket> destination;
 
+    weak_ptr<NodeHandle> sourceHandle;
+    string sourceName;
+    weak_ptr<NodeHandle> destinationHandle;
+    string destinationName;
+
     bool connected = false;
 
+    void populateSignals();
+
     template <typename Archive>
-    friend void serialize(Archive& archive, NodeWire& nodeWire);
+    friend void save(Archive& archive, const NodeWire& nodeWire);
+    template <typename Archive>
+    friend void load(Archive& archive, NodeWire& nodeWire);
 
 };

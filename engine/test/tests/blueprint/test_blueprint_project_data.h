@@ -55,19 +55,77 @@ string serializedProject = R"({
                                                     {
                                                         "ptr_wrapper": {
                                                             "id": 2147483653,
-                                                            "data": {}
+                                                            "data": {
+                                                                "sourceHandle": {
+                                                                    "locked_ptr": {
+                                                                        "polymorphic_id": 1073741824,
+                                                                        "ptr_wrapper": {
+                                                                            "id": 3
+                                                                        }
+                                                                    }
+                                                                },
+                                                                "sourceName": "output",
+                                                                "destinationHandle": {
+                                                                    "locked_ptr": {
+                                                                        "polymorphic_id": 1073741824,
+                                                                        "ptr_wrapper": {
+                                                                            "id": 4
+                                                                        }
+                                                                    }
+                                                                },
+                                                                "destinationName": "ContextModifierNode"
+                                                            }
                                                         }
                                                     },
                                                     {
                                                         "ptr_wrapper": {
                                                             "id": 2147483654,
-                                                            "data": {}
+                                                            "data": {
+                                                                "sourceHandle": {
+                                                                    "locked_ptr": {
+                                                                        "polymorphic_id": 1073741824,
+                                                                        "ptr_wrapper": {
+                                                                            "id": 4
+                                                                        }
+                                                                    }
+                                                                },
+                                                                "sourceName": "ContextModifierNode",
+                                                                "destinationHandle": {
+                                                                    "locked_ptr": {
+                                                                        "polymorphic_id": 2,
+                                                                        "ptr_wrapper": {
+                                                                            "id": 2
+                                                                        }
+                                                                    }
+                                                                },
+                                                                "destinationName": "color"
+                                                            }
                                                         }
                                                     },
                                                     {
                                                         "ptr_wrapper": {
                                                             "id": 2147483655,
-                                                            "data": {}
+                                                            "data": {
+                                                                "sourceHandle": {
+                                                                    "locked_ptr": {
+                                                                        "polymorphic_id": 2,
+                                                                        "ptr_wrapper": {
+                                                                            "id": 2
+                                                                        }
+                                                                    }
+                                                                },
+                                                                "sourceName": "color",
+                                                                "destinationHandle": {
+                                                                    "locked_ptr": {
+                                                                        "polymorphic_id": 2147483651,
+                                                                        "polymorphic_name": "Blueprint",
+                                                                        "ptr_wrapper": {
+                                                                            "id": 1
+                                                                        }
+                                                                    }
+                                                                },
+                                                                "destinationName": "color"
+                                                            }
                                                         }
                                                     }
                                                 ]

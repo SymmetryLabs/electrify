@@ -15,19 +15,13 @@ public:
     NodeSocket(NodeHandle& nodeHandle, const string& name, const shared_ptr<BaseSocket>& socket);
     virtual ~NodeSocket() = default;
 
-    virtual void wireInput(BaseSignal& sourceSignal);
-    virtual void unwireInput(BaseSignal& sourceSignal);
+    virtual void wireInput(weak_ptr<BaseSignal> sourceSignal);
+    virtual void unwireInput(weak_ptr<BaseSignal> sourceSignal);
 
     virtual void registerContextModifier(ContextModifierChain& contextModifier);
     virtual void unregisterContextModifier(ContextModifierChain& contextModifier);
 
-protected:
-    BaseSocket* getSocket() const;
-
 private:
-    template <typename Archive>
-    friend void serialize(Archive& archive, NodeSocket& nodeSocket);
-
     ENABLE_TYPE_ERASURE();
 
 };

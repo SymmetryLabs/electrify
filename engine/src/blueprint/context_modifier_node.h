@@ -21,8 +21,8 @@ private:
 
         ContextModifierNodeSocket(ContextModifierNode& node, NodeHandle& nodeHandle, const string& name);
 
-        void wireInput(BaseSignal& sourceSignal) override;
-        void unwireInput(BaseSignal& sourceSignal) override;
+        void wireInput(weak_ptr<BaseSignal> sourceSignal) override;
+        void unwireInput(weak_ptr<BaseSignal> sourceSignal) override;
 
         void wireOutput(NodeSocket& destinationNodeSocket) override;
         void unwireOutput(NodeSocket& destinationNodeSocket) override;
@@ -32,7 +32,7 @@ private:
 
         void registerContextModifier(ContextModifierChain& contextModifier) override;
 
-        BaseSignal* sourceSignal = nullptr;
+        weak_ptr<BaseSignal> sourceSignal;
         NodeSocket* destinationNodeSocket = nullptr;
 
         ContextModifierChain contextModifierNode;

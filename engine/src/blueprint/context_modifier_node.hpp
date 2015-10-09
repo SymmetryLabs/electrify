@@ -16,17 +16,17 @@ ContextModifierNode<Input>::ContextModifierNodeSocket::ContextModifierNodeSocket
 }
 
 template<typename Input>
-void ContextModifierNode<Input>::ContextModifierNodeSocket::wireInput(BaseSignal& sourceSignal)
+void ContextModifierNode<Input>::ContextModifierNodeSocket::wireInput(weak_ptr<BaseSignal> sourceSignal)
 {
-    this->sourceSignal = &sourceSignal;
+    this->sourceSignal = sourceSignal;
     completeWiringIfNeeded();
 }
 
 template<typename Input>
-void ContextModifierNode<Input>::ContextModifierNodeSocket::unwireInput(BaseSignal& sourceSignal)
+void ContextModifierNode<Input>::ContextModifierNodeSocket::unwireInput(weak_ptr<BaseSignal> sourceSignal)
 {
     unwireIfNeeded();
-    this->sourceSignal = nullptr;
+    this->sourceSignal.reset();
 }
 
 template<typename Input>
@@ -46,8 +46,8 @@ void ContextModifierNode<Input>::ContextModifierNodeSocket::unwireOutput(NodeSoc
 template<typename Input>
 void ContextModifierNode<Input>::ContextModifierNodeSocket::completeWiringIfNeeded()
 {
-    if (sourceSignal && destinationNodeSocket) {
-        destinationNodeSocket->wireInput(*sourceSignal);
+    if (!sourceSignal.expired() && destinationNodeSocket) {
+        destinationNodeSocket->wireInput(sourceSignal);
         destinationNodeSocket->registerContextModifier(contextModifierNode);
     }
 }
@@ -55,8 +55,8 @@ void ContextModifierNode<Input>::ContextModifierNodeSocket::completeWiringIfNeed
 template<typename Input>
 void ContextModifierNode<Input>::ContextModifierNodeSocket::unwireIfNeeded()
 {
-    if (sourceSignal && destinationNodeSocket) {
-        destinationNodeSocket->unwireInput(*sourceSignal);
+    if (!sourceSignal.expired() && destinationNodeSocket) {
+        destinationNodeSocket->unwireInput(sourceSignal);
         destinationNodeSocket->unregisterContextModifier(contextModifierNode);
     }
 }

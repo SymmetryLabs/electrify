@@ -11,7 +11,7 @@
 
 template <typename Archive>
 void save(Archive& archive, const NodeHandle& handle)
-{ 
+{
     archive(
         cereal::make_nvp("nodeName", handle.nodeName),
         cereal::make_nvp("name", handle.name)
@@ -45,6 +45,8 @@ namespace cereal
     epilogue(JSONInputArchive& ar, const std::weak_ptr<T>& t)
     {
         ar.finishNode();
-        t->postSharedPtrConstruction();
+        if (auto strongT = t.lock()) {
+            strongT->postSharedPtrConstruction();
+        }
     }
 }

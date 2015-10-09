@@ -14,6 +14,8 @@ public:
     NodeSignal(NodeHandle& nodeHandle, const string& name, const shared_ptr<BaseSignal>& signal);
     virtual ~NodeSignal();
 
+    NodeHandle& getNodeHandle() const;
+
     string getName() const;
 
     virtual void wireOutput(NodeSocket& destinationNodeSocket);
@@ -29,11 +31,6 @@ protected:
 private:
     shared_ptr<BaseSignal> signal;
     weak_ptr<NodeHandle> nodeHandle;
-
-    NodeHandle& getNodeHandle() const;
-
-    template <typename Archive>
-    friend void serialize(Archive& archive, NodeSignal& nodeSignal);
 
     ENABLE_TYPE_ERASURE();
 

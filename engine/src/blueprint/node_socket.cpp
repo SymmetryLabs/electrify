@@ -7,27 +7,26 @@ NodeSocket::NodeSocket(NodeHandle& nodeHandle_, const string& name_, const share
 {
 }
 
-void NodeSocket::wireInput(BaseSignal& sourceSignal)
+void NodeSocket::wireInput(weak_ptr<BaseSignal> sourceSignal)
 {
-    getSocket()->setSignal(&sourceSignal);
+    sendCommand<BaseSocket, BaseSignal>([] (shared_ptr<BaseSocket> socket, shared_ptr<BaseSignal> signal) {
+        socket->setSignal(signal.get());
+    }, sourceSignal);
 }
 
-void NodeSocket::unwireInput(BaseSignal& sourceSignal)
+void NodeSocket::unwireInput(weak_ptr<BaseSignal>)
 {
-    getSocket()->setSignal(nullptr);
+    sendCommand<BaseSocket>([] (shared_ptr<BaseSocket> socket) {
+        socket->setSignal(nullptr);
+    });
 }
 
 void NodeSocket::registerContextModifier(ContextModifierChain& contextModifier)
 {
-    getSocket()->addContextModifier(contextModifier);
+    // getSocket()->addContextModifier(contextModifier);
 }
 
 void NodeSocket::unregisterContextModifier(ContextModifierChain& contextModifier)
 {
-    getSocket()->removeContextModifier(contextModifier);
-}
-
-BaseSocket* NodeSocket::getSocket() const
-{
-    return dynamic_cast<BaseSocket*>(getSignal());
+    // getSocket()->removeContextModifier(contextModifier);
 }
