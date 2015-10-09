@@ -28,7 +28,7 @@ public:
 
 private:
     
-    NodeRegistrar nodeRegistrar = NodeRegistrar::getInstance();
+    NodeRegistrar& nodeRegistrar = NodeRegistrar::getInstance();
     vector<string> availableNodeNames = nodeRegistrar.getAvailableNodeNames();
     
     ListBox listBox;

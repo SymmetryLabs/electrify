@@ -45,7 +45,7 @@ SCENARIO("using blueprint") {
     REQUIRE(incrementer.calculate(frame) == Color(0xfe0003fe));
 
 
-    NodeRegistrar nodeRegistrar;
+    NodeRegistrar& nodeRegistrar = NodeRegistrar::getInstance();
     nodeRegistrar.getAvailableNodeNames()[0];
 
 
