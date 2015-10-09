@@ -25,6 +25,7 @@ public:
 
     void commitTransaction();
     void processTransactions();
+    void flush();
 
 private:
 

@@ -34,6 +34,12 @@ void EventQueue::processTransactions()
     });
 }
 
+void EventQueue::flush()
+{
+    commitTransaction();
+    processTransactions();
+}
+
 EventQueue::Transaction::Transaction(std::vector<std::function<void()>>& eventBuffer) {
     events.swap(eventBuffer);
 }
