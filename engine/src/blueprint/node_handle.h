@@ -63,6 +63,9 @@ public:
     virtual void postCtor();
     virtual void postSharedPtrConstruction();
 
+    template<typename T>
+    shared_ptr<T> getSlave() const;
+
 protected:
     virtual void generateNode();
 
