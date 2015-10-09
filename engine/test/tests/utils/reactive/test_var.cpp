@@ -1,4 +1,3 @@
-#define DEBUG 1
 #include <catch/catch.hpp>
 
 #include "var.h"
@@ -125,7 +124,7 @@ SCENARIO("using Var<int>") {
                 v2.emit(5);
                 REQUIRE(calls == 1);
             }
-            GIVEN("I subscribe to second") {
+            GIVEN("I subscribe to the second") {
                 INFO("Pending (causes SIGSEGV)");
                 // int calls2 = 0;
                 // v2.observe([&] (int) {
@@ -154,7 +153,7 @@ SCENARIO("using Var<int>") {
                 v2.emit(5);
                 REQUIRE(calls == 1);
             }
-            GIVEN("I subscribe to second") {
+            GIVEN("I subscribe to the second") {
                 INFO("Pending (causes SIGSEGV)");
                 // int calls2 = 0;
                 // v2.observe([&] (int) {
@@ -182,7 +181,7 @@ SCENARIO("using Var<int>") {
                 v2.emit(5);
                 REQUIRE(calls == 1);
             }
-            GIVEN("I subscribe to second") {
+            GIVEN("I subscribe to the second") {
                 int calls2 = 0;
                 v2.observe([&] (int) {
                     calls2++;
@@ -210,7 +209,7 @@ SCENARIO("using Var<int>") {
                 v2.emit(5);
                 REQUIRE(calls == 1);
             }
-            GIVEN("I subscribe to second") {
+            GIVEN("I subscribe to the second") {
                 int calls2 = 0;
                 v2.observe([&] (int) {
                     calls2++;
