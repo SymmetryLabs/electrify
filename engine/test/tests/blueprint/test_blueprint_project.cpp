@@ -35,7 +35,7 @@ SCENARIO("using blueprint project") {
 
         compound->wireSubnodes(*constantColor->getOutput("output"), *translateNode->getInput("ContextModifierNode"));
         compound->wireSubnodes(*translateNode->getOutput("ContextModifierNode"), *compound->getWirableOutput("color"));
-        compound->wireSubnodes(*compound->getOutput("color"), *blueprint->getWirableOutput("color"));
+        blueprint->wireSubnodes(*compound->getOutput("color"), *blueprint->getWirableOutput("color"));
 
         unique_ptr<Project> project = make_unique<BlueprintProject>(blueprint, move(model));
 

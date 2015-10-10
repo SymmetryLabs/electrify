@@ -18,8 +18,8 @@ public:
     virtual void wireInput(weak_ptr<BaseSignal> sourceSignal);
     virtual void unwireInput(weak_ptr<BaseSignal> sourceSignal);
 
-    virtual void registerContextModifier(ContextModifierChain& contextModifier);
-    virtual void unregisterContextModifier(ContextModifierChain& contextModifier);
+    virtual void registerContextModifier(weak_ptr<ContextModifierChain> contextModifier);
+    virtual void unregisterContextModifier(weak_ptr<ContextModifierChain> contextModifier);
 
 private:
     ENABLE_TYPE_ERASURE();

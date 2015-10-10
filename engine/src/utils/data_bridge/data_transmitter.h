@@ -39,6 +39,16 @@ protected:
     template<typename C, typename S1, typename S2, typename F, typename T1, typename T2>
     void sendCommand(F&& func, std::weak_ptr<T1> t1, std::weak_ptr<T2> t2);
 
+    template<typename C, typename F, typename T1>
+    void sendCommand(F&& func, std::weak_ptr<T1> t1);
+    template<typename C, typename F, typename T1, typename T2>
+    void sendCommand(F&& func, std::weak_ptr<T1> t1, std::weak_ptr<T2> t2);
+
+    template<typename F, typename T1>
+    void sendCommand(F&& func, std::weak_ptr<T1> t1);
+    template<typename F, typename T1, typename T2>
+    void sendCommand(F&& func, std::weak_ptr<T1> t1, std::weak_ptr<T2> t2);
+
     template<typename C, typename S1, typename F, typename T1>
     void sendCommand(F&& func, T1 t1);
     template<typename C, typename S1, typename S2, typename F, typename T1, typename T2>

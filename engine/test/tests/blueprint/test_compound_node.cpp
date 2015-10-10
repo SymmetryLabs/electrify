@@ -35,6 +35,20 @@ SCENARIO("Adding a node") {
                         REQUIRE(node.getNumSubnodes() == 1);
                     }
                 }
+                GIVEN("The engine side gets cleared") {
+                    auto& node = compound->getNode<CompoundNode>();
+                    std::weak_ptr<NodeHandle> weakHandle = blueprint->subnodes.at(0);
+                    REQUIRE(!weakHandle.expired());
+                    blueprint.reset();
+                    REQUIRE(weakHandle.expired());
+
+                    WHEN("I clear the bridge") {
+                        db.flushAll();
+                        THEN("The corresponding node A shows the new node B") {
+                            REQUIRE(node.getNumSubnodes() == 1);
+                        }
+                    }
+                }
             }
         }
     }

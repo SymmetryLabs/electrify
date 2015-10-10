@@ -9,7 +9,7 @@ NodeSocket::NodeSocket(NodeHandle& nodeHandle_, const string& name_, const share
 
 void NodeSocket::wireInput(weak_ptr<BaseSignal> sourceSignal)
 {
-    sendCommand<BaseSocket, BaseSignal>([] (shared_ptr<BaseSocket> socket, shared_ptr<BaseSignal> signal) {
+    sendCommand<BaseSocket>([] (shared_ptr<BaseSocket> socket, shared_ptr<BaseSignal> signal) {
         socket->setSignal(signal.get());
     }, sourceSignal);
 }
@@ -21,12 +21,20 @@ void NodeSocket::unwireInput(weak_ptr<BaseSignal>)
     });
 }
 
-void NodeSocket::registerContextModifier(ContextModifierChain& contextModifier)
+void NodeSocket::registerContextModifier(weak_ptr<ContextModifierChain> contextModifier)
 {
-    // getSocket()->addContextModifier(contextModifier);
+    sendCommand<BaseSocket>([] (shared_ptr<BaseSocket> socket,
+        shared_ptr<ContextModifierChain> contextModifier)
+    {
+        socket->addContextModifier(*contextModifier);
+    }, contextModifier);
 }
 
-void NodeSocket::unregisterContextModifier(ContextModifierChain& contextModifier)
+void NodeSocket::unregisterContextModifier(weak_ptr<ContextModifierChain> contextModifier)
 {
-    // getSocket()->removeContextModifier(contextModifier);
+    sendCommand<BaseSocket>([] (shared_ptr<BaseSocket> socket,
+        shared_ptr<ContextModifierChain> contextModifier)
+    {
+        socket->removeContextModifier(*contextModifier);
+    }, contextModifier);
 }

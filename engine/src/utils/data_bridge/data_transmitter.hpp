@@ -83,6 +83,56 @@ void DataTransmitter::sendCommand(F&& func, std::weak_ptr<T1> t1, std::weak_ptr<
     });
 }
 
+template<typename C, typename F, typename T1>
+void DataTransmitter::sendCommand(F&& func, std::weak_ptr<T1> t1)
+{
+    WeakAnyPtr localWeakMaster = destination;
+    sendFunction([=] {
+        if (auto strongMaster = localWeakMaster.lock()) {
+            if (auto strongT1 = t1.lock()) {
+                func(strongMaster.template get<C>(), strongT1);
+            }
+        }
+    });
+}
+
+template<typename C, typename F, typename T1, typename T2>
+void DataTransmitter::sendCommand(F&& func, std::weak_ptr<T1> t1, std::weak_ptr<T2> t2)
+{
+    WeakAnyPtr localWeakMaster = destination;
+    sendFunction([=] {
+        if (auto strongMaster = localWeakMaster.lock()) {
+            if (auto strongT1 = t1.lock()) {
+                if (auto strongT2 = t2.lock()) {
+                    func(strongMaster.template get<C>(), strongT1, strongT2);
+                }
+            }
+        }
+    });
+}
+
+template<typename F, typename T1>
+void DataTransmitter::sendCommand(F&& func, std::weak_ptr<T1> t1)
+{
+    sendFunction([=] {
+        if (auto strongT1 = t1.lock()) {
+            func(strongT1);
+        }
+    });
+}
+
+template<typename F, typename T1, typename T2>
+void DataTransmitter::sendCommand(F&& func, std::weak_ptr<T1> t1, std::weak_ptr<T2> t2)
+{
+    sendFunction([=] {
+        if (auto strongT1 = t1.lock()) {
+            if (auto strongT2 = t2.lock()) {
+                func(strongT1, strongT2);
+            }
+        }
+    });
+}
+
 template<typename C, typename S1, typename F, typename T1>
 void DataTransmitter::sendCommand(F&& func, T1 t1)
 {

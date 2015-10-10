@@ -101,39 +101,40 @@ string serializedProject = R"({
                                                                 "destinationName": "color"
                                                             }
                                                         }
-                                                    },
-                                                    {
-                                                        "ptr_wrapper": {
-                                                            "id": 2147483655,
-                                                            "data": {
-                                                                "sourceHandle": {
-                                                                    "locked_ptr": {
-                                                                        "polymorphic_id": 2,
-                                                                        "ptr_wrapper": {
-                                                                            "id": 2
-                                                                        }
-                                                                    }
-                                                                },
-                                                                "sourceName": "color",
-                                                                "destinationHandle": {
-                                                                    "locked_ptr": {
-                                                                        "polymorphic_id": 2147483651,
-                                                                        "polymorphic_name": "Blueprint",
-                                                                        "ptr_wrapper": {
-                                                                            "id": 1
-                                                                        }
-                                                                    }
-                                                                },
-                                                                "destinationName": "color"
-                                                            }
-                                                        }
                                                     }
                                                 ]
                                             }
                                         }
                                     }
                                 ],
-                                "nodeWires": []
+                                "nodeWires": [
+                                    {
+                                        "ptr_wrapper": {
+                                            "id": 2147483655,
+                                            "data": {
+                                                "sourceHandle": {
+                                                    "locked_ptr": {
+                                                        "polymorphic_id": 2,
+                                                        "ptr_wrapper": {
+                                                            "id": 2
+                                                        }
+                                                    }
+                                                },
+                                                "sourceName": "color",
+                                                "destinationHandle": {
+                                                    "locked_ptr": {
+                                                        "polymorphic_id": 2147483651,
+                                                        "polymorphic_name": "Blueprint",
+                                                        "ptr_wrapper": {
+                                                            "id": 1
+                                                        }
+                                                    }
+                                                },
+                                                "destinationName": "color"
+                                            }
+                                        }
+                                    }
+                                ]
                             }
                         }
                     }

@@ -102,7 +102,7 @@ private:
 };
 
 #define NODE_HANDLE_IMPL()              \
-        ENABLE_TYPE_ERASURE();
+    ENABLE_TYPE_ERASURE();
 
 struct FunctionContainer {
     template<typename ReturnType>

@@ -22,8 +22,8 @@ public:
     bool isAssignedTo(const NodeHandle& nodeHandle) const;
 
 private:
-    weak_ptr<NodeSignal> source;
-    weak_ptr<NodeSocket> destination;
+    NodeSignal* source = nullptr;
+    NodeSocket* destination = nullptr;
 
     weak_ptr<NodeHandle> sourceHandle;
     string sourceName;

@@ -5,8 +5,8 @@
 #include "node_handle.h"
 
 NodeWire::NodeWire(NodeSignal& source_, NodeSocket& destination_)
-: source(shared_from_this<NodeSignal>(source_))
-, destination(shared_from_this<NodeSocket>(destination_))
+: source(&source_)
+, destination(&destination_)
 , sourceHandle(shared_from_this<NodeHandle>(source_.getNodeHandle()))
 , destinationHandle(shared_from_this<NodeHandle>(destination_.getNodeHandle()))
 , sourceName(source_.getName())
@@ -49,12 +49,12 @@ void NodeWire::disconnect()
 
 NodeSignal* NodeWire::getSource() const
 {
-    return source.lock().get();
+    return source;
 }
 
 NodeSocket* NodeWire::getDestination() const
 {
-    return destination.lock().get();
+    return destination;
 }
 
 bool NodeWire::isAssignedTo(const NodeHandle& nodeHandle) const
@@ -68,13 +68,9 @@ bool NodeWire::isAssignedTo(const NodeHandle& nodeHandle) const
 void NodeWire::populateSignals()
 {
     if (auto strongSourceHandle = sourceHandle.lock()) {
-        if (auto sourcePtr = strongSourceHandle->getOutput(sourceName)) {
-            source = shared_from_this<NodeSignal>(*sourcePtr);
-        }
+        source = strongSourceHandle->getOutput(sourceName);
     }
     if (auto strongDestinationHandle = destinationHandle.lock()) {
-        if (auto destinationPtr = strongDestinationHandle->getOutput(destinationName)) {
-            destination = shared_from_this<NodeSocket>(*destinationPtr);
-        }
+        destination = strongDestinationHandle->getInput(destinationName);
     }
 }

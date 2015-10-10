@@ -1,17 +1,26 @@
 template<typename Input>
-void ContextModifierNode<Input>::configure(ContextModifierNode<Input>& node, NodeHandle& handle)
+ContextModifierNode<Input>::ContextModifierNode()
+: contextModifierNode(make_shared<ContextModifierChain>(std::bind(
+    mem_fn(&ContextModifierNode<Input>::modifyContext), this, placeholders::_1)))
 {
-    Node::configure(node, handle);
-    node.nodeSocket = make_shared<ContextModifierNodeSocket>(node, handle, "ContextModifierNode");
-    handle.registerInput("ContextModifierNode", node.nodeSocket);
-    handle.registerOutput("ContextModifierNode", node.nodeSocket);
 }
 
 template<typename Input>
-ContextModifierNode<Input>::ContextModifierNodeSocket::ContextModifierNodeSocket(ContextModifierNode& node, NodeHandle& handle, const string& name)
+void ContextModifierNode<Input>::configure(ContextModifierNode<Input>& node, NodeHandle& handle)
+{
+    Node::configure(node, handle);
+    auto nodeSocket = make_shared<ContextModifierNodeSocket>(node, handle,
+        "ContextModifierNode", node.contextModifierNode);
+    handle.registerInput("ContextModifierNode", nodeSocket);
+    handle.registerOutput("ContextModifierNode", nodeSocket);
+}
+
+template<typename Input>
+ContextModifierNode<Input>::ContextModifierNodeSocket::ContextModifierNodeSocket(
+    ContextModifierNode& node, NodeHandle& handle, const string& name,
+    weak_ptr<ContextModifierChain> contextModifierNode_)
 : NodeSocket(handle, name, nullptr)
-, contextModifierNode(std::bind(
-    mem_fn(&ContextModifierNode<Input>::modifyContext), &node, placeholders::_1))
+, contextModifierNode(contextModifierNode_)
 {
 }
 
@@ -62,7 +71,12 @@ void ContextModifierNode<Input>::ContextModifierNodeSocket::unwireIfNeeded()
 }
 
 template<typename Input>
-void ContextModifierNode<Input>::ContextModifierNodeSocket::registerContextModifier(ContextModifierChain& contextModifier)
+void ContextModifierNode<Input>::ContextModifierNodeSocket::registerContextModifier(
+    weak_ptr<ContextModifierChain> contextModifier)
 {
-    this->contextModifierNode.nextModifierNode = &contextModifier;
+    sendCommand([] (shared_ptr<ContextModifierChain> thisContextModifier,
+        shared_ptr<ContextModifierChain> nextContextModifier)
+    {
+        thisContextModifier->nextModifierNode = nextContextModifier.get();
+    }, this->contextModifierNode, contextModifier);
 }
