@@ -77,6 +77,7 @@ file(GLOB HEADER_DIRS
   "src/utils/data_bridge"
   "src/utils/double_buffer"
   "src/utils/event_queue"
+  "src/utils/fileio"
   "src/utils/misc_utils"
   "src/utils/reactive"
   "src/utils/reactive/serializers"
