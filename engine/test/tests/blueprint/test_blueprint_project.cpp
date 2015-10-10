@@ -17,6 +17,8 @@
 #include "node_registrar.h"
 #include "blueprint_project.h"
 #include "project_serializer.h"
+#include "project_file.h"
+#include "file_utils.h"
 
 #include "test_blueprint_project_data.h"
 
@@ -56,6 +58,22 @@ SCENARIO("using blueprint project") {
                     REQUIRE(deserializedBlueprint.getName() == "Blueprint");
                 }
             }
+        }
+        WHEN("I write to file") {
+            ProjectFile pf("test.symproj");
+            pf.saveToFile(project);
+            THEN("The file exists") {
+                REQUIRE(file_exists("test.symproj"));
+            }
+            THEN("The file is correct") {
+            }
+        }
+    }
+    WHEN("I load from file") {
+        ProjectFile pf("default.symproj");
+        auto project = pf.loadFromFile();
+        THEN("The project loads") {
+            REQUIRE(project);
         }
     }
 }

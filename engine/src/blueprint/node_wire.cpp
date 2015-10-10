@@ -3,6 +3,7 @@
 #include "node_socket.h"
 #include "node_signal.h"
 #include "node_handle.h"
+#include "compound_node.h"
 
 NodeWire::NodeWire(NodeSignal& source_, NodeSocket& destination_)
 : source(&source_)
@@ -67,10 +68,15 @@ bool NodeWire::isAssignedTo(const NodeHandle& nodeHandle) const
 
 void NodeWire::populateSignals()
 {
-    if (auto strongSourceHandle = sourceHandle.lock()) {
-        source = strongSourceHandle->getOutput(sourceName);
+    if (auto strongHandle = sourceHandle.lock()) {
+        source = strongHandle->getOutput(sourceName);
     }
-    if (auto strongDestinationHandle = destinationHandle.lock()) {
-        destination = strongDestinationHandle->getInput(destinationName);
+    if (auto strongHandle = destinationHandle.lock()) {
+        destination = strongHandle->getInput(destinationName);
+        if (!destination) {
+            if (auto compoundHandle = dynamic_pointer_cast<CompoundNodeHandle>(strongHandle)) {
+                destination = compoundHandle->getWirableOutput(destinationName);
+            }
+        }
     }
 }

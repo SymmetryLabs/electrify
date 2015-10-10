@@ -36,6 +36,8 @@
 #include <scale_transform.h>
 #include <blueprint_project.h>
 #include <data_relay.h>
+#include <project_file.h>
+#include <file_utils.h>
 
 #include "EngineUi.h"
 
@@ -58,42 +60,56 @@ public:
         engine = make_unique<Engine>();
         dataRelay = &engine->getDataRelay();
         
-        auto blueprint = makeBlueprint();
-        
-        auto compound = blueprint->makeSubnode<CompoundNode>("CompoundNode");
-        compound->registerWirableOutput<Color>("color");
-        
-        auto constantColor = compound->makeSubnode<ConstantColorNode>("ConstantColorNode");
-        auto incrementer = compound->makeSubnode<Incrementer>("Incrementer");
-        
-        compound->wireSubnodes(*constantColor->getOutput("output"), *incrementer->getInput("color"));
-        compound->wireSubnodes(*incrementer->getOutput("output"), *compound->getWirableOutput("color"));
-        
-        auto hsvNode = blueprint->makeSubnode<HsvNode>("HsvNode");
-        auto sawWaveNode = blueprint->makeSubnode<SawWave>("SawWave");
-        auto timeNode = blueprint->makeSubnode<TimeNode>("TimeNode");
-        auto scaleTransform = blueprint->makeSubnode<ScaleTransform>("ScaleTransform");
-        auto multiplyAmountNode = blueprint->makeSubnode<ConstantFloatNode>("ConstantFloatNode");
-        auto perlinNoiseNode = blueprint->makeSubnode<PerlinNoiseNode>("PerlinNoiseNode");
-        auto frequency = blueprint->makeSubnode<ConstantFloatNode>("ConstantFloatNode");
-        
-        blueprint->wireSubnodes(*frequency->getOutput("output"), *sawWaveNode->getInput("frequency"));
-        blueprint->wireSubnodes(*multiplyAmountNode->getOutput("output"), *scaleTransform->getInput("multiplier"));
-        blueprint->wireSubnodes(*timeNode->getOutput("output"), *scaleTransform->getInput("input"));
-        blueprint->wireSubnodes(*scaleTransform->getOutput("output"), *perlinNoiseNode->getInput("zInput"));
-        blueprint->wireSubnodes(*perlinNoiseNode->getOutput("output"), *hsvNode->getInput("hue"));
-        
-        blueprint->wireSubnodes(*hsvNode->getOutput("output"), *blueprint->getWirableOutput("color"));
-        
         /* file loading */
         Loader loader = Loader();
         auto model = loader.loadJSON("../../../../../data/cubesExport2.json");
         auto& modelRef = *model;
         cout << "file loaded" << endl;
         
-        auto project = make_unique<BlueprintProject>(blueprint, move(model));
-        auto& projectRef = *project;
-        engine->loadProject(move(project));
+        unique_ptr<Project> project;
+        
+        if (file_exists("default.symproj")) {
+            ProjectFile pf("default.symproj");
+            project = pf.loadFromFile();
+            project->setModel(move(model));
+        } else {
+            auto blueprint = makeBlueprint();
+            
+            auto compound = blueprint->makeSubnode<CompoundNode>("CompoundNode");
+            compound->registerWirableOutput<Color>("color");
+            
+            auto constantColor = compound->makeSubnode<ConstantColorNode>("ConstantColorNode");
+            auto incrementer = compound->makeSubnode<Incrementer>("Incrementer");
+            
+            compound->wireSubnodes(*constantColor->getOutput("output"), *incrementer->getInput("color"));
+            compound->wireSubnodes(*incrementer->getOutput("output"), *compound->getWirableOutput("color"));
+            
+            auto hsvNode = blueprint->makeSubnode<HsvNode>("HsvNode");
+            auto sawWaveNode = blueprint->makeSubnode<SawWave>("SawWave");
+            auto timeNode = blueprint->makeSubnode<TimeNode>("TimeNode");
+            auto scaleTransform = blueprint->makeSubnode<ScaleTransform>("ScaleTransform");
+            auto multiplyAmountNode = blueprint->makeSubnode<ConstantFloatNode>("ConstantFloatNode");
+            auto perlinNoiseNode = blueprint->makeSubnode<PerlinNoiseNode>("PerlinNoiseNode");
+            auto frequency = blueprint->makeSubnode<ConstantFloatNode>("ConstantFloatNode");
+            
+            blueprint->wireSubnodes(*frequency->getOutput("output"), *sawWaveNode->getInput("frequency"));
+            blueprint->wireSubnodes(*multiplyAmountNode->getOutput("output"), *scaleTransform->getInput("multiplier"));
+            blueprint->wireSubnodes(*timeNode->getOutput("output"), *scaleTransform->getInput("input"));
+            blueprint->wireSubnodes(*scaleTransform->getOutput("output"), *perlinNoiseNode->getInput("zInput"));
+            blueprint->wireSubnodes(*perlinNoiseNode->getOutput("output"), *hsvNode->getInput("hue"));
+            
+            blueprint->wireSubnodes(*hsvNode->getOutput("output"), *blueprint->getWirableOutput("color"));
+            
+            project = make_unique<BlueprintProject>(blueprint, move(model));
+            
+            ProjectFile pf("default.symproj");
+            pf.saveToFile(project);
+        }
+        
+        unique_ptr<BlueprintProject> blueprintProject = unique_ptr<BlueprintProject>(dynamic_cast<BlueprintProject*>(project.release()));
+        auto& projectRef = *blueprintProject;
+        
+        engine->loadProject(move(blueprintProject));
         
         output = make_unique<Output>(modelRef.pixels.size());
         engine->registerOutput(*output);

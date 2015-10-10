@@ -5,7 +5,7 @@ valgrind:
 .PHONY : valgrind
 
 lldb:
-	@true @$(eval DEBUGGER = lldb -o "break set -E c++" -o "r")
+	@true @$(eval DEBUGGER = lldb -o "breakpoint set -n cereal::RapidJSONException" -o "r")
 	@true @$(eval PARAMS = --nothrow)
 .PHONY : lldb
 

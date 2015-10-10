@@ -15,3 +15,8 @@ Model& Project::getModel() const
 {
     return *model;
 }
+
+void Project::setModel(unique_ptr<Model>&& model_)
+{
+    model = move(model_);
+}

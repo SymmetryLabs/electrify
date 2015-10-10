@@ -13,6 +13,7 @@ public:
     virtual ~Project();
 
     Model& getModel() const;
+    void setModel(unique_ptr<Model>&& model);
 
     virtual unique_ptr<Renderable> releaseRenderable(DataBridge& dataBridge) = 0;
 
