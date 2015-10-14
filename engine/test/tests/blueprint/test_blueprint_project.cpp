@@ -60,17 +60,17 @@ SCENARIO("using blueprint project") {
             }
         }
         WHEN("I write to file") {
-            ProjectFile pf("test.symproj");
+            ProjectFile pf("test_write.symproj");
             pf.saveToFile(project);
             THEN("The file exists") {
-                REQUIRE(file_exists("test.symproj"));
+                REQUIRE(file_exists("test_write.symproj"));
             }
             THEN("The file is correct") {
             }
         }
     }
     WHEN("I load from file") {
-        ProjectFile pf("default.symproj");
+        ProjectFile pf("engine/test/tests/blueprint/test_read.symproj");
         auto project = pf.loadFromFile();
         THEN("The project loads") {
             REQUIRE(project);

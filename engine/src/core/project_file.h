@@ -11,7 +11,12 @@ public:
     unique_ptr<Project> loadFromFile() const;
     bool saveToFile(const unique_ptr<Project>& project) const;
 
+    template <typename T>
+    unique_ptr<T> loadFromFile() const;
+
 private:
     string filename;
 
 };
+
+#include "project_file.hpp"
