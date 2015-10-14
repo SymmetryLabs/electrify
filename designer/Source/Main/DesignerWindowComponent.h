@@ -42,7 +42,7 @@ class DesignerWindowComponent  : public Component
 {
 public:
     //==============================================================================
-    DesignerWindowComponent (Project& project, EngineUi& engineUi, Output& output);
+    DesignerWindowComponent (UiSession& session);
     ~DesignerWindowComponent();
 
     //==============================================================================

@@ -3,28 +3,31 @@
 
 #include "session.h"
 #include "data_bridge.h"
+#include "data_transmitter.h"
 
 constexpr static int FPS = 60;
 constexpr static nanoseconds TIME_PER_FRAME {duration_cast<nanoseconds>(seconds{1}) / FPS};
 
 class Output;
-class project;
+class Project;
 class DataRelay;
 class RasterizationThread;
 
 /**
  * The engine loads networks of Nodes and also keeps time
  */
-class Engine {
+class Engine : public DataTransmitter {
 
 public:
     Engine();
     ~Engine();
 
+    Session& getSession();
+
     void loadProject(unique_ptr<Project>&& project);
 
-    void registerOutput(Output& output);
-    void unregisterOutput(Output& output);
+    void registerOutput(const shared_ptr<Output>& output);
+    void unregisterOutput(const shared_ptr<Output>& output);
 
     void start();
     void startAndWait();
@@ -42,6 +45,10 @@ private:
 
     Session session;
     DataBridge dataBridge;
-    unique_ptr<RasterizationThread> rasterizationThread;
+    shared_ptr<RasterizationThread> rasterizationThread;
+
+    void notifyProjectChanged(Project& project);
+
+    friend class Session;
 
 };

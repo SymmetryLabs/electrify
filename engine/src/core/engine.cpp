@@ -9,63 +9,98 @@
 #include "renderable.h"
 
 Engine::Engine()
-: rasterizationThread(make_unique<RasterizationThread>(dataBridge.getSlaveRelay()))
+: session{*this}
+, rasterizationThread(make_shared<RasterizationThread>(dataBridge.getSlaveRelay()))
 {
+    setDestination(rasterizationThread);
 }
 
 Engine::~Engine() = default;
 
-void Engine::loadProject(unique_ptr<Project>&& project_)
+Session& Engine::getSession()
 {
-    session.project = move(project_);
-    Project& project = *session.project;
-    rasterizationThread->load(project.releaseRenderable(dataBridge), project.getModel());
+    return session;
 }
 
-void Engine::registerOutput(Output& output)
+void Engine::loadProject(unique_ptr<Project>&& project)
 {
-    rasterizationThread->registerOutput(output);
+    session.setProject(forward<unique_ptr<Project>>(project));
 }
 
-void Engine::unregisterOutput(Output& output)
+void Engine::registerOutput(const shared_ptr<Output>& output)
 {
-    rasterizationThread->unregisterOutput(output);
+
+    sendCommand<RasterizationThread>([] (const shared_ptr<RasterizationThread>& rt, const shared_ptr<Output>& o) {
+        rt->registerOutput(*o);
+    }, weak_ptr<Output>(output));
+}
+
+void Engine::unregisterOutput(const shared_ptr<Output>& output)
+{
+    sendCommand<RasterizationThread>([] (const shared_ptr<RasterizationThread>& rt, const shared_ptr<Output>& o) {
+        rt->unregisterOutput(*o);
+    }, weak_ptr<Output>(output));
 }
 
 void Engine::start()
 {
-    rasterizationThread->start();
+    sendCommand<RasterizationThread>([] (const shared_ptr<RasterizationThread>& rt) {
+        rt->start();
+    });
 }
 
 void Engine::startAndWait()
 {
-    rasterizationThread->shouldStopAfter1Second = true;
-    rasterizationThread->start();
-    rasterizationThread->wait();
+    sendCommand<RasterizationThread>([] (const shared_ptr<RasterizationThread>& rt) {
+        rt->shouldStopAfter1Second = true;
+        rt->start();
+        rt->wait();
+    });
 }
 
 void Engine::stop()
 {
-    rasterizationThread->stop();
+    sendCommand<RasterizationThread>([] (const shared_ptr<RasterizationThread>& rt) {
+        rt->stop();
+    });
 }
 
 void Engine::stopAndWait()
 {
-    rasterizationThread->stop();
-    rasterizationThread->wait();
+    sendCommand<RasterizationThread>([] (const shared_ptr<RasterizationThread>& rt) {
+        rt->stop();
+        rt->wait();
+    });
 }
 
 void Engine::wait()
 {
-    rasterizationThread->wait();
+    sendCommand<RasterizationThread>([] (const shared_ptr<RasterizationThread>& rt) {
+        rt->wait();
+    });
 }
 
 void Engine::setProfilingEnabled(bool enabled)
 {
-    rasterizationThread->setProfilingEnabled(enabled);
+    sendCommand<RasterizationThread>([=] (const shared_ptr<RasterizationThread>& rt) {
+        rt->setProfilingEnabled(enabled);
+    });
 }
 
 DataRelay& Engine::getDataRelay()
 {
     return dataBridge.getMasterRelay();
+}
+
+void Engine::notifyProjectChanged(Project& project)
+{
+    auto renderable = project.releaseRenderable(dataBridge);
+    // auto cmd = [&] (const shared_ptr<RasterizationThread>& rt,
+    //     unique_ptr<Renderable>& renderable)
+    // {
+    //     rt->load(move(renderable), project.getModel());
+    // };
+    // auto boundCmd = bind(cmd, placeholders::_1, project.releaseRenderable(dataBridge));
+    // sendCommand<RasterizationThread>(boundCmd);
+    rasterizationThread->load(move(renderable), project.getModel());
 }

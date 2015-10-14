@@ -17,19 +17,18 @@
 #include <output.h>
 #include <engine.h>
 
-#include "EngineUi.h"
+#include "UiSession.h"
 
 //==============================================================================
 /*
 */
-class OutputSimulationView    : public Component,
-                             public OpenGLRenderer
+class OutputSimulationView : public Component, public OpenGLRenderer
 {
 public:
-    OutputSimulationView(Project& project, EngineUi& engineUi, Output& output);
+    explicit OutputSimulationView(UiSession& session);
     ~OutputSimulationView();
     
-    EngineUi& engineUi;
+    UiSession& session;
     Model& model;
     Output& output;
 

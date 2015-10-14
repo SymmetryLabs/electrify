@@ -27,18 +27,18 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-DesignerWindowComponent::DesignerWindowComponent (Project& project, EngineUi& engineUi, Output& output)
+DesignerWindowComponent::DesignerWindowComponent (UiSession& session)
 {
     //[Constructor_pre] You can add your own custom stuff here..
     //[/Constructor_pre]
 
-    addAndMakeVisible (component = new OutputSimulationView (project, engineUi, output));
+    addAndMakeVisible (component = new OutputSimulationView (session));
     component->setName ("new component");
 
     addAndMakeVisible (component2 = new NodeListView());
     component2->setName ("new component");
 
-    addAndMakeVisible (component3 = new NodeGridView (*engineUi.nodeGrid));
+    addAndMakeVisible (component3 = new NodeGridView (session.getNodeGrid()));
     component3->setName ("new component");
 
     addAndMakeVisible (component4 = new PropertiesPanel());
@@ -111,20 +111,20 @@ void DesignerWindowComponent::resized()
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="DesignerWindowComponent"
-                 componentName="" parentClasses="public Component" constructorParams="Project&amp; project, EngineUi&amp; engineUi, Output&amp; output"
+                 componentName="" parentClasses="public Component" constructorParams="UiSession&amp; session"
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="1400" initialHeight="600">
   <BACKGROUND backgroundColour="ffffffff"/>
   <GENERICCOMPONENT name="new component" id="46591e2475c6760e" memberName="component"
                     virtualName="OutputSimulationView" explicitFocusOrder="0" pos="0 0 200 200"
-                    class="Component" params="project, engineUi, output"/>
+                    class="Component" params="session"/>
   <GENERICCOMPONENT name="new component" id="6a329d8e126ce007" memberName="component2"
                     virtualName="NodeListView" explicitFocusOrder="0" pos="0 0R 100% 200M"
                     posRelativeY="46591e2475c6760e" posRelativeW="46591e2475c6760e"
                     class="Component" params=""/>
   <GENERICCOMPONENT name="new component" id="84be50bd51afc9b6" memberName="component3"
                     virtualName="NodeGridView" explicitFocusOrder="0" pos="0R 0 400M 100%"
-                    posRelativeX="46591e2475c6760e" class="Component" params="*engineUi.nodeGrid"/>
+                    posRelativeX="46591e2475c6760e" class="Component" params="session.getNodeGrid()"/>
   <GENERICCOMPONENT name="new component" id="36c4f7644b9e5f0f" memberName="component4"
                     virtualName="PropertiesPanel" explicitFocusOrder="0" pos="0R 0 200 100%"
                     posRelativeX="84be50bd51afc9b6" class="Component" params=""/>

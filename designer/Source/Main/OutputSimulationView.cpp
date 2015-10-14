@@ -11,11 +11,13 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "OutputSimulationView.h"
 
+#include "pixel.h"
+
 //==============================================================================
-OutputSimulationView::OutputSimulationView(Project& project, EngineUi& engineUi, Output& output)
-: engineUi(engineUi)
-, model(project.getModel())
-, output(output)
+OutputSimulationView::OutputSimulationView(UiSession& session)
+: session(session)
+, model(session.getModel())
+, output(session.getOutput())
 {
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.

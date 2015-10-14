@@ -6,6 +6,16 @@
   <MAINGROUP id="wQ89CT" name="Designer">
     <GROUP id="{FD40B928-CCA8-FE86-E11B-047A03A31108}" name="Source">
       <GROUP id="{7E99A221-AD47-D736-6AA4-51500C5933A5}" name="Main">
+        <FILE id="AweCfL" name="Commands.cpp" compile="1" resource="0" file="Source/Main/Commands.cpp"/>
+        <FILE id="mVFyJy" name="Commands.h" compile="0" resource="0" file="Source/Main/Commands.h"/>
+        <FILE id="JnOfei" name="MenuBar.cpp" compile="1" resource="0" file="Source/Main/MenuBar.cpp"/>
+        <FILE id="tjZidV" name="MenuBar.h" compile="0" resource="0" file="Source/Main/MenuBar.h"/>
+        <FILE id="M6xZr9" name="ProjectDocument.cpp" compile="1" resource="0"
+              file="Source/Main/ProjectDocument.cpp"/>
+        <FILE id="PuPybC" name="ProjectDocument.h" compile="0" resource="0"
+              file="Source/Main/ProjectDocument.h"/>
+        <FILE id="DZ6p0H" name="DesignerWindow.h" compile="0" resource="0"
+              file="Source/Main/DesignerWindow.h"/>
         <FILE id="j0Xzqb" name="DesignerWindowComponent.cpp" compile="1" resource="0"
               file="Source/Main/DesignerWindowComponent.cpp"/>
         <FILE id="SPJIZO" name="DesignerWindowComponent.h" compile="0" resource="0"
@@ -81,8 +91,8 @@
       <GROUP id="{6363C1F2-3176-B5E2-5D42-3CDC5B26D681}" name="Common">
         <FILE id="tkTRkV" name="BlueprintUiGlobals.h" compile="0" resource="0"
               file="Source/Common/BlueprintUiGlobals.h"/>
-        <FILE id="yNMByT" name="EngineUi.cpp" compile="1" resource="0" file="Source/Common/EngineUi.cpp"/>
-        <FILE id="wrkeBE" name="EngineUi.h" compile="0" resource="0" file="Source/Common/EngineUi.h"/>
+        <FILE id="yNMByT" name="UiSession.cpp" compile="1" resource="0" file="Source/Common/UiSession.cpp"/>
+        <FILE id="wrkeBE" name="UiSession.h" compile="0" resource="0" file="Source/Common/UiSession.h"/>
       </GROUP>
       <GROUP id="{76572F2C-CA33-4A7C-DF8F-8299F568D2B9}" name="Utils">
         <FILE id="B8ykus" name="ComponentUtils.h" compile="0" resource="0"
