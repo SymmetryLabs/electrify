@@ -97,7 +97,7 @@ void CompoundNodeHandle::setBridge(DataBridge& bridge)
 
 void CompoundNodeHandle::setSubnodeSlave(ObservableVector<shared_ptr<Node>>& slave)
 {
-    bind(subnodes, slave);
+    bindObjects(subnodes, slave);
 }
 
 // void CompoundNodeProxy::addSubnode(const string& name, function<void(size_t)> response)

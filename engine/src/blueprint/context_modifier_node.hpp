@@ -1,6 +1,6 @@
 template<typename Input>
 ContextModifierNode<Input>::ContextModifierNode()
-: contextModifierNode(make_shared<ContextModifierChain>(std::bind(
+: contextModifierNode(make_shared<ContextModifierChain>(bind(
     mem_fn(&ContextModifierNode<Input>::modifyContext), this, placeholders::_1)))
 {
 }

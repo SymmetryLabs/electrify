@@ -11,7 +11,7 @@ void DataTransmitter::setDestination(const std::shared_ptr<T>& destination_)
 }
 
 template<typename T>
-void DataTransmitter::bind(Observable<T>& masterSignal, TokenSource<T>& slaveSignal)
+void DataTransmitter::bindObjects(Observable<T>& masterSignal, TokenSource<T>& slaveSignal)
 {
     observe(masterSignal, [&, this] (T object) {
         sendFunction([=, &slaveSignal] {
@@ -21,7 +21,7 @@ void DataTransmitter::bind(Observable<T>& masterSignal, TokenSource<T>& slaveSig
 }
 
 template<typename MasterType, typename SlaveType>
-void DataTransmitter::bind(ObservableVector<MasterType>& masterVector, ObservableVector<SlaveType>& slaveVector)
+void DataTransmitter::bindObjects(ObservableVector<MasterType>& masterVector, ObservableVector<SlaveType>& slaveVector)
 {
     masterVector.makeProxySlave(slaveVector, masterDataProxy);
 }

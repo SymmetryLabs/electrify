@@ -25,9 +25,9 @@ public:
     
 protected:
     template<typename T>
-    void bind(Observable<T>& masterSignal, TokenSource<T>& slaveSignal);
+    void bindObjects(Observable<T>& masterSignal, TokenSource<T>& slaveSignal);
     template<typename MasterType, typename SlaveType>
-    void bind(ObservableVector<MasterType>& masterVector, ObservableVector<SlaveType>& slaveVector);
+    void bindObjects(ObservableVector<MasterType>& masterVector, ObservableVector<SlaveType>& slaveVector);
 
     template<typename C, typename F>
     void sendCommand(F&& func);

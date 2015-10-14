@@ -36,7 +36,7 @@ public:
 
     template<typename C>
     FunctionSignal(V(C::* calculate_function_)(const FrameContext& frame) const, const C& inst)
-        : calculate_function(std::bind(mem_fn(calculate_function_), &inst, placeholders::_1))
+        : calculate_function(bind(mem_fn(calculate_function_), &inst, placeholders::_1))
     {}
     virtual ~FunctionSignal() = default;
 
