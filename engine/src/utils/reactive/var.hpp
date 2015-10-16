@@ -26,3 +26,9 @@ T Var<T>::getValue() const
 {
     return this->member.get_value();
 }
+
+template<typename T>
+Var<T>::operator T() const
+{
+    return getValue();
+}

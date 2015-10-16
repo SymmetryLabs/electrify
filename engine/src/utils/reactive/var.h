@@ -10,10 +10,12 @@ class Var : protected boost::base_from_member<rxcpp::subjects::behavior<T>>, pub
 
 public:
     Var();
-    explicit Var(const T& f);
-    explicit Var(T&& f);
+    Var(const T& f);
+    Var(T&& f);
 
     T getValue() const;
+
+    operator T() const;
 
 };
 

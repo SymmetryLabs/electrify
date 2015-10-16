@@ -18,8 +18,35 @@ SCENARIO("using Var<int>") {
         }
     }
 
+    GIVEN("I have a variable of the inner type") {
+        int i = 5;
+        WHEN("I copy construct a Var from it") {
+            Var<int> v = i;
+            THEN("It converts implicitly") {
+                REQUIRE(v.getValue() == 5);
+            }
+        }
+    }
+
     GIVEN("a default Var") {
         Var<int> v;
+
+        WHEN("I set assign it to a variable of the inner type") {
+            int i = v;
+            THEN("It converts implicitly") {
+                REQUIRE(i == 0);
+            }
+        }
+
+        GIVEN("I have a variable of the inner type") {
+            int i = 4;
+            WHEN("I copy assign it to the Var") {
+                v = i;
+                THEN("It converts implicitly") {
+                    REQUIRE(v.getValue() == 4);
+                }
+            }
+        }
 
         WHEN("I emit a value") {
             v.emit(9);
@@ -49,6 +76,21 @@ SCENARIO("using Var<int>") {
                 }
             }
         }
+    }
+
+    GIVEN("") {
+        int i = 0;
+        Var<int> master;
+        Var<int> slave;
+        {
+            master.observe([&] (int j) {
+                slave.emit(j);
+                i++;
+            });
+        }
+        master.emit(2);
+        REQUIRE(master.getValue() == 2);
+        REQUIRE(i == 1);
     }
 
     GIVEN("a Var with a starting value") {
