@@ -52,7 +52,7 @@ void ObservableMap<KeyT, ValueT>
         slave.insert(obj);
     }
 
-    slave.observe(valueAdded,
+    slave.scopedObserve(valueAdded,
         [&dataProxy, &slave] (const std::pair<const KeyT, ValueT>& object) {
             dataProxy.sendEvent([=, &slave] {
                 slave.insert(object);
@@ -60,7 +60,7 @@ void ObservableMap<KeyT, ValueT>
         }
     );
 
-    slave.observe(valueRemoved, [&dataProxy, &slave] (const KeyT& key) {
+    slave.scopedObserve(valueRemoved, [&dataProxy, &slave] (const KeyT& key) {
         dataProxy.sendEvent([=, &slave] {
             slave.erase(key);
         });

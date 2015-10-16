@@ -27,11 +27,11 @@ NodeGridWireView::NodeGridWireView(NodeGridWire& nodeGridWire, Component* emitti
         receivingParentComponent->addComponentListener(this);
     }
     
-    observe(nodeGridWire.emittingPos.merge(nodeGridWire.receivingPos), [this] (Point<int>) {
+    scopedObserve(nodeGridWire.emittingPos.merge(nodeGridWire.receivingPos), [this] (Point<int>) {
         calculateBounds();
     });
     
-    observe(nodeGridWire.selected, [this] (bool) {
+    scopedObserve(nodeGridWire.selected, [this] (bool) {
         repaint();
     });
 }

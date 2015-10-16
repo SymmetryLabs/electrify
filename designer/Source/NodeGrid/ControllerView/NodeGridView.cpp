@@ -43,7 +43,7 @@ NodeGridView::NodeGridView(NodeGrid& nodeGrid_)
     resetZOrdering();
     addKeyListener(&nodeGrid.selectionController);
     
-    observe(nodeGrid.draggingWire, [this] (const shared_ptr<NodeGridWire>& draggingWire) {
+    scopedObserve(nodeGrid.draggingWire, [this] (const shared_ptr<NodeGridWire>& draggingWire) {
         if (draggingWire) {
             draggingWireView = makeGridWireViewFromGridWire(*draggingWire.get());
         } else if (draggingWireView) {

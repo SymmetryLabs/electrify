@@ -14,7 +14,7 @@ public:
     void addObserver(Observer&& observer);
 
     template<typename FIn, typename T>
-    void observe(const Observable<T>& subject, FIn&& func);
+    void scopedObserve(const Observable<T>& subject, FIn&& func);
 
 private:
     std::vector<ScopedObserver> observers;

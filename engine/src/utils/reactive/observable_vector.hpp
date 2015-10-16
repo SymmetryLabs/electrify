@@ -71,7 +71,7 @@ void ObservableVector<T>
         slave.push_back(obj);
     }
 
-    slave.observe(valueAdded,
+    slave.scopedObserve(valueAdded,
         [&] (const std::pair<size_t, std::reference_wrapper<const T>>& p) {
         const size_t& pos = p.first;
         const T& obj = p.second.get();
@@ -80,7 +80,7 @@ void ObservableVector<T>
         });
     });
 
-    slave.observe(valueRemoved, [&] (size_t pos) {
+    slave.scopedObserve(valueRemoved, [&] (size_t pos) {
         dataProxy.sendEvent([=, &slave] {
             slave.erase(slave.begin() + pos);
         });
@@ -96,7 +96,7 @@ void ObservableVector<T>
         slave.push_back(obj->template getSlave<SlaveType>());
     }
 
-    slave.observe(valueAdded,
+    slave.scopedObserve(valueAdded,
         [&] (const std::pair<size_t, std::reference_wrapper<const T>>& p) {
         const size_t& pos = p.first;
         std::shared_ptr<SlaveType> obj =
@@ -106,7 +106,7 @@ void ObservableVector<T>
         });
     });
 
-    slave.observe(valueRemoved, [&] (size_t pos) {
+    slave.scopedObserve(valueRemoved, [&] (size_t pos) {
         dataProxy.sendEvent([=, &slave] {
             slave.erase(slave.begin() + pos);
         });
@@ -123,14 +123,14 @@ auto ObservableVector<T>
         slave.push_back(std::make_shared<SlaveType>(*obj.get(), std::forward<ArgN>(args)...));
     }
 
-    slave.observe(valueAdded,
+    slave.scopedObserve(valueAdded,
         [&slave, &args...] (const std::pair<size_t, std::reference_wrapper<const T>>& object) {
         slave.insert(slave.begin() + object.first,
             std::make_shared<SlaveType>(*object.second.get().get(),
                 std::forward<ArgN>(args)...));
     });
 
-    slave.observe(valueRemoved, [&] (size_t pos) {
+    slave.scopedObserve(valueRemoved, [&] (size_t pos) {
         slave.erase(slave.begin() + pos);
     });
 }
@@ -146,12 +146,12 @@ auto ObservableVector<T>
         slave.push_back(createFunc(obj));
     }
 
-    slave.observe(valueAdded,
+    slave.scopedObserve(valueAdded,
         [&, createFunc] (const std::pair<size_t, std::reference_wrapper<const T>>& p) {
         slave.insert(slave.begin() + p.first, createFunc(p.second.get()));
     });
 
-    slave.observe(valueRemoved, [&, destructFunc] (size_t pos) {
+    slave.scopedObserve(valueRemoved, [&, destructFunc] (size_t pos) {
         std::shared_ptr<SlaveType> removed = slave[pos];
         slave.erase(slave.begin() + pos);
         destructFunc(removed);

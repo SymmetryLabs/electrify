@@ -20,7 +20,7 @@ NodeGridItemView::NodeGridItemView(NodeGridItem& nodeGridItem_, NodeGrid& nodeGr
     setBroughtToFrontOnMouseClick(true);
     setName(nodeGridItem.getName());
     
-    observe(nodeGridItem.x.merge(nodeGridItem.y).tokenize(), [this] (void*) {
+    scopedObserve(nodeGridItem.x.merge(nodeGridItem.y).tokenize(), [this] (void*) {
         setTopLeftPosition(nodeGridItem.x.getValue(), nodeGridItem.y.getValue());
     });
     
@@ -44,7 +44,7 @@ NodeGridItemView::NodeGridItemView(NodeGridItem& nodeGridItem_, NodeGrid& nodeGr
         i++;
     }
     
-    observe(nodeGridItem.selected, [this] (bool) {
+    scopedObserve(nodeGridItem.selected, [this] (bool) {
         repaint();
     });
 }
