@@ -140,7 +140,8 @@ template<typename SlaveType, typename FCreate, typename FDestr>
 auto ObservableVector<T>
     ::makeSlave(ObservableVector<std::shared_ptr<SlaveType>>& slave,
         FCreate&& createFunc, FDestr&& destructFunc) const
-        -> typename std::enable_if<is_callable<FCreate, T>::value && is_callable<FDestr, std::shared_ptr<SlaveType>>::value>::type
+        -> typename std::enable_if<is_callable<FCreate, T>::value &&
+            is_callable<FDestr, std::shared_ptr<SlaveType>>::value>::type
 {
     for (const auto& obj : v) {
         slave.push_back(createFunc(obj));

@@ -3,8 +3,10 @@
 #include <vector>
 
 #include "scoped_observer.h"
-#include "observable.h"
-#include "observer.h"
+
+template <typename T>
+class Observable;
+class Observer;
 
 class Observes {
 

@@ -91,9 +91,9 @@ SCENARIO("using observer") {
         GIVEN("I have an observer that is subscribed to it") {
             int calls = 0;
             {
-                Observer o(v.observe([&] (int) {
+                v.observe([&] (int) {
                     calls++;
-                }));
+                });
             }
             WHEN("I go out of scope of the observer") {
                 THEN("I still receive callbacks") {

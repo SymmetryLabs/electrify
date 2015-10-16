@@ -6,9 +6,10 @@
 
 #include "template_utils.h"
 #include "observer.h"
+#include "observes.h"
 
 template<typename T = void*>
-class Observable {
+class Observable : public Observes {
 
 protected:
     rxcpp::observable<T> observable;
