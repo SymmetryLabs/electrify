@@ -5,15 +5,13 @@
 #include "data_bridge.h"
 #include "data_proxy.h"
 
-DEF_ACCESS(sendCommand, template sendCommand<int>);
-
 SCENARIO("Using a data transmitter") {
     GIVEN("I have a data transmitter") {
         std::shared_ptr<int> dest = std::make_shared<int>(10);
         DataTransmitter dt(dest);
         WHEN("I send a command") {
             int i = 0;
-            call<sendCommand>(dt, [&] (const std::shared_ptr<int>&) {
+            dt.template sendCommand<int>([&] (const std::shared_ptr<int>&) {
                 i++;
             });
             THEN("it executes immediately") {
@@ -25,7 +23,7 @@ SCENARIO("Using a data transmitter") {
             dt.setDataProxies(db.getMasterProxy(), db.getSlaveProxy());
             WHEN("I send a command") {
                 int i = 0;
-                call<sendCommand>(dt, [&] (const std::shared_ptr<int>&) {
+                dt.template sendCommand<int>([&] (const std::shared_ptr<int>&) {
                     i++;
                 });
                 THEN("it doesn't executes immediately") {

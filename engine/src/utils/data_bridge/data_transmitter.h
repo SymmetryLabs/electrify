@@ -22,8 +22,7 @@ public:
     template <typename T>
     void setDestination(const std::shared_ptr<T>& destination);
     void setDataProxies(const DataProxy& masterDataProxy, const DataProxy& slaveDataProxy);
-    
-protected:
+
     template<typename T>
     void bindObjects(Observable<T>& masterSignal, TokenSource<T>& slaveSignal);
     template<typename MasterType, typename SlaveType>
@@ -64,7 +63,6 @@ private:
     void sendFunction(F&& fn);
 
     ENABLE_TYPE_ERASURE_BASE();
-    ENABLE_TEST_ACCESS();
 
 };
 
