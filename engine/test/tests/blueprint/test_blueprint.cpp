@@ -6,6 +6,7 @@
 #include "signal.h"
 #include "pixel.h"
 #include "group.h"
+#include "model.h"
 #include "frame_context.h"
 #include "square_wave.h"
 #include "incrementer.h"
@@ -50,7 +51,7 @@ SCENARIO("using blueprint") {
 
 
     auto model = make_unique<Model>();
-    model->pixels = {new Pixel()};
+    model->pixels = {make_shared<Pixel>()};
 
     auto blueprint = makeBlueprint();
 

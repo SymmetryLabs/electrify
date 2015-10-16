@@ -7,7 +7,7 @@ class Group;
 class Model {
 
 public:
-    vector<Pixel*> pixels;
-    Group* root;
+    vector<shared_ptr<Pixel>> pixels;
+    shared_ptr<Group> root;
 
 };

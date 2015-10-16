@@ -13,6 +13,7 @@
 #include <project_file.h>
 
 #include <blueprint.h>
+#include <model.h>
 #include <loader.h>
 #include <compound_node.h>
 #include <color.h>

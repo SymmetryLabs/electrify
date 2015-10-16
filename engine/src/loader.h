@@ -1,18 +1,17 @@
 #pragma once
 #include "globals.h"
 
-#include <fstream>
 #include "json/json-forwards.h"
-#include "json/json.h"
-#include "model.h"
-#include "group.h"
-#include "pixel.h"
 
-
+class Model;
+class Group;
+class Pixel;
 
 class Loader {
+
 public:
     unique_ptr<Model> loadJSON(string filename);
-    Group* parseGroup(Json::Value val, vector<Pixel*> *pixels, Group *parent);
-    Pixel* parsePixelReference(Json::Value val, vector<Pixel*> *pixels, Group *parent);
+    shared_ptr<Group> parseGroup(Json::Value val, vector<shared_ptr<Pixel>>& pixels, shared_ptr<Group> parent);
+    shared_ptr<Pixel> parsePixelReference(Json::Value val, vector<shared_ptr<Pixel>>& pixels, shared_ptr<Group> parent);
+
 };

@@ -9,12 +9,20 @@
 class Group {
 
 public:
-    double x,y,z;
-    double rx = 0, ry = 0, rz = 0;
-    Group(double _x = 0.0, double _y = 0.0, double _z = 0.0) {x = _x; y = _y; z = _z;}
-    vector<Group*>* members = new vector<Group*>();
-    vector<Pixel*>* pixels = new vector<Pixel*>();
+    Group(double x_ = 0, double y_ = 0, double z_ = 0);
+
+    double x;
+    double y;
+    double z;
+
+    double rx = 0;
+    double ry = 0;
+    double rz = 0;
+
     string name;
-    Group* parent = 0;
+    shared_ptr<Group> parent;
+
+    vector<shared_ptr<Group>> members;
+    vector<shared_ptr<Pixel>> pixels;
 
 };
