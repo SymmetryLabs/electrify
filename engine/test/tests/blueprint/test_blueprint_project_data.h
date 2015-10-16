@@ -7,11 +7,41 @@ string serializedProject = R"({
         "ptr_wrapper": {
             "valid": 1,
             "data": {
-                "Project": {},
+                "Project": {
+                    "model": {
+                        "ptr_wrapper": {
+                            "valid": 1,
+                            "data": {
+                                "pixels": [
+                                    {
+                                        "ptr_wrapper": {
+                                            "id": 2147483649,
+                                            "data": {
+                                                "x": 0,
+                                                "y": 0,
+                                                "z": 0,
+                                                "parent": {
+                                                    "ptr_wrapper": {
+                                                        "id": 0
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                ],
+                                "root": {
+                                    "ptr_wrapper": {
+                                        "id": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "blueprint": {
                     "polymorphic_id": 1073741824,
                     "ptr_wrapper": {
-                        "id": 2147483649,
+                        "id": 2147483650,
                         "data": {
                             "CompoundNodeHandle": {
                                 "NodeHandle": {
@@ -23,7 +53,7 @@ string serializedProject = R"({
                                         "polymorphic_id": 2147483650,
                                         "polymorphic_name": "CompoundNodeHandle",
                                         "ptr_wrapper": {
-                                            "id": 2147483650,
+                                            "id": 2147483651,
                                             "data": {
                                                 "NodeHandle": {
                                                     "nodeName": "CompoundNode",
@@ -33,7 +63,7 @@ string serializedProject = R"({
                                                     {
                                                         "polymorphic_id": 1073741824,
                                                         "ptr_wrapper": {
-                                                            "id": 2147483651,
+                                                            "id": 2147483652,
                                                             "data": {
                                                                 "nodeName": "ConstantColorNode",
                                                                 "name": "Constant color"
@@ -43,7 +73,7 @@ string serializedProject = R"({
                                                     {
                                                         "polymorphic_id": 1073741824,
                                                         "ptr_wrapper": {
-                                                            "id": 2147483652,
+                                                            "id": 2147483653,
                                                             "data": {
                                                                 "nodeName": "TranslateNode",
                                                                 "name": "Translate"
@@ -52,31 +82,6 @@ string serializedProject = R"({
                                                     }
                                                 ],
                                                 "nodeWires": [
-                                                    {
-                                                        "ptr_wrapper": {
-                                                            "id": 2147483653,
-                                                            "data": {
-                                                                "sourceHandle": {
-                                                                    "locked_ptr": {
-                                                                        "polymorphic_id": 1073741824,
-                                                                        "ptr_wrapper": {
-                                                                            "id": 3
-                                                                        }
-                                                                    }
-                                                                },
-                                                                "sourceName": "output",
-                                                                "destinationHandle": {
-                                                                    "locked_ptr": {
-                                                                        "polymorphic_id": 1073741824,
-                                                                        "ptr_wrapper": {
-                                                                            "id": 4
-                                                                        }
-                                                                    }
-                                                                },
-                                                                "destinationName": "ContextModifierNode"
-                                                            }
-                                                        }
-                                                    },
                                                     {
                                                         "ptr_wrapper": {
                                                             "id": 2147483654,
@@ -89,12 +94,37 @@ string serializedProject = R"({
                                                                         }
                                                                     }
                                                                 },
+                                                                "sourceName": "output",
+                                                                "destinationHandle": {
+                                                                    "locked_ptr": {
+                                                                        "polymorphic_id": 1073741824,
+                                                                        "ptr_wrapper": {
+                                                                            "id": 5
+                                                                        }
+                                                                    }
+                                                                },
+                                                                "destinationName": "ContextModifierNode"
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "ptr_wrapper": {
+                                                            "id": 2147483655,
+                                                            "data": {
+                                                                "sourceHandle": {
+                                                                    "locked_ptr": {
+                                                                        "polymorphic_id": 1073741824,
+                                                                        "ptr_wrapper": {
+                                                                            "id": 5
+                                                                        }
+                                                                    }
+                                                                },
                                                                 "sourceName": "ContextModifierNode",
                                                                 "destinationHandle": {
                                                                     "locked_ptr": {
                                                                         "polymorphic_id": 2,
                                                                         "ptr_wrapper": {
-                                                                            "id": 2
+                                                                            "id": 3
                                                                         }
                                                                     }
                                                                 },
@@ -110,13 +140,13 @@ string serializedProject = R"({
                                 "nodeWires": [
                                     {
                                         "ptr_wrapper": {
-                                            "id": 2147483655,
+                                            "id": 2147483656,
                                             "data": {
                                                 "sourceHandle": {
                                                     "locked_ptr": {
                                                         "polymorphic_id": 2,
                                                         "ptr_wrapper": {
-                                                            "id": 2
+                                                            "id": 3
                                                         }
                                                     }
                                                 },
@@ -126,7 +156,7 @@ string serializedProject = R"({
                                                         "polymorphic_id": 2147483651,
                                                         "polymorphic_name": "Blueprint",
                                                         "ptr_wrapper": {
-                                                            "id": 1
+                                                            "id": 2
                                                         }
                                                     }
                                                 },

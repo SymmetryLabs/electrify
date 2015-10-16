@@ -107,3 +107,4 @@ build-*
 *.d
 3rdParty/
 CMakeLists.txt.user
+test_write.symproj
