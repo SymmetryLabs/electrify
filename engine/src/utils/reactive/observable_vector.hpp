@@ -1,26 +1,47 @@
-template<typename T>
-void ObservableVector<T>::push_back(const T& value)
+template<typename T, typename Alloc>
+ObservableVector<T, Alloc>& ObservableVector<T, Alloc>::operator=(const std::vector<T, Alloc>& x)
+{
+    clear();
+    for (const T& t : x) {
+        push_back(t);
+    }
+    return *this;
+}
+
+template<typename T, typename Alloc>
+ObservableVector<T, Alloc>& ObservableVector<T, Alloc>::operator=(std::initializer_list<value_type> il)
+{
+    clear();
+    for (value_type t : il) {
+        push_back(t);
+    }
+    return *this;
+}
+
+template<typename T, typename Alloc>
+void ObservableVector<T, Alloc>::push_back(const T& value)
 {
     v.push_back(value);
     valueAdded(std::make_pair(size() - 1, std::ref<const T>(back())));
 }
 
-template<typename T>
-void ObservableVector<T>::push_back(T&& value)
+template<typename T, typename Alloc>
+void ObservableVector<T, Alloc>::push_back(T&& value)
 {
     v.push_back(std::forward<T>(value));
     valueAdded(std::make_pair(size() - 1, std::ref<const T>(back())));
 }
 
-template<typename T>
-void ObservableVector<T>::pop_back()
+template<typename T, typename Alloc>
+void ObservableVector<T, Alloc>::pop_back()
 {
+    willRemoveValue(std::ref<const T>(v.back()));
     v.pop_back();
     valueRemoved(size());
 }
 
-template<typename T>
-typename std::vector<T>::iterator ObservableVector<T>::insert(const_iterator pos, const T& value)
+template<typename T, typename Alloc>
+typename std::vector<T, Alloc>::iterator ObservableVector<T, Alloc>::insert(const_iterator pos, const T& value)
 {
     auto i = pos - v.begin();
     auto rtn = v.insert(pos, value);
@@ -28,8 +49,8 @@ typename std::vector<T>::iterator ObservableVector<T>::insert(const_iterator pos
     return rtn;
 }
 
-template<typename T>
-typename std::vector<T>::iterator ObservableVector<T>::insert(const_iterator pos, T&& value)
+template<typename T, typename Alloc>
+typename std::vector<T, Alloc>::iterator ObservableVector<T, Alloc>::insert(const_iterator pos, T&& value)
 {
     auto i = pos - v.begin();
     auto rtn = v.insert(pos, std::forward<T>(value));
@@ -37,35 +58,37 @@ typename std::vector<T>::iterator ObservableVector<T>::insert(const_iterator pos
     return rtn;
 }
 
-template<typename T>
-typename std::vector<T>::iterator ObservableVector<T>::erase(iterator pos)
+template<typename T, typename Alloc>
+typename std::vector<T, Alloc>::iterator ObservableVector<T, Alloc>::erase(iterator pos)
 {
     auto i = pos - v.begin();
+    willRemoveValue(std::ref<const T>(v.at(i)));
     auto rtn = v.erase(pos);
     valueRemoved(i);
     return rtn;
 }
 
-template<typename T>
-typename std::vector<T>::iterator ObservableVector<T>::erase(const_iterator pos)
+template<typename T, typename Alloc>
+typename std::vector<T, Alloc>::iterator ObservableVector<T, Alloc>::erase(const_iterator pos)
 {
     auto i = pos - v.begin();
+    willRemoveValue(std::ref<const T>(v.at(i)));
     auto rtn = v.erase(pos);
     valueRemoved(i);
     return rtn;
 }
 
-template<typename T>
-void ObservableVector<T>::clear()
+template<typename T, typename Alloc>
+void ObservableVector<T, Alloc>::clear()
 {
     while (size() > 0) {
         pop_back();
     }
 }
 
-template<typename T>
-void ObservableVector<T>
-    ::makeProxySlave(ObservableVector<T>& slave, DataProxy& dataProxy) const
+template<typename T, typename Alloc>
+void ObservableVector<T, Alloc>
+    ::makeProxySlave(ObservableVector<T, Alloc>& slave, DataProxy& dataProxy) const
 {
     for (const auto& obj : v) {
         slave.push_back(obj);
@@ -87,10 +110,10 @@ void ObservableVector<T>
     });
 }
 
-template<typename T>
-template<typename SlaveType>
-void ObservableVector<T>
-    ::makeProxySlave(ObservableVector<std::shared_ptr<SlaveType>>& slave, DataProxy& dataProxy) const
+template<typename T, typename Alloc>
+template<typename SlaveType, typename SlaveAlloc>
+void ObservableVector<T, Alloc>
+    ::makeProxySlave(ObservableVector<std::shared_ptr<SlaveType>, SlaveAlloc>& slave, DataProxy& dataProxy) const
 {
     for (const auto& obj : v) {
         slave.push_back(obj->template getSlave<SlaveType>());
@@ -113,10 +136,10 @@ void ObservableVector<T>
     });
 }
 
-template<typename T>
-template<typename SlaveType, typename... ArgN>
-auto ObservableVector<T>
-    ::makeSlave(ObservableVector<std::shared_ptr<SlaveType>>& slave, ArgN&&... args) const
+template<typename T, typename Alloc>
+template<typename SlaveType, typename... ArgN, typename SlaveAlloc>
+auto ObservableVector<T, Alloc>
+    ::makeSlave(ObservableVector<std::shared_ptr<SlaveType>, SlaveAlloc>& slave, ArgN&&... args) const
         -> typename std::enable_if<!is_callable<typename std::tuple_element<0, std::tuple<ArgN...> >::type, T>::value>::type
 {
     for (const auto& obj : v) {
@@ -135,10 +158,10 @@ auto ObservableVector<T>
     });
 }
 
-template<typename T>
-template<typename SlaveType, typename FCreate, typename FDestr>
-auto ObservableVector<T>
-    ::makeSlave(ObservableVector<std::shared_ptr<SlaveType>>& slave,
+template<typename T, typename Alloc>
+template<typename SlaveType, typename FCreate, typename FDestr, typename SlaveAlloc>
+auto ObservableVector<T, Alloc>
+    ::makeSlave(ObservableVector<std::shared_ptr<SlaveType>, SlaveAlloc>& slave,
         FCreate&& createFunc, FDestr&& destructFunc) const
         -> typename std::enable_if<is_callable<FCreate, T>::value &&
             is_callable<FDestr, std::shared_ptr<SlaveType>>::value>::type

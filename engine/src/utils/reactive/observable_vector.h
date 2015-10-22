@@ -12,27 +12,30 @@
 #include "event.h"
 #include "data_proxy.h"
 
-template<typename T>
+template<typename T, typename Alloc = std::allocator<T>>
 class ObservableVector : public Observes {
 
 public:
-
     // Member types
-    typedef typename std::vector<T>::value_type value_type;
-    typedef typename std::vector<T>::allocator_type allocator_type;
-    typedef typename std::vector<T>::reference reference;
-    typedef typename std::vector<T>::const_reference const_reference;
-    typedef typename std::vector<T>::pointer pointer;
-    typedef typename std::vector<T>::const_pointer const_pointer;
-    typedef typename std::vector<T>::iterator iterator;
-    typedef typename std::vector<T>::const_iterator const_iterator;
-    typedef typename std::vector<T>::reverse_iterator reverse_iterator;
-    typedef typename std::vector<T>::const_reverse_iterator const_reverse_iterator;
-    typedef typename std::vector<T>::difference_type difference_type;
-    typedef typename std::vector<T>::size_type size_type;
+    typedef typename std::vector<T, Alloc>::value_type value_type;
+    typedef typename std::vector<T, Alloc>::allocator_type allocator_type;
+    typedef typename std::vector<T, Alloc>::reference reference;
+    typedef typename std::vector<T, Alloc>::const_reference const_reference;
+    typedef typename std::vector<T, Alloc>::pointer pointer;
+    typedef typename std::vector<T, Alloc>::const_pointer const_pointer;
+    typedef typename std::vector<T, Alloc>::iterator iterator;
+    typedef typename std::vector<T, Alloc>::const_iterator const_iterator;
+    typedef typename std::vector<T, Alloc>::reverse_iterator reverse_iterator;
+    typedef typename std::vector<T, Alloc>::const_reverse_iterator const_reverse_iterator;
+    typedef typename std::vector<T, Alloc>::difference_type difference_type;
+    typedef typename std::vector<T, Alloc>::size_type size_type;
 
     Event<std::pair<size_t, std::reference_wrapper<const T>>> valueAdded;
+    Event<std::reference_wrapper<const T>> willRemoveValue;
     Event<size_t> valueRemoved;
+
+    ObservableVector& operator=(const std::vector<T, Alloc>& x);
+    ObservableVector& operator=(std::initializer_list<value_type> il);
 
     // Iterators
     const_iterator begin() const noexcept { return v.begin(); }
@@ -70,22 +73,22 @@ public:
     // Allocator
     allocator_type get_allocator() const noexcept { return v.get_allocator(); }
 
-    void makeProxySlave(ObservableVector<T>& slave, DataProxy& dataProxy) const;
-    template<typename SlaveType>
-    void makeProxySlave(ObservableVector<std::shared_ptr<SlaveType>>& slave, DataProxy& dataProxy) const;
+    void makeProxySlave(ObservableVector<T, Alloc>& slave, DataProxy& dataProxy) const;
+    template<typename SlaveType, typename SlaveAlloc = std::allocator<SlaveType>>
+    void makeProxySlave(ObservableVector<std::shared_ptr<SlaveType>, SlaveAlloc>& slave, DataProxy& dataProxy) const;
 
-    template<typename SlaveType, typename... ArgN>
-    auto makeSlave(ObservableVector<std::shared_ptr<SlaveType>>& slave, ArgN&&... args) const
+    template<typename SlaveType, typename... ArgN, typename SlaveAlloc = std::allocator<SlaveType>>
+    auto makeSlave(ObservableVector<std::shared_ptr<SlaveType>, SlaveAlloc>& slave, ArgN&&... args) const
         -> typename std::enable_if<!is_callable<typename std::tuple_element<0, std::tuple<ArgN...> >::type, T>::value>::type;
-    template<typename SlaveType, typename FCreate, typename FDestr = VoidNoOp>
-    auto makeSlave(ObservableVector<std::shared_ptr<SlaveType>>& slave, FCreate&& createFunc, FDestr&& destructFunc = VoidNoOp()) const
+    template<typename SlaveType, typename FCreate, typename FDestr = VoidNoOp, typename SlaveAlloc = std::allocator<SlaveType>>
+    auto makeSlave(ObservableVector<std::shared_ptr<SlaveType>, SlaveAlloc>& slave, FCreate&& createFunc, FDestr&& destructFunc = VoidNoOp()) const
         -> typename std::enable_if<is_callable<FCreate, T>::value && is_callable<FDestr, std::shared_ptr<SlaveType>>::value>::type;
 
 private:
-    std::vector<T> v;
+    std::vector<T, Alloc> v;
 
     template<typename t>
-    friend std::ostream &operator<<(std::ostream& os, const ObservableVector<T>& ov);
+    friend std::ostream& operator<<(std::ostream& os, const ObservableVector<t>& ov);
 
     template<typename Archive, typename t>
     friend void serialize(Archive& archive, ObservableVector<t>& ov);
