@@ -12,11 +12,12 @@ class Output;
 class Project;
 class DataRelay;
 class RasterizationThread;
+class Renderer;
 
 /**
  * The engine loads networks of Nodes and also keeps time
  */
-class Engine : public DataTransmitter {
+class Engine {
 
 public:
     Engine();
@@ -26,8 +27,8 @@ public:
 
     void loadProject(unique_ptr<Project>&& project);
 
-    void registerOutput(const shared_ptr<Output>& output);
-    void unregisterOutput(const shared_ptr<Output>& output);
+    void registerOutput(Output& output);
+    void unregisterOutput(Output& output);
 
     void start();
     void startAndWait();
@@ -45,7 +46,9 @@ private:
 
     Session session;
     DataBridge dataBridge;
+    DataTransmitter dataTransmitter;
     shared_ptr<RasterizationThread> rasterizationThread;
+    Renderer& renderer;
 
     void notifyProjectChanged(Project& project);
 

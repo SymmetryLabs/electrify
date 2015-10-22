@@ -14,7 +14,6 @@ template<typename KeyT, typename ValueT>
 class ObservableMap : public Observes {
 
 public:
-
     // Member types
     typedef typename std::map<KeyT, ValueT>::key_type key_type;
     typedef typename std::map<KeyT, ValueT>::mapped_type mapped_type;

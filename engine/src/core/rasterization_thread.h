@@ -20,8 +20,7 @@ public:
 
     void load(unique_ptr<Renderable>&& renderable, Model& model);
 
-    void registerOutput(Output& output);
-    void unregisterOutput(Output& output);
+    Renderer& getRenderer();
 
     void start();
     void stop();

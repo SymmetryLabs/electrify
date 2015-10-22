@@ -31,8 +31,8 @@ public:
 private:
     Session& session;
 
-    shared_ptr<Output> output;
-    void setOutput(const shared_ptr<Output>& output);
+    unique_ptr<Output> output;
+    void setOutput(unique_ptr<Output>&& output);
     
     ScopedPointer<ApplicationProperties> appProperties;
     unique_ptr<NodeGrid> nodeGrid;

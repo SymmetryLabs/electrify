@@ -33,7 +33,7 @@ const unique_ptr<Project>& UiSession::getProject() const
 
 void UiSession::setProject(unique_ptr<Project>&& project)
 {
-    setOutput(make_shared<Output>(project->getModel().pixels.size()));
+    setOutput(make_unique<Output>(project->getModel().pixels.size()));
     session.setProject(forward<unique_ptr<Project>>(project));
     nodeGrid = make_unique<NodeGrid>(getBlueprint());
 }
@@ -64,13 +64,13 @@ NodeGrid& UiSession::getNodeGrid() const
     return *nodeGrid;
 }
 
-void UiSession::setOutput(const shared_ptr<Output>& output_)
+void UiSession::setOutput(unique_ptr<Output>&& output_)
 {
     if (output) {
-        session.getEngine().unregisterOutput(output);
+        session.getEngine().unregisterOutput(*output);
     }
-    output = output_;
+    output = move(output_);
     if (output) {
-        session.getEngine().registerOutput(output);
+        session.getEngine().registerOutput(*output);
     }
 }

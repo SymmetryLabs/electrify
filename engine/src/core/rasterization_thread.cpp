@@ -12,7 +12,7 @@
 RasterizationThread::RasterizationThread(DataRelay& dataRelay_)
 : dataRelay(dataRelay_)
 , isRunning(false)
-, renderer(doubleBuffer)
+, renderer{doubleBuffer}
 {
 }
 
@@ -30,14 +30,9 @@ void RasterizationThread::load(unique_ptr<Renderable>&& renderable_, Model& mode
     doubleBuffer.setSize(model->pixels.size());
 }
 
-void RasterizationThread::registerOutput(Output& output)
+Renderer& RasterizationThread::getRenderer()
 {
-    output.setRenderer(&renderer);
-}
-
-void RasterizationThread::unregisterOutput(Output& output)
-{
-    output.setRenderer(nullptr);
+    return renderer;
 }
 
 void RasterizationThread::start()
