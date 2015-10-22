@@ -4,7 +4,9 @@
 
 #include "observer.h"
 
-void Observes::addObserver(Observer&& observer)
+ScopedObserver Observes::addObserver(Observer&& observer)
 {
-    observers.push_back(ScopedObserver(std::forward<Observer>(observer)));
+    auto so = ScopedObserver(std::forward<Observer>(observer));
+    observers.push_back(so);
+    return so;
 }

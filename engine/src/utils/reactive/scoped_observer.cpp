@@ -5,6 +5,14 @@ ScopedObserver::ScopedObserver(Observer&& observer)
 {
 }
 
+void ScopedObserver::release()
+{
+    if (container) {
+        container->unsubscribe();
+        container = nullptr;
+    }
+}
+
 ScopedObserver::ScopedObserverContainer::ScopedObserverContainer(Observer&& observer)
 : Observer(std::move(observer))
 {

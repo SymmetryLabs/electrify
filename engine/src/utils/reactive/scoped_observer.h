@@ -7,6 +7,8 @@ class ScopedObserver {
 public:
     explicit ScopedObserver(Observer&& observer);
 
+    void release();
+
 private:
 
     struct ScopedObserverContainer : Observer {

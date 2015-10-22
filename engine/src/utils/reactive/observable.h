@@ -11,9 +11,6 @@
 template<typename T = void*>
 class Observable : public Observes {
 
-protected:
-    rxcpp::observable<T> observable;
-
 public:
     Observable();
     explicit Observable(const rxcpp::observable<T>& observable);
@@ -50,6 +47,11 @@ public:
 
     auto tokenize() const
         -> Observable<void*>;
+
+protected:
+    rxcpp::observable<T> observable;
+
+    void fixRxObjects(const rxcpp::observable<T>& observable);
 
 };
 

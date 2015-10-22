@@ -12,13 +12,11 @@ SCENARIO("Using ScopedObserver") {
         Observer o(v.observe([&] (int) {
             calls++;
         }));
-        Var<int> v2;
-        Observer o2(v2.observe([] (int) {
-        }));
 
         THEN("I can make a scoped observer from it") {
             ScopedObserver so(std::move(o));
         }
+
         GIVEN("I have a scoped observer created from it") {
             WHEN("It doesn't go out of scope") {
                 ScopedObserver so(std::move(o));
@@ -56,51 +54,6 @@ SCENARIO("Using ScopedObserver") {
                     }
                 }
             }
-            GIVEN("I move assign it") {
-                WHEN("They both go out of scope") {
-
-                    {
-                        ScopedObserver so(std::move(o));
-                        ScopedObserver so2(std::move(o2));
-                        so2 = std::move(so);
-                    }
-                    THEN("I don't receive callbacks") {
-                        v.emit(1);
-                        REQUIRE(calls == 0);
-                    }
-                }
-                WHEN("They first one goes out of scope") {
-                    ScopedObserver so2(std::move(o2));
-                    {
-                        ScopedObserver so(std::move(o));
-                        so2 = std::move(so);
-                    }
-                    THEN("I still receive callbacks") {
-                        v.emit(1);
-                        REQUIRE(calls == 1);
-                    }
-                }
-                WHEN("They second one goes out of scope") {
-                    ScopedObserver so(std::move(o));
-                    {
-                        ScopedObserver so2(std::move(o2));
-                        so2 = std::move(so);
-                    }
-                    THEN("I don't receive callbacks") {
-                        v.emit(1);
-                        REQUIRE(calls == 0);
-                    }
-                }
-                WHEN("Neither goes out of scope") {
-                    ScopedObserver so(std::move(o));
-                    ScopedObserver so2(std::move(o2));
-                    so2 = std::move(so);
-                    THEN("I still receive callbacks") {
-                        v.emit(1);
-                        REQUIRE(calls == 1);
-                    }
-                }
-            }
             GIVEN("I copy construct using the observer") {
                 WHEN("It doesn't go out of scope") {
                     ScopedObserver so(std::move(o));
@@ -121,48 +74,137 @@ SCENARIO("Using ScopedObserver") {
                     }
                 }
             }
-            GIVEN("I copy assign it") {
-                WHEN("They both go out of scope") {
+        }
 
-                    {
+        GIVEN("I have a second observer") {
+            Var<int> v2;
+            Observer o2(v2.observe([] (int) {
+            }));
+            GIVEN("I have a scoped observer created from it") {
+                GIVEN("I move assign it") {
+                    WHEN("They both go out of scope") {
+
+                        {
+                            ScopedObserver so(std::move(o));
+                            ScopedObserver so2(std::move(o2));
+                            so2 = std::move(so);
+                        }
+                        THEN("I don't receive callbacks") {
+                            v.emit(1);
+                            REQUIRE(calls == 0);
+                        }
+                    }
+                    WHEN("They first one goes out of scope") {
+                        ScopedObserver so2(std::move(o2));
+                        {
+                            ScopedObserver so(std::move(o));
+                            so2 = std::move(so);
+                        }
+                        THEN("I still receive callbacks") {
+                            v.emit(1);
+                            REQUIRE(calls == 1);
+                        }
+                    }
+                    WHEN("They second one goes out of scope") {
+                        ScopedObserver so(std::move(o));
+                        {
+                            ScopedObserver so2(std::move(o2));
+                            so2 = std::move(so);
+                        }
+                        THEN("I don't receive callbacks") {
+                            v.emit(1);
+                            REQUIRE(calls == 0);
+                        }
+                    }
+                    WHEN("Neither goes out of scope") {
+                        ScopedObserver so(std::move(o));
+                        ScopedObserver so2(std::move(o2));
+                        so2 = std::move(so);
+                        THEN("I still receive callbacks") {
+                            v.emit(1);
+                            REQUIRE(calls == 1);
+                        }
+                    }
+                }
+                GIVEN("I copy assign it") {
+                    WHEN("They both go out of scope") {
+
+                        {
+                            ScopedObserver so(std::move(o));
+                            ScopedObserver so2(std::move(o2));
+                            so2 = so;
+                        }
+                        THEN("I don't receive callbacks") {
+                            v.emit(1);
+                            REQUIRE(calls == 0);
+                        }
+                    }
+                    WHEN("They first one goes out of scope") {
+                        ScopedObserver so2(std::move(o2));
+                        {
+                            ScopedObserver so(std::move(o));
+                            so2 = so;
+                        }
+                        THEN("I still receive callbacks") {
+                            v.emit(1);
+                            REQUIRE(calls == 1);
+                        }
+                    }
+                    WHEN("They second one goes out of scope") {
+                        ScopedObserver so(std::move(o));
+                        {
+                            ScopedObserver so2(std::move(o2));
+                            so2 = so;
+                        }
+                        THEN("I still receive callbacks") {
+                            v.emit(1);
+                            REQUIRE(calls == 1);
+                        }
+                    }
+                    WHEN("Neither goes out of scope") {
                         ScopedObserver so(std::move(o));
                         ScopedObserver so2(std::move(o2));
                         so2 = so;
+                        THEN("I still receive callbacks") {
+                            v.emit(1);
+                            REQUIRE(calls == 1);
+                        }
                     }
-                    THEN("I don't receive callbacks") {
+                }
+            }
+        }
+
+        GIVEN("I have 2 ScopedObservers created from it") {
+            ScopedObserver so(std::move(o));
+            ScopedObserver so2(so);
+            WHEN("I explicitly release one") {
+                so.release();
+                THEN("I don't receive the callback") {
+                    v.emit(1);
+                    REQUIRE(calls == 0);
+                }
+            }
+            WHEN("I explicitly release both") {
+                so.release();
+                so2.release();
+                THEN("I don't receive the callback") {
+                    v.emit(1);
+                    REQUIRE(calls == 0);
+                }
+            }
+        }
+
+        GIVEN("I have 2 ScopedObserver created from it") {
+            GIVEN("I release one of them") {
+                WHEN("They go out of scope") {
+                    {
+                        ScopedObserver so(std::move(o));
+                        ScopedObserver so2(so);
+                        so.release();
+                    }
+                    THEN("I don't receive the callback") {
                         v.emit(1);
                         REQUIRE(calls == 0);
-                    }
-                }
-                WHEN("They first one goes out of scope") {
-                    ScopedObserver so2(std::move(o2));
-                    {
-                        ScopedObserver so(std::move(o));
-                        so2 = so;
-                    }
-                    THEN("I still receive callbacks") {
-                        v.emit(1);
-                        REQUIRE(calls == 1);
-                    }
-                }
-                WHEN("They second one goes out of scope") {
-                    ScopedObserver so(std::move(o));
-                    {
-                        ScopedObserver so2(std::move(o2));
-                        so2 = so;
-                    }
-                    THEN("I still receive callbacks") {
-                        v.emit(1);
-                        REQUIRE(calls == 1);
-                    }
-                }
-                WHEN("Neither goes out of scope") {
-                    ScopedObserver so(std::move(o));
-                    ScopedObserver so2(std::move(o2));
-                    so2 = so;
-                    THEN("I still receive callbacks") {
-                        v.emit(1);
-                        REQUIRE(calls == 1);
                     }
                 }
             }

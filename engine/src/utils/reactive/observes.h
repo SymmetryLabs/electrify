@@ -13,10 +13,10 @@ class Observes {
 public:
     virtual ~Observes() = default;
 
-    void addObserver(Observer&& observer);
+    ScopedObserver addObserver(Observer&& observer);
 
     template<typename FIn, typename T>
-    void scopedObserve(const Observable<T>& subject, FIn&& func);
+    ScopedObserver scopedObserve(const Observable<T>& subject, FIn&& func);
 
 private:
     std::vector<ScopedObserver> observers;

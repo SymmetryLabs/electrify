@@ -73,3 +73,9 @@ auto Observable<T>::tokenize() const
         return nullptr;
     }));
 }
+
+template<typename T>
+void Observable<T>::fixRxObjects(const rxcpp::observable<T>& observable_)
+{
+    observable = observable_;
+}
