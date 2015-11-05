@@ -8,7 +8,7 @@ Renderer::Renderer(DoubleBuffer<Color>& doubleBuffer_)
 {
 }
 
-void Renderer::copyColorBuffer(vector<Color>& colorBuffer)
+unsigned int Renderer::copyColorBuffer(unsigned int id, vector<Color>& colorBuffer) const
 {
-    doubleBuffer.copyBuffer(colorBuffer);
+    return doubleBuffer.copyBuffer(id, colorBuffer);
 }

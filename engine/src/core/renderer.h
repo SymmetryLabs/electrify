@@ -10,7 +10,7 @@ class Renderer {
 public:
     explicit Renderer(DoubleBuffer<Color>& doubleBuffer);
     
-    void copyColorBuffer(vector<Color>& colorBuffer);
+    unsigned int copyColorBuffer(unsigned int id, vector<Color>& colorBuffer) const;
 
 private:
     DoubleBuffer<Color>& doubleBuffer;

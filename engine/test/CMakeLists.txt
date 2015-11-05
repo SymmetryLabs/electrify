@@ -27,6 +27,8 @@ file(GLOB_RECURSE TEST_SOURCES
     "tests/*.h"
     "tests/*.tpp"
     "tests/*.hpp"
+    "test_data/*.h"
+    "test_data/*.cpp"
 )
 source_group("src" FILES ${TEST_SOURCES})
 

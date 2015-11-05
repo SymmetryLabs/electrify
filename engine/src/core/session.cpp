@@ -9,6 +9,11 @@ Session::Session(Engine& engine_)
 {
 }
 
+bool Session::hasProject() const
+{
+    return project.get();
+}
+
 const unique_ptr<Project>& Session::getProject() const
 {
     return project;

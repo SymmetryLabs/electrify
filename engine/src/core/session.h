@@ -10,6 +10,7 @@ class Session {
 public:
     explicit Session(Engine& engine);
 
+    bool hasProject() const;
     const unique_ptr<Project>& getProject() const;
     void setProject(unique_ptr<Project>&& project);
 

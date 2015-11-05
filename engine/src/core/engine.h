@@ -13,6 +13,7 @@ class Project;
 class DataRelay;
 class RasterizationThread;
 class Renderer;
+class ProxySlaveVisitor;
 
 /**
  * The engine loads networks of Nodes and also keeps time
@@ -27,8 +28,8 @@ public:
 
     void loadProject(unique_ptr<Project>&& project);
 
-    void registerOutput(Output& output);
-    void unregisterOutput(Output& output);
+    void registerOutput(const shared_ptr<Output>& output);
+    void unregisterOutput(const shared_ptr<Output>& output);
 
     void start();
     void startAndWait();
@@ -38,19 +39,32 @@ public:
 
     void wait();
 
+    void init();
+    void deinit();
+
     void setProfilingEnabled(bool enabled);
 
     DataRelay& getDataRelay();
+    RasterizationThread& getRasterizationThread();
 
 private:
-
     Session session;
+    bool inited;
+
     DataBridge dataBridge;
     DataTransmitter dataTransmitter;
+
     shared_ptr<RasterizationThread> rasterizationThread;
+    shared_ptr<ProxySlaveVisitor> proxySlaveVisitor;
     Renderer& renderer;
 
+    vector<shared_ptr<Output>> outputs;
+    vector<shared_ptr<ProxySlaveVisitor>> outputModelVisitors;
+
     void notifyProjectChanged(Project& project);
+
+    void setModelForOutput(const shared_ptr<Output>& output);
+    void resetModelForOutputs();
 
     friend class Session;
 

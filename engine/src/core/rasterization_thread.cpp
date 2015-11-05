@@ -8,6 +8,7 @@
 #include "engine.h"
 #include "model.h"
 #include "frame_context.h"
+#include "color.h"
 
 RasterizationThread::RasterizationThread(DataRelay& dataRelay_)
 : dataRelay(dataRelay_)
@@ -22,10 +23,16 @@ RasterizationThread::~RasterizationThread()
     wait();
 }
 
-void RasterizationThread::load(unique_ptr<Renderable>&& renderable_, Model& model_)
+void RasterizationThread::load(unique_ptr<Renderable>&& renderable_, unique_ptr<Model>&& model_)
 {
-    model = &model_;
+    if (isRunning) {
+        renderable->deinitRenderable();
+    }
+    model = move(model_);
     renderable = move(renderable_);
+    if (isRunning) {
+        renderable->initRenderable(*model);
+    }
 
     doubleBuffer.setSize(model->pixels.size());
 }
@@ -33,6 +40,21 @@ void RasterizationThread::load(unique_ptr<Renderable>&& renderable_, Model& mode
 Renderer& RasterizationThread::getRenderer()
 {
     return renderer;
+}
+
+Model& RasterizationThread::getModel()
+{
+    return *model;
+}
+
+const DataRelay& RasterizationThread::getDataRelay() const
+{
+    return dataRelay;
+}
+
+unsigned int RasterizationThread::getDataRelayId() const
+{
+    return dataRelayId;
 }
 
 void RasterizationThread::start()
@@ -59,10 +81,10 @@ void RasterizationThread::wait()
 
 void RasterizationThread::init()
 {
+    isRunning = true;
     startTime = high_resolution_clock::now();
     currentFrameTime = startTime;
     currentFrameNumber = 0;
-
     renderable->initRenderable(*model);
 }
 
@@ -128,11 +150,7 @@ void RasterizationThread::performLoopStep()
     while (loopTimeDelta >= TIME_PER_FRAME) {
         auto beginUpdateTime = high_resolution_clock::now();
 
-        dataRelay.processIncomingTransactions();
-
         performFrameUpdate();
-
-        dataRelay.commitOutgoingTransaction();
 
         loopTimeDelta -= TIME_PER_FRAME;
 
@@ -153,18 +171,27 @@ void RasterizationThread::performLoopStep()
 
 void RasterizationThread::performFrameUpdate()
 {
+    dataRelayId = dataRelay.processIncomingTransactions();
+
     currentFrameTime += TIME_PER_FRAME;
     currentFrameNumber++;
 
     FrameContext frameContext(currentFrameTime - startTime);
     renderable->updateRenderable(frameContext);
+
+    dataRelay.commitOutgoingTransaction();
 }
 
 void RasterizationThread::performRasterization()
 {
+    if (model->pixels.size() != doubleBuffer.size()) {
+        doubleBuffer.setSize(model->pixels.size());
+    }
+    
     FrameContext frameContext(currentFrameTime - startTime);
     renderable->renderRenderable(frameContext, doubleBuffer.getBackBuffer());
 
+    doubleBuffer.setId(dataRelayId);
     doubleBuffer.swapBuffers();
 
     // TODO: send color buffer changed notification
@@ -177,5 +204,10 @@ void RasterizationThread::setProfilingEnabled(bool enabled)
 
 void RasterizationThread::copyColorBuffer(vector<Color>& colorBuffer)
 {
-    doubleBuffer.copyBuffer(colorBuffer);
+    return doubleBuffer.copyBuffer(colorBuffer);
+}
+
+unsigned int RasterizationThread::copyColorBuffer(unsigned int id, vector<Color>& colorBuffer)
+{
+    return doubleBuffer.copyBuffer(id, colorBuffer);
 }
