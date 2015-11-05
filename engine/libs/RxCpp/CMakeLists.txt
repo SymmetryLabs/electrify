@@ -48,8 +48,8 @@ endif()
 set(REPO_SOURCE_DIR "${CMAKE_BINARY_DIR}/${__CPM_FULL_UNID}/repo")
 CPM_EnsureRepoIsCurrent(
   TARGET_DIR ${REPO_SOURCE_DIR}
-  GIT_REPOSITORY "https://github.com/Reactive-Extensions/RxCpp.git"
-  GIT_TAG "v2.2.0"
+  GIT_REPOSITORY "https://github.com/SymmetryLabs/RxCpp.git"
+  GIT_TAG "fbe58e8685493934caad64b2db28cd254ae6235b"
   USE_CACHING TRUE
   )
 
