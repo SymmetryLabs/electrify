@@ -3,5 +3,5 @@ void BlueprintNode<Input>::configure(BlueprintNode<Input>& node, CompoundNodeHan
 {
     CompoundNode<Input>::configure(node, handle);
     handle.setName("Blueprint");
-    handle.registerWirableOutput("color", &node.output);
+    handle.registerWirableOutput("color", node.generateWirableOutput(&node.output));
 }

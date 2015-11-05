@@ -45,14 +45,17 @@ void BlueprintRenderable::deinitRenderable()
 
 void BlueprintRenderable::updateRenderable(const FrameContext& frame)
 {
+    assert(model);
     blueprintNode->update(frame);
 }
 
 void BlueprintRenderable::renderRenderable(const FrameContext& frame, vector<Color>& colorBuffer)
 {
+    assert(model);
     // rasterize to color buffer
     int i = 0;
     for (const auto& pixel : model->pixels) {
+        assert(pixel);
         FragmentContext frag(*pixel);
         FrameContext childFrame(frame, &frag);
         colorBuffer[i++] = blueprintNode->output(childFrame);

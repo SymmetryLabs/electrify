@@ -36,6 +36,24 @@ size_t CompoundNode<Input>::getNumSubnodes() const
     return subnodes.size();
 }
 
+template<typename Input>
+template<typename V>
+shared_ptr<BaseSocket> CompoundNode<Input>::generateWirableOutput(SignalFunction<V>* inputAddr, const V defaultValue)
+{
+    auto socket = make_shared<ProxySocket<V>>(inputAddr, defaultValue);
+    wirableOutputs.push_back(socket);
+    return socket;
+}
+
+template<typename Input>
+template<typename V>
+shared_ptr<BaseSocket> CompoundNode<Input>::generateWirableOutput(const V defaultValue)
+{
+    auto socket = make_shared<Socket<V>>(defaultValue);
+    wirableOutputs.push_back(socket);
+    return socket;
+}
+
 template<template<typename> class Type, typename HandleType>
 HandleType* CompoundNodeHandle::makeSubnode(const string& name)
 {
@@ -43,22 +61,4 @@ HandleType* CompoundNodeHandle::makeSubnode(const string& name)
     auto subnodeHandlePtr = subnodeHandle.get();
     addSubnode(subnodeHandle);
     return subnodeHandlePtr;
-}
-
-template<typename V>
-void CompoundNodeHandle::registerWirableOutput(const string& name, SignalFunction<V>* inputAddr, const V defaultValue)
-{
-    auto socket = make_unique<ProxySocket<V>>(inputAddr, defaultValue);
-    auto nodeSocket = make_shared<NodeSocket>(*this, name, move(socket));
-    wirableOutputs.push_back(nodeSocket);
-    registerOutput(name, nodeSocket);
-}
-
-template<typename V>
-void CompoundNodeHandle::registerWirableOutput(const string& name, const V defaultValue)
-{
-    auto socket = make_unique<Socket<V>>(defaultValue);
-    auto nodeSocket = make_shared<NodeSocket>(*this, name, move(socket));
-    wirableOutputs.push_back(nodeSocket);
-    registerOutput(name, nodeSocket);
 }

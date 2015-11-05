@@ -66,6 +66,13 @@ void CompoundNodeHandle::removeWire(NodeWire& nodeWire)
     removeSharedPtr(nodeWires, &nodeWire);
 }
 
+void CompoundNodeHandle::registerWirableOutput(const string& name, const shared_ptr<BaseSocket>& socket)
+{
+    auto nodeSocket = make_shared<NodeSocket>(*this, name, socket);
+    wirableOutputs.push_back(nodeSocket);
+    registerOutput(name, nodeSocket);
+}
+
 NodeSocket* CompoundNodeHandle::getWirableOutput(const string& name) const
 {
     for (auto& output : wirableOutputs) {

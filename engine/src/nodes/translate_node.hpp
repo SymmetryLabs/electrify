@@ -3,9 +3,9 @@ void TranslateNode<Input>::configure(TranslateNode<Input>& node, NodeHandle& han
 {
     ContextModifierNode<Skip<Input, 3>>::configure(node, handle);
     handle.setName("Translate");
-    handle.registerInput("translateX", &node.translateX);
-    handle.registerInput("translateY", &node.translateY);
-    handle.registerInput("translateZ", &node.translateZ);
+    handle.registerInput("translateX", node.generateInput(&node.translateX));
+    handle.registerInput("translateY", node.generateInput(&node.translateY));
+    handle.registerInput("translateZ", node.generateInput(&node.translateZ));
 }
 
 template<typename Input>

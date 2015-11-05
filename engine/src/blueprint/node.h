@@ -29,7 +29,19 @@ public:
 
     typedef NodeHandle handle_t;
 
+    template<typename V>
+    shared_ptr<BaseSocket> generateInput(SignalFunction<V>* inputAddr,
+        const V defaultValue = V());
+
+    template<typename V, typename C>
+    shared_ptr<BaseSignal> generateOutput(
+        V(C::* calculate_function_)(const FrameContext& frame) const,
+        const C& inst);
+
 private:
+    vector<shared_ptr<BaseSocket>> inputs;
+    vector<shared_ptr<BaseSignal>> outputs;
+
     ENABLE_TYPE_ERASURE();
 
 };
@@ -45,3 +57,5 @@ using Def = typename GetNum<In, N>::type::template type<Type>;
 
 template<typename In, int N>
 using Skip = typename GetNum<In, N>::type;
+
+#include "node.hpp"

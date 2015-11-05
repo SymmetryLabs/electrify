@@ -3,7 +3,7 @@ void ColorDoubler<Input>::configure(ColorDoubler<Input>& node, NodeHandle& handl
 {
     BasicNode<Skip<Input, 1>, Color>::configure(node, handle);
     handle.setName("Color doubler");
-    handle.registerInput("color", &node.colorInput);
+    handle.registerInput("color", node.generateInput(&node.colorInput));
 }
 
 template<typename Input>

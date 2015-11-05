@@ -27,8 +27,15 @@ public:
 
     size_t getNumSubnodes() const;
 
+    template<typename V>
+    shared_ptr<BaseSocket> generateWirableOutput(SignalFunction<V>* inputAddr, const V defaultValue = V());
+    template<typename V>
+    shared_ptr<BaseSocket> generateWirableOutput(const V defaultValue = V());
+
 private:
     ObservableVector<shared_ptr<Node>> subnodes;
+
+    vector<shared_ptr<BaseSocket>> wirableOutputs;
 
     NODE_IMPL();
 
@@ -54,10 +61,7 @@ public:
     void unwireSubnode(NodeHandle& subnode);
     void removeWire(NodeWire& wire);
 
-    template<typename V>
-    void registerWirableOutput(const string& name, SignalFunction<V>* inputAddr, const V defaultValue = V());
-    template<typename V>
-    void registerWirableOutput(const string& name, const V defaultValue = V());
+    void registerWirableOutput(const string& name, const shared_ptr<BaseSocket>& socket);
 
     NodeSocket* getWirableOutput(const string& name) const;
     const ObservableVector<shared_ptr<NodeSocket>>& getWirableOutputs() const;

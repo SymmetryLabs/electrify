@@ -3,7 +3,7 @@ void ScaleTransform<Input>::configure(ScaleTransform<Input>& node, NodeHandle& h
 {
     ScalarTransform<Skip<Input, 1>>::configure(node, handle);
     handle.setName("Scale");
-    handle.registerInput("multiplier", &node.multiplier, 1.0f);
+    handle.registerInput("multiplier", node.generateInput(&node.multiplier, 1.0f));
 }
 
 template<typename Input>

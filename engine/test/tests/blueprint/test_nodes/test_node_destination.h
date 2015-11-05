@@ -10,7 +10,7 @@ public:
     static void configure(TestNodeDestination<Input>& node, NodeHandle& handle)
     {
         BasicNode<Skip<Input, 1>, Color>::configure(node, handle);
-        handle.registerInput("input", &node.input);
+        handle.registerInput("input", node.generateInput(&node.input));
     }
 
     Color calculate(const FrameContext& frame) const override

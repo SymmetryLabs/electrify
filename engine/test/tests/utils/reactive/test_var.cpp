@@ -551,7 +551,6 @@ SCENARIO("move assigning a var") {
                 REQUIRE(calls == 1);
             }
             GIVEN("I subscribe to the second") {
-                INFO("Pending (causes SIGSEGV)");
                 int calls2 = 0;
                 v2.observe([&] (int) {
                     calls2++;

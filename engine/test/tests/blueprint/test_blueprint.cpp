@@ -48,15 +48,16 @@ SCENARIO("using blueprint") {
 
     NodeRegistrar& nodeRegistrar = NodeRegistrar::getInstance();
     nodeRegistrar.getAvailableNodeNames()[0];
+}
 
-
+SCENARIO("typical engine startup") {
     auto model = make_unique<Model>();
     model->pixels = {make_shared<Pixel>()};
 
     auto blueprint = makeBlueprint();
 
     auto compound = blueprint->makeSubnode<CompoundNode>("CompoundNode");
-    compound->registerWirableOutput<Color>("color");
+    compound->registerWirableOutput("color", compound->getNode<CompoundNode>().generateWirableOutput<Color>());
 
     auto constantColor = compound->makeSubnode<ConstantColorNode>("ConstantColorNode");
     auto translateNode = compound->makeSubnode<TranslateNode>("TranslateNode");

@@ -33,9 +33,6 @@ public:
 
     void registerInput(const string& name, const shared_ptr<NodeSocket>& inputNodeSocket);
     void registerInput(const string& name, const shared_ptr<BaseSocket>& inputSocket);
-    template<typename V>
-    void registerInput(const string& name, SignalFunction<V>* inputAddr,
-        const V defaultValue = V());
 
     NodeSocket* getInput(const string& name) const;
     const ObservableVector<shared_ptr<NodeSocket>>& getInputs() const;
@@ -44,9 +41,6 @@ public:
 
     void registerOutput(const string& name, const shared_ptr<NodeSignal>& outputNodeSignal);
     void registerOutput(const string& name, const shared_ptr<BaseSignal>& outputSignal);
-    template<typename V, typename C>
-    void registerOutput(const string& name, 
-        V(C::* calculate_function_)(const FrameContext& frame) const, const C& inst);
 
     NodeSignal* getOutput(const string& name) const;
     const ObservableVector<shared_ptr<NodeSignal>>& getOutputs() const;

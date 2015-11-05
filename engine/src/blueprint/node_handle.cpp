@@ -18,7 +18,7 @@ NodeHandle::NodeHandle()
 
 void NodeHandle::setName(const string& name_)
 {
-    name << name_;
+    name <<= name_;
 }
 
 string NodeHandle::getName() const

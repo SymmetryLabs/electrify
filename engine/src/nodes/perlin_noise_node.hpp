@@ -3,9 +3,9 @@ void PerlinNoiseNode<Input>::configure(PerlinNoiseNode<Input>& node, NodeHandle&
 {
     BasicNode<Skip<Input, 3>, float>::configure(node, handle);
     handle.setName("Perlin noise");
-    handle.registerInput("xInput", &node.xInput);
-    handle.registerInput("yInput", &node.yInput);
-    handle.registerInput("zInput", &node.zInput);
+    handle.registerInput("xInput", node.generateInput(&node.xInput));
+    handle.registerInput("yInput", node.generateInput(&node.yInput));
+    handle.registerInput("zInput", node.generateInput(&node.zInput));
 }
 
 template<typename Input>
