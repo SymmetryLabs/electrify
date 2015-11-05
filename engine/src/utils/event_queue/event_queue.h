@@ -23,22 +23,25 @@ public:
 
     void queueEvent(const std::function<void()>& eventFunc);
 
-    void commitTransaction();
-    void processTransactions();
+    bool commitTransaction(unsigned int id = 0, bool forceTransaction = false);
+    unsigned int processTransactions();
+    void processTransactionsUpTo(unsigned int id);
     void flush();
 
 private:
 
-    class Transaction {
+    struct Transaction {
 
-    public:
-        explicit Transaction(std::vector<std::function<void()>>& eventBuffer);
+        explicit Transaction(unsigned int id, std::vector<std::function<void()>>& eventBuffer);
 
+        unsigned int id;
         std::vector<std::function<void()>> events;
 
     };
 
     std::vector<std::function<void()>> eventBuffer;
     boost::lockfree::queue<Transaction*> transactionQueue;
+    Transaction* nextTransaction;
+    unsigned int lastTransactionId = 0;
 
 };
