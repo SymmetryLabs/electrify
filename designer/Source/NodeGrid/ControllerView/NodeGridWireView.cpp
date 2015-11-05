@@ -48,13 +48,13 @@ NodeGridWireView::~NodeGridWireView()
 
 void NodeGridWireView::parentHierarchyChanged()
 {
-    if (getParentComponent()) {
+    if (getParentComponent() && getParentComponent()->getParentComponent()) {
         calculatePositions();
         
         if (emittingComponent && !receivingComponent) {
-            nodeGridWire.receivingPos << nodeGridWire.emittingPos.getValue();
+            nodeGridWire.receivingPos = nodeGridWire.emittingPos.getValue();
         } else if (receivingComponent && !emittingComponent) {
-            nodeGridWire.emittingPos << nodeGridWire.receivingPos.getValue();
+            nodeGridWire.emittingPos = nodeGridWire.receivingPos.getValue();
         }
     }
 }
@@ -109,11 +109,11 @@ void NodeGridWireView::calculatePositions()
 {
     if (emittingComponent) {
         Point<int> emittingLocalPos = emittingComponent->getBounds().getCentre();
-        nodeGridWire.emittingPos << getParentComponent()->getLocalPoint(emittingComponent->getParentComponent(), emittingLocalPos);
+        nodeGridWire.emittingPos = getParentComponent()->getLocalPoint(emittingComponent->getParentComponent(), emittingLocalPos);
     }
     if (receivingComponent) {
         Point<int> receivingLocalPos = receivingComponent->getBounds().getCentre();
-        nodeGridWire.receivingPos << getParentComponent()->getLocalPoint(receivingComponent->getParentComponent(), receivingLocalPos);
+        nodeGridWire.receivingPos = getParentComponent()->getLocalPoint(receivingComponent->getParentComponent(), receivingLocalPos);
     }
 }
 

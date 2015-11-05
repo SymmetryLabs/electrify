@@ -42,7 +42,7 @@ class DesignerWindowComponent  : public Component
 {
 public:
     //==============================================================================
-    DesignerWindowComponent (UiSession& session);
+    DesignerWindowComponent (UiSession& session_);
     ~DesignerWindowComponent();
 
     //==============================================================================
@@ -56,6 +56,7 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
+    UiSession& session;
     //[/UserVariables]
 
     //==============================================================================

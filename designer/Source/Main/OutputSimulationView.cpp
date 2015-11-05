@@ -12,25 +12,29 @@
 #include "OutputSimulationView.h"
 
 #include "pixel.h"
+#include "color.h"
 
 //==============================================================================
 OutputSimulationView::OutputSimulationView(UiSession& session)
 : session(session)
-, model(session.getModel())
 , output(session.getOutput())
 {
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
     
-    vtx = new GLfloat[model.pixels.size() * 3];
-    col = new GLfloat[output.getColorBuffer().size() * 4];
+    scopedObserve(LATEST_PROPERTY(output.getModelObservable(), pixels.sizeVar), [this] (size_t size) {
+        if (size != 3 * vtx.size()) {
+            vtx.resize(3 * size);
+            col.resize(4 * size);
+            
+            populateModel();
+        }
+    });
     
     setOpaque (true);
     openGLContext.setRenderer (this);
     openGLContext.attachTo (*this);
     openGLContext.setContinuousRepainting (true);
-    
-    populateModel();
 }
 
 OutputSimulationView::~OutputSimulationView()
@@ -41,7 +45,7 @@ OutputSimulationView::~OutputSimulationView()
 void OutputSimulationView::populateModel()
 {
     int i = 0;
-    for(auto p : model.pixels) {
+    for (auto p : output.getModel().pixels) {
         vtx[i++] = (float) p->x;
         vtx[i++] = (float) p->y;
         vtx[i++] = (float) p->z;
@@ -53,7 +57,7 @@ void OutputSimulationView::populateColors()
     output.populateFrame();
     
     int i = 0;
-    for(auto c : output.getColorBuffer()) {
+    for (auto c : output.getColorBuffer()) {
         col[i++] = (float) (((c.asRGBA() >> 24) & 255) / 255.0);
         col[i++] = (float) (((c.asRGBA() >> 16) & 255) / 255.0);
         col[i++] = (float) (((c.asRGBA() >> 8) & 255) / 255.0);
@@ -144,14 +148,14 @@ void OutputSimulationView::renderOpenGL()
     projectionMatrix->setMatrix4(getProjectionMatrix().mat, 1, false);
     viewMatrix->setMatrix4(getViewMatrix().mat, 1, false);
     
-    openGLContext.extensions.glVertexAttribPointer (vertices->attributeID, 3, GL_FLOAT, GL_FALSE, 0, vtx);
+    openGLContext.extensions.glVertexAttribPointer (vertices->attributeID, 3, GL_FLOAT, GL_FALSE, 0, vtx.data());
     openGLContext.extensions.glEnableVertexAttribArray (vertices->attributeID);
     
-    openGLContext.extensions.glVertexAttribPointer (colors->attributeID, 4, GL_FLOAT, GL_FALSE, 0, col);
+    openGLContext.extensions.glVertexAttribPointer (colors->attributeID, 4, GL_FLOAT, GL_FALSE, 0, col.data());
     openGLContext.extensions.glEnableVertexAttribArray (colors->attributeID);
     
     glPointSize(5);
-    glDrawArrays(GL_POINTS, 0, model.pixels.size());
+    glDrawArrays(GL_POINTS, 0, output.getModel().pixels.size());
     
     openGLContext.extensions.glDisableVertexAttribArray (vertices->attributeID);
     openGLContext.extensions.glDisableVertexAttribArray (colors->attributeID);

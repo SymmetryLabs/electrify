@@ -16,20 +16,20 @@
 #include <model.h>
 #include <output.h>
 #include <engine.h>
+#include <observes.h>
 
 #include "UiSession.h"
 
 //==============================================================================
 /*
 */
-class OutputSimulationView : public Component, public OpenGLRenderer
+class OutputSimulationView : public Component, public OpenGLRenderer, private Observes
 {
 public:
     explicit OutputSimulationView(UiSession& session);
     ~OutputSimulationView();
     
     UiSession& session;
-    Model& model;
     Output& output;
 
 private:
@@ -41,8 +41,8 @@ private:
     ScopedPointer<OpenGLShaderProgram::Uniform> projectionMatrix;
     ScopedPointer<OpenGLShaderProgram::Uniform> viewMatrix;
     
-    float *vtx = 0;
-    float *col = 0;
+    vector<float> vtx;
+    vector<float> col;
     
     ScopedPointer<OpenGLShaderProgram::Attribute> vertices;
     ScopedPointer<OpenGLShaderProgram::Attribute> colors;

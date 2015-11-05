@@ -25,9 +25,9 @@ NodeGridWire::NodeGridWire(NodeGrid& nodeGrid, NodeGridSocket* emittingGridSocke
 void NodeGridWire::setOtherPosition(Point<int> pos)
 {
     if (!emittingGridSocket) {
-        emittingPos << pos;
+        emittingPos = pos;
     } else if (!receivingGridSocket) {
-        receivingPos << pos;
+        receivingPos = pos;
     }
 }
 

@@ -61,7 +61,7 @@ void NodeGrid::draggingWireStarted(NodeGridSocket& socket)
             wire = make_shared<NodeGridWire>(*this, &socket, nullptr);
             break;
     }
-    draggingWire << wire;
+    draggingWire = wire;
 }
 
 void NodeGrid::draggingWireMoved(Point<int> p)
@@ -84,6 +84,6 @@ void NodeGrid::draggingWireEnded(NodeGridSocket* socket)
                     break;
             }
         }
-        draggingWire << nullptr;
+        draggingWire = nullptr;
     }
 }

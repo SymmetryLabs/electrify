@@ -11,14 +11,22 @@
 
 UiSession::UiSession(Session& session_)
 : session(session_)
+, output(make_shared<Output>())
 , appProperties{new ApplicationProperties()}
 {
+    session.getEngine().registerOutput(output);
+    
     PropertiesFile::Options options;
     options.applicationName     = "Symmetry Labs Designer";
     options.filenameSuffix      = "settings";
     options.osxLibrarySubFolder = "Preferences";
 
     appProperties->setStorageParameters(options);
+}
+
+UiSession::~UiSession()
+{
+    session.getEngine().unregisterOutput(output);
 }
 
 ApplicationProperties& UiSession::getAppProperties()
@@ -33,7 +41,6 @@ const unique_ptr<Project>& UiSession::getProject() const
 
 void UiSession::setProject(unique_ptr<Project>&& project)
 {
-    setOutput(make_unique<Output>(project->getModel().pixels.size()));
     session.setProject(forward<unique_ptr<Project>>(project));
     nodeGrid = make_unique<NodeGrid>(getBlueprint());
 }
@@ -59,18 +66,7 @@ Output& UiSession::getOutput() const
     return *output;
 }
 
-NodeGrid& UiSession::getNodeGrid() const
+ObservableSharedPtr<NodeGrid>& UiSession::getNodeGrid()
 {
-    return *nodeGrid;
-}
-
-void UiSession::setOutput(unique_ptr<Output>&& output_)
-{
-    if (output) {
-        session.getEngine().unregisterOutput(*output);
-    }
-    output = move(output_);
-    if (output) {
-        session.getEngine().registerOutput(*output);
-    }
+    return nodeGrid;
 }

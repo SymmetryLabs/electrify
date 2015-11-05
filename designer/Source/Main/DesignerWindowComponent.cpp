@@ -27,9 +27,19 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-DesignerWindowComponent::DesignerWindowComponent (UiSession& session)
+DesignerWindowComponent::DesignerWindowComponent (UiSession& session_)
+    : session(session_)
 {
     //[Constructor_pre] You can add your own custom stuff here..
+    session.getNodeGrid().withoutStart().observe([this] (shared_ptr<NodeGrid> nodeGrid) {
+        if (component3) {
+            this->removeChildComponent(this->component3);
+            this->component3 = nullptr;
+        }
+        this->addAndMakeVisible(this->component3 = new NodeGridView(*this->session.getNodeGrid()));
+        component3->setName("new component");
+        this->resized();
+    });
     //[/Constructor_pre]
 
     addAndMakeVisible (component = new OutputSimulationView (session));
@@ -38,7 +48,7 @@ DesignerWindowComponent::DesignerWindowComponent (UiSession& session)
     addAndMakeVisible (component2 = new NodeListView());
     component2->setName ("new component");
 
-    addAndMakeVisible (component3 = new NodeGridView (session.getNodeGrid()));
+    addAndMakeVisible (component3 = new NodeGridView (*session.getNodeGrid()));
     component3->setName ("new component");
 
     addAndMakeVisible (component4 = new PropertiesPanel());
@@ -111,9 +121,10 @@ void DesignerWindowComponent::resized()
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="DesignerWindowComponent"
-                 componentName="" parentClasses="public Component" constructorParams="UiSession&amp; session"
-                 variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
-                 overlayOpacity="0.330" fixedSize="0" initialWidth="1400" initialHeight="600">
+                 componentName="" parentClasses="public Component" constructorParams="UiSession&amp; session_"
+                 variableInitialisers="session(session_)" snapPixels="8" snapActive="1"
+                 snapShown="1" overlayOpacity="0.330" fixedSize="0" initialWidth="1400"
+                 initialHeight="600">
   <BACKGROUND backgroundColour="ffffffff"/>
   <GENERICCOMPONENT name="new component" id="46591e2475c6760e" memberName="component"
                     virtualName="OutputSimulationView" explicitFocusOrder="0" pos="0 0 200 200"
@@ -124,7 +135,7 @@ BEGIN_JUCER_METADATA
                     class="Component" params=""/>
   <GENERICCOMPONENT name="new component" id="84be50bd51afc9b6" memberName="component3"
                     virtualName="NodeGridView" explicitFocusOrder="0" pos="0R 0 400M 100%"
-                    posRelativeX="46591e2475c6760e" class="Component" params="session.getNodeGrid()"/>
+                    posRelativeX="46591e2475c6760e" class="Component" params="*session.getNodeGrid()"/>
   <GENERICCOMPONENT name="new component" id="36c4f7644b9e5f0f" memberName="component4"
                     virtualName="PropertiesPanel" explicitFocusOrder="0" pos="0R 0 200 100%"
                     posRelativeX="84be50bd51afc9b6" class="Component" params=""/>

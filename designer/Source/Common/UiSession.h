@@ -14,6 +14,7 @@ class UiSession {
 
 public:
     explicit UiSession(Session& session);
+    ~UiSession();
     
     ApplicationProperties& getAppProperties();
 
@@ -26,15 +27,14 @@ public:
     Model& getModel() const;
     Output& getOutput() const;
 
-    NodeGrid& getNodeGrid() const;
+    ObservableSharedPtr<NodeGrid>& getNodeGrid();
 
 private:
     Session& session;
 
-    unique_ptr<Output> output;
-    void setOutput(unique_ptr<Output>&& output);
+    shared_ptr<Output> output;
     
     ScopedPointer<ApplicationProperties> appProperties;
-    unique_ptr<NodeGrid> nodeGrid;
+    ObservableSharedPtr<NodeGrid> nodeGrid;
 
 };

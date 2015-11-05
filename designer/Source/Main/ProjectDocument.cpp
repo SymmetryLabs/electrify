@@ -114,7 +114,7 @@ unique_ptr<BlueprintProject> ProjectDocument::createDemoProject() const
     auto blueprint = makeBlueprint();
 
     auto compound = blueprint->makeSubnode<CompoundNode>("CompoundNode");
-    compound->registerWirableOutput<Color>("color");
+    compound->registerWirableOutput("color", compound->getNode<CompoundNode>().generateWirableOutput<Color>());
 
     auto constantColor = compound->makeSubnode<ConstantColorNode>("ConstantColorNode");
     auto incrementer = compound->makeSubnode<Incrementer>("Incrementer");
