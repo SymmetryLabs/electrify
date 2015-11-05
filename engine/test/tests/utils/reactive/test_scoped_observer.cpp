@@ -211,3 +211,56 @@ SCENARIO("Using ScopedObserver") {
         }
     }
 }
+
+SCENARIO("forking a ScopedObserver") {
+    GIVEN("an observer") {
+        Var<int> v;
+        int calls = 0;
+        Observer o(v.observe([&] (int) {
+            calls++;
+        }));
+        GIVEN("a scoped observer created from it") {
+            GIVEN("a scoped observer forked from it") {
+                WHEN("neither goes out of scope") {
+                    ScopedObserver so{o};
+                    ScopedObserver so2 = so.fork();
+                    THEN("I receive the callback") {
+                        v.emit(1);
+                        REQUIRE(calls == 1);
+                    }
+                }
+                WHEN("the fork goes out of scope") {
+                    ScopedObserver so{o};
+                    {
+                        ScopedObserver so2 = so.fork();
+                    }
+                    THEN("I don't receive the callback") {
+                        v.emit(1);
+                        REQUIRE(calls == 0);
+                    }
+                }
+                WHEN("the original goes out of scope") {
+                    ScopedObserver so2;
+                    {
+                        ScopedObserver so{o};
+                        so2 = so.fork();
+                    }
+                    THEN("I don't receive the callback") {
+                        v.emit(1);
+                        REQUIRE(calls == 0);
+                    }
+                }
+                WHEN("they both go out of scope") {
+                    {
+                        ScopedObserver so{o};
+                        ScopedObserver so2 = so.fork();
+                    }
+                    THEN("I don't receive the callback") {
+                        v.emit(1);
+                        REQUIRE(calls == 0);
+                    }
+                }
+            }
+        }
+    }
+}

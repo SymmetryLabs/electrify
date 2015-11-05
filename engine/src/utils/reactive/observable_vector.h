@@ -11,9 +11,15 @@
 #include "type_traits_ext.h"
 #include "event.h"
 #include "data_proxy.h"
+#include "var.h"
+#include "object_owner.h"
+
+class ProxySlaveVisitor;
 
 template<typename T, typename Alloc = std::allocator<T>>
-class ObservableVector : public Observes {
+class ObservableVector : public Observes, public ObjectOwner {
+
+    std::vector<T, Alloc> v;
 
 public:
     // Member types
@@ -30,9 +36,19 @@ public:
     typedef typename std::vector<T, Alloc>::difference_type difference_type;
     typedef typename std::vector<T, Alloc>::size_type size_type;
 
-    Event<std::pair<size_t, std::reference_wrapper<const T>>> valueAdded;
-    Event<std::reference_wrapper<const T>> willRemoveValue;
+    explicit ObservableVector(const allocator_type& alloc = allocator_type()) : v(alloc), sizeVar(v.size()) {}
+    explicit ObservableVector(size_type n) : v(n), sizeVar(v.size()) {}
+    ObservableVector(size_type n, const value_type& val, const allocator_type& alloc = allocator_type()) : v(n, val, alloc), sizeVar(v.size()) {}
+    template <class InputIterator>
+    ObservableVector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) : v(first, last, alloc), sizeVar(v.size()) {}
+    ObservableVector(std::initializer_list<value_type> il, const allocator_type& alloc = allocator_type()) : v(il, alloc), sizeVar(v.size()) {}
+
+    ~ObservableVector();
+
+    Event<std::pair<size_t, std::reference_wrapper<T>>> valueAdded;
+    Event<std::reference_wrapper<T>> willRemoveValue;
     Event<size_t> valueRemoved;
+    Var<size_t> sizeVar;
 
     ObservableVector& operator=(const std::vector<T, Alloc>& x);
     ObservableVector& operator=(std::initializer_list<value_type> il);
@@ -85,13 +101,14 @@ public:
         -> typename std::enable_if<is_callable<FCreate, T>::value && is_callable<FDestr, std::shared_ptr<SlaveType>>::value>::type;
 
 private:
-    std::vector<T, Alloc> v;
-
     template<typename t>
     friend std::ostream& operator<<(std::ostream& os, const ObservableVector<t>& ov);
 
     template<typename Archive, typename t>
     friend void serialize(Archive& archive, ObservableVector<t>& ov);
+
+    template <typename t>
+    friend void performOnObjects(ProxySlaveVisitor& visitor, ObservableVector<t>& master, ObservableVector<t>& slave);
 
 };
 

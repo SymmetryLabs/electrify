@@ -1,9 +1,13 @@
 template <typename T>
+ObservableSharedPtr<T>::~ObservableSharedPtr()
+{
+    ObjectOwner::releaseAll();
+}
+
+template <typename T>
 ObservableSharedPtr<T>& ObservableSharedPtr<T>::operator=(const std::shared_ptr<T>& x) noexcept
 {
-    notifyWillRemove();
-    sp.operator=(x);
-    notifyDidAdd();
+    this->emit(x);
     return *this;
 }
 
@@ -11,18 +15,14 @@ template <typename T>
 template <typename U>
 ObservableSharedPtr<T>& ObservableSharedPtr<T>::operator=(const std::shared_ptr<U>& x) noexcept
 {
-    notifyWillRemove();
-    sp.operator=(x);
-    notifyDidAdd();
+    this->emit(x);
     return *this;
 }
 
 template <typename T>
 ObservableSharedPtr<T>& ObservableSharedPtr<T>::operator=(std::shared_ptr<T>&& x) noexcept
 {
-    notifyWillRemove();
-    sp.operator=(std::forward<std::shared_ptr<T>>(x));
-    notifyDidAdd();
+    this->emit(std::forward<std::shared_ptr<T>>(x));
     return *this;
 }
 
@@ -30,9 +30,7 @@ template <typename T>
 template <typename U>
 ObservableSharedPtr<T>& ObservableSharedPtr<T>::operator=(std::shared_ptr<U>&& x) noexcept
 {
-    notifyWillRemove();
-    sp.operator=(std::forward<std::shared_ptr<T>>(x));
-    notifyDidAdd();
+    this->emit(std::forward<std::shared_ptr<U>>(x));
     return *this;
 }
 
@@ -40,67 +38,41 @@ template <typename T>
 template <typename U, typename D>
 ObservableSharedPtr<T>& ObservableSharedPtr<T>::operator=(std::unique_ptr<U, D>&& x)
 {
-    notifyWillRemove();
-    sp.operator=(std::forward<std::shared_ptr<T>>(x));
-    notifyDidAdd();
+    this->emit(std::forward<std::unique_ptr<U, D>>(x));
     return *this;
 }
 
 template <typename T>
 void ObservableSharedPtr<T>::swap(std::shared_ptr<T>& x) noexcept
 {
-    notifyWillRemove();
-    sp.operator=(x);
-    notifyDidAdd();
+    auto val = this->getValue();
+    val.swap(x);
+    this->emit(val);
 }
 
 template <typename T>
 void ObservableSharedPtr<T>::reset() noexcept
 {
-    notifyWillRemove();
-    sp.reset();
+    this->emit(nullptr);
 }
 
 template <typename T>
 template <typename U>
 void ObservableSharedPtr<T>::reset(U* p)
 {
-    notifyWillRemove();
-    sp.reset(p);
-    notifyDidAdd();
+    this->emit(std::shared_ptr<U>{p});
 }
 
 template <typename T>
 template <typename U, typename D>
 void ObservableSharedPtr<T>::reset(U* p, D del)
 {
-    notifyWillRemove();
-    sp.reset(p, del);
-    notifyDidAdd();
+    this->emit(std::shared_ptr<U>{p, del});
 }
 
 template <typename T>
 template <typename U, typename D, typename Alloc>
 void ObservableSharedPtr<T>::reset(U* p, D del, Alloc alloc)
 {
-    notifyWillRemove();
-    sp.reset(p, del, alloc);
-    notifyDidAdd();
+    this->emit(std::shared_ptr<U>{p, alloc});
 }
-
-template <typename T>
-void ObservableSharedPtr<T>::notifyWillRemove() const
-{
-    if (sp) {
-        willRemoveValue.emit(sp.get());
-    }
-}
-
-template <typename T>
-void ObservableSharedPtr<T>::notifyDidAdd() const
-{
-    if (sp) {
-        didAddValue.emit(sp.get());
-    }
-}
-

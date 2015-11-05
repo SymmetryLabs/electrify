@@ -2,15 +2,16 @@
 
 #include "var.h"
 
-SCENARIO("using Var<int>") {
-
+SCENARIO("constructing a var") {
     WHEN("instatiated") {
         Var<int> v;
         THEN("defaults to 0") {
             REQUIRE(v.getValue() == 0);
         }
     }
+}
 
+SCENARIO("constructing a var from the inner type") {
     WHEN("instantiated with 10") {
         Var<int> v(10);
         THEN("it has 10") {
@@ -49,10 +50,11 @@ SCENARIO("using Var<int>") {
             }
         }
     }
+}
 
+SCENARIO("var assignment from the inner type") {
     GIVEN("a default Var") {
         Var<int> v;
-
         GIVEN("I have a variable of the inner type") {
             int calls = 0;
             v.observe([&] (int i) {
@@ -96,11 +98,42 @@ SCENARIO("using Var<int>") {
                 }
             }
         }
+    }
+
+    GIVEN("an initialized Var") {
+        Var<int> v{10};
+
+        WHEN("I set assign it to a variable of the inner type") {
+            int i = v;
+            THEN("It converts implicitly") {
+                REQUIRE(i == 10);
+            }
+        }
+    }
+}
+
+SCENARIO("using Var<int>") {
+
+    GIVEN("a default Var") {
+        Var<int> v;
 
         WHEN("I emit a value") {
             v.emit(9);
             THEN("it contains the value") {
                 REQUIRE(v.getValue() == 9);
+            }
+
+            WHEN("I subscribe to it") {
+                int calls = 0;
+                int value = -1;
+                v.observe([&] (int i) {
+                    calls++;
+                    value = i;
+                });
+                THEN("It should call back immediately") {
+                    REQUIRE(calls == 1);
+                    REQUIRE(value == 9);
+                }
             }
         }
 
@@ -123,17 +156,6 @@ SCENARIO("using Var<int>") {
                 THEN("the subscriber receives the value") {
                     REQUIRE(value == 5);
                 }
-            }
-        }
-    }
-
-    GIVEN("an initialized Var") {
-        Var<int> v{10};
-
-        WHEN("I set assign it to a variable of the inner type") {
-            int i = v;
-            THEN("It converts implicitly") {
-                REQUIRE(i == 10);
             }
         }
     }
@@ -217,6 +239,171 @@ SCENARIO("using Var<int>") {
             }
         }
     }
+    WHEN("The original goes out of scope") {
+        Var<int> v11;
+        int calls10 = 0;
+        int calls11a = 0;
+        {
+            Var<int> v10;
+            v10.observe([&] (int) {
+                calls10++;
+            });
+            v11 = v10;
+            v11.observe([&] (int) {
+                calls11a++;
+            });
+        }
+        int calls11b = 0;
+        v11.observe([&] (int) {
+            calls11b++;
+        });
+        THEN("I still get callbacks") {
+            v11.emit(5);
+            REQUIRE(calls10 == 1);
+            REQUIRE(calls11a == 1);
+            REQUIRE(calls11b == 1);
+        }
+    }
+    WHEN("The second goes out of scope") {
+        Var<int> v10;
+        int calls10a = 0;
+        v10.observe([&] (int) {
+            calls10a++;
+        });
+        int calls11 = 0;
+        {
+            Var<int> v11;
+            v11 = v10;
+            v11.observe([&] (int) {
+                calls11++;
+            });
+        }
+        int calls10b = 0;
+        v10.observe([&] (int) {
+            calls10b++;
+        });
+        THEN("I still get callbacks for both") {
+            v10.emit(5);
+            REQUIRE(calls10a == 1);
+            REQUIRE(calls10b == 1);
+            REQUIRE(calls11 == 1);
+            
+        }
+    }
+}
+
+SCENARIO("copy constructing a var") {
+    GIVEN("I have a Var and subscribe to it") {
+        Var<int> v;
+        int calls = 0;
+        v.observe([&] (int) {
+            calls++;
+        });
+        GIVEN("I copy construct it") {
+            Var<int> v2(v);
+            THEN("It copies the observer") {
+                v2.emit(5);
+                REQUIRE(calls == 1);
+            }
+            THEN("The original keeps the observer") {
+                v.emit(5);
+                REQUIRE(calls == 1);
+            }
+            WHEN("I call the original") {
+                v.emit(5);
+                THEN("both have the value") {
+                    REQUIRE(v.getValue() == 5);
+                    REQUIRE(v2.getValue() == 5);
+                }
+            }
+            WHEN("I call the copy") {
+                v2.emit(5);
+                THEN("both have the value") {
+                    REQUIRE(v.getValue() == 5);
+                    REQUIRE(v2.getValue() == 5);
+                }
+            }
+            GIVEN("I subscribe to the copy") {
+                int calls2 = 0;
+                v2.observe([&] (int) {
+                    calls2++;
+                });
+                WHEN("I call the original") {
+                    v.emit(5);
+                    THEN("I get callbacks for both") {
+                        REQUIRE(calls == 1);
+                        REQUIRE(calls2 == 1);
+                    }
+                }
+                WHEN("I call the copy") {
+                    v2.emit(5);
+                    THEN("I get callbacks for both") {
+                        REQUIRE(calls == 1);
+                        REQUIRE(calls2 == 1);
+                    }
+                }
+            }
+        }
+    }
+}
+
+SCENARIO("copy assigning a var") {
+    GIVEN("I have a Var and subscribe to it") {
+        Var<int> v;
+        int calls = 0;
+        v.observe([&] (int) {
+            calls++;
+        });
+        GIVEN("I copy assign it") {
+            Var<int> v2;
+            v2 = v;
+            THEN("It copies the observer") {
+                v2.emit(5);
+                REQUIRE(calls == 1);
+            }
+            THEN("The original keeps the observer") {
+                v.emit(5);
+                REQUIRE(calls == 1);
+            }
+            WHEN("I call the original") {
+                v.emit(5);
+                THEN("both have the value") {
+                    REQUIRE(v.getValue() == 5);
+                    REQUIRE(v2.getValue() == 5);
+                }
+            }
+            WHEN("I call the copy") {
+                v2.emit(5);
+                THEN("both have the value") {
+                    REQUIRE(v.getValue() == 5);
+                    REQUIRE(v2.getValue() == 5);
+                }
+            }
+            GIVEN("I subscribe to the copy") {
+                int calls2 = 0;
+                v2.observe([&] (int) {
+                    calls2++;
+                });
+                WHEN("I call the original") {
+                    v.emit(5);
+                    THEN("I get callbacks for both") {
+                        REQUIRE(calls == 1);
+                        REQUIRE(calls2 == 1);
+                    }
+                }
+                WHEN("I call the copy") {
+                    v2.emit(5);
+                    THEN("I get callbacks for both") {
+                        REQUIRE(calls == 1);
+                        REQUIRE(calls2 == 1);
+                    }
+                }
+            }
+        }
+    }
+}
+
+SCENARIO("move constructing a var") {
     GIVEN("a Var") {
         Var<int> v;
         GIVEN("I move construct another with it") {
@@ -252,6 +439,55 @@ SCENARIO("using Var<int>") {
                 }
             }
         }
+    }
+    GIVEN("I have a Var and subscribe to it") {
+        Var<int> v;
+        int calls = 0;
+        v.observe([&] (int) {
+            calls++;
+        });
+
+        GIVEN("I move construct it") {
+            Var<int> v2(std::move(v));
+            THEN("It moves the observer") {
+                v2.emit(5);
+                REQUIRE(calls == 1);
+            }
+            GIVEN("I subscribe to the second") {
+                int calls2 = 0;
+                v2.observe([&] (int) {
+                    calls2++;
+                });
+                WHEN("I call the original") {
+                    v.emit(5);
+                    THEN("it has the value") {
+                        REQUIRE(v.getValue() == 5);
+                        REQUIRE(v2.getValue() == 0);
+                    }
+                    THEN("I don't receive callbacks") {
+                        REQUIRE(calls == 0);
+                        REQUIRE(calls2 == 0);
+                    }
+                }
+                WHEN("I call the second") {
+                    v2.emit(5);
+                    THEN("it has the value") {
+                        REQUIRE(v.getValue() == 0);
+                        REQUIRE(v2.getValue() == 5);
+                    }
+                    THEN("I receive callbacks") {
+                        REQUIRE(calls == 1);
+                        REQUIRE(calls2 == 1);
+                    }
+                }
+            }
+        }
+    }
+}
+
+SCENARIO("move assigning a var") {
+    GIVEN("a Var") {
+        Var<int> v;
         GIVEN("I move assign it") {
             Var<int> v2;
             v2 = std::move(v);
@@ -307,42 +543,6 @@ SCENARIO("using Var<int>") {
         v.observe([&] (int) {
             calls++;
         });
-
-        GIVEN("I move construct it") {
-            Var<int> v2(std::move(v));
-            THEN("It moves the observer") {
-                v2.emit(5);
-                REQUIRE(calls == 1);
-            }
-            GIVEN("I subscribe to the second") {
-                int calls2 = 0;
-                v2.observe([&] (int) {
-                    calls2++;
-                });
-                WHEN("I call the original") {
-                    v.emit(5);
-                    THEN("it has the value") {
-                        REQUIRE(v.getValue() == 5);
-                        REQUIRE(v2.getValue() == 0);
-                    }
-                    THEN("I don't receive callbacks") {
-                        REQUIRE(calls == 0);
-                        REQUIRE(calls2 == 0);
-                    }
-                }
-                WHEN("I call the second") {
-                    v2.emit(5);
-                    THEN("it has the value") {
-                        REQUIRE(v.getValue() == 0);
-                        REQUIRE(v2.getValue() == 5);
-                    }
-                    THEN("I receive callbacks") {
-                        REQUIRE(calls == 1);
-                        REQUIRE(calls2 == 1);
-                    }
-                }
-            }
-        }
         GIVEN("I move assign it") {
             Var<int> v2;
             v2 = std::move(v);
@@ -380,127 +580,56 @@ SCENARIO("using Var<int>") {
                 }
             }
         }
-        GIVEN("I copy construct it") {
-            Var<int> v2(v);
-            THEN("It moves the observer") {
-                v2.emit(5);
-                REQUIRE(calls == 1);
-            }
-            GIVEN("I subscribe to the second") {
-                int calls2 = 0;
-                v2.observe([&] (int) {
-                    calls2++;
-                });
-                WHEN("I call the original") {
-                    v.emit(5);
-                    THEN("it has the value") {
-                        REQUIRE(v.getValue() == 5);
-                        REQUIRE(v2.getValue() == 5);
-                    }
-                    THEN("I get callbacks for both") {
-                        REQUIRE(calls == 1);
-                        REQUIRE(calls2 == 1);
-                    }
-                }
-                WHEN("I call the second") {
-                    v2.emit(5);
-                    THEN("it has the value") {
-                        REQUIRE(v.getValue() == 5);
-                        REQUIRE(v2.getValue() == 5);
-                    }
-                    THEN("I get callbacks for both") {
-                        REQUIRE(calls == 1);
-                        REQUIRE(calls2 == 1);
-                    }
-                }
+    }
+}
+
+SCENARIO("Var initial callbacks") {
+    GIVEN("an empty Var") {
+        Var<int> v;
+        WHEN("I subscribe to it") {
+            int calls = 0;
+            v.observe([&] (int) {
+                calls++;
+            });
+            THEN("there is no initial callback") {
+                REQUIRE(calls == 0);
             }
         }
-        GIVEN("I copy assign it") {
-            Var<int> v2;
-            v2 = v;
-            THEN("It moves the observer") {
-                v2.emit(5);
-                REQUIRE(calls == 1);
-            }
-            GIVEN("I subscribe to the second") {
-                int calls2 = 0;
-                v2.observe([&] (int) {
-                    calls2++;
+        GIVEN("it emits a value") {
+            v.emit(5);
+            WHEN("I subscribe to it") {
+                int calls = 0;
+                v.observe([&] (int) {
+                    calls++;
                 });
-                WHEN("I call the original") {
-                    v.emit(5);
-                    THEN("it has the value") {
-                        REQUIRE(v.getValue() == 5);
-                        REQUIRE(v2.getValue() == 5);
-                    }
-                    THEN("I get callbacks for both") {
-                        REQUIRE(calls == 1);
-                        REQUIRE(calls2 == 1);
-                    }
-                }
-                WHEN("I call the second") {
-                    v2.emit(5);
-                    THEN("it has the value") {
-                        REQUIRE(v.getValue() == 5);
-                        REQUIRE(v2.getValue() == 5);
-                    }
-                    THEN("I get callbacks for both") {
-                        REQUIRE(calls == 1);
-                        REQUIRE(calls2 == 1);
-                    }
+                THEN("there is an initial callback") {
+                    REQUIRE(calls == 1);
                 }
             }
         }
     }
-    WHEN("The original goes out of scope") {
-        Var<int> v11;
-        int calls10 = 0;
-        int calls11a = 0;
-        {
-            Var<int> v10;
-            v10.observe([&] (int) {
-                calls10++;
+    GIVEN("a Var with a default value") {
+        Var<int> v{4};
+        WHEN("I subscribe to it") {
+            int calls = 0;
+            v.observe([&] (int) {
+                calls++;
             });
-            v11 = v10;
-            v11.observe([&] (int) {
-                calls11a++;
-            });
+            THEN("there is an initial callback") {
+                REQUIRE(calls == 1);
+            }
         }
-        int calls11b = 0;
-        v11.observe([&] (int) {
-            calls11b++;
-        });
-        THEN("I still get callbacks") {
-            v11.emit(5);
-            REQUIRE(calls10 == 1);
-            REQUIRE(calls11a == 1);
-            REQUIRE(calls11b == 1);
-        }
-    }
-    WHEN("The second goes out of scope") {
-        Var<int> v10;
-        int calls10a = 0;
-        v10.observe([&] (int) {
-            calls10a++;
-        });
-        int calls11 = 0;
-        {
-            Var<int> v11;
-            v11 = v10;
-            v11.observe([&] (int) {
-                calls11++;
-            });
-        }
-        int calls10b = 0;
-        v10.observe([&] (int) {
-            calls10b++;
-        });
-        THEN("I still get callbacks for both") {
-            v10.emit(5);
-            REQUIRE(calls10a == 1);
-            REQUIRE(calls10b == 1);
-            REQUIRE(calls11 == 1);
-            
+        GIVEN("it emits a value") {
+            v.emit(5);
+            WHEN("I subscribe to it") {
+                int calls = 0;
+                v.observe([&] (int) {
+                    calls++;
+                });
+                THEN("there is an initial callback") {
+                    REQUIRE(calls == 1);
+                }
+            }
         }
     }
 }
@@ -524,6 +653,57 @@ SCENARIO("Using Var<string>") {
         THEN("the var has the value but the original source doesn't") {
             REQUIRE(v.getValue() == "value");
             REQUIRE(s == "");
+        }
+    }
+}
+
+SCENARIO("Using 2 Vars when the objects go out of scope") {
+    GIVEN("a var") {
+        Var<int> v1;
+        GIVEN("a second var that observes the first and then goes out of scope") {
+            int calls = 0;
+            {
+                Var<int> v2;
+                v2.scopedObserve(v1, [&] {
+                    calls++;
+                });
+            }
+            WHEN("the first emits a value") {
+                v1.emit(5);
+                THEN("it has the value") {
+                    REQUIRE(v1.getValue() == 5);
+                }
+                THEN("the observer doesn't get called") {
+                    REQUIRE(calls == 0);
+                }
+            }
+        }
+        GIVEN("a second var that the first one observes and then goes out of scope") {
+            int calls = 0;
+            {
+                Var<int> v2;
+                v1.scopedObserve(v2, [&] {
+                    calls++;
+                });
+            }
+            WHEN("the first emits a value") {
+                v1.emit(5);
+                THEN("it has the value") {
+                    REQUIRE(v1.getValue() == 5);
+                }
+                THEN("the observer doesn't get called") {
+                    REQUIRE(calls == 0);
+                }
+            }
+        }
+    }
+}
+
+SCENARIO("Using Var.pairWithPrevious()") {
+    GIVEN("an empty var") {
+        Var<int> v;
+        WHEN("pairWithPrevious is observed") {
+            
         }
     }
 }

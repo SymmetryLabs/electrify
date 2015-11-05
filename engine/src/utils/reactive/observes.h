@@ -1,5 +1,6 @@
 #pragma once
 
+#include <utility>
 #include <vector>
 
 #include "scoped_observer.h"
@@ -14,9 +15,13 @@ public:
     virtual ~Observes() = default;
 
     ScopedObserver addObserver(Observer&& observer);
+    ScopedObserver addScopedObserver(const ScopedObserver& scopedObserver);
 
     template<typename FIn, typename T>
     ScopedObserver scopedObserve(const Observable<T>& subject, FIn&& func);
+
+    template<typename FIn, typename T>
+    ScopedObserver doubleScopedObserve(Observable<T>& subject, FIn&& func);
 
 private:
     std::vector<ScopedObserver> observers;

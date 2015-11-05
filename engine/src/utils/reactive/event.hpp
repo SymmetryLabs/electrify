@@ -18,7 +18,7 @@ template<typename T>
 Event<T>& Event<T>::operator=(Event<T>&& other)
 {
     boost::base_from_member<rxcpp::subjects::subject<T>>::operator=(std::move(other));
-    TokenSource<T>::operator=(std::move(other));
+    Observable<T>::operator=(std::move(other));
 
     this->fixRxObjects(this->member.get_subscriber(), this->member.get_observable());
 
@@ -29,37 +29,63 @@ Event<T>& Event<T>::operator=(Event<T>&& other)
 }
 
 template<typename T>
-void Event<T>::operator()(const T& value) const
+void Event<T>::emit(const T& value) const
 {
-    TokenSource<T>::template operator()(value);
+    this->member.get_subscriber().on_next(value);
 }
 
 template<typename T>
-void Event<T>::operator()(T&& value) const
+void Event<T>::emit(T&& value) const
 {
-    TokenSource<T>::template operator()(std::forward<T>(value));
+    this->member.get_subscriber().on_next(std::forward<T>(value));
 }
 
 template<typename T>
 void Event<T>::operator()() const
 {
-    TokenSource<T>::operator()(nullptr);
+    this->operator()(nullptr);
+}
+
+template<typename T>
+void Event<T>::operator()(const T& value) const
+{
+    emit(value);
+}
+
+template<typename T>
+void Event<T>::operator()(T&& value) const
+{
+    emit(std::forward<T>(value));
+}
+
+template<typename T>
+const Event<T>& Event<T>::operator<<(const T& value) const
+{
+    emit(value);
+    return *this;
+}
+
+template<typename T>
+const Event<T>& Event<T>::operator<<(T&& value) const
+{
+    emit(std::forward<T>(value));
+    return *this;
 }
 
 template<typename T>
 template <typename T2, typename std::enable_if<!std::is_same<typename std::decay<T2>::type, Event<T>>::value, int>::type>
 auto Event<T>::operator=(const T2& b)
-    -> typename Check<decltype(std::declval<TokenSource<T>&>() = b), Event<T>&>::type
+    -> typename Check<decltype(std::declval<T&>() = b), Event<T>&>::type
 {
-    TokenSource<T>::operator=(b);
+    this->emit(b);
     return *this;
 }
 
 template<typename T>
 template <typename T2, typename std::enable_if<!std::is_same<typename std::decay<T2>::type, Event<T>>::value, int>::type>
 auto Event<T>::operator=(T2&& b)
-    -> typename Check<decltype(std::declval<TokenSource<T>&>() = std::forward<T2>(b)), Event<T>&>::type
+    -> typename Check<decltype(std::declval<T&>() = std::forward<T2>(b)), Event<T>&>::type
 {
-    TokenSource<T>::operator=(std::forward<T2>(b));
+    this->emit(std::forward<T2>(b));
     return *this;
 }

@@ -10,3 +10,9 @@ ScopedObserver Observes::addObserver(Observer&& observer)
     observers.push_back(so);
     return so;
 }
+
+ScopedObserver Observes::addScopedObserver(const ScopedObserver& scopedObserver)
+{
+    observers.push_back(scopedObserver);
+    return scopedObserver;
+}

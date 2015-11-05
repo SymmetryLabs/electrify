@@ -53,7 +53,20 @@ template<typename T>
 auto Observable<T>::flattenLatest() const
     -> Observable<typename inner_template<T>::type>
 {
-    return Observable<T>(observable.switch_on_next());
+    return Observable<typename inner_template<T>::type>(observable.map([] (T t) {
+        return t.observable;
+    }).switch_on_next());
+}
+
+template<typename T>
+template <typename Fn>
+auto Observable<T>::mapLatest(const Fn& fn) const
+    -> Observable<typename std::decay<decltype(fn(std::declval<T>()))>::type::type>
+{
+    return Observable<typename std::decay<decltype(fn(std::declval<T>()))>::type::type>(
+            observable.map([fn] (const T& t) {
+        return fn(t).observable;
+    }).switch_on_next());
 }
 
 template<typename T>

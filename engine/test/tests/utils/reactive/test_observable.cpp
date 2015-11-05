@@ -82,3 +82,79 @@ SCENARIO("merge()") {
         }
     }
 }
+
+#include "observable_shared_ptr.h"
+
+struct TestInternalVar {
+    Var<int> v{1};
+};
+
+SCENARIO("using Observable.mapLatest()") {
+    GIVEN("an observable") {
+        ObservableSharedPtr<TestInternalVar> osp;
+        WHEN("it is observed with mapLatest") {
+            int mapCalls = 0;
+            int calls = 0;
+            osp.mapLatest([&] (std::shared_ptr<TestInternalVar> sp)
+                    -> Var<int>& {
+                mapCalls++;
+                return sp->v;
+            }).observe([&] (int) {
+                calls++;
+            });
+            THEN("it receives no map callback") {
+                REQUIRE(mapCalls == 0);
+            }
+            THEN("it receives no callback") {
+                REQUIRE(calls == 0);
+            }
+        }
+        GIVEN("an object is added") {
+            osp = std::make_shared<TestInternalVar>();
+            WHEN("it is observed with LATEST_PROPERTY") {
+                int mapCalls = 0;
+                int calls = 0;
+                osp.mapLatest([&] (std::shared_ptr<TestInternalVar> sp)
+                        -> Var<int>& {
+                    mapCalls++;
+                    return sp->v;
+                }).observe([&] (int) {
+                    calls++;
+                });
+                THEN("it receives a map callback") {
+                    REQUIRE(mapCalls == 1);
+                }
+                THEN("it receives a callback") {
+                    REQUIRE(calls == 1);
+                }
+            }
+        }
+    }
+}
+
+SCENARIO("using the LATEST_PROPERTY macro") {
+    GIVEN("an observable") {
+        ObservableSharedPtr<TestInternalVar> osp;
+        WHEN("it is observed with LATEST_PROPERTY") {
+            int calls = 0;
+            LATEST_PROPERTY(osp, v).observe([&] (int) {
+                calls++;
+            });
+            THEN("it receives no callback") {
+                REQUIRE(calls == 0);
+            }
+        }
+        GIVEN("an object is added") {
+            osp = std::make_shared<TestInternalVar>();
+            WHEN("it is observed with LATEST_PROPERTY") {
+                int calls = 0;
+                LATEST_PROPERTY(osp, v).observe([&] (int) {
+                    calls++;
+                });
+                THEN("it receives a callback") {
+                    REQUIRE(calls == 1);
+                }
+            }
+        }
+    }
+}

@@ -9,9 +9,10 @@
 #include "observes.h"
 #include "event.h"
 #include "data_proxy.h"
+#include "object_owner.h"
 
 template<typename KeyT, typename ValueT>
-class ObservableMap : public Observes {
+class ObservableMap : public Observes, public ObjectOwner {
 
 public:
     // Member types

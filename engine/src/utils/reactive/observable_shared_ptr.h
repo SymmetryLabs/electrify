@@ -1,33 +1,32 @@
 #pragma once
 
 #include <memory>
+#include <utility>
 
-#include "event.h"
-#include "observes.h"
+#include "var.h"
 
 template <typename T>
-class ObservableSharedPtr : public Observes {
+class ObservableSharedPtr : public Var<std::shared_ptr<T>> {
 
 public:
     typedef typename std::shared_ptr<T>::element_type element_type;
 
-    Event<T*> didAddValue;
-    Event<T*> willRemoveValue;
-
     constexpr ObservableSharedPtr() noexcept {}
-    constexpr ObservableSharedPtr(std::nullptr_t n) : sp(n) {}
+    constexpr ObservableSharedPtr(std::nullptr_t n) : Var<std::shared_ptr<T>>{std::shared_ptr<T>{n}} {}
     template <typename U>
-    explicit ObservableSharedPtr(U* p) : sp(p) {}
-    ObservableSharedPtr(const std::shared_ptr<T>& x) noexcept : sp(x) {}
+    explicit ObservableSharedPtr(U* p) : Var<std::shared_ptr<T>>{std::shared_ptr<T>{p}} {}
+    ObservableSharedPtr(const std::shared_ptr<T>& x) noexcept : Var<std::shared_ptr<T>>{std::shared_ptr<T>{x}} {}
     template <typename U>
-    ObservableSharedPtr(const std::shared_ptr<U>& x) noexcept : sp(x) {}
+    ObservableSharedPtr(const std::shared_ptr<U>& x) noexcept : Var<std::shared_ptr<T>>{std::shared_ptr<T>{x}} {}
     template <typename U>
-    explicit ObservableSharedPtr(const std::weak_ptr<U>& x) : sp(x) {}
-    ObservableSharedPtr(std::shared_ptr<T>&& x) noexcept : sp(std::forward<std::shared_ptr<T>>(x)) {}
+    explicit ObservableSharedPtr(const std::weak_ptr<U>& x) : Var<std::shared_ptr<T>>{std::shared_ptr<T>{x}} {}
+    ObservableSharedPtr(std::shared_ptr<T>&& x) noexcept : Var<std::shared_ptr<T>>{std::shared_ptr<T>{std::forward<std::shared_ptr<T>>(x)}} {}
     template <typename U>
-    ObservableSharedPtr(std::shared_ptr<U>&& x) noexcept : sp(std::forward<std::shared_ptr<T>>(x)) {}
+    ObservableSharedPtr(std::shared_ptr<U>&& x) noexcept : Var<std::shared_ptr<T>>{std::shared_ptr<T>{std::forward<std::shared_ptr<T>>(x)}} {}
     template <typename U, typename D>
-    ObservableSharedPtr(std::unique_ptr<U, D>&& x) : sp(std::forward<std::shared_ptr<T>>(x)) {}
+    ObservableSharedPtr(std::unique_ptr<U, D>&& x) : Var<std::shared_ptr<T>>{std::shared_ptr<T>{std::forward<std::unique_ptr<T>>(x)}} {}
+
+    ~ObservableSharedPtr();
 
     ObservableSharedPtr& operator=(const std::shared_ptr<T>& x) noexcept;
     template <typename U>
@@ -48,23 +47,18 @@ public:
     template <typename U, typename D, typename Alloc>
     void reset(U* p, D del, Alloc alloc);
 
-    element_type* get() const noexcept { return sp.get(); }
-    element_type& operator*() const noexcept { return sp.operator*(); }
-    element_type* operator->() const noexcept { return sp.operator->(); }
+    element_type* get() const noexcept { return this->getValue().get(); }
+    element_type& operator*() const noexcept { return this->getValue().operator*(); }
+    element_type* operator->() const noexcept { return this->getValue().operator->(); }
 
-    long int use_count() const noexcept { return sp.use_count(); }
+    long int use_count() const noexcept { return this->getValue().use_count(); }
 
-    explicit operator bool() const noexcept { return sp.operator bool(); }
+    explicit operator bool() const noexcept { return this->getValue().operator bool(); }
 
-    template <typename U> bool owner_before(const std::shared_ptr<U>& x) const { return sp.owner_before(x); }
-    template <typename U> bool owner_before(const std::weak_ptr<U>& x) const { return sp.owner_before(x); }
+    template <typename U> bool owner_before(const std::shared_ptr<U>& x) const { return this->getValue().owner_before(x); }
+    template <typename U> bool owner_before(const std::weak_ptr<U>& x) const { return this->getValue().owner_before(x); }
 
 private:
-    std::shared_ptr<T> sp;
-
-    void notifyWillRemove() const;
-    void notifyDidAdd() const;
-
     template<typename t>
     friend std::ostream &operator<<(std::ostream& os, const ObservableSharedPtr<t>& osp);
 
@@ -75,7 +69,7 @@ private:
 
 template<typename T>
 std::ostream& operator<<(std::ostream& os, const ObservableSharedPtr<T>& osp) { 
-    return os << osp.sp;
+    return os << osp.getValue();
 }
 
 #include "observable_shared_ptr.hpp"

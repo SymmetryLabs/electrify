@@ -32,6 +32,14 @@ SCENARIO("using observer") {
                     REQUIRE(calls == 0);
                 }
             }
+            WHEN("I unsubscribe twice") {
+                o.unsubscribe();
+                o.unsubscribe();
+                THEN("I don't receive callbacks") {
+                    v.emit(1);
+                    REQUIRE(calls == 0);
+                }
+            }
             GIVEN("I move construct using the observer") {
                 Observer o2(std::move(o));
                 WHEN("I unsubscribe from the first one") {

@@ -1,20 +1,38 @@
 template<typename T, typename Alloc>
+ObservableVector<T, Alloc>::~ObservableVector()
+{
+    ObjectOwner::releaseAll();
+}
+
+template<typename T, typename Alloc>
 ObservableVector<T, Alloc>& ObservableVector<T, Alloc>::operator=(const std::vector<T, Alloc>& x)
 {
-    clear();
-    for (const T& t : x) {
-        push_back(t);
+    while (v.size() > 0) {
+        willRemoveValue(std::ref<T>(v.back()));
+        v.pop_back();
+        valueRemoved(v.size());
     }
+    for (const T& t : x) {
+        v.push_back(t);
+        valueAdded(std::make_pair(v.size() - 1, std::ref<T>(v.back())));
+    }
+    sizeVar = v.size();
     return *this;
 }
 
 template<typename T, typename Alloc>
 ObservableVector<T, Alloc>& ObservableVector<T, Alloc>::operator=(std::initializer_list<value_type> il)
 {
-    clear();
-    for (value_type t : il) {
-        push_back(t);
+    while (v.size() > 0) {
+        willRemoveValue(std::ref<T>(v.back()));
+        v.pop_back();
+        valueRemoved(v.size());
     }
+    for (value_type t : il) {
+        v.push_back(t);
+        valueAdded(std::make_pair(v.size() - 1, std::ref<T>(v.back())));
+    }
+    sizeVar = v.size();
     return *this;
 }
 
@@ -22,22 +40,25 @@ template<typename T, typename Alloc>
 void ObservableVector<T, Alloc>::push_back(const T& value)
 {
     v.push_back(value);
-    valueAdded(std::make_pair(size() - 1, std::ref<const T>(back())));
+    valueAdded(std::make_pair(size() - 1, std::ref<T>(v.back())));
+    sizeVar = v.size();
 }
 
 template<typename T, typename Alloc>
 void ObservableVector<T, Alloc>::push_back(T&& value)
 {
     v.push_back(std::forward<T>(value));
-    valueAdded(std::make_pair(size() - 1, std::ref<const T>(back())));
+    valueAdded(std::make_pair(size() - 1, std::ref<T>(v.back())));
+    sizeVar = v.size();
 }
 
 template<typename T, typename Alloc>
 void ObservableVector<T, Alloc>::pop_back()
 {
-    willRemoveValue(std::ref<const T>(v.back()));
+    willRemoveValue(std::ref<T>(v.back()));
     v.pop_back();
     valueRemoved(size());
+    sizeVar = v.size();
 }
 
 template<typename T, typename Alloc>
@@ -45,7 +66,8 @@ typename std::vector<T, Alloc>::iterator ObservableVector<T, Alloc>::insert(cons
 {
     auto i = pos - v.begin();
     auto rtn = v.insert(pos, value);
-    valueAdded(std::make_pair(std::move(i), std::ref<const T>(v[i])));
+    valueAdded(std::make_pair(std::move(i), std::ref<T>(v[i])));
+    sizeVar = v.size();
     return rtn;
 }
 
@@ -54,7 +76,8 @@ typename std::vector<T, Alloc>::iterator ObservableVector<T, Alloc>::insert(cons
 {
     auto i = pos - v.begin();
     auto rtn = v.insert(pos, std::forward<T>(value));
-    valueAdded(std::make_pair(std::move(i), std::ref<const T>(v[i])));
+    valueAdded(std::make_pair(std::move(i), std::ref<T>(v[i])));
+    sizeVar = v.size();
     return rtn;
 }
 
@@ -62,9 +85,10 @@ template<typename T, typename Alloc>
 typename std::vector<T, Alloc>::iterator ObservableVector<T, Alloc>::erase(iterator pos)
 {
     auto i = pos - v.begin();
-    willRemoveValue(std::ref<const T>(v.at(i)));
+    willRemoveValue(std::ref<T>(v.at(i)));
     auto rtn = v.erase(pos);
     valueRemoved(i);
+    sizeVar = v.size();
     return rtn;
 }
 
@@ -72,18 +96,22 @@ template<typename T, typename Alloc>
 typename std::vector<T, Alloc>::iterator ObservableVector<T, Alloc>::erase(const_iterator pos)
 {
     auto i = pos - v.begin();
-    willRemoveValue(std::ref<const T>(v.at(i)));
+    willRemoveValue(std::ref<T>(v.at(i)));
     auto rtn = v.erase(pos);
     valueRemoved(i);
+    sizeVar = v.size();
     return rtn;
 }
 
 template<typename T, typename Alloc>
 void ObservableVector<T, Alloc>::clear()
 {
-    while (size() > 0) {
-        pop_back();
+    while (v.size() > 0) {
+        willRemoveValue(std::ref<T>(v.back()));
+        v.pop_back();
+        valueRemoved(v.size());
     }
+    sizeVar = v.size();
 }
 
 template<typename T, typename Alloc>
@@ -95,8 +123,8 @@ void ObservableVector<T, Alloc>
     }
 
     slave.scopedObserve(valueAdded,
-        [&] (const std::pair<size_t, std::reference_wrapper<const T>>& p) {
-        const size_t& pos = p.first;
+        [&] (const std::pair<size_t, std::reference_wrapper<T>>& p) {
+        size_t pos = p.first;
         const T& obj = p.second.get();
         dataProxy.sendEvent([=, &slave] {
             slave.insert(slave.begin() + pos, obj);
@@ -120,8 +148,8 @@ void ObservableVector<T, Alloc>
     }
 
     slave.scopedObserve(valueAdded,
-        [&] (const std::pair<size_t, std::reference_wrapper<const T>>& p) {
-        const size_t& pos = p.first;
+        [&] (const std::pair<size_t, std::reference_wrapper<T>>& p) {
+        size_t pos = p.first;
         std::shared_ptr<SlaveType> obj =
             p.second.get()->template getSlave<SlaveType>();
         dataProxy.sendEvent([=, &slave] {
@@ -147,7 +175,7 @@ auto ObservableVector<T, Alloc>
     }
 
     slave.scopedObserve(valueAdded,
-        [&slave, &args...] (const std::pair<size_t, std::reference_wrapper<const T>>& object) {
+        [&slave, &args...] (const std::pair<size_t, std::reference_wrapper<T>>& object) {
         slave.insert(slave.begin() + object.first,
             std::make_shared<SlaveType>(*object.second.get().get(),
                 std::forward<ArgN>(args)...));
@@ -171,7 +199,7 @@ auto ObservableVector<T, Alloc>
     }
 
     slave.scopedObserve(valueAdded,
-        [&, createFunc] (const std::pair<size_t, std::reference_wrapper<const T>>& p) {
+        [&, createFunc] (const std::pair<size_t, std::reference_wrapper<T>>& p) {
         slave.insert(slave.begin() + p.first, createFunc(p.second.get()));
     });
 

@@ -1,15 +1,18 @@
 #pragma once
 
+#include <tuple>
 #include <type_traits>
 
 #include <rxcpp/rx.hpp>
 
 #include "template_utils.h"
+#include "object_owner.h"
 #include "observer.h"
 #include "observes.h"
+#include "object_owner.h"
 
 template<typename T = void*>
-class Observable : public Observes {
+class Observable : public Observes, public ObjectOwner {
 
 public:
     Observable();
@@ -42,6 +45,10 @@ public:
     auto flattenLatest() const
         -> Observable<typename inner_template<T>::type>;
 
+    template <typename Fn>
+    auto mapLatest(const Fn& fn) const
+        -> Observable<typename std::decay<decltype(fn(std::declval<T>()))>::type::type>;
+
     auto ignore(T value) const
         -> Observable<T>;
 
@@ -53,11 +60,15 @@ protected:
 
     void fixRxObjects(const rxcpp::observable<T>& observable);
 
+    template<typename t>
+    friend class Observable;
+
 };
 
-#define LATEST_PROPERTY(obj, property)                          \
-    obj.map([] (decltype(obj)::type obj_) {                     \
-        return obj_->property;                                  \
-    }).flattenLatest()
+#define LATEST_PROPERTY(obj, property)                                      \
+    obj.mapLatest([] (std::decay<decltype(obj)>::type::type obj_)           \
+            -> std::decay<decltype(obj_->property)>::type& {                \
+        return obj_->property;                                              \
+    })
 
 #include "observable.hpp"
