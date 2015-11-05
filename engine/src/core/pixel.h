@@ -1,7 +1,7 @@
 #pragma once
 #include "globals.h"
 
-class Group;
+// class Group;
 
 /**
  * Pixels are individual lights that exist in 3D space on a structure;
@@ -9,12 +9,17 @@ class Group;
 class Pixel {
 
 public:
-    Pixel(double x_ = 0, double y_ = 0, double z_ = 0);
+    Pixel();
+    Pixel(double x, double y, double z);
 
-    double x;
-    double y;
-    double z;
+    Var<double> x;
+    Var<double> y;
+    Var<double> z;
 
-    shared_ptr<Group> parent;
+    // shared_ptr<Group> parent;
+
+    template <typename Visitor, typename... PixelType,
+        typename enable_if_all<int, are_same<Pixel, typename std::decay<PixelType>::type...>::value>::type>
+    void performOnObjects(Visitor& visitor, PixelType&&... pixelObjects);
 
 };

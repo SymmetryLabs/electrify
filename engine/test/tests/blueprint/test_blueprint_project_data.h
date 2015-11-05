@@ -19,21 +19,11 @@ string serializedProject = R"({
                                             "data": {
                                                 "x": 0,
                                                 "y": 0,
-                                                "z": 0,
-                                                "parent": {
-                                                    "ptr_wrapper": {
-                                                        "id": 0
-                                                    }
-                                                }
+                                                "z": 0
                                             }
                                         }
                                     }
-                                ],
-                                "root": {
-                                    "ptr_wrapper": {
-                                        "id": 0
-                                    }
-                                }
+                                ]
                             }
                         }
                     }

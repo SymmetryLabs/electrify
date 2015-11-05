@@ -9,20 +9,36 @@
 class Group {
 
 public:
-    Group(double x_ = 0, double y_ = 0, double z_ = 0);
+    Group();
+    Group(double x, double y, double z);
 
-    double x;
-    double y;
-    double z;
+    Var<double> x;
+    Var<double> y;
+    Var<double> z;
 
-    double rx = 0;
-    double ry = 0;
-    double rz = 0;
+    Var<double> rx;
+    Var<double> ry;
+    Var<double> rz;
 
-    string name;
+    Var<string> name;
     shared_ptr<Group> parent;
 
     vector<shared_ptr<Group>> members;
     vector<shared_ptr<Pixel>> pixels;
+
+    template <typename Visitor, typename... GroupType,
+        typename enable_if_all<int, are_same<Group, typename std::decay<GroupType>::type...>::value>::type = 0>
+    void performOnObjects(Visitor& visitor, GroupType&&... other)
+    {
+        visitor(x, other.x...);
+        visitor(y, other.y...);
+        visitor(z, other.z...);
+
+        visitor(rx, other.rx...);
+        visitor(ry, other.ry...);
+        visitor(rz, other.rz...);
+
+        visitor(name, other.name...);
+    }
 
 };
