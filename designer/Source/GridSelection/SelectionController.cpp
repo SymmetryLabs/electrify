@@ -25,7 +25,7 @@ bool SelectionController::hasSelection() const
 
 void SelectionController::select(Selectable* item)
 {
-    item->selected << true;
+    item->selected = true;
     selectedItems.push_back(item);
 }
 
@@ -38,7 +38,7 @@ void SelectionController::toggleSelected(Selectable* item, bool enableMulti)
     }
     for (auto iter = selectedItems.begin(); iter != selectedItems.end(); ++iter) {
         if (*iter == item) {
-            item->selected << false;
+            item->selected = false;
             selectedItems.erase(iter);
             return;
         }
@@ -51,7 +51,7 @@ void SelectionController::setSelected(const vector<Selectable*>& items)
     deselectAll();
     selectedItems.assign(items.begin(), items.end());
     for (auto selectedItem : selectedItems) {
-        selectedItem->selected << true;
+        selectedItem->selected = true;
     }
 }
 
@@ -59,7 +59,7 @@ void SelectionController::deselect(Selectable* item)
 {
     for (auto iter = selectedItems.begin(); iter != selectedItems.end(); ++iter) {
         if (*iter == item) {
-            item->selected << false;
+            item->selected = false;
             selectedItems.erase(iter);
             return;
         }
@@ -69,7 +69,7 @@ void SelectionController::deselect(Selectable* item)
 void SelectionController::deselectAll()
 {
     for (auto selectedItem : selectedItems) {
-        selectedItem->selected << false;
+        selectedItem->selected = false;
     }
     selectedItems.clear();
 }
@@ -77,7 +77,7 @@ void SelectionController::deselectAll()
 void SelectionController::deleteSelected()
 {
     for (auto selectedItem : selectedItems) {
-        selectedItem->selected << false;
+        selectedItem->selected = false;
         selectedItem->deleteSelectable();    }
     selectedItems.clear();
 }
