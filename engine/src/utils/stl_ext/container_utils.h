@@ -26,3 +26,9 @@ std::shared_ptr<T> removeSharedPtr(C& container, T* value)
     container.erase(valueIter);
     return valuePtr;
 }
+
+template<typename T, typename C>
+void removePtr(C& container, T* value)
+{
+    container.erase(std::remove(container.begin(), container.end(), value), container.end());
+}
