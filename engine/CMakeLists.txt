@@ -1,5 +1,16 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
+# See: https://cmake.org/pipermail/cmake/2012-June/050674.html
+MACRO(HEADER_DIRECTORIES list)
+    SET(dir_list "")
+    FOREACH(file_path ${${list}})
+        GET_FILENAME_COMPONENT(dir_path ${file_path} PATH)
+        SET(dir_list ${dir_list} ${dir_path})
+    ENDFOREACH()
+    LIST(REMOVE_DUPLICATES dir_list)
+    SET(${list} ${dir_list})
+ENDMACRO()
+
 project (SymmetryEngine)
 
 #------------------------------------------------------------------------------
@@ -62,31 +73,12 @@ if (APPLE)
   set(CMAKE_MACOSX_RPATH ON)
 endif()
 
-file(GLOB HEADER_DIRS
-  "src"
-  "src/core"
-  "src/core/serializers"
-  "src/blueprint"
-  "src/blueprint/serializers"
-  "src/blueprint_ui"
-  "src/nodes"
-  "src/nodes/oscillators"
-  "src/nodes/transforms"
-  "src/utils"
-  "src/utils/cpp_ext"
-  "src/utils/data_bridge"
-  "src/utils/double_buffer"
-  "src/utils/event_queue"
-  "src/utils/fileio"
-  "src/utils/misc_utils"
-  "src/utils/reactive"
-  "src/utils/reactive/serializers"
-  "src/utils/serialization"
-  "src/utils/serialization/serializers"
-  "src/utils/stl_ext"
-  "src/utils/test_access"
-  "src/utils/type_erasure"
+file(GLOB_RECURSE HEADER_DIRS
+  "src/*.h"
+  "src/*.hpp"
+  "src/*.tpp"
 )
+HEADER_DIRECTORIES(HEADER_DIRS)
 
 file(GLOB LIB_HEADER_DIRS
   "libs"
