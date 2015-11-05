@@ -2,7 +2,166 @@
 
 #include <rxcpp/rx.hpp>
 
-SCENARIO("Testing the underlying rx library") {
+SCENARIO("Testing the underlying rx library for initial callbacks") {
+    GIVEN("I have an rx behavior") {
+        rxcpp::subjects::behavior<int> behavior{10};
+        auto observable = behavior.get_observable();
+
+        WHEN("I observe it") {
+            int calls = 0;
+            int value = -1;
+            observable.subscribe([&] (int i) {
+                calls++;
+                value = i;
+            });
+            THEN("there's an initial callback") {
+                REQUIRE(calls == 1);
+                REQUIRE(value == 10);
+            }
+        }
+
+        GIVEN("a value is pushed to the behavior") {
+            behavior.get_subscriber().on_next(11);
+
+            WHEN("I observe it") {
+                int calls = 0;
+                int value = -1;
+                observable.subscribe([&] (int i) {
+                    calls++;
+                    value = i;
+                });
+                THEN("there's an initial callback") {
+                    REQUIRE(calls == 1);
+                    REQUIRE(value == 11);
+                }
+            }
+        }
+    }
+}
+
+SCENARIO("Testing rxcpp::subjects::subject with replay for initial callbacks") {
+    GIVEN("I have an rx subject") {
+        rxcpp::subjects::subject<int> subject;
+        auto observable = subject.get_observable().replay(1).connect_forever();
+
+        WHEN("I observe it") {
+            int calls = 0;
+            int value = -1;
+            observable.subscribe([&] (int i) {
+                calls++;
+                value = i;
+            });
+            THEN("there is no initial callback") {
+                REQUIRE(calls == 0);
+                REQUIRE(value == -1);
+            }
+        }
+
+        GIVEN("a value is pushed to the subject") {
+            subject.get_subscriber().on_next(11);
+
+            WHEN("I observe it") {
+                int calls = 0;
+                int value = -1;
+                observable.subscribe([&] (int i) {
+                    calls++;
+                    value = i;
+                });
+                THEN("there's an initial callback") {
+                    REQUIRE(calls == 1);
+                    REQUIRE(value == 11);
+                }
+            }
+        }
+    }
+}
+
+SCENARIO("Testing rxcpp::subjects::subject with replay with initial value for initial callbacks") {
+    GIVEN("I have an rx subject") {
+        rxcpp::subjects::subject<int> subject;
+        auto observable = subject.get_observable().replay(1).connect_forever();
+        subject.get_subscriber().on_next(10);
+
+        WHEN("I observe it") {
+            int calls = 0;
+            int value = -1;
+            observable.subscribe([&] (int i) {
+                calls++;
+                value = i;
+            });
+            THEN("there is no initial callback") {
+                REQUIRE(calls == 1);
+                REQUIRE(value == 10);
+            }
+        }
+
+        GIVEN("a value is pushed to the subject") {
+            subject.get_subscriber().on_next(11);
+
+            WHEN("I observe it") {
+                int calls = 0;
+                int value = -1;
+                observable.subscribe([&] (int i) {
+                    calls++;
+                    value = i;
+                });
+                THEN("there's an initial callback") {
+                    REQUIRE(calls == 1);
+                    REQUIRE(value == 11);
+                }
+            }
+        }
+    }
+}
+
+SCENARIO("pairing values with replaysubject") {
+    GIVEN("an empty replaysubject") {
+        auto rs = rxcpp::subjects::replay<int, rxcpp::identity_one_worker>(1, rxcpp::identity_current_thread());
+        auto observable = rs.get_observable().zip(rxcpp::observable<>::just(0).concat(rs.get_observable().skip(1)));
+        WHEN("I subscribe to the observable") {
+            int calls = 0;
+            observable.subscribe([&] (std::tuple<int, int>) {
+                calls++;
+            });
+            THEN("the callback is not called") {
+                REQUIRE(calls == 0);
+            }
+            WHEN("the subject receives a value") {
+                rs.get_subscriber().on_next(10);
+                THEN("the callback is called with the new value") {
+                    REQUIRE(calls == 1);
+                }   
+            }
+        }
+        GIVEN("it starts with 1 value") {
+            rs.get_subscriber().on_next(10);
+            WHEN("I subscribe to the observable") {
+                int calls = 0;
+                observable.subscribe([&] (std::tuple<int, int>) {
+                    calls++;
+                });
+                THEN("the callback is called") {
+                    REQUIRE(calls == 1);
+                }
+            }
+        }
+        GIVEN("it starts with 2 values") {
+            rs.get_subscriber().on_next(10);
+            rs.get_subscriber().on_next(11);
+            GIVEN("I subscribe to the observable") {
+                int calls = 0;
+                observable.subscribe([&] (std::tuple<int, int>) {
+                    calls++;
+                });
+                THEN("the callback is called") {
+                    REQUIRE(calls == 1);
+                }
+            }
+        }
+    }
+}
+
+SCENARIO("Testing the underlying rx library with moving objects and object lifetimes") {
     GIVEN("I have an rx behavior") {
         rxcpp::subjects::behavior<int> behavior(10);
 
