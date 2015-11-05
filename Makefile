@@ -5,7 +5,7 @@ valgrind:
 .PHONY : valgrind
 
 lldb:
-	@true @$(eval DEBUGGER = lldb -o "breakpoint set -n cereal::RapidJSONException -n std::out_of_range" -o "r")
+	@true @$(eval DEBUGGER = lldb -o "breakpoint set -n cereal::RapidJSONException -n std::out_of_range -n std::runtime_error" -o "r")
 	@true @$(eval PARAMS = --nothrow)
 .PHONY : lldb
 
@@ -20,7 +20,7 @@ mkdir:
 .PHONY : mkdir
 
 cmake: mkdir
-	@cd $(BUILD_DIR) && cmake ..
+	@cd $(BUILD_DIR) && cmake -DCMAKE_BUILD_TYPE=Debug ..
 .PHONY : cmake
 
 compile:
