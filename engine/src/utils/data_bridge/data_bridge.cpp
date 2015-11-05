@@ -6,10 +6,8 @@
 DataBridge::DataBridge()
 : masterQueue(std::make_shared<EventQueue>())
 , slaveQueue(std::make_shared<EventQueue>())
-, masterRelay(*masterQueue, *slaveQueue)
-, slaveRelay(*slaveQueue, *masterQueue)
-, masterProxy(masterQueue)
-, slaveProxy(slaveQueue)
+, masterRelay(masterQueue, slaveQueue)
+, slaveRelay(slaveQueue, masterQueue)
 {
     static boost::uuids::random_generator nodeUuidGenerator;
     uuid = nodeUuidGenerator();
@@ -27,12 +25,12 @@ DataRelay& DataBridge::getSlaveRelay()
 
 DataProxy& DataBridge::getMasterProxy()
 {
-    return masterProxy;
+    return masterRelay.getProxy();
 }
 
 DataProxy& DataBridge::getSlaveProxy()
 {
-    return slaveProxy;
+    return slaveRelay.getProxy();
 }
 
 void DataBridge::flushAll()

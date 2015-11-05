@@ -5,7 +5,8 @@
 #include <boost/uuid/uuid.hpp>
 
 #include "data_relay.h"
-#include "data_proxy.h"
+
+class EventQueue;
 
 class DataBridge {
 
@@ -29,8 +30,5 @@ private:
 
     DataRelay masterRelay;
     DataRelay slaveRelay;
-
-    DataProxy masterProxy;
-    DataProxy slaveProxy;
 
 };

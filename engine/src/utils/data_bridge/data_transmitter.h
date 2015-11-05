@@ -19,6 +19,8 @@ public:
     template <typename T>
     explicit DataTransmitter(const std::shared_ptr<T>& destination);
 
+    virtual ~DataTransmitter() = default;
+
     template <typename T>
     void setDestination(const std::shared_ptr<T>& destination);
     void setDataProxies(const DataProxy& masterDataProxy, const DataProxy& slaveDataProxy);
