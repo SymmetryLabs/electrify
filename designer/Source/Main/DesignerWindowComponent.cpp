@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.2.0
+  Created with Introjucer version: 4.0.1
 
   ------------------------------------------------------------------------------
 
@@ -100,7 +100,7 @@ void DesignerWindowComponent::resized()
     component->setBounds (0, 0, 200, 200);
     component2->setBounds (0, 0 + 200, roundFloatToInt (200 * 1.0000f), getHeight() - 200);
     component3->setBounds (0 + 200, 0, getWidth() - 400, proportionOfHeight (1.0000f));
-    component4->setBounds ((0 + 200) + (getWidth() - 400), 0, 200, proportionOfHeight (1.0000f));
+    component4->setBounds (getWidth() - 200, 0, 200, proportionOfHeight (1.0000f));
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -137,8 +137,8 @@ BEGIN_JUCER_METADATA
                     virtualName="NodeGridView" explicitFocusOrder="0" pos="0R 0 400M 100%"
                     posRelativeX="46591e2475c6760e" class="Component" params="*session.getNodeGrid()"/>
   <GENERICCOMPONENT name="new component" id="36c4f7644b9e5f0f" memberName="component4"
-                    virtualName="PropertiesPanel" explicitFocusOrder="0" pos="0R 0 200 100%"
-                    posRelativeX="84be50bd51afc9b6" class="Component" params=""/>
+                    virtualName="PropertiesPanel" explicitFocusOrder="0" pos="0Rr 0 200 100%"
+                    class="Component" params=""/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.2.0
+  Created with Introjucer version: 4.0.1
 
   ------------------------------------------------------------------------------
 
@@ -145,15 +145,15 @@ void SignalView::mouseUp (const MouseEvent& e)
 
         NodeGridView* nodeGridView = findParentComponentOfClass<NodeGridView>();
         Point<int> p = nodeGridView->getLocalPoint(this, e.getPosition());
-        
+
         Component* component = getComponentAtWithChildTypeFilter<NodeGridItemView>(nodeGridView, p);
         SignalView* signalView = dynamic_cast<SignalView*>(component);
-        
+
         if (signalView && (socket.direction == signalView->socket.direction
             || signalView->findParentComponentOfClass<NodeGridItemView>() == this->findParentComponentOfClass<NodeGridItemView>())) {
             signalView = nullptr;
         }
-        
+
         nodeGrid.draggingWireEnded(signalView ? &signalView->socket : nullptr);
     }
     //[/UserCode_mouseUp]

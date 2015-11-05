@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -26,41 +26,34 @@
   ==============================================================================
 */
 
-NamedPipe::NamedPipe()
+#ifndef JUCE_BASE64_H_INCLUDED
+#define JUCE_BASE64_H_INCLUDED
+
+
+/**
+    Contains some static methods for converting between binary and the
+    standard base-64 encoding format.
+*/
+struct JUCE_API Base64
 {
-}
+    /** Converts a binary block of data into a base-64 string.
+        This will write the resulting string data to the given stream.
+        If a write error occurs with the stream, the method will terminate and return false.
+    */
+    static bool convertToBase64 (OutputStream& base64Result, const void* sourceData, size_t sourceDataSize);
 
-NamedPipe::~NamedPipe()
-{
-    close();
-}
+    /** Converts a base-64 string back to its binary representation.
+        This will write the decoded binary data to the given stream.
+        If the string is not valid base-64, the method will terminate and return false.
+    */
+    static bool convertFromBase64 (OutputStream& binaryOutput, StringRef base64TextInput);
 
-bool NamedPipe::openExisting (const String& pipeName)
-{
-    close();
+    /** Converts a block of binary data to a base-64 string. */
+    static String toBase64 (const void* sourceData, size_t sourceDataSize);
 
-    ScopedWriteLock sl (lock);
-    currentPipeName = pipeName;
-    return openInternal (pipeName, false, false);
-}
+    /** Converts a string's UTF-8 representation to a base-64 string. */
+    static String toBase64 (const String& textToEncode);
+};
 
-bool NamedPipe::isOpen() const
-{
-    return pimpl != nullptr;
-}
 
-bool NamedPipe::createNewPipe (const String& pipeName, bool mustNotExist)
-{
-    close();
-
-    ScopedWriteLock sl (lock);
-    currentPipeName = pipeName;
-    return openInternal (pipeName, true, mustNotExist);
-}
-
-String NamedPipe::getName() const
-{
-    return currentPipeName;
-}
-
-// other methods for this class are implemented in the platform-specific files
+#endif   // JUCE_BASE64_H_INCLUDED
