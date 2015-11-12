@@ -8,7 +8,7 @@
 
 namespace cereal
 {
-    
+
     template<class Archive> inline
     std::string save_minimal(const Archive& ar, const boost::uuids::uuid& uuid)
     {

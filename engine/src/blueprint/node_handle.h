@@ -66,7 +66,6 @@ protected:
     virtual void setBridge(DataBridge& bridge);
 
 private:
-    
     Var<string> name;
 
     ObservableVector<shared_ptr<NodeSocket>> inputs;

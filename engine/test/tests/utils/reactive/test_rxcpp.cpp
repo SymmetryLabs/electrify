@@ -130,7 +130,7 @@ SCENARIO("pairing values with replaysubject") {
                 rs.get_subscriber().on_next(10);
                 THEN("the callback is called with the new value") {
                     REQUIRE(calls == 1);
-                }   
+                }
             }
         }
         GIVEN("it starts with 1 value") {

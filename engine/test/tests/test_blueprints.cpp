@@ -24,7 +24,7 @@
 //         output.colorBuffer.push_back(Color(0xFFFFFFFF));
 //       }
 //       blueprint->initRenderable(model);
-      
+
 
 //       GIVEN("A CompoundNode with A registered color output ") {
 //         auto compound = blueprint->makeSubnode<CompoundNode>();
@@ -33,12 +33,12 @@
 //         GIVEN("Two subnodes (constant color, incrementer)") {
 //           auto constantColor = compound->makeSubnode<ConstantColorNode>();
 //           auto incrementer = compound->makeSubnode<Incrementer>();
-          
+
 //           GIVEN("The nodes are wired up to the blueprint") {
 //             compound->wireSubnodes(*constantColor, "output", *incrementer, "color");
 //             compound->wireOutput("color", *incrementer, "output");
 //             blueprint->wireOutput("color", *compound, "color");
-            
+
 //             WHEN("The blueprint is updated") {
 //               blueprint->update(frame);
 //               THEN("no crash") {
@@ -53,8 +53,8 @@
 //               }
 //             }
 //           }
-//         }  
-//       }      
+//         }
+//       }
 //     }
 //   }
 // }

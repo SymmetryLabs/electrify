@@ -8,7 +8,7 @@
 #include "enable_type_erasure.h"
 
 /**
- * Nodes are the building blocks of the Symmetry Engine. They receive inputs, and provide 
+ * Nodes are the building blocks of the Symmetry Engine. They receive inputs, and provide
  * outputs.
  * A node can contain other nodes.
  */

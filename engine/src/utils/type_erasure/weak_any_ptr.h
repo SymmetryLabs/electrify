@@ -20,7 +20,7 @@ public:
     WeakAnyPtr(const std::shared_ptr<ValueType>& value);
 
     bool expired() const;
-    
+
     template <typename T>
     std::shared_ptr<T> get() const;
 

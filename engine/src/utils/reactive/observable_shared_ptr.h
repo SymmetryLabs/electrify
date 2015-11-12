@@ -68,7 +68,7 @@ private:
 };
 
 template<typename T>
-std::ostream& operator<<(std::ostream& os, const ObservableSharedPtr<T>& osp) { 
+std::ostream& operator<<(std::ostream& os, const ObservableSharedPtr<T>& osp) {
     return os << osp.getValue();
 }
 

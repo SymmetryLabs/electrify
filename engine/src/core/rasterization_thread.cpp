@@ -187,7 +187,7 @@ void RasterizationThread::performRasterization()
     if (model->pixels.size() != doubleBuffer.size()) {
         doubleBuffer.setSize(model->pixels.size());
     }
-    
+
     FrameContext frameContext(currentFrameTime - startTime);
     renderable->renderRenderable(frameContext, doubleBuffer.getBackBuffer());
 

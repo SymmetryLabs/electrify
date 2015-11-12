@@ -8,7 +8,7 @@ class SinWave : public Waveform<Input> {
 
 public:
     static void configure(SinWave<Input>& node, NodeHandle& handle);
-    
+
     float calculate(const FrameContext& frame) const override;
 
 private:

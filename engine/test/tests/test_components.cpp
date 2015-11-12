@@ -11,7 +11,7 @@
 //     ConstantColorNode c;
 
 //     WHEN("We inspect its name") {
-      
+
 //       THEN("We get a value") {
 //         REQUIRE(c.nodeName() != "");
 //       }

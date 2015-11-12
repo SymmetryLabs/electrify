@@ -45,7 +45,7 @@ private:
     }
 
 // Helper class to enable static registration of node types
-// 
+//
 // Notes: The registerEntry method only executes once per
 // template instantiation of NodeRegistrationEntry,
 // regardless of how many times its called.

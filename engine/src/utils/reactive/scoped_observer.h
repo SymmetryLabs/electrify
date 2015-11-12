@@ -27,7 +27,7 @@ private:
         Observer observer;
         void unsubscribe();
     };
-    
+
     std::shared_ptr<ScopedObserverContainer> container;
 
 };

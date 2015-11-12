@@ -9,7 +9,7 @@ class Incrementer : public BasicNode<Skip<Input, 1>, Color> {
 
 public:
     static void configure(Incrementer<Input>& node, NodeHandle& handle);
-    
+
     virtual void init() override;
     virtual void update(const FrameContext& frame) override;
 
@@ -17,7 +17,7 @@ public:
 
 private:
     Def<Input, 0, Color> colorInput;
-    
+
     int increment = 0;
 
     NODE_IMPL();

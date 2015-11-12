@@ -113,7 +113,7 @@ private:
 };
 
 template<typename T>
-std::ostream& operator<<(std::ostream& os, const ObservableVector<T>& ov) { 
+std::ostream& operator<<(std::ostream& os, const ObservableVector<T>& ov) {
     return os << ov.v;
 }
 

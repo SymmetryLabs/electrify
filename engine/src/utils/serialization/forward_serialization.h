@@ -22,7 +22,7 @@ namespace cereal                                                        \
     void prologue(JSONInputArchive& ar, const TYPE<T>& t) {}            \
     template <typename T> inline                                        \
     void epilogue(JSONInputArchive& ar, const TYPE<T>& t) {}            \
-}   
+}
 
 #define FORWARD_SERIALIZATION_TEMPLATE_2(TYPE)                          \
 namespace cereal                                                        \

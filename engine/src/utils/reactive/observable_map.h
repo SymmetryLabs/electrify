@@ -87,7 +87,7 @@ private:
 };
 
 template<typename KeyT, typename ValueT>
-std::ostream& operator<<(std::ostream& os, const ObservableMap<KeyT, ValueT>& om) { 
+std::ostream& operator<<(std::ostream& os, const ObservableMap<KeyT, ValueT>& om) {
     return os << om.m;
 }
 

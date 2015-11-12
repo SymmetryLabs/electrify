@@ -4,7 +4,7 @@ WeakAnyPtr::WeakAnyPtr(const std::shared_ptr<ValueType>& value_)
 , anyPtr(*value_)
 {
 }
-    
+
 template <typename T>
 std::shared_ptr<T> WeakAnyPtr::get() const
 {

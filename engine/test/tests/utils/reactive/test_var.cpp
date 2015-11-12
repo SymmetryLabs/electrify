@@ -287,7 +287,7 @@ SCENARIO("using Var<int>") {
             REQUIRE(calls10a == 1);
             REQUIRE(calls10b == 1);
             REQUIRE(calls11 == 1);
-            
+
         }
     }
 }
@@ -702,7 +702,7 @@ SCENARIO("Using Var.pairWithPrevious()") {
     GIVEN("an empty var") {
         Var<int> v;
         WHEN("pairWithPrevious is observed") {
-            
+
         }
     }
 }

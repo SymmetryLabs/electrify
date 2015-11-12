@@ -22,7 +22,7 @@ public:
     virtual void unwireOutput(NodeSocket& destinationNodeSocket);
 
     bool belongsTo(const NodeHandle& nodeHandle) const;
- 
+
     Var<string> name;
 
 protected:
