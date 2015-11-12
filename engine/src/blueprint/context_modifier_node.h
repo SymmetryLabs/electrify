@@ -5,7 +5,7 @@
 #include "frame_context.h"
 #include "node_socket.h"
 
-template<typename Input>
+template <typename Input>
 class ContextModifierNode : public Node {
 
 public:

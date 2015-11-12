@@ -14,7 +14,7 @@ private:
     ENABLE_TYPE_ERASURE_BASE();
 };
 
-template<typename V>
+template <typename V>
 class SignalX : public BaseSignal {
 public:
     SignalX() : BaseSignal(typeid(V)) {}
@@ -27,14 +27,14 @@ private:
 
 };
 
-template<typename V>
+template <typename V>
 class FunctionSignal : public SignalX<V> {
 public:
     explicit FunctionSignal(function<V(const FrameContext& frame) const> calculate_function_)
         : calculate_function(calculate_function_)
     {}
 
-    template<typename C>
+    template <typename C>
     FunctionSignal(V(C::* calculate_function_)(const FrameContext& frame) const, const C& inst)
         : calculate_function(bind(mem_fn(calculate_function_), &inst, placeholders::_1))
     {}
@@ -48,7 +48,7 @@ private:
 
 };
 
-template<typename V>
+template <typename V>
 class ConstantSignal : public SignalX<V> {
 public:
     ConstantSignal() = default;

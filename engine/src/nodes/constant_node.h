@@ -3,7 +3,7 @@
 
 #include "basic_node.h"
 
-template<typename Input, typename V>
+template <typename Input, typename V>
 class ConstantNode : public BasicNode<Input, V> {
 
 public:
@@ -20,7 +20,7 @@ private:
 
 };
 
-template<typename Input>
+template <typename Input>
 using ConstantFloatNode = ConstantNode<Input, float>;
 
 REGISTER_NODE(ConstantFloatNode);

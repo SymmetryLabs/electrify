@@ -7,13 +7,13 @@
 
 // Reference implementation:
 //   https://github.com/USCiLab/cereal/blob/v1.1.2/include/cereal/types/memory.hpp#L117
-template<typename T, typename Enable = void>
+template <typename T, typename Enable = void>
 class EnabledSharedFromThisStatePreserver {
 public:
     explicit EnabledSharedFromThisStatePreserver(T* ptr) {}
 };
 
-template<typename T>
+template <typename T>
 class EnabledSharedFromThisStatePreserver<T, void_t<decltype(std::declval<T>().shared_from_this())>> {
 
     using EnableSharedFromThisTemplateType = typename decltype(std::declval<T>().shared_from_this())::element_type;
@@ -52,7 +52,7 @@ private:
 //   https://github.com/USCiLab/cereal/blob/v1.1.2/include/cereal/types/memory.hpp#L250
 // See:
 //   https://github.com/USCiLab/cereal/issues/47
-template<typename T, typename... Args>
+template <typename T, typename... Args>
 std::shared_ptr<T> allocSharedPtr(std::function<void(std::shared_ptr<T>)> preConstruction, Args&&... ctorArgs)
 {
     using StorageType = typename std::aligned_storage<sizeof(T)>::type;

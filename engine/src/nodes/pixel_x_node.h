@@ -3,7 +3,7 @@
 
 #include "basic_node.h"
 
-template<typename Input>
+template <typename Input>
 class PixelXNode : public BasicNode<Input, float> {
 
 public:

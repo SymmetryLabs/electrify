@@ -3,7 +3,7 @@
 
 #include "basic_node.h"
 
-template<typename Input>
+template <typename Input>
 class ScalarTransform : public BasicNode<Skip<Input, 1>, float> {
 
 public:

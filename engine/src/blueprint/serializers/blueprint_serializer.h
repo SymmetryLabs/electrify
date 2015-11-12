@@ -10,7 +10,7 @@
 
 CEREAL_SPECIALIZE_FOR_ALL_ARCHIVES(Blueprint, cereal::specialization::non_member_serialize);
 
-template<typename Archive>
+template <typename Archive>
 void serialize(Archive& archive, Blueprint& blueprint)
 {
     archive(

@@ -10,7 +10,7 @@ void DataTransmitter::setDestination(const std::shared_ptr<T>& destination_)
     destination = destination_;
 }
 
-template<typename T>
+template <typename T>
 void DataTransmitter::bindObjects(Observable<T>& masterSignal, TokenSource<T>& slaveSignal)
 {
     observe(masterSignal, [&, this] (T object) {
@@ -20,13 +20,13 @@ void DataTransmitter::bindObjects(Observable<T>& masterSignal, TokenSource<T>& s
     });
 }
 
-template<typename MasterType, typename SlaveType>
+template <typename MasterType, typename SlaveType>
 void DataTransmitter::bindObjects(ObservableVector<MasterType>& masterVector, ObservableVector<SlaveType>& slaveVector)
 {
     masterVector.makeProxySlave(slaveVector, masterDataProxy);
 }
 
-template<typename C, typename F>
+template <typename C, typename F>
 void DataTransmitter::sendCommand(F&& func)
 {
     WeakAnyPtr localWeakMaster = destination;
@@ -37,7 +37,7 @@ void DataTransmitter::sendCommand(F&& func)
     });
 }
 
-template<typename C, typename R, typename F, typename FResp>
+template <typename C, typename R, typename F, typename FResp>
 void DataTransmitter::sendCommand(F&& func, FResp&& response)
 {
     WeakAnyPtr localWeakMaster = destination;
@@ -52,7 +52,7 @@ void DataTransmitter::sendCommand(F&& func, FResp&& response)
     });
 }
 
-template<typename C, typename S1, typename F, typename T1>
+template <typename C, typename S1, typename F, typename T1>
 void DataTransmitter::sendCommand(F&& func, std::weak_ptr<T1> t1)
 {
     WeakAnyPtr localWeakMaster = destination;
@@ -66,7 +66,7 @@ void DataTransmitter::sendCommand(F&& func, std::weak_ptr<T1> t1)
     });
 }
 
-template<typename C, typename S1, typename S2, typename F, typename T1, typename T2>
+template <typename C, typename S1, typename S2, typename F, typename T1, typename T2>
 void DataTransmitter::sendCommand(F&& func, std::weak_ptr<T1> t1, std::weak_ptr<T2> t2)
 {
     WeakAnyPtr localWeakMaster = destination;
@@ -83,7 +83,7 @@ void DataTransmitter::sendCommand(F&& func, std::weak_ptr<T1> t1, std::weak_ptr<
     });
 }
 
-template<typename C, typename F, typename T1>
+template <typename C, typename F, typename T1>
 void DataTransmitter::sendCommand(F&& func, std::weak_ptr<T1> t1)
 {
     WeakAnyPtr localWeakMaster = destination;
@@ -96,7 +96,7 @@ void DataTransmitter::sendCommand(F&& func, std::weak_ptr<T1> t1)
     });
 }
 
-template<typename C, typename F, typename T1, typename T2>
+template <typename C, typename F, typename T1, typename T2>
 void DataTransmitter::sendCommand(F&& func, std::weak_ptr<T1> t1, std::weak_ptr<T2> t2)
 {
     WeakAnyPtr localWeakMaster = destination;
@@ -111,19 +111,19 @@ void DataTransmitter::sendCommand(F&& func, std::weak_ptr<T1> t1, std::weak_ptr<
     });
 }
 
-template<typename F, typename T1>
+template <typename F, typename T1>
 void DataTransmitter::sendCommand(F&& func, std::weak_ptr<T1> t1)
 {
     masterDataProxy.sendEvent(std::forward<F>(func), t1);
 }
 
-template<typename F, typename T1, typename T2>
+template <typename F, typename T1, typename T2>
 void DataTransmitter::sendCommand(F&& func, std::weak_ptr<T1> t1, std::weak_ptr<T2> t2)
 {
     masterDataProxy.sendEvent(std::forward<F>(func), t1, t2);
 }
 
-template<typename C, typename S1, typename F, typename T1>
+template <typename C, typename S1, typename F, typename T1>
 void DataTransmitter::sendCommand(F&& func, T1 t1)
 {
     WeakAnyPtr localWeakMaster = destination;
@@ -138,7 +138,7 @@ void DataTransmitter::sendCommand(F&& func, T1 t1)
     });
 }
 
-template<typename C, typename S1, typename S2, typename F, typename T1, typename T2>
+template <typename C, typename S1, typename S2, typename F, typename T1, typename T2>
 void DataTransmitter::sendCommand(F&& func, T1 t1, T2 t2)
 {
     WeakAnyPtr localWeakMaster = destination;

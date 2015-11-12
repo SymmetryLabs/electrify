@@ -1,10 +1,10 @@
-template<typename T, typename Alloc>
+template <typename T, typename Alloc>
 ObservableVector<T, Alloc>::~ObservableVector()
 {
     ObjectOwner::releaseAll();
 }
 
-template<typename T, typename Alloc>
+template <typename T, typename Alloc>
 ObservableVector<T, Alloc>& ObservableVector<T, Alloc>::operator=(const std::vector<T, Alloc>& x)
 {
     while (v.size() > 0) {
@@ -20,7 +20,7 @@ ObservableVector<T, Alloc>& ObservableVector<T, Alloc>::operator=(const std::vec
     return *this;
 }
 
-template<typename T, typename Alloc>
+template <typename T, typename Alloc>
 ObservableVector<T, Alloc>& ObservableVector<T, Alloc>::operator=(std::initializer_list<value_type> il)
 {
     while (v.size() > 0) {
@@ -36,7 +36,7 @@ ObservableVector<T, Alloc>& ObservableVector<T, Alloc>::operator=(std::initializ
     return *this;
 }
 
-template<typename T, typename Alloc>
+template <typename T, typename Alloc>
 void ObservableVector<T, Alloc>::push_back(const T& value)
 {
     v.push_back(value);
@@ -44,7 +44,7 @@ void ObservableVector<T, Alloc>::push_back(const T& value)
     sizeVar = v.size();
 }
 
-template<typename T, typename Alloc>
+template <typename T, typename Alloc>
 void ObservableVector<T, Alloc>::push_back(T&& value)
 {
     v.push_back(std::forward<T>(value));
@@ -52,7 +52,7 @@ void ObservableVector<T, Alloc>::push_back(T&& value)
     sizeVar = v.size();
 }
 
-template<typename T, typename Alloc>
+template <typename T, typename Alloc>
 void ObservableVector<T, Alloc>::pop_back()
 {
     willRemoveValue(std::ref<T>(v.back()));
@@ -61,7 +61,7 @@ void ObservableVector<T, Alloc>::pop_back()
     sizeVar = v.size();
 }
 
-template<typename T, typename Alloc>
+template <typename T, typename Alloc>
 typename std::vector<T, Alloc>::iterator ObservableVector<T, Alloc>::insert(const_iterator pos, const T& value)
 {
     auto i = pos - v.begin();
@@ -71,7 +71,7 @@ typename std::vector<T, Alloc>::iterator ObservableVector<T, Alloc>::insert(cons
     return rtn;
 }
 
-template<typename T, typename Alloc>
+template <typename T, typename Alloc>
 typename std::vector<T, Alloc>::iterator ObservableVector<T, Alloc>::insert(const_iterator pos, T&& value)
 {
     auto i = pos - v.begin();
@@ -81,7 +81,7 @@ typename std::vector<T, Alloc>::iterator ObservableVector<T, Alloc>::insert(cons
     return rtn;
 }
 
-template<typename T, typename Alloc>
+template <typename T, typename Alloc>
 typename std::vector<T, Alloc>::iterator ObservableVector<T, Alloc>::erase(iterator pos)
 {
     auto i = pos - v.begin();
@@ -92,7 +92,7 @@ typename std::vector<T, Alloc>::iterator ObservableVector<T, Alloc>::erase(itera
     return rtn;
 }
 
-template<typename T, typename Alloc>
+template <typename T, typename Alloc>
 typename std::vector<T, Alloc>::iterator ObservableVector<T, Alloc>::erase(const_iterator pos)
 {
     auto i = pos - v.begin();
@@ -103,7 +103,7 @@ typename std::vector<T, Alloc>::iterator ObservableVector<T, Alloc>::erase(const
     return rtn;
 }
 
-template<typename T, typename Alloc>
+template <typename T, typename Alloc>
 void ObservableVector<T, Alloc>::clear()
 {
     while (v.size() > 0) {
@@ -114,7 +114,7 @@ void ObservableVector<T, Alloc>::clear()
     sizeVar = v.size();
 }
 
-template<typename T, typename Alloc>
+template <typename T, typename Alloc>
 void ObservableVector<T, Alloc>
     ::makeProxySlave(ObservableVector<T, Alloc>& slave, DataProxy& dataProxy) const
 {
@@ -138,8 +138,8 @@ void ObservableVector<T, Alloc>
     });
 }
 
-template<typename T, typename Alloc>
-template<typename SlaveType, typename SlaveAlloc>
+template <typename T, typename Alloc>
+template <typename SlaveType, typename SlaveAlloc>
 void ObservableVector<T, Alloc>
     ::makeProxySlave(ObservableVector<std::shared_ptr<SlaveType>, SlaveAlloc>& slave, DataProxy& dataProxy) const
 {
@@ -164,8 +164,8 @@ void ObservableVector<T, Alloc>
     });
 }
 
-template<typename T, typename Alloc>
-template<typename SlaveType, typename... ArgN, typename SlaveAlloc>
+template <typename T, typename Alloc>
+template <typename SlaveType, typename... ArgN, typename SlaveAlloc>
 auto ObservableVector<T, Alloc>
     ::makeSlave(ObservableVector<std::shared_ptr<SlaveType>, SlaveAlloc>& slave, ArgN&&... args) const
         -> typename std::enable_if<!is_callable<typename std::tuple_element<0, std::tuple<ArgN...> >::type, T>::value>::type
@@ -186,8 +186,8 @@ auto ObservableVector<T, Alloc>
     });
 }
 
-template<typename T, typename Alloc>
-template<typename SlaveType, typename FCreate, typename FDestr, typename SlaveAlloc>
+template <typename T, typename Alloc>
+template <typename SlaveType, typename FCreate, typename FDestr, typename SlaveAlloc>
 auto ObservableVector<T, Alloc>
     ::makeSlave(ObservableVector<std::shared_ptr<SlaveType>, SlaveAlloc>& slave,
         FCreate&& createFunc, FDestr&& destructFunc) const

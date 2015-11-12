@@ -11,7 +11,7 @@
 #include "token_source.h"
 #include "event.h"
 
-template<typename T>
+template <typename T>
 class Var : protected boost::base_from_member<rxcpp::subjects::replay<T, rxcpp::identity_one_worker>>, public TokenSource<T> {
 
 public:
@@ -45,7 +45,7 @@ public:
     Observable<T> previous() const;
 
     Observable<std::tuple<T, T>> pairWithPrevious() const;
-    template<typename Fn>
+    template <typename Fn>
     Observer observeWithPrevious(const Fn& fn) const;
 
     Var<T>& operator=(const Var<T>& other) = default;

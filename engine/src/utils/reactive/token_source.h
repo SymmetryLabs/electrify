@@ -5,7 +5,7 @@
 #include "observable.h"
 #include "type_traits_ext.h"
 
-template<typename T>
+template <typename T>
 class TokenSource : public Observable<T> {
 
 public:

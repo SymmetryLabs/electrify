@@ -5,7 +5,7 @@
 
 #include "token_source.h"
 
-template<typename T = void*>
+template <typename T = void*>
 class Event : protected boost::base_from_member<rxcpp::subjects::subject<T>>, public TokenSource<T> {
 
 public:

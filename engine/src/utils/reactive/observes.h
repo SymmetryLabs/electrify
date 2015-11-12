@@ -17,10 +17,10 @@ public:
     ScopedObserver addObserver(Observer&& observer);
     ScopedObserver addScopedObserver(const ScopedObserver& scopedObserver);
 
-    template<typename FIn, typename T>
+    template <typename FIn, typename T>
     ScopedObserver scopedObserve(const Observable<T>& subject, FIn&& func);
 
-    template<typename FIn, typename T>
+    template <typename FIn, typename T>
     ScopedObserver doubleScopedObserve(Observable<T>& subject, FIn&& func);
 
 private:

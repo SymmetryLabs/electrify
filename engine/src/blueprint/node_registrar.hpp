@@ -1,4 +1,4 @@
-template<template<typename> class NodeType, typename HandleType>
+template <template <typename> class NodeType, typename HandleType>
 void NodeRegistrar::registerNode(const string& name)
 {
     nodeHandleFactories[name] = [=] {

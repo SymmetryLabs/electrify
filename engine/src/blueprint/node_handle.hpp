@@ -1,16 +1,16 @@
-template<template <typename> class NodeType>
+template <template <typename> class NodeType>
 NodeType<FunctionContainer>& NodeHandle::getNode()
 {
     return dynamic_cast<NodeType<FunctionContainer>&>(*node);
 }
 
-template<typename T>
+template <typename T>
 shared_ptr<T> NodeHandle::getSlave() const
 {
     return dynamic_pointer_cast<T>(node);
 }
 
-template<template <typename> class NodeType, typename HandleType>
+template <template <typename> class NodeType, typename HandleType>
 shared_ptr<HandleType> makeNodeHandle(const string& nodeName)
 {
     auto handle = make_shared<HandleType>();
@@ -20,7 +20,7 @@ shared_ptr<HandleType> makeNodeHandle(const string& nodeName)
     return handle;
 }
 
-template<template<typename> class NodeType, typename HandleType>
+template <template <typename> class NodeType, typename HandleType>
 void generateNodeForHandle(HandleType& handle)
 {
     auto node = make_shared<NodeType<FunctionContainer>>();

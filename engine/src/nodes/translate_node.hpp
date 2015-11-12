@@ -1,4 +1,4 @@
-template<typename Input>
+template <typename Input>
 void TranslateNode<Input>::configure(TranslateNode<Input>& node, NodeHandle& handle)
 {
     ContextModifierNode<Skip<Input, 3>>::configure(node, handle);
@@ -8,7 +8,7 @@ void TranslateNode<Input>::configure(TranslateNode<Input>& node, NodeHandle& han
     handle.registerInput("translateZ", node.generateInput(&node.translateZ));
 }
 
-template<typename Input>
+template <typename Input>
 FrameContext TranslateNode<Input>::modifyContext(const FrameContext& original) const
 {
     Pixel pixel {original.frag->pixel};

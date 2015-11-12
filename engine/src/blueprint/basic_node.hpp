@@ -1,4 +1,4 @@
-template<typename Input, typename V>
+template <typename Input, typename V>
 void BasicNode<Input, V>::configure(BasicNode<Input, V>& node, NodeHandle& handle)
 {
     Node::configure(node, handle);

@@ -8,7 +8,7 @@
 
 FORWARD_SERIALIZATION_TEMPLATE(ObservableSharedPtr);
 
-template<typename Archive, typename T>
+template <typename Archive, typename T>
 void serialize(Archive& archive, ObservableSharedPtr<T>& osp)
 {
     archive(osp.sp);

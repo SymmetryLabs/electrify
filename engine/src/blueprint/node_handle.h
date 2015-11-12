@@ -49,7 +49,7 @@ public:
 
     // void registerParameter(const string& name, unique_ptr<BaseParameter> parameter)
 
-    template<template <typename> class NodeType>
+    template <template <typename> class NodeType>
     NodeType<FunctionContainer>& getNode();
 
     const string& getNodeName() const;
@@ -57,7 +57,7 @@ public:
     virtual void postCtor();
     virtual void postSharedPtrConstruction();
 
-    template<typename T>
+    template <typename T>
     shared_ptr<T> getSlave() const;
 
 protected:
@@ -78,9 +78,9 @@ private:
     void setNode(const shared_ptr<Node>& node);
     void setupNodeDestination();
 
-    template<template <typename> class NodeType, typename HandleType>
+    template <template <typename> class NodeType, typename HandleType>
     friend shared_ptr<HandleType> makeNodeHandle(const string& nodeName);
-    template<template <typename> class NodeType, typename HandleType>
+    template <template <typename> class NodeType, typename HandleType>
     friend void generateNodeForHandle(HandleType& handle);
     friend class CompoundNodeHandle;
     friend class Blueprint;
@@ -98,15 +98,15 @@ private:
     ENABLE_TYPE_ERASURE();
 
 struct FunctionContainer {
-    template<typename ReturnType>
+    template <typename ReturnType>
     using type = SignalFunction<ReturnType>;
     typedef FunctionContainer tail;
 };
 
-template<template <typename> class NodeType, typename HandleType = typename NodeType<FunctionContainer>::handle_t>
+template <template <typename> class NodeType, typename HandleType = typename NodeType<FunctionContainer>::handle_t>
 shared_ptr<HandleType> makeNodeHandle(const string& nodeName);
 
-template<template<typename> class NodeType, typename HandleType>
+template <template <typename> class NodeType, typename HandleType>
 void generateNodeForHandle(HandleType& handle);
 
 #include "node_handle.hpp"

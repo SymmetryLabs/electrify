@@ -8,7 +8,7 @@ void DataProxy::sendEvent(F&& eventFunc)
     }
 }
 
-template<typename F, typename T1>
+template <typename F, typename T1>
 void DataProxy::sendEvent(F&& eventFunc, std::weak_ptr<T1> t1)
 {
     sendEvent([=] {
@@ -18,7 +18,7 @@ void DataProxy::sendEvent(F&& eventFunc, std::weak_ptr<T1> t1)
     });
 }
 
-template<typename F, typename T1, typename T2>
+template <typename F, typename T1, typename T2>
 void DataProxy::sendEvent(F&& eventFunc, std::weak_ptr<T1> t1, std::weak_ptr<T2> t2)
 {
     sendEvent([=] {
@@ -30,7 +30,7 @@ void DataProxy::sendEvent(F&& eventFunc, std::weak_ptr<T1> t1, std::weak_ptr<T2>
     });
 }
 
-template<typename F, typename T1>
+template <typename F, typename T1>
 void DataProxy::sendEvent(F&& eventFunc, const T1& t1)
 {
     sendEvent([=] {
@@ -38,7 +38,7 @@ void DataProxy::sendEvent(F&& eventFunc, const T1& t1)
     });
 }
 
-template<typename F, typename T1, typename T2>
+template <typename F, typename T1, typename T2>
 void DataProxy::sendEvent(F&& eventFunc, const T1& t1, const T2& t2)
 {
     sendEvent([=] {

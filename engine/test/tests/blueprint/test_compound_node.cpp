@@ -4,7 +4,7 @@
 #include "blueprint.h"
 #include "data_bridge.h"
 
-template<typename Input>
+template <typename Input>
 class TestNodeBlank : public Node {};
 REGISTER_NODE(TestNodeBlank);
 

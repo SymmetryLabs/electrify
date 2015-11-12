@@ -10,7 +10,7 @@
 #include "node_handle.h"
 #include "node_handle_serializer.h"
 
-template<typename Input>
+template <typename Input>
 struct TestNode : Node {
     static void configure(TestNode& node, NodeHandle& handle) {
         Node::configure(node, handle);

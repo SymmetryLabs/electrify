@@ -4,7 +4,7 @@
 #include "signals.h"
 
 struct ContextModifierChain;
-template<typename V>
+template <typename V>
 struct SignalFunction;
 
 class BaseSocket {
@@ -30,7 +30,7 @@ private:
 
 };
 
-template<typename V>
+template <typename V>
 class Socket : public BaseSocket, public SignalX<V> {
 
 public:
@@ -53,7 +53,7 @@ private:
 
 };
 
-template<typename V>
+template <typename V>
 class ProxySocket : public Socket<V> {
 
 public:
@@ -73,7 +73,7 @@ private:
 
 };
 
-template<typename V>
+template <typename V>
 struct SignalFunction {
     SignalFunction() = default;
     explicit SignalFunction(SignalX<V>* signal_) : signal(signal_) {}

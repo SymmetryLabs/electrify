@@ -11,7 +11,7 @@
 #include "observes.h"
 #include "object_owner.h"
 
-template<typename T = void*>
+template <typename T = void*>
 class Observable : public Observes, public ObjectOwner {
 
 public:
@@ -21,29 +21,29 @@ public:
 
     typedef T type;
 
-    template<typename... ArgN>
+    template <typename... ArgN>
     typename std::enable_if<!std::is_convertible<
             typename std::tuple_element<0, std::tuple<ArgN...> >::type,
             std::function<void()>>::value,
         Observer>::type
     observe(ArgN&&... an) const;
 
-    template<typename Fn>
+    template <typename Fn>
     typename std::enable_if<
         std::is_convertible<Fn, std::function<void()>>::value,
         Observer>::type
     observe(const Fn& fn) const;
 
-    template<typename Selector, typename R = decltype(std::declval<Selector>()(std::declval<T>()))>
+    template <typename Selector, typename R = decltype(std::declval<Selector>()(std::declval<T>()))>
     auto map(Selector&& p) const
         -> Observable<R>;
 
-    template<class Value0, class... ValueN>
+    template <class Value0, class... ValueN>
     auto merge(Value0 v0, ValueN... vn) const
         -> Observable<T>;
 
     auto flattenLatest() const
-        -> Observable<typename inner_template<T>::type>;
+        -> Observable<typename inner_template <T>::type>;
 
     template <typename Fn>
     auto mapLatest(const Fn& fn) const
@@ -60,7 +60,7 @@ protected:
 
     void fixRxObjects(const rxcpp::observable<T>& observable);
 
-    template<typename t>
+    template <typename t>
     friend class Observable;
 
 };

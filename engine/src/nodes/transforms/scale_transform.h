@@ -3,7 +3,7 @@
 
 #include "scalar_transform.h"
 
-template<typename Input>
+template <typename Input>
 class ScaleTransform : public ScalarTransform<Skip<Input, 1>> {
 
 public:

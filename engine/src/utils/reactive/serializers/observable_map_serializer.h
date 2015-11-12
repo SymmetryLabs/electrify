@@ -8,7 +8,7 @@
 
 FORWARD_SERIALIZATION_TEMPLATE_2(ObservableMap);
 
-template<typename Archive, typename KeyT, typename ValueT>
+template <typename Archive, typename KeyT, typename ValueT>
 void serialize(Archive& archive, ObservableMap<KeyT, ValueT>& om)
 {
     archive(om.m);

@@ -4,7 +4,7 @@
 #include "basic_node.h"
 #include "color.h"
 
-template<typename Input>
+template <typename Input>
 class HsvNode : public BasicNode<Skip<Input, 3>, Color> {
 
 public:

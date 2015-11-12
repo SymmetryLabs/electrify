@@ -3,7 +3,7 @@
 #include "basic_node.h"
 #include "color.h"
 
-template<typename Input>
+template <typename Input>
 class TestNodeSource : public BasicNode<Input, Color> {
 
 public:

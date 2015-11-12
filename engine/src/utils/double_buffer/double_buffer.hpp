@@ -1,4 +1,4 @@
-template<typename Type>
+template <typename Type>
 DoubleBuffer<Type>::DoubleBuffer(size_t size)
 : frontId(0)
 , backId(0)
@@ -7,31 +7,31 @@ DoubleBuffer<Type>::DoubleBuffer(size_t size)
 {
 }
 
-template<typename Type>
+template <typename Type>
 size_t DoubleBuffer<Type>::size() const
 {
     return backBuffer->size();
 }
 
-template<typename Type>
+template <typename Type>
 void DoubleBuffer<Type>::setSize(size_t size)
 {
     backBuffer->resize(size);
 }
 
-template<typename Type>
+template <typename Type>
 void DoubleBuffer<Type>::setId(unsigned int id)
 {
     backId = id;
 }
 
-template<typename Type>
+template <typename Type>
 std::vector<Type>& DoubleBuffer<Type>::getBackBuffer()
 {
     return *backBuffer;
 }
 
-template<typename Type>
+template <typename Type>
 void DoubleBuffer<Type>::copyBuffer(std::vector<Type>& buffer)
 {
     std::lock_guard<std::mutex> lock {bufferMutex};
@@ -39,7 +39,7 @@ void DoubleBuffer<Type>::copyBuffer(std::vector<Type>& buffer)
     buffer = *frontBuffer;
 }
 
-template<typename Type>
+template <typename Type>
 unsigned int DoubleBuffer<Type>::copyBuffer(unsigned int id, std::vector<Type>& buffer)
 {
     std::lock_guard<std::mutex> lock {bufferMutex};
@@ -51,7 +51,7 @@ unsigned int DoubleBuffer<Type>::copyBuffer(unsigned int id, std::vector<Type>& 
     return frontId;
 }
 
-template<typename Type>
+template <typename Type>
 void DoubleBuffer<Type>::swapBuffers()
 {
     {

@@ -16,7 +16,7 @@
 
 class ProxySlaveVisitor;
 
-template<typename T, typename Alloc = std::allocator<T>>
+template <typename T, typename Alloc = std::allocator<T>>
 class ObservableVector : public Observes, public ObjectOwner {
 
     std::vector<T, Alloc> v;
@@ -90,21 +90,21 @@ public:
     allocator_type get_allocator() const noexcept { return v.get_allocator(); }
 
     void makeProxySlave(ObservableVector<T, Alloc>& slave, DataProxy& dataProxy) const;
-    template<typename SlaveType, typename SlaveAlloc = std::allocator<SlaveType>>
+    template <typename SlaveType, typename SlaveAlloc = std::allocator<SlaveType>>
     void makeProxySlave(ObservableVector<std::shared_ptr<SlaveType>, SlaveAlloc>& slave, DataProxy& dataProxy) const;
 
-    template<typename SlaveType, typename... ArgN, typename SlaveAlloc = std::allocator<SlaveType>>
+    template <typename SlaveType, typename... ArgN, typename SlaveAlloc = std::allocator<SlaveType>>
     auto makeSlave(ObservableVector<std::shared_ptr<SlaveType>, SlaveAlloc>& slave, ArgN&&... args) const
         -> typename std::enable_if<!is_callable<typename std::tuple_element<0, std::tuple<ArgN...> >::type, T>::value>::type;
-    template<typename SlaveType, typename FCreate, typename FDestr = VoidNoOp, typename SlaveAlloc = std::allocator<SlaveType>>
+    template <typename SlaveType, typename FCreate, typename FDestr = VoidNoOp, typename SlaveAlloc = std::allocator<SlaveType>>
     auto makeSlave(ObservableVector<std::shared_ptr<SlaveType>, SlaveAlloc>& slave, FCreate&& createFunc, FDestr&& destructFunc = VoidNoOp()) const
         -> typename std::enable_if<is_callable<FCreate, T>::value && is_callable<FDestr, std::shared_ptr<SlaveType>>::value>::type;
 
 private:
-    template<typename t>
+    template <typename t>
     friend std::ostream& operator<<(std::ostream& os, const ObservableVector<t>& ov);
 
-    template<typename Archive, typename t>
+    template <typename Archive, typename t>
     friend void serialize(Archive& archive, ObservableVector<t>& ov);
 
     template <typename t>
@@ -112,7 +112,7 @@ private:
 
 };
 
-template<typename T>
+template <typename T>
 std::ostream& operator<<(std::ostream& os, const ObservableVector<T>& ov) {
     return os << ov.v;
 }

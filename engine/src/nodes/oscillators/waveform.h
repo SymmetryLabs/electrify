@@ -3,7 +3,7 @@
 
 #include "basic_node.h"
 
-template<typename Input>
+template <typename Input>
 class Waveform : public BasicNode<Skip<Input, 3>, float> {
 
 public:

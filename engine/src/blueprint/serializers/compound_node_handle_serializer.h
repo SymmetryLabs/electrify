@@ -14,7 +14,7 @@
 
 CEREAL_SPECIALIZE_FOR_ALL_ARCHIVES(CompoundNodeHandle, cereal::specialization::non_member_serialize);
 
-template<typename Archive>
+template <typename Archive>
 void serialize(Archive& archive, CompoundNodeHandle& handle)
 {
     archive(

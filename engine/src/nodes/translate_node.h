@@ -3,7 +3,7 @@
 
 #include "context_modifier_node.h"
 
-template<typename Input>
+template <typename Input>
 class TranslateNode : public ContextModifierNode<Skip<Input, 3>> {
 
 public:

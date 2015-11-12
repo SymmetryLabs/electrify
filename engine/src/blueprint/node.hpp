@@ -1,4 +1,4 @@
-template<typename V>
+template <typename V>
 shared_ptr<BaseSocket> Node::generateInput(SignalFunction<V>* inputAddr,
     const V defaultValue)
 {
@@ -7,7 +7,7 @@ shared_ptr<BaseSocket> Node::generateInput(SignalFunction<V>* inputAddr,
     return socket;
 }
 
-template<typename V, typename C>
+template <typename V, typename C>
 shared_ptr<BaseSignal> Node::generateOutput(
     V(C::* calculate_function_)(const FrameContext& frame) const, const C& inst)
 {

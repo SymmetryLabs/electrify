@@ -11,7 +11,7 @@
 #include "project_class_serializer.h"
 #include "blueprint_serializer.h"
 
-template<typename Archive>
+template <typename Archive>
 void serialize(Archive& archive, BlueprintProject& project)
 {
     archive(

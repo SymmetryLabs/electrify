@@ -5,7 +5,7 @@
 #include "test_nodes/test_node_destination.h"
 #include "test_nodes/test_node_source.h"
 
-template<typename Input>
+template <typename Input>
 class TestContextModifierNode : public ContextModifierNode<Input> {
 
 public:

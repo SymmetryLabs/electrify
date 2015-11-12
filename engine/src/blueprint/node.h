@@ -29,11 +29,11 @@ public:
 
     typedef NodeHandle handle_t;
 
-    template<typename V>
+    template <typename V>
     shared_ptr<BaseSocket> generateInput(SignalFunction<V>* inputAddr,
         const V defaultValue = V());
 
-    template<typename V, typename C>
+    template <typename V, typename C>
     shared_ptr<BaseSignal> generateOutput(
         V(C::* calculate_function_)(const FrameContext& frame) const,
         const C& inst);
@@ -52,10 +52,10 @@ private:
 #define NODE_IMPL_ABSTRACT()            \
         ENABLE_TYPE_ERASURE_ABSTRACT();
 
-template<typename In, int N, typename Type>
+template <typename In, int N, typename Type>
 using Def = typename GetNum<In, N>::type::template type<Type>;
 
-template<typename In, int N>
+template <typename In, int N>
 using Skip = typename GetNum<In, N>::type;
 
 #include "node.hpp"

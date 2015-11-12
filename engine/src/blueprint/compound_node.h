@@ -11,7 +11,7 @@
 
 class CompoundNodeHandle;
 
-template<typename Input>
+template <typename Input>
 class CompoundNode : public Node {
 
 public:
@@ -27,9 +27,9 @@ public:
 
     size_t getNumSubnodes() const;
 
-    template<typename V>
+    template <typename V>
     shared_ptr<BaseSocket> generateWirableOutput(SignalFunction<V>* inputAddr, const V defaultValue = V());
-    template<typename V>
+    template <typename V>
     shared_ptr<BaseSocket> generateWirableOutput(const V defaultValue = V());
 
 private:
@@ -46,7 +46,7 @@ class CompoundNodeHandle : public NodeHandle {
 public:
     virtual ~CompoundNodeHandle() = default;
 
-    template<template<typename> class Type, typename HandleType = typename Type<FunctionContainer>::handle_t>
+    template <template <typename> class Type, typename HandleType = typename Type<FunctionContainer>::handle_t>
     HandleType* makeSubnode(const string& name);
     size_t createSubnode(const string& name);
 
@@ -81,10 +81,10 @@ private:
 
     void setSubnodeSlave(ObservableVector<shared_ptr<Node>>& slave);
 
-    template<typename>
+    template <typename>
     friend class CompoundNode;
 
-    template<typename Archive>
+    template <typename Archive>
     friend void serialize(Archive& archive, CompoundNodeHandle& handle);
 
     NODE_HANDLE_IMPL();

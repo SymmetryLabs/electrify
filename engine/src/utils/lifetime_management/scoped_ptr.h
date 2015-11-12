@@ -42,7 +42,7 @@ private:
 
 };
 
-template<typename T, typename... Args>
+template <typename T, typename... Args>
 ScopedPtr make_scoped_ptr(Args&&... args)
 {
     return ScopedPtr{new T{std::forward<Args>(args)...}};

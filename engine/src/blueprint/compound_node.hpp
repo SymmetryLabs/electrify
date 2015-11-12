@@ -1,4 +1,4 @@
-template<typename Input>
+template <typename Input>
 void CompoundNode<Input>::configure(CompoundNode<Input>& node, CompoundNodeHandle& handle)
 {
     Node::configure(node, handle);
@@ -6,7 +6,7 @@ void CompoundNode<Input>::configure(CompoundNode<Input>& node, CompoundNodeHandl
     handle.setSubnodeSlave(node.subnodes);
 }
 
-template<typename Input>
+template <typename Input>
 void CompoundNode<Input>::init()
 {
     for (const auto& subnode : subnodes) {
@@ -14,7 +14,7 @@ void CompoundNode<Input>::init()
     }
 }
 
-template<typename Input>
+template <typename Input>
 void CompoundNode<Input>::deinit()
 {
     for (const auto& subnode : subnodes) {
@@ -22,7 +22,7 @@ void CompoundNode<Input>::deinit()
     }
 }
 
-template<typename Input>
+template <typename Input>
 void CompoundNode<Input>::update(const FrameContext& frame)
 {
     for (const auto& subnode : subnodes) {
@@ -30,14 +30,14 @@ void CompoundNode<Input>::update(const FrameContext& frame)
     }
 }
 
-template<typename Input>
+template <typename Input>
 size_t CompoundNode<Input>::getNumSubnodes() const
 {
     return subnodes.size();
 }
 
-template<typename Input>
-template<typename V>
+template <typename Input>
+template <typename V>
 shared_ptr<BaseSocket> CompoundNode<Input>::generateWirableOutput(SignalFunction<V>* inputAddr, const V defaultValue)
 {
     auto socket = make_shared<ProxySocket<V>>(inputAddr, defaultValue);
@@ -45,8 +45,8 @@ shared_ptr<BaseSocket> CompoundNode<Input>::generateWirableOutput(SignalFunction
     return socket;
 }
 
-template<typename Input>
-template<typename V>
+template <typename Input>
+template <typename V>
 shared_ptr<BaseSocket> CompoundNode<Input>::generateWirableOutput(const V defaultValue)
 {
     auto socket = make_shared<Socket<V>>(defaultValue);
@@ -54,7 +54,7 @@ shared_ptr<BaseSocket> CompoundNode<Input>::generateWirableOutput(const V defaul
     return socket;
 }
 
-template<template<typename> class Type, typename HandleType>
+template <template <typename> class Type, typename HandleType>
 HandleType* CompoundNodeHandle::makeSubnode(const string& name)
 {
     auto subnodeHandle = makeNodeHandle<Type, HandleType>(name);

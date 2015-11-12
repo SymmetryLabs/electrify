@@ -1,7 +1,7 @@
 #pragma once
 #include "globals.h"
 
-template<typename>
+template <typename>
 class DoubleBuffer;
 class Color;
 

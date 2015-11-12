@@ -11,7 +11,7 @@
 #include "data_proxy.h"
 #include "object_owner.h"
 
-template<typename KeyT, typename ValueT>
+template <typename KeyT, typename ValueT>
 class ObservableMap : public Observes, public ObjectOwner {
 
 public:
@@ -56,7 +56,7 @@ public:
 
     // Modifiers
     std::pair<iterator,bool> insert (const value_type& val);
-    template<class P> std::pair<iterator,bool> insert (P&& val);
+    template <class P> std::pair<iterator,bool> insert (P&& val);
     iterator erase (const_iterator position);
     size_type erase (const key_type& k);
     void clear() noexcept;
@@ -82,11 +82,11 @@ private:
 
     friend std::ostream &operator<<(std::ostream& os, const ObservableMap<KeyT, ValueT>& om);
 
-    template<typename Archive, typename t1, typename t2>
+    template <typename Archive, typename t1, typename t2>
     friend void serialize(Archive& archive, ObservableMap<t1, t2>& om);
 };
 
-template<typename KeyT, typename ValueT>
+template <typename KeyT, typename ValueT>
 std::ostream& operator<<(std::ostream& os, const ObservableMap<KeyT, ValueT>& om) {
     return os << om.m;
 }

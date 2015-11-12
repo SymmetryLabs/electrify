@@ -4,7 +4,7 @@
 
 namespace std {
 
-template<typename T, typename ...Args>
+template <typename T, typename ...Args>
 std::unique_ptr<T> make_unique( Args&& ...args )
 {
     return std::unique_ptr<T>( new T( std::forward<Args>(args)... ) );
@@ -12,14 +12,14 @@ std::unique_ptr<T> make_unique( Args&& ...args )
 
 }
 
-template<typename R, typename T,
+template <typename R, typename T,
     typename std::enable_if<std::is_convertible<T*, R*>::value, int>::type = 0>
 std::unique_ptr<R> dynamic_unique_ptr_cast(std::unique_ptr<T>&& ptr)
 {
     return {std::move(ptr)};
 }
 
-template<typename R, typename T,
+template <typename R, typename T,
     typename std::enable_if<!std::is_convertible<T*, R*>::value, int>::type = 0>
 std::unique_ptr<R> dynamic_unique_ptr_cast(std::unique_ptr<T>&& ptr)
 {

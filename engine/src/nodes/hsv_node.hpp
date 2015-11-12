@@ -1,4 +1,4 @@
-template<typename Input>
+template <typename Input>
 void HsvNode<Input>::configure(HsvNode<Input>& node, NodeHandle& handle)
 {
     BasicNode<Skip<Input, 3>, Color>::configure(node, handle);
@@ -8,7 +8,7 @@ void HsvNode<Input>::configure(HsvNode<Input>& node, NodeHandle& handle)
     handle.registerInput("value", node.generateInput(&node.value, 1.0f));
 }
 
-template<typename Input>
+template <typename Input>
 Color HsvNode<Input>::calculate(const FrameContext& frame) const
 {
     Color in;

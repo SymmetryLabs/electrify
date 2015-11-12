@@ -4,7 +4,7 @@
 #include "node.h"
 #include "frame_context.h"
 
-template<typename Input, typename V>
+template <typename Input, typename V>
 class BasicNode : public Node {
 
 public:

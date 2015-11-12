@@ -23,7 +23,7 @@ private:
 
 shared_ptr<Blueprint> makeBlueprint();
 
-template<typename Input>
+template <typename Input>
 class BlueprintNode : public CompoundNode<Input> {
 
 public:

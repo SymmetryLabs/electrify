@@ -10,7 +10,7 @@
 
 #pragma once
 
-template<typename ChildFilterType>
+template <typename ChildFilterType>
 Component* getComponentAtWithChildTypeFilter(Component* parent, Point<int> position)
 {
     for (int i = 0; i < parent->getNumChildComponents(); i++) {

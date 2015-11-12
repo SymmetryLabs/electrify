@@ -6,7 +6,7 @@
 
 #include "smart_ptr_utils.h"
 
-template<typename Type>
+template <typename Type>
 class DoubleBuffer {
 
 public:

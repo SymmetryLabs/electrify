@@ -1,4 +1,4 @@
-template<typename Input>
+template <typename Input>
 void Waveform<Input>::configure(Waveform<Input>& node, NodeHandle& handle)
 {
     BasicNode<Skip<Input, 3>, float>::configure(node, handle);

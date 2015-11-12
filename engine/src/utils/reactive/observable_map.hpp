@@ -1,4 +1,4 @@
-template<typename KeyT, typename ValueT>
+template <typename KeyT, typename ValueT>
 std::pair<typename std::map<KeyT, ValueT>::iterator,bool> ObservableMap<KeyT, ValueT>::insert (const value_type& val)
 {
     auto rtn = m.insert(val);
@@ -8,8 +8,8 @@ std::pair<typename std::map<KeyT, ValueT>::iterator,bool> ObservableMap<KeyT, Va
     return rtn;
 }
 
-template<typename KeyT, typename ValueT>
-template<class P>
+template <typename KeyT, typename ValueT>
+template <class P>
 std::pair<typename std::map<KeyT, ValueT>::iterator,bool> ObservableMap<KeyT, ValueT>::insert (P&& val)
 {
     auto rtn = m.insert(std::forward<P>(val));
@@ -19,7 +19,7 @@ std::pair<typename std::map<KeyT, ValueT>::iterator,bool> ObservableMap<KeyT, Va
     return rtn;
 }
 
-template<typename KeyT, typename ValueT>
+template <typename KeyT, typename ValueT>
 typename std::map<KeyT, ValueT>::iterator ObservableMap<KeyT, ValueT>::erase (const_iterator position)
 {
     auto k = position->first;
@@ -28,7 +28,7 @@ typename std::map<KeyT, ValueT>::iterator ObservableMap<KeyT, ValueT>::erase (co
     return rtn;
 }
 
-template<typename KeyT, typename ValueT>
+template <typename KeyT, typename ValueT>
 typename std::map<KeyT, ValueT>::size_type ObservableMap<KeyT, ValueT>::erase (const key_type& k)
 {
     auto rtn = m.erase(k);
@@ -36,7 +36,7 @@ typename std::map<KeyT, ValueT>::size_type ObservableMap<KeyT, ValueT>::erase (c
     return rtn;
 }
 
-template<typename KeyT, typename ValueT>
+template <typename KeyT, typename ValueT>
 void ObservableMap<KeyT, ValueT>::clear() noexcept
 {
     for (auto iter = m.begin(); iter != m.end(); ) {
@@ -44,7 +44,7 @@ void ObservableMap<KeyT, ValueT>::clear() noexcept
     }
 }
 
-template<typename KeyT, typename ValueT>
+template <typename KeyT, typename ValueT>
 void ObservableMap<KeyT, ValueT>
     ::makeProxySlave(ObservableMap<KeyT, ValueT>& slave, DataProxy& dataProxy) const
 {

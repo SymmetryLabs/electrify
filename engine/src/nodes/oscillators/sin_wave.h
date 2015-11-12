@@ -3,7 +3,7 @@
 
 #include "waveform.h"
 
-template<typename Input>
+template <typename Input>
 class SinWave : public Waveform<Input> {
 
 public:

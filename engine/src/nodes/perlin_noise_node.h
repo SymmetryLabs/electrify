@@ -5,7 +5,7 @@
 
 #include "basic_node.h"
 
-template<typename Input>
+template <typename Input>
 class PerlinNoiseNode : public BasicNode<Skip<Input, 3>, float> {
 
 public:

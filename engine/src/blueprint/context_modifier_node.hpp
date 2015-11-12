@@ -1,11 +1,11 @@
-template<typename Input>
+template <typename Input>
 ContextModifierNode<Input>::ContextModifierNode()
 : contextModifierNode(make_shared<ContextModifierChain>(bind(
     mem_fn(&ContextModifierNode<Input>::modifyContext), this, placeholders::_1)))
 {
 }
 
-template<typename Input>
+template <typename Input>
 void ContextModifierNode<Input>::configure(ContextModifierNode<Input>& node, NodeHandle& handle)
 {
     Node::configure(node, handle);
@@ -15,7 +15,7 @@ void ContextModifierNode<Input>::configure(ContextModifierNode<Input>& node, Nod
     handle.registerOutput("ContextModifierNode", nodeSocket);
 }
 
-template<typename Input>
+template <typename Input>
 ContextModifierNode<Input>::ContextModifierNodeSocket::ContextModifierNodeSocket(
     ContextModifierNode& node, NodeHandle& handle, const string& name,
     weak_ptr<ContextModifierChain> contextModifierNode_)
@@ -24,35 +24,35 @@ ContextModifierNode<Input>::ContextModifierNodeSocket::ContextModifierNodeSocket
 {
 }
 
-template<typename Input>
+template <typename Input>
 void ContextModifierNode<Input>::ContextModifierNodeSocket::wireInput(weak_ptr<BaseSignal> sourceSignal)
 {
     this->sourceSignal = sourceSignal;
     completeWiringIfNeeded();
 }
 
-template<typename Input>
+template <typename Input>
 void ContextModifierNode<Input>::ContextModifierNodeSocket::unwireInput(weak_ptr<BaseSignal> sourceSignal)
 {
     unwireIfNeeded();
     this->sourceSignal.reset();
 }
 
-template<typename Input>
+template <typename Input>
 void ContextModifierNode<Input>::ContextModifierNodeSocket::wireOutput(NodeSocket& destinationNodeSocket)
 {
     this->destinationNodeSocket = &destinationNodeSocket;
     completeWiringIfNeeded();
 }
 
-template<typename Input>
+template <typename Input>
 void ContextModifierNode<Input>::ContextModifierNodeSocket::unwireOutput(NodeSocket& destinationNodeSocket)
 {
     unwireIfNeeded();
     this->destinationNodeSocket = nullptr;
 }
 
-template<typename Input>
+template <typename Input>
 void ContextModifierNode<Input>::ContextModifierNodeSocket::completeWiringIfNeeded()
 {
     if (!sourceSignal.expired() && destinationNodeSocket) {
@@ -61,7 +61,7 @@ void ContextModifierNode<Input>::ContextModifierNodeSocket::completeWiringIfNeed
     }
 }
 
-template<typename Input>
+template <typename Input>
 void ContextModifierNode<Input>::ContextModifierNodeSocket::unwireIfNeeded()
 {
     if (!sourceSignal.expired() && destinationNodeSocket) {
@@ -70,7 +70,7 @@ void ContextModifierNode<Input>::ContextModifierNodeSocket::unwireIfNeeded()
     }
 }
 
-template<typename Input>
+template <typename Input>
 void ContextModifierNode<Input>::ContextModifierNodeSocket::registerContextModifier(
     weak_ptr<ContextModifierChain> contextModifier)
 {

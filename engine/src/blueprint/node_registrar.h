@@ -10,7 +10,7 @@ class Node;
 class NodeRegistrar : public Singleton<NodeRegistrar> {
 
 public:
-    template<template<typename> class NodeType, typename HandleType = typename NodeType<FunctionContainer>::handle_t>
+    template <template <typename> class NodeType, typename HandleType = typename NodeType<FunctionContainer>::handle_t>
     void registerNode(const string& name);
 
     vector<string> getAvailableNodeNames() const;

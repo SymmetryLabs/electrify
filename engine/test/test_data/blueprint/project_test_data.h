@@ -6,7 +6,7 @@
 #include "basic_node.h"
 #include "color.h"
 
-template<typename Input>
+template <typename Input>
 struct TestIncrementer : public BasicNode<Skip<Input, 1>, Color> {
     static void configure(TestIncrementer<Input>& node, NodeHandle& handle)
     { BasicNode<Skip<Input, 1>, Color>::configure(node, handle); }

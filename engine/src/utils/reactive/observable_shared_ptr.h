@@ -59,15 +59,15 @@ public:
     template <typename U> bool owner_before(const std::weak_ptr<U>& x) const { return this->getValue().owner_before(x); }
 
 private:
-    template<typename t>
+    template <typename t>
     friend std::ostream &operator<<(std::ostream& os, const ObservableSharedPtr<t>& osp);
 
-    template<typename Archive, typename t>
+    template <typename Archive, typename t>
     friend void serialize(Archive& archive, ObservableSharedPtr<t>& osp);
 
 };
 
-template<typename T>
+template <typename T>
 std::ostream& operator<<(std::ostream& os, const ObservableSharedPtr<T>& osp) {
     return os << osp.getValue();
 }

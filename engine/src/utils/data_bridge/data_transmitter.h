@@ -25,34 +25,34 @@ public:
     void setDestination(const std::shared_ptr<T>& destination);
     void setDataProxies(const DataProxy& masterDataProxy, const DataProxy& slaveDataProxy);
 
-    template<typename T>
+    template <typename T>
     void bindObjects(Observable<T>& masterSignal, TokenSource<T>& slaveSignal);
-    template<typename MasterType, typename SlaveType>
+    template <typename MasterType, typename SlaveType>
     void bindObjects(ObservableVector<MasterType>& masterVector, ObservableVector<SlaveType>& slaveVector);
 
-    template<typename C, typename F>
+    template <typename C, typename F>
     void sendCommand(F&& func);
-    template<typename C, typename R, typename F, typename FResp>
+    template <typename C, typename R, typename F, typename FResp>
     void sendCommand(F&& func, FResp&& response);
 
-    template<typename C, typename S1, typename F, typename T1>
+    template <typename C, typename S1, typename F, typename T1>
     void sendCommand(F&& func, std::weak_ptr<T1> t1);
-    template<typename C, typename S1, typename S2, typename F, typename T1, typename T2>
+    template <typename C, typename S1, typename S2, typename F, typename T1, typename T2>
     void sendCommand(F&& func, std::weak_ptr<T1> t1, std::weak_ptr<T2> t2);
 
-    template<typename C, typename F, typename T1>
+    template <typename C, typename F, typename T1>
     void sendCommand(F&& func, std::weak_ptr<T1> t1);
-    template<typename C, typename F, typename T1, typename T2>
+    template <typename C, typename F, typename T1, typename T2>
     void sendCommand(F&& func, std::weak_ptr<T1> t1, std::weak_ptr<T2> t2);
 
-    template<typename F, typename T1>
+    template <typename F, typename T1>
     void sendCommand(F&& func, std::weak_ptr<T1> t1);
-    template<typename F, typename T1, typename T2>
+    template <typename F, typename T1, typename T2>
     void sendCommand(F&& func, std::weak_ptr<T1> t1, std::weak_ptr<T2> t2);
 
-    template<typename C, typename S1, typename F, typename T1>
+    template <typename C, typename S1, typename F, typename T1>
     void sendCommand(F&& func, T1 t1);
-    template<typename C, typename S1, typename S2, typename F, typename T1, typename T2>
+    template <typename C, typename S1, typename S2, typename F, typename T1, typename T2>
     void sendCommand(F&& func, T1 t1, T2 t2);
 
 private:
