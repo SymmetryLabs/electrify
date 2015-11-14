@@ -7,9 +7,16 @@ template <typename Input>
 class PixelXNode : public BasicNode<Input, float> {
 
 public:
-    static void configure(PixelXNode<Input>& node, NodeHandle& handle);
+    static void configure(PixelXNode<Input>& node, NodeHandle& handle)
+    {
+        BasicNode<Input, float>::configure(node, handle);
+        handle.setName("Pixel.x");
+    }
 
-    float calculate(const FrameContext& frame) const override;
+    float calculate(const FrameContext& frame) const override
+    {
+        return frame.frag->pixel.x;
+    }
 
 private:
     NODE_IMPL();
@@ -17,5 +24,3 @@ private:
 };
 
 REGISTER_NODE(PixelXNode);
-
-#include "pixel_x_node.hpp"

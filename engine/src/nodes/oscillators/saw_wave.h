@@ -7,9 +7,17 @@ template <typename Input>
 class SawWave : public Waveform<Input> {
 
 public:
-    static void configure(SawWave<Input>& node, NodeHandle& handle);
+    static void configure(SawWave<Input>& node, NodeHandle& handle)
+    {
+        Waveform<Input>::configure(node, handle);
+        handle.setName("Sawtooth wave");
+    }
 
-    float calculate(const FrameContext& frame) const override;
+    float calculate(const FrameContext& frame) const override
+    {
+        float unused;
+        return this->amplitude(frame) * modf(frame.timeSeconds() * this->frequency(frame) + this->phase(frame), &unused);
+    }
 
 private:
     NODE_IMPL();
@@ -17,5 +25,3 @@ private:
 };
 
 REGISTER_NODE(SawWave);
-
-#include "saw_wave.hpp"

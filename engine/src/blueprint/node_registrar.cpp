@@ -3,6 +3,8 @@
 #include "node.h"
 #include "node_handle.h"
 
+#include "nodes.h"
+
 vector<string> NodeRegistrar::getAvailableNodeNames() const
 {
     vector<string> keys;

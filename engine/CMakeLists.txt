@@ -76,7 +76,6 @@ endif()
 file(GLOB_RECURSE HEADER_DIRS
   "src/*.h"
   "src/*.hpp"
-  "src/*.tpp"
 )
 HEADER_DIRECTORIES(HEADER_DIRS)
 
@@ -87,7 +86,6 @@ file(GLOB LIB_HEADER_DIRS
 file(GLOB_RECURSE SRCS
   "src/*.cpp"
   "src/*.h"
-  "src/*.tpp"
   "src/*.hpp"
   "libs/FastLED/*.cpp"
   "libs/FastLED/*.h"
@@ -118,4 +116,4 @@ foreach(subdir ${LIB_HEADER_DIRS} ${CPM_INCLUDE_DIRS})
   set(EXPORT_HEADERS ${EXPORT_HEADERS} ${temp})
 endforeach()
 
-file(COPY ${EXPORT_HEADERS} DESTINATION ext_include FILES_MATCHING PATTERN *.h PATTERN *.tpp PATTERN *.hpp)
+file(COPY ${EXPORT_HEADERS} DESTINATION ext_include FILES_MATCHING PATTERN *.h PATTERN *.hpp)

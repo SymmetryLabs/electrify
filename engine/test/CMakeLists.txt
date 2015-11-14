@@ -25,7 +25,6 @@ file(GLOB_RECURSE TEST_SOURCES
     "test.cpp"
     "tests/*.cpp"
     "tests/*.h"
-    "tests/*.tpp"
     "tests/*.hpp"
     "test_data/*.h"
     "test_data/*.cpp"
@@ -34,7 +33,6 @@ source_group("src" FILES ${TEST_SOURCES})
 
 file(GLOB_RECURSE TEST_HEADERS
     "tests/*.h"
-    "tests/*.tpp"
     "tests/*.hpp"
     "test_data/*.h"
 )

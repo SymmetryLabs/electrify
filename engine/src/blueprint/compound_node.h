@@ -91,9 +91,4 @@ private:
 
 };
 
-    // void addSubnode(const string& name, function<void(size_t)> response);
-    // void removeSubnode(const NodeProxy& node);
-    // void wireSubnodes(const NodeSignalProxy& emittingSignal, const NodeSocketProxy& receivingSocket);
-    // void removeWire(const NodeWireProxy& nodeWire);
-
 #include "compound_node.hpp"

@@ -8,9 +8,16 @@ template <typename Input>
 class ConstantColorNode : public BasicNode<Input, Color> {
 
 public:
-    static void configure(ConstantColorNode<Input>& node, NodeHandle& handle);
+    static void configure(ConstantColorNode<Input>& node, NodeHandle& handle)
+    {
+        BasicNode<Input, Color>::configure(node, handle);
+        handle.setName("Constant color");
+    }
 
-    Color calculate(const FrameContext& frame) const override;
+    Color calculate(const FrameContext& frame) const override
+    {
+        return color;
+    }
 
 private:
     Color color = Color(0xFF0000FF);
@@ -20,5 +27,3 @@ private:
 };
 
 REGISTER_NODE(ConstantColorNode);
-
-#include "constant_color_node.hpp"
