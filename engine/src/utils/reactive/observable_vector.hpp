@@ -1,7 +1,7 @@
 template <typename T, typename Alloc>
 ObservableVector<T, Alloc>::~ObservableVector()
 {
-    ObjectOwner::releaseAll();
+    ObjectOwner::clear();
 }
 
 template <typename T, typename Alloc>
@@ -208,4 +208,16 @@ auto ObservableVector<T, Alloc>
         slave.erase(slave.begin() + pos);
         destructFunc(removed);
     });
+}
+    void notifyCurrentState();
+
+template <typename T, typename Alloc>
+void ObservableVector<T, Alloc>::notifyCurrentState()
+{
+    int i = 0;
+    for (const T& t : v) {
+        valueAdded(std::make_pair(i, std::ref<T>(v[i])));
+        i++;
+    }
+    sizeVar = v.size();
 }

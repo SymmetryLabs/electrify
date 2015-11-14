@@ -30,9 +30,6 @@ Session& Engine::getSession()
 
 void Engine::loadProject(unique_ptr<Project>&& project)
 {
-    if (session.hasProject()) {
-        proxySlaveVisitor->remove(session.getModel());
-    }
     session.setProject(forward<unique_ptr<Project>>(project));
 }
 
@@ -109,6 +106,11 @@ DataRelay& Engine::getDataRelay()
 RasterizationThread& Engine::getRasterizationThread()
 {
     return *rasterizationThread;
+}
+
+void Engine::notifyProjectWillChange(Project& project)
+{
+    proxySlaveVisitor->remove(session.getModel());
 }
 
 void Engine::notifyProjectChanged(Project& project)

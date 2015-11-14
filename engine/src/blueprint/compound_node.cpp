@@ -106,36 +106,3 @@ void CompoundNodeHandle::setSubnodeSlave(ObservableVector<shared_ptr<Node>>& sla
 {
     bindObjects(subnodes, slave);
 }
-
-// void CompoundNodeProxy::addSubnode(const string& name, function<void(size_t)> response)
-// {
-//     this->template sendCommand<CompoundNode, size_t>([=] (shared_ptr<CompoundNode> compoundNode) -> size_t {
-//         return compoundNode->createSubnode(name);
-//     }, [=] (size_t pos) {
-//         response(pos);
-//     });
-// }
-
-// void CompoundNodeProxy::removeSubnode(const NodeProxy& node)
-// {
-//     this->template sendCommand<CompoundNode, Node>(
-//         [] (shared_ptr<CompoundNode> compoundNode, shared_ptr<Node> node) {
-//         compoundNode->removeSubnode(node.get());
-//     }, node);
-// }
-
-// void CompoundNodeProxy::wireSubnodes(const NodeSignalProxy& emittingSignal, const NodeSocketProxy& receivingSocket)
-// {
-//     this->template sendCommand<CompoundNode, NodeSignal, NodeSocket>(
-//         [] (shared_ptr<CompoundNode> compoundNode, shared_ptr<NodeSignal> emittingSignal, shared_ptr<NodeSocket> receivingSocket) {
-//         compoundNode->wireSubnodes(*emittingSignal.get(), *receivingSocket.get());
-//     }, emittingSignal, receivingSocket);
-// }
-
-// void CompoundNodeProxy::removeWire(const NodeWireProxy& nodeWire)
-// {
-//     this->template sendCommand<CompoundNode, NodeWire>(
-//         [] (shared_ptr<CompoundNode> compoundNode, shared_ptr<NodeWire> nodeWire) {
-//         compoundNode->removeWire(*nodeWire.get());
-//     }, nodeWire);
-// }

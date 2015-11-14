@@ -21,6 +21,9 @@ const unique_ptr<Project>& Session::getProject() const
 
 void Session::setProject(unique_ptr<Project>&& project_)
 {
+    if (project) {
+        engine.notifyProjectWillChange(*project);
+    }
     project = move(project_);
     engine.notifyProjectChanged(*project);
 }

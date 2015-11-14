@@ -35,6 +35,9 @@ string serializedProject = R"({
                         "data": {
                             "CompoundNodeHandle": {
                                 "NodeHandle": {
+                                    "DataStorage": {
+                                        "value0": []
+                                    },
                                     "nodeName": "BlueprintNode",
                                     "name": "Blueprint"
                                 },
@@ -46,6 +49,9 @@ string serializedProject = R"({
                                             "id": 2147483651,
                                             "data": {
                                                 "NodeHandle": {
+                                                    "DataStorage": {
+                                                        "value0": []
+                                                    },
                                                     "nodeName": "CompoundNode",
                                                     "name": "Compound node"
                                                 },
@@ -55,6 +61,9 @@ string serializedProject = R"({
                                                         "ptr_wrapper": {
                                                             "id": 2147483652,
                                                             "data": {
+                                                                "DataStorage": {
+                                                                    "value0": []
+                                                                },
                                                                 "nodeName": "ConstantColorNode",
                                                                 "name": "Constant color"
                                                             }
@@ -65,6 +74,9 @@ string serializedProject = R"({
                                                         "ptr_wrapper": {
                                                             "id": 2147483653,
                                                             "data": {
+                                                                "DataStorage": {
+                                                                    "value0": []
+                                                                },
                                                                 "nodeName": "TranslateNode",
                                                                 "name": "Translate"
                                                             }

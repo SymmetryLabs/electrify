@@ -19,6 +19,15 @@ NodeGridItemNode::NodeGridItemNode(NodeHandle& node, NodeGrid& nodeGrid)
 {
     node.getInputs().makeSlave(inputs, nodeGrid, NodeGridSocketDirection::INPUT);
     node.getOutputs().makeSlave(outputs, nodeGrid, NodeGridSocketDirection::OUTPUT);
+    
+    x = node.getValue<float>("x");
+    x.observe([this] (float x) {
+        this->node.setValue("x", x);
+    });
+    y = node.getValue<float>("y");
+    y.observe([this] (float y) {
+        this->node.setValue("y", y);
+    });
 }
 
 string NodeGridItemNode::getName() const

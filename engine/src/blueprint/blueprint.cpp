@@ -61,3 +61,8 @@ void BlueprintRenderable::renderRenderable(const FrameContext& frame, vector<Col
         colorBuffer[i++] = blueprintNode->output(childFrame);
     }
 }
+
+BlueprintNode<FunctionContainer>& BlueprintRenderable::getBlueprintNode() const
+{
+    return *blueprintNode;
+}

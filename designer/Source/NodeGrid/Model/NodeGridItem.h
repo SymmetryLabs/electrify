@@ -12,6 +12,7 @@ class NodeGridItem : public Selectable {
 
 public:
     NodeGridItem(DataTransmitter& gridItemProxy, NodeGrid& NodeGrid);
+    virtual ~NodeGridItem() = default;
     
     DataTransmitter& gridItemProxy;
     NodeGrid& nodeGrid;

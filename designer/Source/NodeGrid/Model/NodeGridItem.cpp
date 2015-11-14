@@ -44,6 +44,4 @@ void NodeGridItem::setPos(float x_, float y_)
 {
     x = x_;
     y = y_;
-//    gridItemProxy.saveData("x", x_);
-//    gridItemProxy.saveData("y", y_);
 }

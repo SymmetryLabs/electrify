@@ -61,6 +61,7 @@ private:
     vector<shared_ptr<Output>> outputs;
     vector<shared_ptr<ProxySlaveVisitor>> outputModelVisitors;
 
+    void notifyProjectWillChange(Project& project);
     void notifyProjectChanged(Project& project);
 
     void setModelForOutput(const shared_ptr<Output>& output);

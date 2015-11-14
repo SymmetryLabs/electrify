@@ -42,6 +42,11 @@ Renderer& RasterizationThread::getRenderer()
     return renderer;
 }
 
+Renderable& RasterizationThread::getRenderable()
+{
+    return *renderable;
+}
+
 Model& RasterizationThread::getModel()
 {
     return *model;

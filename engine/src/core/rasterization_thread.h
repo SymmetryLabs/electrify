@@ -21,6 +21,7 @@ public:
     void load(unique_ptr<Renderable>&& renderable, unique_ptr<Model>&& model);
 
     Renderer& getRenderer();
+    Renderable& getRenderable();
     Model& getModel();
     const DataRelay& getDataRelay() const;
     unsigned int getDataRelayId() const;

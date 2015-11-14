@@ -15,10 +15,11 @@ public:
     ScopedPtr retain(const ScopedPtr& ptr);
     ScopedPtr retainFork(const ScopedPtr& ptr);
 
+    void clear();
     void releaseAll();
 
 private:
-    std::vector<ScopedPtr> objects;
+    std::vector<ScopedPtr> objectPtrs;
 
 };
 

@@ -48,6 +48,8 @@ public:
     void updateRenderable(const FrameContext& frame) override;
     void renderRenderable(const FrameContext& frame, vector<Color>& colorBuffer) override;
 
+    BlueprintNode<FunctionContainer>& getBlueprintNode() const;
+
 private:
     shared_ptr<BlueprintNode<FunctionContainer>> blueprintNode;
     const Model* model = nullptr;

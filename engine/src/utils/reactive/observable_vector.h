@@ -101,11 +101,15 @@ public:
         -> typename std::enable_if<is_callable<FCreate, T>::value && is_callable<FDestr, std::shared_ptr<SlaveType>>::value>::type;
 
 private:
+    void notifyCurrentState();
+
     template <typename t>
     friend std::ostream& operator<<(std::ostream& os, const ObservableVector<t>& ov);
 
     template <typename Archive, typename t>
-    friend void serialize(Archive& archive, ObservableVector<t>& ov);
+    friend void save(Archive& archive, const ObservableVector<t>& ov);
+    template <typename Archive, typename t>
+    friend void load(Archive& archive, ObservableVector<t>& ov);
 
     template <typename t>
     friend void performOnObjects(ProxySlaveVisitor& visitor, ObservableVector<t>& master, ObservableVector<t>& slave);

@@ -29,8 +29,8 @@ NodeGridItemView::NodeGridItemView(NodeGridItem& nodeGridItem_, NodeGrid& nodeGr
     for (const auto& input : nodeGridItem.inputs) {
         signalViews.push_back(make_unique<SignalView>(*input.get(), nodeGrid));
         SignalView* signalView = signalViews.back().get();
-        addAndMakeVisible(signalView);
         signalView->setTopLeftPosition(10, 20 + 20 * i);
+        addAndMakeVisible(signalView);
         i++;
     }
     
@@ -39,8 +39,8 @@ NodeGridItemView::NodeGridItemView(NodeGridItem& nodeGridItem_, NodeGrid& nodeGr
     for (const auto& output : nodeGridItem.outputs) {
         signalViews.push_back(make_unique<SignalView>(*output.get(), nodeGrid));
         SignalView* signalView = signalViews.back().get();
-        addAndMakeVisible(signalView);
         signalView->setTopRightPosition(getRight() - 10, 20 + 20 * i);
+        addAndMakeVisible(signalView);
         i++;
     }
     

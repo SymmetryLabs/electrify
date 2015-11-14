@@ -20,3 +20,15 @@ virtual void raise() = 0;
 template <typename, bool>                   \
 friend class TypeErasureHelper;             \
 void raise() { throw this; }
+
+class EnableTypeErasureBase {
+public:
+    virtual ~EnableTypeErasureBase() = default;
+private:
+    ENABLE_TYPE_ERASURE_BASE();
+};
+
+class EnableTypeErasure : public virtual EnableTypeErasureBase {
+public:
+    virtual ~EnableTypeErasure() = default;
+};

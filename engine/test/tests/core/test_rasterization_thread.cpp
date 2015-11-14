@@ -149,6 +149,10 @@ SCENARIO("Dyanamic project loading") {
         rasterizationThread.getModel().pixels[0]->x = 10;
         engine.init();
         rasterizationThread.init();
+        
+        mainRelay.commitOutgoingTransaction();
+        rasterizationThread.performFrameUpdate();
+        rasterizationThread.performRasterization();
 
         GIVEN("a frame is rasterized") {
             rasterizationThread.performFrameUpdate();
@@ -174,12 +178,105 @@ SCENARIO("Dyanamic project loading") {
             }
         }
 
-        GIVEN("a new project has been loaded and committed") {
+        GIVEN("a new project has been loaded but not committed") {
+            auto& oldRenderable = rasterizationThread.getRenderable();
             engine.loadProject(projectTestData());
-            mainRelay.commitOutgoingTransaction();
-            WHEN("another frame is rasterized") {
+            WHEN("a frame is rasterized") {
                 rasterizationThread.performFrameUpdate();
                 rasterizationThread.performRasterization();
+                THEN("The renderable doesn't change") {
+                    REQUIRE(&oldRenderable == &rasterizationThread.getRenderable());
+                }
+            }
+        }
+
+        GIVEN("a new project has been loaded and committed") {
+            auto& oldRenderable = rasterizationThread.getRenderable();
+            auto newProject = projectTestData();
+            auto& blueprint = newProject->getBlueprint();
+            engine.loadProject(std::move(newProject));
+            mainRelay.commitOutgoingTransaction();
+            THEN("The renderable hasn't changed yet") {
+                REQUIRE(&oldRenderable == &rasterizationThread.getRenderable());
+            }
+            GIVEN("another frame is rasterized") {
+                rasterizationThread.performFrameUpdate();
+                rasterizationThread.performRasterization();
+                auto renderable = dynamic_cast<BlueprintRenderable*>(&rasterizationThread.getRenderable());
+                REQUIRE(renderable);
+                auto& blueprintNode = renderable->getBlueprintNode();
+                THEN("The renderable has changed yet") {
+                    REQUIRE(&oldRenderable != &rasterizationThread.getRenderable());
+                }
+                THEN("the rasterization thread should have the updates to the node network") {
+                    REQUIRE(blueprintNode.getNumSubnodes() == 1);
+                }
+                GIVEN("The node network has a node removed") {
+                    REQUIRE(blueprint.subnodes.size() == 1);
+                    blueprint.removeSubnode(*blueprint.subnodes.at(0));
+                    mainRelay.commitOutgoingTransaction();
+                    REQUIRE(blueprint.subnodes.size() == 0);
+                    THEN("the rasterization thread node network doesn't have the change") {
+                        REQUIRE(blueprintNode.getNumSubnodes() == 1);
+                    }
+                    GIVEN("another frame is rasterized") {
+                        rasterizationThread.performFrameUpdate();
+                        rasterizationThread.performRasterization();
+                        THEN("the rasterization thread node network has the change") {
+                            REQUIRE(blueprintNode.getNumSubnodes() == 0);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+#include "project_serializer.h"
+
+SCENARIO("Dyanamic project loading of a serialized project") {
+    GIVEN("An engine, rasterization thread") {
+        Engine engine;
+        auto& mainRelay = engine.getDataRelay();
+        engine.loadProject(projectTestData());
+
+        auto& rasterizationThread = engine.getRasterizationThread();
+        engine.init();
+        rasterizationThread.init();
+        
+        mainRelay.commitOutgoingTransaction();
+        rasterizationThread.performFrameUpdate();
+        rasterizationThread.performRasterization();
+
+        GIVEN("the project is serialized and unserialized") {
+            auto& session = engine.getSession();
+            auto str = ProjectSerializer::serialize(session.getProject());
+            auto deserializedProject = ProjectSerializer::deserialize(str);
+            auto& blueprint = dynamic_cast<BlueprintProject&>(*deserializedProject).getBlueprint();
+            engine.loadProject(std::move(deserializedProject));
+            mainRelay.commitOutgoingTransaction();
+            rasterizationThread.performFrameUpdate();
+            rasterizationThread.performRasterization();
+            auto renderable = dynamic_cast<BlueprintRenderable*>(&rasterizationThread.getRenderable());
+            auto& blueprintNode = renderable->getBlueprintNode();
+            THEN("the rasterization thread node network has the initial setup") {
+                REQUIRE(blueprintNode.getNumSubnodes() == 1);
+            }
+            WHEN("The node network has a node removed") {
+                REQUIRE(blueprint.subnodes.size() == 1);
+                blueprint.removeSubnode(*blueprint.subnodes.at(0));
+                mainRelay.commitOutgoingTransaction();
+                REQUIRE(blueprint.subnodes.size() == 0);
+                THEN("the rasterization thread node network doesn't have the change") {
+                    REQUIRE(blueprintNode.getNumSubnodes() == 1);
+                }
+                GIVEN("another frame is rasterized") {
+                    rasterizationThread.performFrameUpdate();
+                    rasterizationThread.performRasterization();
+                    THEN("the rasterization thread node network has the change") {
+                        REQUIRE(blueprintNode.getNumSubnodes() == 0);
+                    }
+                }
             }
         }
     }

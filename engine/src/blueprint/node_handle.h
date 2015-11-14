@@ -14,11 +14,12 @@
 #include "observable_vector.h"
 #include "data_transmitter.h"
 #include "data_bridge.h"
+#include "data_storage.h"
 
 class Node;
 class FunctionContainer;
 
-class NodeHandle : public DataTransmitter {
+class NodeHandle : public DataTransmitter, public DataStorage {
 
 public:
     NodeHandle();

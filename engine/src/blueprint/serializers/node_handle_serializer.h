@@ -3,16 +3,22 @@
 
 #include <cereal/cereal.hpp>
 #include <cereal/archives/json.hpp>
+#include <cereal/types/base_class.hpp>
+#include <cereal/types/polymorphic.hpp>
 #include <cereal/types/string.hpp>
 
 #include "node_handle.h"
 
 #include "var_serializer.h"
+#include "data_storage_serializer.h"
+
+CEREAL_SPECIALIZE_FOR_ALL_ARCHIVES(NodeHandle, cereal::specialization::non_member_load_save);
 
 template <typename Archive>
 void save(Archive& archive, const NodeHandle& handle)
 {
     archive(
+        cereal::make_nvp("DataStorage", cereal::base_class<DataStorage>(&handle)),
         cereal::make_nvp("nodeName", handle.nodeName),
         cereal::make_nvp("name", handle.name)
     );
@@ -22,6 +28,7 @@ template <typename Archive>
 void load(Archive& archive, NodeHandle& handle)
 {
     archive(
+        cereal::make_nvp("DataStorage", cereal::base_class<DataStorage>(&handle)),
         cereal::make_nvp("nodeName", handle.nodeName)
     );
     handle.postCtor();

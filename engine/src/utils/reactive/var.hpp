@@ -30,7 +30,7 @@ Var<T>::Var(Var<T>&& other)
 template <typename T>
 Var<T>::~Var()
 {
-    ObjectOwner::releaseAll();
+    ObjectOwner::clear();
 }
 
 template <typename T>

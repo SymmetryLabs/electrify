@@ -9,7 +9,14 @@
 FORWARD_SERIALIZATION_TEMPLATE(ObservableVector);
 
 template <typename Archive, typename T>
-void serialize(Archive& archive, ObservableVector<T>& ov)
+void save(Archive& archive, const ObservableVector<T>& ov)
 {
     archive(ov.v);
+}
+
+template <typename Archive, typename T>
+void load(Archive& archive, ObservableVector<T>& ov)
+{
+    archive(ov.v);
+    ov.notifyCurrentState();
 }

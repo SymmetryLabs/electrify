@@ -2054,7 +2054,7 @@
 		5AC62E57915BC59ACDBBD849 = {isa = XCConfigurationList; buildConfigurations = (
 					06A1FADCA541F0216A02F81C,
 					FD29D67D86B65523B7973352, ); defaultConfigurationIsVisible = 0; defaultConfigurationName = Debug; };
-		CF961712875D32E474D641F5 = {isa = PBXShellScriptBuildPhase; buildActionMask = 2147483647; files = (  ); runOnlyForDeploymentPostprocessing = 0; name = "Pre-build script"; shellPath = /bin/sh; shellScript = "mkdir -p ${BUILD_DIR}/engine\ncd ${BUILD_DIR}/engine\n/usr/local/bin/cmake ${SRCROOT}/../../../engine\n/usr/bin/make -j 5"; };
+		CF961712875D32E474D641F5 = {isa = PBXShellScriptBuildPhase; buildActionMask = 2147483647; files = (  ); runOnlyForDeploymentPostprocessing = 0; name = "Pre-build script"; shellPath = /bin/sh; shellScript = "mkdir -p ${BUILD_DIR}/engine\ncd ${BUILD_DIR}/engine\n/usr/local/bin/cmake -DCMAKE_BUILD_TYPE=Debug ${SRCROOT}/../../../engine\n/usr/bin/make -j 5"; };
 		2D87984B87714ED87B1AE8E8 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (
 					5E8174F17BAC5ADECA12515C, ); runOnlyForDeploymentPostprocessing = 0; };
 		1B6D7F1AC215D59E79111D08 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (

@@ -1,7 +1,7 @@
 template <typename T>
 ObservableSharedPtr<T>::~ObservableSharedPtr()
 {
-    ObjectOwner::releaseAll();
+    ObjectOwner::clear();
 }
 
 template <typename T>

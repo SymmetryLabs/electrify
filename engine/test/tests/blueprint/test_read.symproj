@@ -17,21 +17,11 @@
                                             "data": {
                                                 "x": 0,
                                                 "y": 0,
-                                                "z": 0,
-                                                "parent": {
-                                                    "ptr_wrapper": {
-                                                        "id": 0
-                                                    }
-                                                }
+                                                "z": 0
                                             }
                                         }
                                     }
-                                ],
-                                "root": {
-                                    "ptr_wrapper": {
-                                        "id": 0
-                                    }
-                                }
+                                ]
                             }
                         }
                     }
@@ -43,6 +33,9 @@
                         "data": {
                             "CompoundNodeHandle": {
                                 "NodeHandle": {
+                                    "DataStorage": {
+                                        "value0": []
+                                    },
                                     "nodeName": "BlueprintNode",
                                     "name": "Blueprint"
                                 },
@@ -54,6 +47,9 @@
                                             "id": 2147483651,
                                             "data": {
                                                 "NodeHandle": {
+                                                    "DataStorage": {
+                                                        "value0": []
+                                                    },
                                                     "nodeName": "CompoundNode",
                                                     "name": "Compound node"
                                                 },
@@ -63,6 +59,9 @@
                                                         "ptr_wrapper": {
                                                             "id": 2147483652,
                                                             "data": {
+                                                                "DataStorage": {
+                                                                    "value0": []
+                                                                },
                                                                 "nodeName": "ConstantColorNode",
                                                                 "name": "Constant color"
                                                             }
@@ -73,6 +72,9 @@
                                                         "ptr_wrapper": {
                                                             "id": 2147483653,
                                                             "data": {
+                                                                "DataStorage": {
+                                                                    "value0": []
+                                                                },
                                                                 "nodeName": "TranslateNode",
                                                                 "name": "Translate"
                                                             }
