@@ -20,10 +20,6 @@ NodeGridItemView::NodeGridItemView(NodeGridItem& nodeGridItem_, NodeGrid& nodeGr
     setBroughtToFrontOnMouseClick(true);
     setName(nodeGridItem.getName());
     
-    scopedObserve(nodeGridItem.x.merge(nodeGridItem.y).tokenize(), [this] (void*) {
-        setTopLeftPosition(nodeGridItem.x.getValue(), nodeGridItem.y.getValue());
-    });
-    
     int i = 0;
     signalViews.reserve(nodeGridItem.inputs.size());
     for (const auto& input : nodeGridItem.inputs) {
@@ -43,6 +39,10 @@ NodeGridItemView::NodeGridItemView(NodeGridItem& nodeGridItem_, NodeGrid& nodeGr
         addAndMakeVisible(signalView);
         i++;
     }
+    
+    scopedObserve(nodeGridItem.x.merge(nodeGridItem.y).tokenize(), [this] (void*) {
+        setTopLeftPosition(nodeGridItem.x.getValue(), nodeGridItem.y.getValue());
+    });
     
     scopedObserve(nodeGridItem.selected, [this] (bool) {
         repaint();

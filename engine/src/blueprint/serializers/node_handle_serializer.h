@@ -9,6 +9,7 @@
 
 #include "node_handle.h"
 
+#include "boost_uuid_serializer.h"
 #include "var_serializer.h"
 #include "data_storage_serializer.h"
 
@@ -19,6 +20,7 @@ void save(Archive& archive, const NodeHandle& handle)
 {
     archive(
         cereal::make_nvp("DataStorage", cereal::base_class<DataStorage>(&handle)),
+        cereal::make_nvp("uuid", handle.uuid),
         cereal::make_nvp("nodeName", handle.nodeName),
         cereal::make_nvp("name", handle.name)
     );
@@ -29,6 +31,7 @@ void load(Archive& archive, NodeHandle& handle)
 {
     archive(
         cereal::make_nvp("DataStorage", cereal::base_class<DataStorage>(&handle)),
+        cereal::make_nvp("uuid", handle.uuid),
         cereal::make_nvp("nodeName", handle.nodeName)
     );
     handle.postCtor();

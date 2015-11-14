@@ -1,5 +1,7 @@
 #include "NodeGridItem.h"
 
+#include <compound_node.h>
+
 #include "NodeGrid.h"
 #include "NodeGridSocket.h"
 
@@ -8,6 +10,18 @@ NodeGridItem::NodeGridItem(DataTransmitter& gridItemProxy, NodeGrid& nodeGrid)
 , gridItemProxy(gridItemProxy)
 , nodeGrid(nodeGrid)
 {
+}
+
+void NodeGridItem::init()
+{
+    x = nodeGrid.compoundNode.getValue<float>("item_" + getId() + "_x");
+    x.observe([this] (float x) {
+        this->nodeGrid.compoundNode.setValue("item_" + getId() + "_x", x);
+    });
+    y = nodeGrid.compoundNode.getValue<float>("item_" + getId() + "_y");
+    y.observe([this] (float y) {
+        this->nodeGrid.compoundNode.setValue("item_" + getId() + "_y", y);
+    });
 }
 
 bool NodeGridItem::containsNodeGridSocket(const NodeGridSocket& nodeGridSocket) const

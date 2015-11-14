@@ -25,6 +25,7 @@ public:
     NodeHandle& node;
     
     string getName() const override;
+    string getId() const override;
     
     void deleteSelectable() override;
     

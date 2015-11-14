@@ -14,6 +14,8 @@ public:
     NodeGridItem(DataTransmitter& gridItemProxy, NodeGrid& NodeGrid);
     virtual ~NodeGridItem() = default;
     
+    void init();
+    
     DataTransmitter& gridItemProxy;
     NodeGrid& nodeGrid;
     
@@ -28,5 +30,6 @@ public:
     void setPos(float x, float y);
     
     virtual string getName() const = 0;
+    virtual string getId() const = 0;
 
 };

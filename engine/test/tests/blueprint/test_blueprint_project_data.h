@@ -38,6 +38,7 @@ string serializedProject = R"({
                                     "DataStorage": {
                                         "value0": []
                                     },
+                                    "uuid": "19d8d99f-8e40-4bb1-a75c-d475a2fca077",
                                     "nodeName": "BlueprintNode",
                                     "name": "Blueprint"
                                 },
@@ -52,6 +53,7 @@ string serializedProject = R"({
                                                     "DataStorage": {
                                                         "value0": []
                                                     },
+                                                    "uuid": "7863d8d3-e0eb-469a-897f-8d0d415728e0",
                                                     "nodeName": "CompoundNode",
                                                     "name": "Compound node"
                                                 },
@@ -64,6 +66,7 @@ string serializedProject = R"({
                                                                 "DataStorage": {
                                                                     "value0": []
                                                                 },
+                                                                "uuid": "dca4689a-71ad-4756-8506-23c15d479bd6",
                                                                 "nodeName": "ConstantColorNode",
                                                                 "name": "Constant color"
                                                             }
@@ -77,6 +80,7 @@ string serializedProject = R"({
                                                                 "DataStorage": {
                                                                     "value0": []
                                                                 },
+                                                                "uuid": "066f5133-5659-49c6-8c6d-cf5e7acaf665",
                                                                 "nodeName": "TranslateNode",
                                                                 "name": "Translate"
                                                             }

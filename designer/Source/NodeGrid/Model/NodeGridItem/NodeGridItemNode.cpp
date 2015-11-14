@@ -10,6 +10,11 @@
 
 #include "NodeGridItemNode.h"
 
+#include <boost/lexical_cast.hpp>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_io.hpp>
+
+
 #include "NodeGrid.h"
 #include "NodeGridSocket.h"
 
@@ -20,19 +25,17 @@ NodeGridItemNode::NodeGridItemNode(NodeHandle& node, NodeGrid& nodeGrid)
     node.getInputs().makeSlave(inputs, nodeGrid, NodeGridSocketDirection::INPUT);
     node.getOutputs().makeSlave(outputs, nodeGrid, NodeGridSocketDirection::OUTPUT);
     
-    x = node.getValue<float>("x");
-    x.observe([this] (float x) {
-        this->node.setValue("x", x);
-    });
-    y = node.getValue<float>("y");
-    y.observe([this] (float y) {
-        this->node.setValue("y", y);
-    });
+    init();
 }
 
 string NodeGridItemNode::getName() const
 {
     return node.getName();
+}
+
+string NodeGridItemNode::getId() const
+{
+    return boost::lexical_cast<std::string>(node.uuid);
 }
 
 void NodeGridItemNode::deleteSelectable()
